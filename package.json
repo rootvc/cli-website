@@ -5,6 +5,6 @@
     "xterm": "^4.10.0"
   },
   "scripts": {
-    "build": "npm install && cp node_modules/xterm/css/xterm.css . && cp node_modules/xterm/lib/xterm.js ."
+    "build": "npm install && cp node_modules/xterm/css/* ./css && cp node_modules/xterm/lib/* ./js"
   }
 }

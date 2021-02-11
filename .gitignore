@@ -1,6 +1,6 @@
 # for build
-xterm.css
-xterm.js
+css/xterm.css
+js/xterm.js*
 
 # Logs
 logs
