@@ -10,6 +10,10 @@ const commands = {
   },
 
   home: function() {
-    openURL("https://root.vc");
+    openURL("https://root.vc/");
+  },
+  commit: function() {
+    openURL("https://root.vc/team");
   }
+  
 }
