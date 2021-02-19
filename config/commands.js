@@ -42,7 +42,7 @@ const commands = {
   },
 
   emacs: function() {
-    term.writeln("emacs not installed. try: vi or vim");
+    term.writeln("emacs not installed. try: vi");
   },
 
   vi: function() {
