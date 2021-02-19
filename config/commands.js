@@ -9,6 +9,26 @@ const commands = {
     });
   },
 
+  whois: function(args) {
+    const name = args[0];
+    switch (name) {
+      case 'avidan':
+        term.writeln("Avidan!");
+        break;
+      case 'kane':
+        term.writeln("Kane!");
+        break;
+      case 'chrissy':
+        term.writeln("Chrissy!");
+        break;
+      case 'lee':
+        term.writeln("Lee!");
+        break;
+      default:
+        term.writeln("User " + name + " not found. Try: avidan, kane, chrissy, lee.")
+    }
+  },
+
   home: function() {
     openURL("https://root.vc/team");
   },

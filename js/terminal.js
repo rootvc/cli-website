@@ -55,12 +55,15 @@ function openURL(url) {
   window.open(url, "_blank");
 }
 
-function command(cmd) {
-  console.log(cmd);
+function command(line) {
+  console.log(line);
+  const parts = line.toLowerCase().split(" ");
+  const cmd = parts[0];
+  const args = parts.slice(1, parts.length);
   const fn = commands[cmd];
   if (typeof(fn) === "undefined") {
     term.writeln("Command not found: " + cmd + ". Try 'help' to get started.");
   } else {
-    fn();
+    fn(args);
   }
 }
