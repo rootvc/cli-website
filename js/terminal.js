@@ -51,7 +51,7 @@ function prompt(term) {
 }
 
 function openURL(url) {
-  term.writeln("Opening " + url);
+  term.writeln(`Opening ${url}`);
   window.open(url, "_blank");
 }
 
@@ -62,7 +62,7 @@ function command(line) {
   const args = parts.slice(1, parts.length);
   const fn = commands[cmd];
   if (typeof(fn) === "undefined") {
-    term.writeln("Command not found: " + cmd + ". Try 'help' to get started.");
+    term.writeln(`Command not found: ${cmd}. Try 'help' to get started.`);
   } else {
     fn(args);
   }
