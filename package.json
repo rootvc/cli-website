@@ -3,9 +3,10 @@
   "version": "0.1.0",
   "dependencies": {
     "xterm": "^4.10.0",
-    "xterm-addon-fit": "^0.5.0"
+    "xterm-addon-fit": "^0.5.0",
+    "xterm-addon-web-links": "^0.4.0"
   },
   "scripts": {
-    "build": "npm install && cp node_modules/xterm/css/*.css ./css && cp node_modules/xterm/lib/*.js ./js && cp node_modules/xterm-addon-fit/lib/*.js ./js"
+    "build": "npm install && cp node_modules/*/css/*.css ./css && cp node_modules/*/lib/*.js ./js"
   }
 }
