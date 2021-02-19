@@ -14,6 +14,10 @@ const commands = {
     term.writeln(message);
   },
 
+  pwd: function() {
+    term.writeln("/");
+  },
+
   ls: function() {
     term.writeln("id_rsa     README.md");
   },
@@ -128,11 +132,11 @@ const commands = {
   },
 
   sudo: function() {
-    term.writeln("Sorry, we are root, not you.");
+    term.writeln("Sorry, we are root, not you. This incident will be reported.");
   },
 
   su: function() {
-    term.writeln("Sorry, we are root, not you.");
+    term.writeln("Sorry, we are root, not you. This incident will be reported.");
   },
 
   exit: function() {
@@ -141,6 +145,14 @@ const commands = {
 
   quit: function() {
     term.writeln("I'm not locked in here with you. You're locked in here with me!");
+  },
+
+  whoami: function() {
+    term.writeln("guest");
+  },
+
+  passwd: function() {
+    term.write("Maybe don't enter your password into a sketchy web-based command prompt?");
   },
 
   whois: function(args) {
