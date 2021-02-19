@@ -9,6 +9,11 @@ const commands = {
     });
   },
 
+  echo: function(args) {
+    const message = args.join(" ");
+    term.writeln(message);
+  },
+
   whois: function(args) {
     const name = args[0];
     switch (name) {
