@@ -24,7 +24,10 @@ const commands = {
 
   cd: function(args) {
     const dir = args[0];
-    term.writeln(`No such directory: ${dir}`);
+    if (dir == "/" || dir == ".") {
+    } else {
+      term.writeln(`No such directory: ${dir}`);
+    }
   },
 
   cat: function(args) {
