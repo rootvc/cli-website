@@ -90,19 +90,21 @@ const commands = {
   },
 
   chown: function() {
-    term.writeln("I can't let you do that, Dave.");
+    term.writeln("You do not have permission to chown.");
   },
 
   chmod: function() {
-    term.writeln("I can't let you do that, Dave.");
+    term.writeln("You do not have permission to chmod.");
   },
 
   mv: function(args) {
     const src = args[0];
     const dest = args[1];
 
-    if (src == "id_rsa" || src == "README.md") {
-      term.writeln(`You do not have permission to move file ${src}.`);
+    if (src == "id_rsa") {
+      term.writeln("You do not have permission to copy file id_rsa.");
+    } else if (src == "readme.md") {
+      term.writeln("You do not have permission to copy file README.md.");
     } else {
       term.writeln(`File not found: ${src}.`);
     }
@@ -112,8 +114,10 @@ const commands = {
     const src = args[0];
     const dest = args[1];
 
-    if (src == "id_rsa" || src == "README.md") {
-      term.writeln(`You do not have permission to copy file ${src}.`);
+    if (src == "id_rsa") {
+      term.writeln("You do not have permission to copy file id_rsa.");
+    } else if (src == "readme.md") {
+      term.writeln("You do not have permission to copy file README.md.");
     } else {
       term.writeln(`File not found: ${src}.`);
     }
