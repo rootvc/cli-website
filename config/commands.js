@@ -210,7 +210,7 @@ const commands = {
         term.writeln("Ian has worked on industrial automation on Amazon Echo and Google Glass. He was also Founding Engineer at Cruise Automation, a self-driving car startup that was acquired by General Motors. He's currently an Entrepreneur in Residence at Root Ventures, looking to build something new.\r\nhttps://www.linkedin.com/in/ian-rust-85a41b43/");
         break;
       default:
-        term.writeln(`User ${name} not found. Try: whois avidan, kane, chrissy, lee, emily, ian.`)
+        term.writeln(`User ${name} not found. \r\n examples:\r\nwhois avidan\r\nwhois kane\r\nwhois chrissy\r\nwhois lee\r\nwhois emily\r\nwhois ian\r\n`)
     }
   },
 
