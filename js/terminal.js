@@ -20,7 +20,7 @@ function runRootTerminal(term) {
     switch (e) {
       case '\r': // Enter
         if (currentLine.length > 0) {
-          term.writeln("");
+          term.writeln("\n");
           command(currentLine);
         }
       case '\u0003': // Ctrl+C
