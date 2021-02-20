@@ -1,6 +1,6 @@
 const commands = {
   help: function() {
-    const maxCmdLength = 16;
+    const maxCmdLength = 25;
     Object.entries(help).forEach(function(kv) {
       var cmd = kv[0];
       const rightPad = maxCmdLength - cmd.length;
