@@ -184,7 +184,7 @@ const commands = {
         openURL("https://www.linkedin.com/in/ian-rust-85a41b43/");
         break;
       default:
-        term.writeln(`User ${name} not found. \r\n examples:\r\nlinkedin avidan\r\nlinkedin kane\r\nlinkedin chrissy\r\nlinkedin lee\r\nlinkedin emily\r\linkedin ian\r\n`)
+        term.writeln(`User ${name} not found. examples:\r\nlinkedin avidan\r\nlinkedin kane\r\nlinkedin chrissy\r\nlinkedin lee\r\nlinkedin emily\r\linkedin ian\r\n`)
     }
   },
 
@@ -210,7 +210,7 @@ const commands = {
         term.writeln("Ian has worked on industrial automation on Amazon Echo and Google Glass. He was also Founding Engineer at Cruise Automation, a self-driving car startup that was acquired by General Motors. He's currently an Entrepreneur in Residence at Root Ventures, looking to build something new.\r\nhttps://www.linkedin.com/in/ian-rust-85a41b43/");
         break;
       default:
-        term.writeln(`User ${name} not found. \r\n examples:\r\nwhois avidan\r\nwhois kane\r\nwhois chrissy\r\nwhois lee\r\nwhois emily\r\nwhois ian\r\n`)
+        term.writeln(`User ${name} not found. examples:\r\nwhois avidan\r\nwhois kane\r\nwhois chrissy\r\nwhois lee\r\nwhois emily\r\nwhois ian\r\n`)
     }
   },
 
@@ -239,7 +239,7 @@ const commands = {
         openURL("https://app.box.com/s/ao492cv93xw9l6lnlogpmv6gqyoyudr8");
         break;
       default:
-        term.writeln(`examples: dataroom main, dataroom memos, dataroom founders, dataroom reporting, dataroom legal, dataroom social, dataroom team`);
+        term.writeln(`Dataroom ${name} does not exist. examples:\r\ndataroom main\r\ndataroom memos\r\ndataroom founders\r\ndataroom reporting\r\ndataroom legal\r\ndataroom social\r\ndataroom team`);
     }
   },
 
