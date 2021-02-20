@@ -3,7 +3,7 @@ const help = {
   home: "visit the Root homepage",
   "whois [partner]": "display info on partner",
   "linkedin [partner]": "display linkedin info on partner",
-  "dataroom [section]": "access the dataroom section by name, examples:\r\ndataroom main\r\ndataroom memo\r\ndataroom founders\r\ndataroom legal\r\ndataroom social\r\ndataroom team",
+  "dataroom [section]": "access the dataroom section by name, examples:\r\ndataroom main\r\ndataroom memos\r\ndataroom founders\r\ndataroom legal\r\ndataroom social\r\ndataroom team",
   deck: "our fund III deck",
   email: "email us",
   "commit [amount]": "go time. commit amount to fund III (in millions USD, default: 10)",
