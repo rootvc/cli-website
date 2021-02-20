@@ -172,7 +172,7 @@ const commands = {
         openURL("https://www.linkedin.com/in/kanehsieh/");
         break;
       case 'chrissy':
-        openURL("https://www.linkedin.com/in/kanehsieh/");
+        openURL("https://www.linkedin.com/in/chrissymeyer/");
         break;
       case 'lee':
         openURL("https://www.linkedin.com/in/leeredwards/");
@@ -184,7 +184,7 @@ const commands = {
         openURL("https://www.linkedin.com/in/ian-rust-85a41b43/");
         break;
       default:
-        term.writeln(`User ${name} not found. \r\n examples:\r\nlinkedin avidan\r\nlinkedin kane\r\nlinkedin chrissy\r\nlinkedin lee\r\nlinkedin emily\r\linkedin ian\r\n`)
+        term.writeln(`User ${name} not found. \r\n examples:\r\nlinkedin avidan\r\nlinkedin kane\r\nlinkedin chrissy\r\nlinkedin lee\r\nlinkedin emily\r\nlinkedin ian\r\n`)
     }
   },
 
