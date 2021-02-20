@@ -255,6 +255,11 @@ const commands = {
     openURL("mailto:avidan@root.vc");
   },
 
+  commit: function(args) {
+    const amt = typeof(args[0]) === 'undefined' ? '10' : args[0];
+    openURL(`mailto:avidan@root.vc?subject=We are in for $${amt} million`);
+  },
+
   deck: function() {
     openURL("https://app.box.com/s/pkxweaj40395wcd6k6q3yiijpv3uv8yu");
   }
