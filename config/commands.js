@@ -248,7 +248,7 @@ const commands = {
   },
 
   test: function() {
-    openURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ&ab_channel=RickAstleyVEVO");
+    openURL("https://www.youtube.com/watch?v=suxgYFQv2I8");
   },
 
   email: function() {
