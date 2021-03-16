@@ -68,10 +68,6 @@ const commands = {
     term.writeln("nano not installed. try: vi or emacs");
   },
 
-  pine: function() {
-    term.writeln("pine not installed. try: Superhuman");
-  },
-
   curl: function() {
     term.writeln("Sorry, CORS isn't going to let you do that from the browser.");
   },
@@ -143,11 +139,11 @@ const commands = {
   },
 
   exit: function() {
-    openURL("https://app.box.com/v/rootventures");
+    openURL("https://www.youtube.com/watch?v=suxgYFQv2I8");
   },
 
   quit: function() {
-    openURL("https://app.box.com/v/rootventures");
+    openURL("https://www.youtube.com/watch?v=suxgYFQv2I8");
   },
 
   stop: function() {
@@ -160,32 +156,6 @@ const commands = {
 
   passwd: function() {
     term.write("Maybe don't enter your password into a sketchy web-based command prompt?");
-  },
-
-  linkedin: function(args) {
-    const name = args[0];
-    switch (name) {
-      case 'avidan':
-        openURL("https://www.linkedin.com/in/avidanross/");
-        break;
-      case 'kane':
-        openURL("https://www.linkedin.com/in/kanehsieh/");
-        break;
-      case 'chrissy':
-        openURL("https://www.linkedin.com/in/chrissymeyer/");
-        break;
-      case 'lee':
-        openURL("https://www.linkedin.com/in/leeredwards/");
-        break;
-      case 'emily':
-        openURL("https://www.linkedin.com/in/emily-henriksson-42959737/");
-        break;
-      case 'ian':
-        openURL("https://www.linkedin.com/in/ian-rust-85a41b43/");
-        break;
-      default:
-        term.writeln(`User ${name} not found. examples:\r\nlinkedin avidan\r\nlinkedin kane\r\nlinkedin chrissy\r\nlinkedin lee\r\nlinkedin emily\r\nlinkedin ian\r\n`)
-    }
   },
 
   whois: function(args) {
@@ -214,35 +184,6 @@ const commands = {
     }
   },
 
-  dataroom: function(args) {
-    const name = args[0];
-    switch (name) {
-      case 'main':
-        openURL("https://app.box.com/v/rootventures");
-        break;
-      case 'memos':
-        openURL("https://app.box.com/s/fk0c82408djzu0irw3nyetegz11bh3iv");
-        break;
-      case 'founders':
-        openURL("https://app.box.com/s/0jwczqvu1p5xoksubk2d1dyz4oww4vs3");
-        break;
-      case 'reporting':
-        openURL("https://app.box.com/s/vt6jq1zosed3vpmenrmr46omqdvv9prb");
-        break;
-      case 'legal':
-        openURL("https://app.box.com/s/n0webobsuj1zxvxwn1enz8xglj517z5s");
-        break;
-      case 'social':
-        openURL("https://twitter.com/machinepix");
-        break;
-      case 'team':
-        openURL("https://app.box.com/s/ao492cv93xw9l6lnlogpmv6gqyoyudr8");
-        break;
-      default:
-        term.writeln(`Dataroom ${name} does not exist. examples:\r\ndataroom main\r\ndataroom memos\r\ndataroom founders\r\ndataroom reporting\r\ndataroom legal\r\ndataroom social\r\ndataroom team`);
-    }
-  },
-
   home: function() {
     openURL("https://root.vc/team");
   },
@@ -252,16 +193,10 @@ const commands = {
   },
 
   email: function() {
-    openURL("mailto:avidan@root.vc");
+    openURL("mailto:team@root.vc");
   },
 
-  commit: function(args) {
-    const amt = typeof(args[0]) === 'undefined' ? '10' : args[0];
-    openURL(`mailto:avidan@root.vc?subject=We are in for $${amt} million`);
+  pine: function() {
+    openURL("mailto:team@root.vc");
   },
-
-  deck: function() {
-    openURL("https://app.box.com/s/pkxweaj40395wcd6k6q3yiijpv3uv8yu");
-  }
-  
 }

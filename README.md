@@ -1,6 +1,14 @@
-# root3-cli
-CLI-inspired website for our Fund III data room
+# cli-website
+Who needs a website when you have a terminal.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/b75e1391-11f0-4b16-97cb-179b923b94d9/deploy-status)](https://app.netlify.com/sites/rootvc-fund3-cli/deploys)
+[![Netlify Status](https://api.netlify.com/api/v1/badges/f3bfb854-9bc6-40a7-8d4c-2cccd3850764/deploy-status)](https://app.netlify.com/sites/rootvc-cli-website/deploys)
 
-Live here: [https://terminal.root.vc](https://terminal.root.vc).
+## Help
+  - help: list all commands (you're looking at it)
+  - home: visit the Root homepage
+  - whois [partner]: display info on partner
+  - email: email us
+  - test: do not use
+  - other: or try some of your favorite linux commands
+
+Will be live here, shortly: [https://root.vc](https://root.vc).

@@ -1,5 +1,5 @@
 {
-  "name": "root3-cli",
+  "name": "rootvc-cli-website",
   "version": "0.1.0",
   "dependencies": {
     "xterm": "^4.10.0",
