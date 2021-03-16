@@ -9,7 +9,7 @@ function runRootTerminal(term) {
     term.write('\r\n$ ');
   };
 
-  term.writeln('Welcome to Root Ventures terminal!');
+  term.writeln('Welcome to Root Ventures terminal. Seeding bold engineers!');
   term.writeln("Type 'help' to get started.");
   term.writeln('');
   prompt(term);

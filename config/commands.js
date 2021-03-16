@@ -68,6 +68,10 @@ const commands = {
     term.writeln("nano not installed. try: vi or emacs");
   },
 
+  pine: function() {
+    openURL("mailto:team@root.vc");
+  },
+
   curl: function() {
     term.writeln("Sorry, CORS isn't going to let you do that from the browser.");
   },
@@ -176,16 +180,16 @@ const commands = {
       case 'emily':
         term.writeln("Emily is an MBA candidate at HBS. Prior to Root, she designed flight hardware for the SpaceX Falcon and supervised vehicle build for schedule-critical missions. She also worked on Model 3 battery module prototyping at Tesla. Emily holds MS and BS degrees in Mechanical Engineering from Stanford where she was a captain for the Division I Women’s Field Hockey Team.\r\nhttps://www.linkedin.com/in/emily-henriksson-42959737/");
         break;
-      case 'ian':
-        term.writeln("Ian has worked on industrial automation on Amazon Echo and Google Glass. He was also Founding Engineer at Cruise Automation, a self-driving car startup that was acquired by General Motors. He's currently an Entrepreneur in Residence at Root Ventures, looking to build something new.\r\nhttps://www.linkedin.com/in/ian-rust-85a41b43/");
+      case 'laelah':
+        term.writeln("Laelah has spent over 15 years in marketing for films, consumer products, and subscription-based services. Laelah Reino has a BA in Business Administration with a Marketing concentration from Drexel University.\r\nhttps://www.linkedin.com/in/laelah-reino-78b6a51/");
         break;
       default:
-        term.writeln(`User ${name} not found. examples:\r\nwhois avidan\r\nwhois kane\r\nwhois chrissy\r\nwhois lee\r\nwhois emily\r\nwhois ian\r\n`)
+        term.writeln(`User ${name} not found. examples:\r\nwhois avidan\r\nwhois kane\r\nwhois chrissy\r\nwhois lee\r\nwhois emily\r\nwhois laelah\r\n`)
     }
   },
 
   home: function() {
-    openURL("https://root.vc/team");
+    openURL("https://github.com/rootvc");
   },
 
   test: function() {
@@ -196,7 +200,15 @@ const commands = {
     openURL("mailto:team@root.vc");
   },
 
-  pine: function() {
-    openURL("mailto:team@root.vc");
+  github: function() {
+    openURL("https://github.com/rootvc");
+  },
+
+  twitter: function() {
+    openURL("https://twitter.com/machinepix");
+  },
+
+  instagram: function() {
+    openURL("https://www.instagram.com/machinepix/");
   },
 }
