@@ -77,15 +77,15 @@ const commands = {
   },
 
   ftp: function() {
-    term.writeln("Sorry, CORS isn't going to let you do that from the browser.");
+    command('curl');
   },
 
   ssh: function() {
-    term.writeln("Sorry, CORS isn't going to let you do that from the browser.");
+    command('curl');
   },
 
   sftp: function() {
-    term.writeln("Sorry, CORS isn't going to let you do that from the browser.");
+    command('curl');
   },
 
   rm: function() {
@@ -93,7 +93,7 @@ const commands = {
   },
 
   fdisk: function() {
-    term.writeln("I can't let you do that, Dave.");
+    command('rm');
   },
 
   chown: function() {
@@ -106,7 +106,7 @@ const commands = {
 
   mv: function(args) {
     const src = args[0];
-    const dest = args[1];
+    const _dest = args[1];
 
     if (src == "id_rsa") {
       term.writeln("You do not have permission to copy file id_rsa.");
@@ -135,19 +135,19 @@ const commands = {
   },
 
   sudo: function() {
-    term.writeln("LP not in the sudoers file. This incident will be reported.");
+    term.writeln("User not in the sudoers file. This incident will be reported.");
   },
 
   su: function() {
-    term.writeln("LP not in the sudoers file. This incident will be reported.");
+    command('sudo');
   },
 
   exit: function() {
-    openURL("https://www.youtube.com/watch?v=suxgYFQv2I8");
+    openURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
   },
 
   quit: function() {
-    openURL("https://www.youtube.com/watch?v=suxgYFQv2I8");
+    command('exit');
   },
 
   stop: function() {
@@ -165,6 +165,9 @@ const commands = {
   whois: function(args) {
     const name = args[0];
     switch (name) {
+      case 'root':
+        term.writeln("Root Ventures is a seed stage fund based in San Francisco. All of us are engineers investing in the technical areas we know well - from software, to electrical engineering, to hard industry, and robotics. We invest out of our second fund at the seed or pre-seed stage with lead or co-lead sized checks.");
+        break;
       case 'avidan':
         term.writeln("Avidan is the Founding Partner of Root Ventures. Previously, he designed industrial robotics for Food Network's kitchens and was CTO of CIM Group, where he focused on industrial investing, and worked as an embedded application developer at Excite@Home. Avidan has a BA in Computer Science from Columbia University.\r\nhttps://www.linkedin.com/in/avidanross/");
         break;
@@ -197,7 +200,7 @@ const commands = {
   },
 
   email: function() {
-    openURL("mailto:team@root.vc");
+    command('pine');
   },
 
   github: function() {
@@ -210,5 +213,5 @@ const commands = {
 
   instagram: function() {
     openURL("https://www.instagram.com/machinepix/");
-  },
+  }
 }
