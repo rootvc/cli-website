@@ -191,7 +191,7 @@ const commands = {
     }
   },
 
-  home: function() {
+  git: function() {
     openURL("https://github.com/rootvc");
   },
 
