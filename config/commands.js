@@ -166,7 +166,7 @@ const commands = {
     const name = args[0];
     switch (name) {
       case 'root':
-        term.writeln("Root Ventures is a seed stage fund based in San Francisco. All of us are engineers investing in the technical areas we know well - from software, to electrical engineering, to hard industry, and robotics. We invest out of our second fund at the seed or pre-seed stage with lead or co-lead sized checks.");
+        term.writeln("Root Ventures is a hard tech seed fund based in San Francisco. All of us are engineers dedicated to leading investments in technical founding teams.");
         break;
       case 'avidan':
         term.writeln("Avidan is the Founding Partner of Root Ventures. Previously, he designed industrial robotics for Food Network's kitchens and was CTO of CIM Group, where he focused on industrial investing, and worked as an embedded application developer at Excite@Home. Avidan has a BA in Computer Science from Columbia University.\r\nhttps://www.linkedin.com/in/avidanross/");
