@@ -196,7 +196,7 @@ const commands = {
   },
 
   test: function() {
-    openURL("https://www.youtube.com/watch?v=suxgYFQv2I8");
+    openURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
   },
 
   email: function() {
