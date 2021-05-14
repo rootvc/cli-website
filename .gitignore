@@ -3,6 +3,8 @@ css/xterm.css
 js/xterm*.js
 js/aalib.js
 
+images/*Zone.Identifier
+
 # Logs
 logs
 *.log
