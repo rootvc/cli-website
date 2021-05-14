@@ -5,28 +5,28 @@ const commands = {
       var cmd = kv[0];
       const rightPad = maxCmdLength - cmd.length;
       cmd = cmd.concat(" ".repeat(rightPad));
-      term.writeln(cmd + kv[1]);
+      term.stylePrint(cmd + kv[1]);
     });
   },
 
   echo: function(args) {
     const message = args.join(" ");
-    term.writeln(message);
+    term.stylePrint(message);
   },
 
   pwd: function() {
-    term.writeln("/");
+    term.stylePrint("/");
   },
 
   ls: function() {
-    term.writeln("id_rsa     README.md");
+    term.stylePrint("id_rsa     README.md");
   },
 
   cd: function(args) {
     const dir = args[0];
     if (dir == "/" || dir == ".") {
     } else {
-      term.writeln(`No such directory: ${dir}`);
+      term.stylePrint(`No such directory: ${dir}`);
     }
   },
 
@@ -35,12 +35,12 @@ const commands = {
     const readme = "# Nice work! You can check out this code at: https://github.com/rootvc/cli-website";
 
     if (filename == "readme.md") {
-      term.writeln(readme);
+      term.stylePrint(readme);
     } else if (filename == "id_rsa") {
-      term.writeln("Nice try.");
+      term.stylePrint("Nice try.");
     }
     else {
-      term.writeln(`No such file: ${filename}`);
+      term.stylePrint(`No such file: ${filename}`);
     }
   },
 
@@ -49,23 +49,23 @@ const commands = {
   },
 
   emacs: function() {
-    term.writeln("emacs not installed. try: vi");
+    term.stylePrint("emacs not installed. try: vi");
   },
 
   vi: function() {
-    term.writeln("vi not installed. try: emacs");
+    term.stylePrint("vi not installed. try: emacs");
   },
 
   vim: function() {
-    term.writeln("vim not installed. try: emacs");
+    term.stylePrint("vim not installed. try: emacs");
   },
 
   pico: function() {
-    term.writeln("pico not installed. try: vi or emacs");
+    term.stylePrint("pico not installed. try: vi or emacs");
   },
 
   nano: function() {
-    term.writeln("nano not installed. try: vi or emacs");
+    term.stylePrint("nano not installed. try: vi or emacs");
   },
 
   pine: function() {
@@ -73,7 +73,7 @@ const commands = {
   },
 
   curl: function() {
-    term.writeln("Sorry, CORS isn't going to let you do that from the browser.");
+    term.stylePrint("Sorry, CORS isn't going to let you do that from the browser.");
   },
 
   ftp: function() {
@@ -89,7 +89,7 @@ const commands = {
   },
 
   rm: function() {
-    term.writeln("I can't let you do that, Dave.");
+    term.stylePrint("I can't let you do that, Dave.");
   },
 
   fdisk: function() {
@@ -97,11 +97,11 @@ const commands = {
   },
 
   chown: function() {
-    term.writeln("You do not have permission to chown.");
+    term.stylePrint("You do not have permission to chown.");
   },
 
   chmod: function() {
-    term.writeln("You do not have permission to chmod.");
+    term.stylePrint("You do not have permission to chmod.");
   },
 
   mv: function(args) {
@@ -109,11 +109,11 @@ const commands = {
     const _dest = args[1];
 
     if (src == "id_rsa") {
-      term.writeln("You do not have permission to copy file id_rsa.");
+      term.stylePrint("You do not have permission to copy file id_rsa.");
     } else if (src == "readme.md") {
-      term.writeln("You do not have permission to copy file README.md.");
+      term.stylePrint("You do not have permission to copy file README.md.");
     } else {
-      term.writeln(`File not found: ${src}.`);
+      term.stylePrint(`File not found: ${src}.`);
     }
   },
 
@@ -122,20 +122,20 @@ const commands = {
     const _dest = args[1];
 
     if (src == "id_rsa") {
-      term.writeln("You do not have permission to copy file id_rsa.");
+      term.stylePrint("You do not have permission to copy file id_rsa.");
     } else if (src == "readme.md") {
-      term.writeln("You do not have permission to copy file README.md.");
+      term.stylePrint("You do not have permission to copy file README.md.");
     } else {
-      term.writeln(`File not found: ${src}.`);
+      term.stylePrint(`File not found: ${src}.`);
     }
   },
 
   touch: function() {
-    term.writeln("You can't touch this.");
+    term.stylePrint("You can't touch this.");
   },
 
   sudo: function() {
-    term.writeln("User not in the sudoers file. This incident will be reported.");
+    term.stylePrint("User not in the sudoers file. This incident will be reported.");
   },
 
   su: function() {
@@ -151,11 +151,11 @@ const commands = {
   },
 
   stop: function() {
-    term.writeln("Can't stop, won't stop.");
+    term.stylePrint("Can't stop, won't stop.");
   },
 
   whoami: function() {
-    term.writeln("guest");
+    term.stylePrint("guest");
   },
 
   passwd: function() {
@@ -167,27 +167,27 @@ const commands = {
     const people = Object.keys(team);
 
     if (!name) {
-      term.writeln(`Missing argument. Try:\r\nwhois ${people.join("\r\nwhois ")}`);
-      prompt(term);
+      term.stylePrint(`Missing argument. Try:\r\nwhois ${people.join("\r\nwhois ")}`);
+      term.prompt();
     } else if (name == "root") {
-      term.writeln("Root Ventures is a hard tech seed fund based in San Francisco. All of us are engineers dedicated to leading investments in technical founding teams.");
-      prompt(term);
+      term.stylePrint("Root Ventures is a hard tech seed fund based in San Francisco. All of us are engineers dedicated to leading investments in technical founding teams.");
+      term.prompt();
     } else if (Object.keys(team).includes(name)) {
       const person = team[name];
       const filename = `/images/${name}.png`;
       const callback = function(ascii) {
-        term.writeln(ascii);
-        term.writeln("");
-        term.writeln(person["name"]);
-        term.writeln("");
-        term.writeln(person["description"]);
-        term.writeln(person["linkedin"]);
-        prompt(term);
+        term.stylePrint(ascii);
+        term.stylePrint("");
+        term.stylePrint(person["name"]);
+        term.stylePrint("");
+        term.stylePrint(person["description"]);
+        term.stylePrint(person["linkedin"]);
+        term.prompt();
       }
       drawAsciiThen(filename, 1.0, 0.5, callback);
     } else {
-      term.writeln(`User ${name || ''} not found. Try:\r\nwhois ${people.join("\r\nwhois ")}`);
-      prompt(term);
+      term.stylePrint(`User ${name || ''} not found. Try:\r\nwhois ${people.join("\r\nwhois ")}`);
+      term.prompt();
     }
   },
 
@@ -195,23 +195,23 @@ const commands = {
     const name = (args[0] || "").trim(); // TODO: Should trim before processing
     if (!name) {
       const companies = Object.keys(portfolio);
-      term.writeln(`Missing argument. Try:\r\ntldr ${companies.join("\r\ntldr ")}`);
-      prompt(term);
+      term.stylePrint(`Missing argument. Try:\r\ntldr ${companies.join("\r\ntldr ")}`);
+      term.prompt();
     } else if (!portfolio[name]) {
-      term.writeln(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
-      prompt(term);
+      term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
+      term.prompt();
     } else {
       const company = portfolio[name];
       const filename = `/images/${name}.png`;
       const callback = function(ascii) {
-        term.writeln(ascii);
-        term.writeln(company["name"]);
-        term.writeln(company["url"]);
-        term.writeln(company["description"]);
+        term.stylePrint(ascii);
+        term.stylePrint(company["name"]);
+        term.stylePrint(company["url"]);
+        term.stylePrint(company["description"]);
         if (company["memo"]) {
-          term.writeln(`Investment Memo: ${company["memo"]}`);
+          term.stylePrint(`Investment Memo: ${company["memo"]}`);
         }
-        prompt(term);
+        term.prompt();
       }
       drawAsciiThen(filename, 0.5, 1.0, callback);
     }

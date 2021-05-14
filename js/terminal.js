@@ -3,14 +3,22 @@ function runRootTerminal(term) {
     return;
   }
 
+  term.prompt = () => {
+    term.write('\r\n$ ');
+  };
+
+  term.stylePrint = (text) => {
+    term.writeln(text);
+  };
+
   term._initialized = true;
 
   const callback = function(ascii) {
-    term.writeln(ascii);
-    term.writeln("\r\n");
-    term.writeln('Welcome to Root Ventures terminal. Seeding bold engineers!');
-    term.writeln("Type 'help' to get started.");
-    prompt(term);
+    term.stylePrint(ascii);
+    term.stylePrint("\r\n");
+    term.stylePrint('Welcome to Root Ventures terminal. Seeding bold engineers!');
+    term.stylePrint("Type 'help' to get started.");
+    term.prompt();
   };
 
   drawAsciiThen("/images/rootvc.png", 1.0, 0.5, callback);
@@ -21,18 +29,18 @@ function runRootTerminal(term) {
     switch (e) {
       case '\r': // Enter
         if (currentLine.length > 0) {
-          term.writeln("\n");
+          term.stylePrint("\n");
           command(currentLine);
         }
         // command is handled async (e.g. uses ASCII art), so must responsible for own prompt on completion
         if (!(currentLine.startsWith("tldr") || currentLine.startsWith("whois"))) {
-          prompt(term);
+          term.prompt();
         }
         currentLine = "";
         break;
       case '\u0003': // Ctrl+C
         currentLine = "";
-        prompt(term);
+        term.prompt();
         break;
       case '\u007F': // Backspace (DEL)
         currentLine = currentLine.substring(0, currentLine.length - 1);
@@ -73,12 +81,8 @@ function drawAsciiThen(filename, ratio, scale, callback) {
     });
 }
 
-function prompt(term) {
-  term.write("\x1b[1;32m\r\n$ \x1b[0;38m");
-}
-
 function openURL(url) {
-  term.writeln(`Opening ${url}`);
+  term.stylePrint(`Opening ${url}`);
   window.open(url, "_blank");
 }
 
@@ -88,7 +92,7 @@ function command(line) {
   const args = parts.slice(1, parts.length);
   const fn = commands[cmd];
   if (typeof(fn) === "undefined") {
-    term.writeln(`Command not found: ${cmd}. Try 'help' to get started.`);
+    term.stylePrint(`Command not found: ${cmd}. Try 'help' to get started.`);
   } else {
     fn(args);
   }
