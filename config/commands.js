@@ -182,7 +182,7 @@ const commands = {
         term.writeln(person["linkedin"]);
         prompt(term);
       }
-      drawAsciiThen(filename, 0.5, 1.0, callback);
+      drawAsciiThen(filename, 1.0, 0.5, callback);
     } else {
       term.writeln(`User ${name || ''} not found. Try:\r\nwhois ${people.join("\r\nwhois ")}`);
       prompt(term);
