@@ -24,7 +24,8 @@ function runRootTerminal(term) {
           term.writeln("\n");
           command(currentLine);
         }
-        if (!currentLine.includes("tldr")) { // command is handled async, responsible for own prompt
+        // command is handled async (e.g. uses ASCII art), so must responsible for own prompt on completion
+        if (!(currentLine.startsWith("tldr") || currentLine.startsWith("whois"))) {
           prompt(term);
         }
         currentLine = "";
