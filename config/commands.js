@@ -177,9 +177,7 @@ const commands = {
       const filename = `/images/${name}.png`;
       const callback = function(ascii) {
         term.stylePrint(ascii);
-        term.stylePrint("");
-        term.stylePrint(person["name"]);
-        term.stylePrint("");
+        term.stylePrint(`\r\n${person["name"]}, ${person["title"]} - ${name}@root.vc\r\n`);
         term.stylePrint(person["description"]);
         term.stylePrint(person["linkedin"]);
         term.prompt();
