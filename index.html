@@ -32,8 +32,8 @@
       <img id="logo" src = "images/rootvc.png" alt="Root Ventures" style="display: none;"/>
       <div id="aa-text" style="display: none;""></div>
       <!-- Google Tag Manager (noscript) -->
-      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TQ954FQ"
-      height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+      <!-- <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TQ954FQ" -->
+      <!-- height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript> -->
       <!-- End Google Tag Manager (noscript) -->
       <div id="terminal"></div>
       <script>
@@ -44,6 +44,7 @@
         term.open(document.getElementById("terminal"));
         term.loadAddon(fitAddon);
         term.loadAddon(webLinksAddon);
+        term.focus();
         fitAddon.fit();
 
         runRootTerminal(term);

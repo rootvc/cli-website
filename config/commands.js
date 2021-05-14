@@ -177,7 +177,9 @@ const commands = {
       const filename = `/images/${name}.png`;
       const callback = function(ascii) {
         term.writeln(ascii);
+        term.writeln("");
         term.writeln(person["name"]);
+        term.writeln("");
         term.writeln(person["description"]);
         term.writeln(person["linkedin"]);
         prompt(term);
