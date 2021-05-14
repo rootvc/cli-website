@@ -28,6 +28,7 @@ function runRootTerminal(term) {
   term.onData(e => {
     switch (e) {
       case '\r': // Enter
+        currentLine = currentLine.trim();
         if (currentLine.length > 0) {
           term.stylePrint("\n");
           command(currentLine);
@@ -89,7 +90,7 @@ function openURL(url) {
 function command(line) {
   const parts = line.toLowerCase().split(" ");
   const cmd = parts[0];
-  const args = parts.slice(1, parts.length);
+  const args = parts.slice(1, parts.length).map((el) => el.trim());
   const fn = commands[cmd];
   if (typeof(fn) === "undefined") {
     term.stylePrint(`Command not found: ${cmd}. Try 'help' to get started.`);
