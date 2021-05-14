@@ -20,12 +20,16 @@
       <script src="js/xterm-addon-fit.js"></script>
       <script src="js/xterm-addon-web-links.js"></script>
       <script src="js/terminal.js"></script>
+      <script src="js/aalib.js"></script>
       <script src="config/help.js"></script>
       <script src="config/commands.js"></script>
+      <script src="config/portfolio.js"></script>
       <link rel="stylesheet" href="css/xterm.css" />
       <link rel="stylesheet" href="css/styles.css" />
     </head>
     <body>
+      <img id="logo" src = "images/rootvc.png" alt="Root Ventures" style="display: none;"/>
+      <div id="aa-text" style="display: none;""></div>
       <!-- Google Tag Manager (noscript) -->
       <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TQ954FQ"
       height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -36,7 +40,7 @@
         const fitAddon = new FitAddon.FitAddon();
         const webLinksAddon = new WebLinksAddon.WebLinksAddon();
 
-        term.open(document.getElementById('terminal'));
+        term.open(document.getElementById("terminal"));
         term.loadAddon(fitAddon);
         term.loadAddon(webLinksAddon);
         fitAddon.fit();

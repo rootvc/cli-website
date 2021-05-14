@@ -32,7 +32,7 @@ const commands = {
 
   cat: function(args) {
     const filename = args[0];
-    const readme = "# Nice work! You can check out this code at: https://github.com/rootvc/root3-cli";
+    const readme = "# Nice work! You can check out this code at: https://github.com/rootvc/cli-website";
 
     if (filename == "readme.md") {
       term.writeln(readme);
@@ -155,11 +155,11 @@ const commands = {
   },
 
   whoami: function() {
-    term.writeln("lp");
+    term.writeln("guest");
   },
 
   passwd: function() {
-    term.write("Maybe don't enter your password into a sketchy web-based command prompt?");
+    term.write("Wow. Maybe don't enter your password into a sketchy web-based command prompt?\r\n");
   },
 
   whois: function(args) {
@@ -188,6 +188,32 @@ const commands = {
         break;
       default:
         term.writeln(`User ${name} not found. examples:\r\nwhois avidan\r\nwhois kane\r\nwhois chrissy\r\nwhois lee\r\nwhois emily\r\nwhois laelah\r\n`)
+    }
+  },
+
+  tldr: function(args) {
+    const name = (args[0] || "").trim();
+    if (name == "") {
+      const companies = Object.keys(portfolio);
+      term.writeln(`Try: ${companies.join(", ")}`);
+      prompt(term);
+    } else if (!portfolio[name]) {
+      term.writeln(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
+      prompt(term);
+    } else {
+      const company = portfolio[name];
+      const filename = `/images/${name}.png`;
+      const callback = function(ascii) {
+        term.writeln(ascii);
+        term.writeln(company["name"]);
+        term.writeln(company["url"]);
+        term.writeln(company["description"]);
+        if (company["memo"]) {
+          term.writeln(`Investment Memo: ${company["memo"]}`);
+        }
+        prompt(term);
+      }
+      drawAsciiThen(filename, 0.5, 1.0, callback);
     }
   },
 

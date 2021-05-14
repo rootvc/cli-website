@@ -5,14 +5,15 @@ function runRootTerminal(term) {
 
   term._initialized = true;
 
-  term.prompt = () => {
-    term.write('\r\n$ ');
+  const callback = function(ascii) {
+    term.writeln(ascii);
+    term.writeln("\r\n");
+    term.writeln('Welcome to Root Ventures terminal. Seeding bold engineers!');
+    term.writeln("Type 'help' to get started.");
+    prompt(term);
   };
 
-  term.writeln('Welcome to Root Ventures terminal. Seeding bold engineers!');
-  term.writeln("Type 'help' to get started.");
-  term.writeln('');
-  prompt(term);
+  drawAsciiThen("/images/rootvc.png", 1.0, 0.5, callback);
 
   var currentLine = "";
 
@@ -23,6 +24,11 @@ function runRootTerminal(term) {
           term.writeln("\n");
           command(currentLine);
         }
+        if (!currentLine.includes("tldr")) { // command is handled async, responsible for own prompt
+          prompt(term);
+        }
+        currentLine = "";
+        break;
       case '\u0003': // Ctrl+C
         currentLine = "";
         prompt(term);
@@ -46,8 +52,28 @@ function runRootTerminal(term) {
   });
 }
 
+function drawAsciiThen(filename, ratio, scale, callback) {
+  // callback is a function that must take the ascii image as a string parameter
+  var newCallback = function() {
+    const ascii = document.getElementById("aa-text").innerText.replaceAll("\n", "\n\r");
+    callback(ascii);
+  };
+  const width = Math.floor(term.cols * scale);
+  const height = Math.floor(width / 2 * ratio);
+
+  aalib.read.image.fromURL(filename)
+    .map(aalib.aa({ width: width, height: height }))
+    .map(aalib.render.html({
+      el: document.getElementById("aa-text")
+    }))
+    .subscribe(newCallback, function(err) {
+      console.log(err);
+      callback("[logo not found]");
+    });
+}
+
 function prompt(term) {
-  term.write('\r\n$ ');
+  term.write("\x1b[1;32m\r\n$ \x1b[0;38m");
 }
 
 function openURL(url) {
@@ -56,7 +82,6 @@ function openURL(url) {
 }
 
 function command(line) {
-  console.log(line);
   const parts = line.toLowerCase().split(" ");
   const cmd = parts[0];
   const args = parts.slice(1, parts.length);
