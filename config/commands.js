@@ -77,15 +77,15 @@ const commands = {
   },
 
   ftp: function() {
-    command('curl');
+    command("curl");
   },
 
   ssh: function() {
-    command('curl');
+    command("curl");
   },
 
   sftp: function() {
-    command('curl');
+    command("curl");
   },
 
   rm: function() {
@@ -93,7 +93,7 @@ const commands = {
   },
 
   fdisk: function() {
-    command('rm');
+    command("rm");
   },
 
   chown: function() {
@@ -139,7 +139,7 @@ const commands = {
   },
 
   su: function() {
-    command('sudo');
+    command("sudo");
   },
 
   exit: function() {
@@ -147,7 +147,7 @@ const commands = {
   },
 
   quit: function() {
-    command('exit');
+    command("exit");
   },
 
   stop: function() {
@@ -159,7 +159,11 @@ const commands = {
   },
 
   passwd: function() {
-    term.write("Wow. Maybe don't enter your password into a sketchy web-based command prompt?\r\n");
+    term.stylePrint("Wow. Maybe don't enter your password into a sketchy web-based command prompt?");
+  },
+
+  other: function() {
+    term.stylePrint("Yeah, I didn't literally mean other. I mean try some Linux commands.");
   },
 
   whois: function(args) {
@@ -167,7 +171,10 @@ const commands = {
     const people = Object.keys(team);
 
     if (!name) {
-      term.stylePrint(`Missing argument. Try:\r\nwhois ${people.join("\r\nwhois ")}`);
+      term.stylePrint("Missing argument. Try:\r\n");
+      for (p of people) {
+        term.stylePrint(`whois ${p}`);
+      }
       term.prompt();
     } else if (name == "root") {
       term.stylePrint("Root Ventures is a hard tech seed fund based in San Francisco. All of us are engineers dedicated to leading investments in technical founding teams.");
@@ -185,16 +192,22 @@ const commands = {
       }
       drawAsciiThen(filename, 1.0, 0.5, callback);
     } else {
-      term.stylePrint(`User ${name || ''} not found. Try:\r\nwhois ${people.join("\r\nwhois ")}`);
+      term.stylePrint(`User ${name || ''} not found. Try:\r\n`);
+      for (p of people) {
+        term.stylePrint(`whois ${p}`);
+      }
       term.prompt();
     }
   },
 
   tldr: function(args) {
-    const name = (args[0] || "").trim(); // TODO: Should trim before processing
+    const name = (args[0] || "");
     if (!name) {
       const companies = Object.keys(portfolio);
-      term.stylePrint(`Missing argument. Try:\r\ntldr ${companies.join("\r\ntldr ")}`);
+      term.stylePrint("Missing argument. Try:\r\n");
+      for (c of companies) {
+        term.stylePrint(`tldr ${c}`);
+      }
       term.prompt();
     } else if (!portfolio[name]) {
       term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
@@ -234,7 +247,7 @@ const commands = {
   },
 
   email: function() {
-    command('pine');
+    command("pine");
   },
 
   github: function() {

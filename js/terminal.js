@@ -8,10 +8,21 @@ function runRootTerminal(term) {
   };
 
   term.stylePrint = (text) => {
+    // Hyperlinks
     const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
     const urlMatches = text.matchAll(urlRegex);
     for (match of urlMatches) {
-      text = text.replace(match[0], `\x1b[1;34m${match[0]}\x1b[0;38m`);
+      text = text.replace(match[0], colorText(match[0], "hyperlink"));
+    }
+
+    // Commands
+    const cmds = Object.keys(commands);
+    for (cmd of cmds) {
+      const cmdMatches = text.matchAll(`(^${cmd}|^other)`);
+      for (match of cmdMatches) {
+        text = text.replace(match[0], colorText(match[0], "command"));
+
+      }  
     }
 
     term.writeln(text);
@@ -23,7 +34,7 @@ function runRootTerminal(term) {
     term.stylePrint(ascii);
     term.stylePrint("\r\n");
     term.stylePrint('Welcome to Root Ventures terminal. Seeding bold engineers!');
-    term.stylePrint("Type 'help' to get started.");
+    term.stylePrint(`Type ${colorText("help", "command")} to get started.`);
     term.prompt();
   };
 
@@ -103,4 +114,13 @@ function command(line) {
   } else {
     fn(args);
   }
+}
+
+function colorText(text, color) {
+  const colors = {
+    "command": "\x1b[1;35m",
+    "hyperlink": "\x1b[1;34m",
+  }
+  
+  return `${colors[color] || ""}${text}\x1b[0;38m`;
 }
