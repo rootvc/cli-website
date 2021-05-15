@@ -21,9 +21,11 @@ function runRootTerminal(term) {
       const cmdMatches = text.matchAll(`(^${cmd}|^other)`);
       for (match of cmdMatches) {
         text = text.replace(match[0], colorText(match[0], "command"));
-
       }  
     }
+
+    // Text Wrap
+    text = wordWrap(text, term.cols);
 
     term.writeln(text);
   };
@@ -129,3 +131,33 @@ function colorText(text, color) {
   
   return `${colors[color] || ""}${text}\x1b[0;38m`;
 }
+
+// https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
+function wordWrap(str, maxWidth) {
+  var newLineStr = "\r\n"; done = false; res = '';
+  while (str.length > maxWidth) {
+      found = false;
+      // Inserts new line at first whitespace of the line
+      for (i = maxWidth - 1; i >= 0; i--) {
+          if (_testWhite(str.charAt(i))) {
+              res = res + [str.slice(0, i), newLineStr].join('');
+              str = str.slice(i + 1);
+              found = true;
+              break;
+          }
+      }
+      // Inserts new line at maxWidth position, the word is too long to wrap
+      if (!found) {
+          res += [str.slice(0, maxWidth), newLineStr].join('');
+          str = str.slice(maxWidth);
+      }
+
+  }
+
+  return res + str;
+}
+
+function _testWhite(x) {
+  var white = new RegExp(/^\s$/);
+  return white.test(x.charAt(0));
+};
