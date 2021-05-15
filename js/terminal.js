@@ -33,7 +33,7 @@ function runRootTerminal(term) {
   term._initialized = true;
 
   const callback = function(ascii) {
-    term.stylePrint(ascii);
+    term.writeln(ascii);
     term.stylePrint("\r\n");
     term.stylePrint('Welcome to Root Ventures terminal. Seeding bold engineers!');
     term.stylePrint(`Type ${colorText("help", "command")} to get started.`);
