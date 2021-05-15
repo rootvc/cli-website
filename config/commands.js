@@ -32,7 +32,7 @@ const commands = {
 
   cat: function(args) {
     const filename = args[0];
-    const readme = "# Nice work! You can check out this code at: https://github.com/rootvc/cli-website";
+    const readme = "_aut inveniam viam aut faciam_";
 
     if (filename == "readme.md") {
       term.stylePrint(readme);
