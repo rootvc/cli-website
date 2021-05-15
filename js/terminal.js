@@ -40,7 +40,7 @@ function runRootTerminal(term) {
     term.prompt();
   };
 
-  drawAsciiThen("/images/rootvc.png", 1.0, 0.5, callback);
+  fileToASCII("/images/rootvc.png", 1.0, 0.5, callback);
 
   var currentLine = "";
 
@@ -81,7 +81,7 @@ function runRootTerminal(term) {
   });
 }
 
-function drawAsciiThen(filename, ratio, scale, callback) {
+function fileToASCII(filename, ratio, scale, callback) {
   // callback is a function that must take the ascii image as a string parameter
   var newCallback = function() {
     const ascii = document.getElementById("aa-text").innerText.replaceAll("\n", "\n\r");
@@ -107,7 +107,7 @@ function openURL(url) {
 }
 
 function displayURL(url) {
-  term.stylePrint(`> ${colorText(url, "hyperlink")}`);
+  term.stylePrint(colorText(url, "hyperlink"));
 }
 
 function command(line) {
@@ -128,7 +128,6 @@ function colorText(text, color) {
     "hyperlink": "\x1b[1;34m",
     "files": "\x1b[1;33m",
   }
-  
   return `${colors[color] || ""}${text}\x1b[0;38m`;
 }
 

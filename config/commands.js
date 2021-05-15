@@ -183,14 +183,14 @@ const commands = {
       const person = team[name];
       const filename = `/images/${name}.png`;
       const callback = function(ascii) {
-        term.stylePrint(ascii);
+        term.writeln(ascii);
         term.stylePrint(`\r\n${person["name"]}, ${person["title"]} - ${name}@root.vc`);
         term.stylePrint(person["linkedin"]);
         term.stylePrint("");
         term.stylePrint(person["description"]);
         term.prompt();
       }
-      drawAsciiThen(filename, 1.0, 0.5, callback);
+      fileToASCII(filename, 1.0, 0.5, callback);
     } else {
       term.stylePrint(`User ${name || ''} not found. Try:\r\n`);
       for (p of people) {
@@ -216,7 +216,7 @@ const commands = {
       const company = portfolio[name];
       const filename = `/images/${name}.png`;
       const callback = function(ascii) {
-        term.stylePrint(ascii);
+        term.writeln(ascii);
         term.stylePrint(company["name"]);
         term.stylePrint(company["url"]);
         if (company["memo"]) {
@@ -226,7 +226,7 @@ const commands = {
         term.stylePrint(company["description"]);
         term.prompt();
       }
-      drawAsciiThen(filename, 0.5, 1.0, callback);
+      fileToASCII(filename, 0.5, 1.0, callback);
     }
   },
 
