@@ -19,7 +19,7 @@ const commands = {
   },
 
   ls: function() {
-    term.stylePrint("id_rsa     README.md");
+    term.stylePrint(colorText("id_rsa     README.md", "files"));
   },
 
   cd: function(args) {
@@ -143,7 +143,7 @@ const commands = {
   },
 
   exit: function() {
-    openURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    command("test");
   },
 
   quit: function() {
@@ -239,7 +239,7 @@ const commands = {
   },
 
   git: function() {
-    openURL("https://github.com/rootvc");
+    command("github");
   },
 
   test: function() {
@@ -251,14 +251,14 @@ const commands = {
   },
 
   github: function() {
-    openURL("https://github.com/rootvc");
+    displayURL("https://github.com/rootvc");
   },
 
   twitter: function() {
-    openURL("https://twitter.com/machinepix");
+    displayURL("https://twitter.com/machinepix");
   },
 
   instagram: function() {
-    openURL("https://www.instagram.com/machinepix/");
+    displayURL("https://www.instagram.com/machinepix/");
   }
 }
