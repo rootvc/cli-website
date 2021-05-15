@@ -177,9 +177,10 @@ const commands = {
       const filename = `/images/${name}.png`;
       const callback = function(ascii) {
         term.stylePrint(ascii);
-        term.stylePrint(`\r\n${person["name"]}, ${person["title"]} - ${name}@root.vc\r\n`);
-        term.stylePrint(person["description"]);
+        term.stylePrint(`\r\n${person["name"]}, ${person["title"]} - ${name}@root.vc`);
         term.stylePrint(person["linkedin"]);
+        term.stylePrint("");
+        term.stylePrint(person["description"]);
         term.prompt();
       }
       drawAsciiThen(filename, 1.0, 0.5, callback);
@@ -205,10 +206,11 @@ const commands = {
         term.stylePrint(ascii);
         term.stylePrint(company["name"]);
         term.stylePrint(company["url"]);
-        term.stylePrint(company["description"]);
         if (company["memo"]) {
           term.stylePrint(`Investment Memo: ${company["memo"]}`);
         }
+        term.stylePrint("");
+        term.stylePrint(company["description"]);
         term.prompt();
       }
       drawAsciiThen(filename, 0.5, 1.0, callback);
@@ -216,11 +218,11 @@ const commands = {
   },
 
   man: function(args) {
-    this.tldr(args);
+    command("tldr", args);
   },
 
   woman: function(args) {
-    this.tldr(args);
+    command("tldr", args);
   },
 
   git: function() {

@@ -4,10 +4,16 @@ function runRootTerminal(term) {
   }
 
   term.prompt = () => {
-    term.write('\r\n$ ');
+    term.write('\r\n\x1b[1;32m$\x1b[0;38m ');
   };
 
   term.stylePrint = (text) => {
+    const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
+    const urlMatches = text.matchAll(urlRegex);
+    for (match of urlMatches) {
+      text = text.replace(match[0], `\x1b[1;34m${match[0]}\x1b[0;38m`);
+    }
+
     term.writeln(text);
   };
 
@@ -34,7 +40,7 @@ function runRootTerminal(term) {
           command(currentLine);
         }
         // command is handled async (e.g. uses ASCII art), so must responsible for own prompt on completion
-        if (!(currentLine.startsWith("tldr") || currentLine.startsWith("whois"))) {
+        if (!currentLine.match(/^(tldr|whois|man|woman)/)) {
           term.prompt();
         }
         currentLine = "";
