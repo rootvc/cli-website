@@ -14,7 +14,6 @@ function runRootTerminal(term) {
     for (match of urlMatches) {
       text = text.replace(match[0], colorText(match[0], "hyperlink"));
     }
-
     // Commands
     const cmds = Object.keys(commands);
     for (cmd of cmds) {
@@ -23,25 +22,25 @@ function runRootTerminal(term) {
         text = text.replace(match[0], colorText(match[0], "command"));
       }  
     }
-
     // Text Wrap
     text = wordWrap(text, term.cols);
 
     term.writeln(text);
   };
 
-  term._initialized = true;
+  term.printArt = (id) => {
+    term.writeln(`\r\n${getArt(id)}\r\n`);
+  }
 
-  const callback = function(ascii) {
-    term.writeln(ascii);
+  const init = function() {
+    term.printArt("rootvc-type");
     term.stylePrint("\r\n");
-    term.stylePrint('Welcome to Root Ventures terminal. Seeding bold engineers!');
+    term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
     term.stylePrint(`Type ${colorText("help", "command")} to get started.`);
     term.prompt();
+    term._initialized = true;
   };
-
-  // term.stylePrint(LOGO_ASCII);
-  fileToASCII("/images/rootvc-type.png", 375.0/3532.0, 1.0, callback);
+  loadArt("rootvc-type", 375.0/3532.0, 1.0, init); // ready to load terminal now
 
   var currentLine = "";
 
@@ -80,28 +79,6 @@ function runRootTerminal(term) {
         term.write(e);
     }
   });
-}
-
-function fileToASCII(filename, ratio, scale, callback) {
-  // callback is a function that must take the ascii image as a string parameter
-  var newCallback = function() {
-    const ascii = document.getElementById("aa-text").innerText.replaceAll("\n", "\n\r");
-    callback(ascii);
-  };
-  const width = Math.floor(term.cols * scale);
-  const height = Math.floor(width / 2 * ratio);
-  const NICE_CHARSET = aalib.charset.SIMPLE_CHARSET + " ";
-
-  aalib.read.image.fromURL(filename)
-    .map(aalib.aa({ width: width, height: height }))
-    .map(aalib.render.html({
-      el: document.getElementById("aa-text"),
-      charset: NICE_CHARSET,
-    }))
-    .subscribe(newCallback, function(err) {
-      console.log(err);
-      callback("[logo not found]");
-    });
 }
 
 function openURL(url) {

@@ -175,35 +175,23 @@ const commands = {
       for (p of people) {
         term.stylePrint(`whois ${p}`);
       }
-      term.prompt();
     } else if (name == "root") {
-      const filename = `/images/rootvc.png`;
       const description = "Root Ventures is a hard tech seed fund based in San Francisco. We are engineers leading the first venture rounds for technical founding teams solving hard problem.";
-      const callback = function(ascii) {
-        term.writeln(`\r\n${ascii}\r\n`);
-        term.stylePrint(description);
-        term.prompt();
-      }
-      fileToASCII(filename, 1, 0.5, callback);
+      term.printArt("rootvc-horizontal");
+      term.stylePrint(description);
     } else if (Object.keys(team).includes(name)) {
       const person = team[name];
-      const filename = `/images/${name}.png`;
-      const callback = function(ascii) {
-        term.writeln(ascii);
-        term.stylePrint(`\r\n${person["name"]}, ${person["title"]} - ${name}@root.vc`);
-        term.stylePrint(person["linkedin"]);
-        term.stylePrint("");
-        term.stylePrint(person["description"]);
-        term.prompt();
-      }
-      fileToASCII(filename, 1.0, 0.5, callback);
+      term.printArt(name);
+      term.stylePrint(`\r\n${person["name"]}, ${person["title"]} - ${name}@root.vc`);
+      term.stylePrint(`${person["linkedin"]}\r\n`);
+      term.stylePrint(person["description"]);
     } else {
       term.stylePrint(`User ${name || ''} not found. Try:\r\n`);
       for (p of people) {
         term.stylePrint(`whois ${p}`);
       }
-      term.prompt();
     }
+    term.prompt();
   },
 
   tldr: function(args) {
@@ -213,29 +201,21 @@ const commands = {
       term.stylePrint("Missing argument. Try:\r\n");
       for (c of companies) {
         term.stylePrint(`tldr ${c}`);
-      }
-      term.prompt();
-    } else if (name == 'root') {
-      command("whois root");
+      };
     } else if (!portfolio[name]) {
       term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
-      term.prompt();
     } else {
       const company = portfolio[name];
-      const filename = `/images/${name}.png`;
-      const callback = function(ascii) {
-        term.writeln(ascii);
-        term.stylePrint(company["name"]);
-        term.stylePrint(company["url"]);
-        if (company["memo"]) {
-          term.stylePrint(`Investment Memo: ${company["memo"]}`);
-        }
-        term.stylePrint("");
-        term.stylePrint(company["description"]);
-        term.prompt();
+      term.printArt(name);
+      term.stylePrint(company["name"]);
+      term.stylePrint(company["url"]);
+      if (company["memo"]) {
+        term.stylePrint(`Investment Memo: ${company["memo"]}`);
       }
-      fileToASCII(filename, 0.5, 1.0, callback);
+      term.stylePrint("");
+      term.stylePrint(company["description"]);
     }
+    term.prompt();
   },
 
   man: function(args) {
