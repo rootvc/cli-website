@@ -40,7 +40,8 @@ function runRootTerminal(term) {
     term.prompt();
   };
 
-  fileToASCII("/images/rootvc.png", 1.0, 0.5, callback);
+  // term.stylePrint(LOGO_ASCII);
+  fileToASCII("/images/rootvc-type.png", 375.0/3532.0, 1.0, callback);
 
   var currentLine = "";
 
@@ -89,11 +90,13 @@ function fileToASCII(filename, ratio, scale, callback) {
   };
   const width = Math.floor(term.cols * scale);
   const height = Math.floor(width / 2 * ratio);
+  const NICE_CHARSET = aalib.charset.SIMPLE_CHARSET + " ";
 
   aalib.read.image.fromURL(filename)
     .map(aalib.aa({ width: width, height: height }))
     .map(aalib.render.html({
-      el: document.getElementById("aa-text")
+      el: document.getElementById("aa-text"),
+      charset: NICE_CHARSET,
     }))
     .subscribe(newCallback, function(err) {
       console.log(err);

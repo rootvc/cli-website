@@ -3,7 +3,7 @@ const help = {
   "whois root": "learn about us",
   "whois [partner]": "display info on partner",
   "tldr": "list all portfolio companies",
-  "tldr [companyname]": "display info on portfolio company",
+  "tldr [company_name]": "display info on portfolio company",
   email: "email us",
   twitter: "@machinepix twitter",
   instagram: "@machinepix instagram",

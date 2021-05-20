@@ -177,8 +177,14 @@ const commands = {
       }
       term.prompt();
     } else if (name == "root") {
-      term.stylePrint("Root Ventures is a hard tech seed fund based in San Francisco. All of us are engineers dedicated to leading investments in technical founding teams.");
-      term.prompt();
+      const filename = `/images/rootvc.png`;
+      const description = "Root Ventures is a hard tech seed fund based in San Francisco. We are engineers leading the first venture rounds for technical founding teams solving hard problem.";
+      const callback = function(ascii) {
+        term.writeln(`\r\n${ascii}\r\n`);
+        term.stylePrint(description);
+        term.prompt();
+      }
+      fileToASCII(filename, 1, 0.5, callback);
     } else if (Object.keys(team).includes(name)) {
       const person = team[name];
       const filename = `/images/${name}.png`;
@@ -209,6 +215,8 @@ const commands = {
         term.stylePrint(`tldr ${c}`);
       }
       term.prompt();
+    } else if (name == 'root') {
+      command("whois root");
     } else if (!portfolio[name]) {
       term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
       term.prompt();
@@ -231,11 +239,11 @@ const commands = {
   },
 
   man: function(args) {
-    command("tldr", args);
+    command(`tldr ${args}`);
   },
 
   woman: function(args) {
-    command("tldr", args);
+    command(`tldr ${args}`);
   },
 
   git: function() {
