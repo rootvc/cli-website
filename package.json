@@ -8,6 +8,6 @@
     "xterm-addon-web-links": "^0.4.0"
   },
   "scripts": {
-    "build": "npm install && cp node_modules/xterm/css/*.css ./css && cp node_modules/xterm*/lib/*.js ./js && cp node_modules/aalib.js/dist/aalib.js ./js"
+    "build": "npm install && cp node_modules/xterm/css/*.css ./css && cp node_modules/xterm*/lib/*.js* ./js && cp node_modules/aalib.js/dist/aalib.js* ./js"
   }
 }

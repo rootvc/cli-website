@@ -33,6 +33,7 @@ function runRootTerminal(term) {
   }
 
   const init = function() {
+    term.reset();
     term.printArt("rootvc-type");
     term.stylePrint("\r\n");
     term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
@@ -51,6 +52,14 @@ function runRootTerminal(term) {
         if (currentLine.length > 0) {
           term.stylePrint("\n");
           command(currentLine);
+          const tokens = currentLine.split(" ");
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            "event": "command",
+            "command": tokens.shift(),
+            "args": tokens.join(" "),
+          });
+          console.log(window.dataLayer);
         }
         // command is handled async (e.g. uses ASCII art), so must responsible for own prompt on completion
         if (!currentLine.match(/^(tldr|whois|man|woman)/)) {
