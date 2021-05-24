@@ -1,7 +1,7 @@
 # for build
 css/xterm.css
-js/xterm*.js
-js/aalib.js
+js/xterm*.js*
+js/aalib.js*
 
 images/*Zone.Identifier
 
