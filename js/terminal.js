@@ -1,3 +1,18 @@
+const LOGO_TYPE = `
+ _____             _                     
+|  __ \\           | |                    
+| |__) |___   ___ | |_                   
+|  _  // _ \\ / _ \\| __|                  
+| | \\ | (_) | (_) | |_                   
+|_|  \\_\\___/ \\___/_\\__|                  
+\\ \\    / /       | |                     
+ \\ \\  / ___ _ __ | |_ _   _ _ __ ___ ___ 
+  \\ \\/ / _ | '_ \\| __| | | | '__/ _ / __|
+   \\  |  __| | | | |_| |_| | | |  __\\__ \\
+    \\/ \\___|_| |_|\\__|\\__,_|_|  \\___|___/
+
+`.replaceAll("\n", "\r\n");
+
 function runRootTerminal(term) {
   if (term._initialized) {
     return;
@@ -32,10 +47,14 @@ function runRootTerminal(term) {
     term.writeln(`\r\n${getArt(id)}\r\n`);
   }
 
+  term.printLogoType = () => {
+    term.writeln(term.cols > 40 ? LOGO_TYPE : "[Root Ventures]\r\n");
+  }
+
   const init = function() {
     term.reset();
-    term.printArt("rootvc-type");
-    term.stylePrint("\r\n");
+    // term.printArt("rootvc-type");
+    term.printLogoType();
     term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
     term.stylePrint(`Type ${colorText("help", "command")} to get started.`);
     term.prompt();
