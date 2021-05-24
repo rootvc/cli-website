@@ -48,7 +48,7 @@ function runRootTerminal(term) {
   }
 
   term.printLogoType = () => {
-    term.writeln(term.cols > 40 ? LOGO_TYPE : "[Root Ventures]\r\n");
+    term.writeln(term.cols >= 40 ? LOGO_TYPE : "[Root Ventures]\r\n");
   }
 
   const init = function() {
