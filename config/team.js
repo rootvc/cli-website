@@ -15,7 +15,7 @@ const team = {
     name: "Chrissy Meyer",
     title: "Partner",
     description: "Chrissy has spent the past decade developing and shipping hardware as an engineering manager at Apple and Square. She was a founding team member at Pearl Automation, a vehicle technology startup. Chrissy has an MS in Electrical Engineering from Stanford and a BSEE from Rose-Hulman.",
-    linkedin: "https://www.linkedin.com/in/kanehsieh/",
+    linkedin: "https://www.linkedin.com/in/chrissymeyer/",
   },
   "lee": {
     name: "Lee Edwards",

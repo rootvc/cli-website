@@ -172,12 +172,13 @@ const commands = {
 
     if (!name) {
       term.stylePrint("Missing argument. Try:\r\n");
+      term.stylePrint("whois root");
       for (p of people) {
         term.stylePrint(`whois ${p}`);
       }
     } else if (name == "root") {
       const description = "Root Ventures is a hard tech seed fund based in San Francisco. We are engineers leading the first venture rounds for technical founding teams solving hard problem.";
-      term.printArt("rootvc-horizontal");
+      term.printArt("rootvc-square");
       term.stylePrint(description);
     } else if (Object.keys(team).includes(name)) {
       const person = team[name];
@@ -187,6 +188,7 @@ const commands = {
       term.stylePrint(person["description"]);
     } else {
       term.stylePrint(`User ${name || ''} not found. Try:\r\n`);
+      term.stylePrint("whois root");
       for (p of people) {
         term.stylePrint(`whois ${p}`);
       }
@@ -206,7 +208,9 @@ const commands = {
       term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
     } else {
       const company = portfolio[name];
-      term.printArt(name);
+      if (term.cols >= 60) {
+        term.printArt(name)
+      };
       term.stylePrint(company["name"]);
       term.stylePrint(company["url"]);
       if (company["memo"]) {
