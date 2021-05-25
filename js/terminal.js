@@ -3,8 +3,11 @@ function runRootTerminal(term) {
     return;
   }
 
+  term.history = [];
+
+  term.promptChar = '\r\n\x1b[1;32m$\x1b[0;38m ';
   term.prompt = () => {
-    term.write('\r\n\x1b[1;32m$\x1b[0;38m ');
+    term.write(term.promptChar);
   };
 
   term.stylePrint = (text) => {
@@ -41,32 +44,41 @@ function runRootTerminal(term) {
 
   const init = function() {
     fitAddon.fit();
+    preloadASCIIArt();
     term.reset();
     term.printLogoType();
     term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
     term.stylePrint(`Type ${colorText("help", "command")} to get started.`);
-    term.prompt();
-    term._initialized = true;
   };
 
   init();
+  term.prompt();
+  term._initialized = true;
 
   var currentLine = "";
 
   window.addEventListener('resize', function () {
-    console.log('resize');
-    // init();
+    term._initialized = false;
+    init();
+    for (c of term.history) {
+      term.writeln(`${term.promptChar} ${c}\r\n`);
+      command(c);
+    }
+    term.prompt();
     term.scrollToBottom();
+    term._initialized = true;
   });
 
   term.onData(e => {
     switch (e) {
       case '\r': // Enter
+        term.history.push(currentLine);
         currentLine = currentLine.trim();
         if (currentLine.length > 0) {
           term.stylePrint("\n");
           command(currentLine);
           term.scrollToBottom();
+
           const tokens = currentLine.split(" ");
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({
@@ -75,10 +87,7 @@ function runRootTerminal(term) {
             "args": tokens.join(" "),
           });
         }
-        // command is handled async (e.g. uses ASCII art), so must responsible for own prompt on completion
-        if (!currentLine.match(/^(tldr|whois|man|woman)/)) {
-          term.prompt();
-        }
+        term.prompt();
         currentLine = "";
         break;
       case '\u0003': // Ctrl+C
@@ -106,7 +115,9 @@ function runRootTerminal(term) {
 
 function openURL(url) {
   term.stylePrint(`Opening ${url}`);
-  window.open(url, "_blank");
+  if (term._initialized) {
+    window.open(url, "_blank");
+  }
 }
 
 function displayURL(url) {

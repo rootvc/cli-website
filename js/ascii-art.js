@@ -26,6 +26,7 @@ function preloadASCIIArt() {
   }
 }
 
+// TODO: Here is where we should insert alternatives to ASCII as text
 function loadArt(id, ratio, scale, callback) {
   const NICE_CHARSET = aalib.charset.SIMPLE_CHARSET + " ";
   const parentDiv = document.getElementById("aa-all");
@@ -33,17 +34,25 @@ function loadArt(id, ratio, scale, callback) {
   const height = Math.floor(width / 2 * ratio);
   var filename = `/images/${id}.png`;
 
-  var div = document.createElement("div");
-  div.id = id;
-  parentDiv.appendChild(div);
+  var div = document.getElementById(id);
+  
+  if (!div) {
+    div = document.createElement("div");
+    div.id = id;
+    parentDiv.appendChild(div);
+  }
 
-  aalib.read.image.fromURL(filename)
-    .map(aalib.aa({ width: width, height: height }))
-    .map(aalib.render.html({
-      el: div,
-      charset: NICE_CHARSET,
-    }))
-    .subscribe(callback);
+  if (term.cols >= 60) {
+    aalib.read.image.fromURL(filename)
+      .map(aalib.aa({ width: width, height: height }))
+      .map(aalib.render.html({
+        el: div,
+        charset: NICE_CHARSET,
+      }))
+      .subscribe(callback);
+  } else {
+    div.innerText = `[ Photo: ${document.location.href}images/${id}.png ]`;
+  }
 }
 
 function getArt(id) {

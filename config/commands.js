@@ -193,7 +193,6 @@ const commands = {
         term.stylePrint(`whois ${p}`);
       }
     }
-    term.prompt();
   },
 
   tldr: function(args) {
@@ -203,14 +202,14 @@ const commands = {
       term.stylePrint("Missing argument. Try:\r\n");
       for (c of companies) {
         term.stylePrint(`tldr ${c}`);
-      };
+      }
     } else if (!portfolio[name]) {
       term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
     } else {
       const company = portfolio[name];
       if (term.cols >= 60) {
         term.printArt(name)
-      };
+      }
       term.stylePrint(company["name"]);
       term.stylePrint(company["url"]);
       if (company["memo"]) {
@@ -219,7 +218,6 @@ const commands = {
       term.stylePrint("");
       term.stylePrint(company["description"]);
     }
-    term.prompt();
   },
 
   man: function(args) {
