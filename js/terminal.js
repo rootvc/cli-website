@@ -26,7 +26,6 @@ function runRootTerminal(term) {
   });
 
   term.onData(e => {
-    const pos = term._core.buffer.x - 2;
     var h = [... term.history];
     h.reverse();
 
@@ -56,7 +55,7 @@ function runRootTerminal(term) {
         term.write('\x1b[D'.repeat(pos));
         break;
       case '\u0005': // Ctrl+E
-        if (pos < term.currentLine.length) {
+        if (term.pos() < term.currentLine.length) {
           term.write('\x1b[C'.repeat(term.currentLine.length - pos));
         }
         break;
@@ -69,11 +68,11 @@ function runRootTerminal(term) {
       case '\u007F': // Backspace (DEL)
         // Do not delete the prompt
         if (term._core.buffer.x > 2) {
-          const newLine = term.currentLine.slice(0, pos - 1) + term.currentLine.slice(pos);
+          const newLine = term.currentLine.slice(0, term.pos() - 1) + term.currentLine.slice(term.pos());
           term.clearCurrentLine();
           term.currentLine = newLine;
           term.write(newLine);
-          term.write('\x1b[D'.repeat(newLine.length - pos + 1));
+          term.write('\x1b[D'.repeat(newLine.length - term.pos() + 1));
         }
         break;
       case '\033[A': // up
@@ -107,11 +106,11 @@ function runRootTerminal(term) {
         break;
       default: // Print all other characters
         const length = term.currentLine.length;
-        const newLine = `${term.currentLine.slice(0, pos)}${e}${term.currentLine.slice(pos)}`;
+        const newLine = `${term.currentLine.slice(0, term.pos())}${e}${term.currentLine.slice(term.pos())}`;
         term.clearCurrentLine();
         term.currentLine = newLine;
         term.write(newLine);
-        term.write('\x1b[D'.repeat(length - pos));
+        term.write('\x1b[D'.repeat(length - term.pos()));
     }
   });
 

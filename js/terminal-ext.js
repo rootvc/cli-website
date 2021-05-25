@@ -2,6 +2,7 @@
 extend = (term) => {
   term.history = [];
   term.historyCursor = -1;
+  term.pos = () => term._core.buffer.x - 2;
 
   term.promptChar = '\x1b[1;32m$\x1b[0;38m ';
 
