@@ -28,7 +28,7 @@ const commands = {
     const people = Object.keys(team);
 
     if (!name) {
-      term.stylePrint("Missing argument. Try:\r\n");
+      term.stylePrint("%whois%: Missing argument. Try:\r\n");
       term.stylePrint("%whois% root");
       for (p of people) {
         term.stylePrint(`%whois% ${p}`);
@@ -56,7 +56,7 @@ const commands = {
     const name = (args[0] || "");
     if (!name) {
       const companies = Object.keys(portfolio);
-      term.stylePrint("Missing argument. Try:\r\n");
+      term.stylePrint("%tldr%: Missing argument. Try:\r\n");
       for (c of companies) {
         term.stylePrint(`%tldr% ${c}`);
       }
@@ -73,38 +73,38 @@ const commands = {
       term.stylePrint("");
       term.stylePrint(company["description"]);
       if (company["demo"]) {
-        term.stylePrint(`Try it with command: %${name}%`);
+        term.stylePrint(`Try it with term.command: %${name}%`);
       }
     }
   },
 
   git: function() {
-    command("github");
+    term.command("github");
   },
 
   test: function() {
-    openURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    term.openURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
   },
 
   email: function() {
-    command("pine");
+    term.command("pine");
   },
 
   github: function() {
-    displayURL("https://github.com/rootvc");
+    term.displayURL("https://github.com/rootvc");
   },
 
   twitter: function() {
-    displayURL("https://twitter.com/rootvc");
-    displayURL("https://twitter.com/machinepix");
+    term.displayURL("https://twitter.com/rootvc");
+    term.displayURL("https://twitter.com/machinepix");
   },
 
   instagram: function() {
-    displayURL("https://instagram.com/machinepix/");
+    term.displayURL("https://instagram.com/machinepix/");
   },
 
   insta: function() {
-    command("instagram");
+    term.command("instagram");
   },
 
   other: function() {
@@ -243,19 +243,19 @@ const commands = {
   },
 
   tail: function(args) {
-    command(`cat ${args.join(" ")}`);
+    term.command(`cat ${args.join(" ")}`);
   },
 
   less: function(args) {
-    command(`cat ${args.join(" ")}`);
+    term.command(`cat ${args.join(" ")}`);
   },
 
   head: function(args) {
-    command(`cat ${args.join(" ")}`);
+    term.command(`cat ${args.join(" ")}`);
   },
 
   open: function(args) {
-    command(`cat ${args.join(" ")}`);
+    term.command(`cat ${args.join(" ")}`);
   },
 
   emacs: function() {
@@ -279,7 +279,7 @@ const commands = {
   },
 
   pine: function() {
-    openURL("mailto:team@root.vc");
+    term.openURL("mailto:team@root.vc");
   },
 
   curl: function(args) {
@@ -287,15 +287,15 @@ const commands = {
   },
 
   ftp: function(args) {
-    command(`curl ${args.join(" ")}`);
+    term.command(`curl ${args.join(" ")}`);
   },
 
   ssh: function(args) {
-    command(`curl ${args.join(" ")}`);
+    term.command(`curl ${args.join(" ")}`);
   },
 
   sftp: function(args) {
-    command(`curl ${args.join(" ")}`);
+    term.command(`curl ${args.join(" ")}`);
   },
 
   rm: function() {
@@ -334,7 +334,7 @@ const commands = {
   },
 
   fdisk: function() {
-    command("rm");
+    term.command("rm");
   },
 
   chown: function() {
@@ -374,15 +374,15 @@ const commands = {
   },
 
   su: function() {
-    command("sudo");
+    term.command("sudo");
   },
 
   exit: function() {
-    command("test");
+    term.command("test");
   },
 
   quit: function() {
-    command("exit");
+    term.command("exit");
   },
 
   stop: function() {
@@ -394,15 +394,15 @@ const commands = {
   },
 
   passwd: function() {
-    term.stylePrint("Wow. Maybe don't enter your password into a sketchy web-based command prompt?");
+    term.stylePrint("Wow. Maybe don't enter your password into a sketchy web-based term.command prompt?");
   },
 
   man: function(args) {
-    command(`tldr ${args}`);
+    term.command(`tldr ${args}`);
   },
 
   woman: function(args) {
-    command(`tldr ${args}`);
+    term.command(`tldr ${args}`);
   },
 
   ps: function() {
@@ -414,11 +414,11 @@ const commands = {
   },
 
   ge: function() {
-    command("greatexpectations");
+    term.command("greatexpectations");
   },
 
   great_expectations: function() {
-    command("greatexpectations");
+    term.command("greatexpectations");
   },
 
   zed: function() {
@@ -426,7 +426,7 @@ const commands = {
   },
 
   privacy: function() {
-    command("privacydynamics");
+    term.command("privacydynamics");
   },
 }
 
@@ -436,6 +436,6 @@ for (kv of Object.entries(portfolio)) {
   const val = kv[1];
 
   if (val["demo"]) {
-    commands[key] = () => displayURL(val["demo"]);
+    commands[key] = () => term.displayURL(val["demo"]);
   }
 }
