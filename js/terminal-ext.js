@@ -10,11 +10,25 @@ extend = (term) => {
     term.write(`\r\n${term.promptChar}`);
   };
 
-  term.clearCurrentLine = () => {
+  term.clearCurrentLine = (goToEndofHistory = false) => {
     term.write('\x1b[2K\r');
     term.write(term.promptChar);
     term.currentLine = "";
+    if (goToEndofHistory) {
+      term.historyCursor = -1;
+      term.scrollToBottom();
+    }
   };
+
+  term.setCurrentLine = (newLine, preserveCursor = false) => {
+    const length = term.currentLine.length;
+    term.clearCurrentLine();
+    term.currentLine = newLine;
+    term.write(newLine);
+    if (preserveCursor) {
+      term.write('\x1b[D'.repeat(length - term.pos()));
+    }
+  }
 
   term.stylePrint = (text) => {
     // Text Wrap
@@ -71,15 +85,6 @@ extend = (term) => {
       fn(args);
     }
   }
-}
-
-function colorText(text, color) {
-  const colors = {
-    "command": "\x1b[1;35m",
-    "hyperlink": "\x1b[1;34m",
-    "files": "\x1b[1;33m",
-  }
-  return `${colors[color] || ""}${text}\x1b[0;38m`;
 }
 
 // https://stackoverflow.com/questions/14484787/wrap-text-in-javascript

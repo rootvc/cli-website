@@ -47,9 +47,7 @@ function runRootTerminal(term) {
           });
         }
         term.prompt();
-        term.currentLine = ""; // TODO: call clearCurrentLine instead? And add historyCursor = -1 there?
-        term.historyCursor = -1;
-        term.scrollToBottom();
+        term.clearCurrentLine(true);
         break;
       case '\u0001': // Ctrl+A
         term.write('\x1b[D'.repeat(pos));
@@ -69,29 +67,21 @@ function runRootTerminal(term) {
         // Do not delete the prompt
         if (term._core.buffer.x > 2) {
           const newLine = term.currentLine.slice(0, term.pos() - 1) + term.currentLine.slice(term.pos());
-          term.clearCurrentLine();
-          term.currentLine = newLine;
-          term.write(newLine);
-          term.write('\x1b[D'.repeat(newLine.length - term.pos() + 1));
+          term.setCurrentLine(newLine, true)
         }
         break;
       case '\033[A': // up
         if (term.historyCursor < h.length - 1) {
           term.historyCursor += 1;
-          term.clearCurrentLine();
-          term.currentLine = h[term.historyCursor];
-          term.write(term.currentLine);
+          term.setCurrentLine(h[term.historyCursor], false);
         }
         break;
       case '\033[B': // down
         if (term.historyCursor > 0) {
           term.historyCursor -= 1;
-          term.clearCurrentLine();
-          term.currentLine = h[term.historyCursor];
-          term.write(term.currentLine);
+          term.setCurrentLine(h[term.historyCursor], false);
         } else {
-          term.clearCurrentLine();
-          term.historyCursor = -1;
+          term.clearCurrentLine(true);
         }
         break;
       case '\033[C': // right
@@ -105,18 +95,24 @@ function runRootTerminal(term) {
         }
         break;
       default: // Print all other characters
-        const length = term.currentLine.length;
         const newLine = `${term.currentLine.slice(0, term.pos())}${e}${term.currentLine.slice(term.pos())}`;
-        term.clearCurrentLine();
-        term.currentLine = newLine;
-        term.write(newLine);
-        term.write('\x1b[D'.repeat(length - term.pos()));
+        term.setCurrentLine(newLine, true);
     }
+    term.scrollToBottom();
   });
 
   init();
   // These 3 things are called on init, but are not always called during re-init
   term.prompt();
   term._initialized = true;
-  term.clearCurrentLine();
+  term.clearCurrentLine(true);
+}
+
+function colorText(text, color) {
+  const colors = {
+    "command": "\x1b[1;35m",
+    "hyperlink": "\x1b[1;34m",
+    "files": "\x1b[1;33m",
+  }
+  return `${colors[color] || ""}${text}\x1b[0;38m`;
 }
