@@ -73,15 +73,17 @@ function runRootTerminal(term) {
   });
 
   term.onData(e => {
+    const pos = term._core.buffer.x - 2;
     var h = [... term.history];
     h.reverse();
 
     switch (e) {
       case '\r': // Enter
-        term.history.push(term.currentLine);
-        term.currentLine = term.currentLine.trim();
+        term.writeln("");
+
         if (term.currentLine.length > 0) {
-          term.stylePrint("\n");
+          term.history.push(term.currentLine);
+          term.currentLine = term.currentLine.trim();
           command(term.currentLine);
           term.scrollToBottom();
 
@@ -96,6 +98,14 @@ function runRootTerminal(term) {
         term.prompt();
         term.currentLine = ""; // TODO: clearCurrentLine? And add historyCursor = -1 there?
         term.historyCursor = -1;
+        break;
+      case '\u0001': // Ctrl+A
+        term.write('\x1b[D'.repeat(pos));
+        break;
+      case '\u0005': // Ctrl+E
+        if (pos < term.currentLine.length) {
+          term.write('\x1b[C'.repeat(term.currentLine.length - pos));
+        }
         break;
       case '\u0003': // Ctrl+C
         term.currentLine = "";
@@ -140,10 +150,7 @@ function runRootTerminal(term) {
         break;
       default: // Print all other characters
         const length = term.currentLine.length;
-        const pos = term._core.buffer.x - 2;
-        const left = term.currentLine.slice(0, pos);
-        const right = term.currentLine.slice(pos);
-        const newLine = `${left}${e}${right}`;
+        const newLine = `${term.currentLine.slice(0, pos)}${e}${term.currentLine.slice(pos)}`;
 
         term.clearCurrentLine();
         term.currentLine = newLine;

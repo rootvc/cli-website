@@ -52,12 +52,12 @@ const commands = {
     term.stylePrint("emacs not installed. try: vi");
   },
 
-  vi: function() {
-    term.stylePrint("vi not installed. try: emacs");
-  },
-
   vim: function() {
     term.stylePrint("vim not installed. try: emacs");
+  },
+
+  vi: function() {
+    term.stylePrint("vi not installed. try: emacs");
   },
 
   pico: function() {
@@ -135,7 +135,7 @@ const commands = {
   },
 
   sudo: function() {
-    term.stylePrint("User not in the sudoers file. This incident will be reported.");
+    term.stylePrint("guest not in the sudoers file. This incident will be reported.");
   },
 
   su: function() {
