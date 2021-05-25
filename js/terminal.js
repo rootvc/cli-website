@@ -22,6 +22,7 @@ function runRootTerminal(term) {
         text = text.replace(match[0], colorText(match[0], "command"));
       }  
     }
+
     // Text Wrap
     text = wordWrap(text, term.cols);
 
@@ -39,6 +40,7 @@ function runRootTerminal(term) {
   }
 
   const init = function() {
+    fitAddon.fit();
     term.reset();
     term.printLogoType();
     term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
@@ -51,6 +53,12 @@ function runRootTerminal(term) {
 
   var currentLine = "";
 
+  window.addEventListener('resize', function () {
+    console.log('resize');
+    // init();
+    term.scrollToBottom();
+  });
+
   term.onData(e => {
     switch (e) {
       case '\r': // Enter
@@ -58,6 +66,7 @@ function runRootTerminal(term) {
         if (currentLine.length > 0) {
           term.stylePrint("\n");
           command(currentLine);
+          term.scrollToBottom();
           const tokens = currentLine.split(" ");
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({
@@ -65,7 +74,6 @@ function runRootTerminal(term) {
             "command": tokens.shift(),
             "args": tokens.join(" "),
           });
-          console.log(window.dataLayer);
         }
         // command is handled async (e.g. uses ASCII art), so must responsible for own prompt on completion
         if (!currentLine.match(/^(tldr|whois|man|woman)/)) {
