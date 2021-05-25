@@ -68,15 +68,13 @@
       <div id="aa-all" style="display: none;""></div>
       <div id="terminal"></div>
       <script>
-        var term = new Terminal();
+        var term = new Terminal({cursorBlink: true});
         const fitAddon = new FitAddon.FitAddon();
         const webLinksAddon = new WebLinksAddon.WebLinksAddon();
 
         term.open(document.getElementById("terminal"));
         term.loadAddon(fitAddon);
         term.loadAddon(webLinksAddon);
-        term.focus();
-
         runRootTerminal(term);
       </script>
     </body>

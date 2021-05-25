@@ -14,6 +14,7 @@ function runRootTerminal(term) {
   term.clearCurrentLine = () => {
     term.write('\x1b[2K\r');
     term.write(term.promptChar);
+    term.currentLine = "";
   };
 
   term.stylePrint = (text) => {
@@ -55,12 +56,8 @@ function runRootTerminal(term) {
     term.printLogoType();
     term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
     term.stylePrint(`Type ${colorText("help", "command")} to get started.`);
+    term.focus();
   };
-
-  init();
-  term.prompt();
-  term._initialized = true;
-  term.currentLine = "";
 
   // try term.onResize
   window.addEventListener('resize', function () {
@@ -97,11 +94,12 @@ function runRootTerminal(term) {
           });
         }
         term.prompt();
-        term.currentLine = "";
+        term.currentLine = ""; // TODO: clearCurrentLine? And add historyCursor = -1 there?
         term.historyCursor = -1;
         break;
       case '\u0003': // Ctrl+C
         term.currentLine = "";
+        term.historyCursor = -1;
         term.prompt();
         break;
       case '\u007F': // Backspace (DEL)
@@ -111,7 +109,7 @@ function runRootTerminal(term) {
           term.write('\b \b');
         }
         break;
-      case '\033[A':
+      case '\033[A': // up
         if (term.historyCursor < h.length - 1) {
           term.historyCursor += 1;
           term.clearCurrentLine();
@@ -119,7 +117,7 @@ function runRootTerminal(term) {
           term.write(term.currentLine);
         }
         break;
-      case '\033[B':
+      case '\033[B': // down
         if (term.historyCursor > 0) {
           term.historyCursor -= 1;
           term.clearCurrentLine();
@@ -127,22 +125,38 @@ function runRootTerminal(term) {
           term.write(term.currentLine);
         } else {
           term.clearCurrentLine();
+          term.historyCursor = -1;
         }
         break;
-      case '\033[C':
-        console.log('c');
-        // TOOD: arrow keys
-        // term.write('\x1b[C');
+      case '\033[C': // right
+        if (term._core.buffer.x - 2 < term.currentLine.length) {
+          term.write('\x1b[C');
+        }
         break;
-      case '\033[D':
-        console.log('d');
-        // term.write('\x1b[D');
+      case '\033[D': // left
+        if (term._core.buffer.x > 2) {
+          term.write('\x1b[D');
+        }
         break;
       default: // Print all other characters
-        term.currentLine = term.currentLine.concat(e);
-        term.write(e);
+        const length = term.currentLine.length;
+        const pos = term._core.buffer.x - 2;
+        const left = term.currentLine.slice(0, pos);
+        const right = term.currentLine.slice(pos);
+        const newLine = `${left}${e}${right}`;
+
+        term.clearCurrentLine();
+        term.currentLine = newLine;
+        term.write(newLine);
+        term.write('\x1b[D'.repeat(length - pos));
     }
   });
+
+  init();
+  // These 3 things are not always called when we reinitialize
+  term.prompt();
+  term._initialized = true;
+  term.clearCurrentLine();
 }
 
 function openURL(url) {
