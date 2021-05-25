@@ -4,9 +4,15 @@ function runRootTerminal(term) {
   }
 
   term.history = [];
+  term.historyCursor = -1;
+  term.promptChar = '\x1b[1;32m$\x1b[0;38m ';
 
-  term.promptChar = '\r\n\x1b[1;32m$\x1b[0;38m ';
   term.prompt = () => {
+    term.write(`\r\n${term.promptChar}`);
+  };
+
+  term.clearCurrentLine = () => {
+    term.write('\x1b[2K\r');
     term.write(term.promptChar);
   };
 
@@ -54,14 +60,14 @@ function runRootTerminal(term) {
   init();
   term.prompt();
   term._initialized = true;
+  term.currentLine = "";
 
-  var currentLine = "";
-
+  // try term.onResize
   window.addEventListener('resize', function () {
     term._initialized = false;
     init();
     for (c of term.history) {
-      term.writeln(`${term.promptChar} ${c}\r\n`);
+      term.writeln(`\r\n${term.promptChar} ${c}\r\n`);
       command(c);
     }
     term.prompt();
@@ -70,16 +76,19 @@ function runRootTerminal(term) {
   });
 
   term.onData(e => {
+    var h = [... term.history];
+    h.reverse();
+
     switch (e) {
       case '\r': // Enter
-        term.history.push(currentLine);
-        currentLine = currentLine.trim();
-        if (currentLine.length > 0) {
+        term.history.push(term.currentLine);
+        term.currentLine = term.currentLine.trim();
+        if (term.currentLine.length > 0) {
           term.stylePrint("\n");
-          command(currentLine);
+          command(term.currentLine);
           term.scrollToBottom();
 
-          const tokens = currentLine.split(" ");
+          const tokens = term.currentLine.split(" ");
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({
             "event": "command",
@@ -88,26 +97,49 @@ function runRootTerminal(term) {
           });
         }
         term.prompt();
-        currentLine = "";
+        term.currentLine = "";
+        term.historyCursor = -1;
         break;
       case '\u0003': // Ctrl+C
-        currentLine = "";
+        term.currentLine = "";
         term.prompt();
         break;
       case '\u007F': // Backspace (DEL)
-        currentLine = currentLine.substring(0, currentLine.length - 1);
+        term.currentLine = term.currentLine.substring(0, term.currentLine.length - 1);
         // Do not delete the prompt
         if (term._core.buffer.x > 2) {
           term.write('\b \b');
         }
         break;
       case '\033[A':
+        if (term.historyCursor < h.length - 1) {
+          term.historyCursor += 1;
+          term.clearCurrentLine();
+          term.currentLine = h[term.historyCursor];
+          term.write(term.currentLine);
+        }
+        break;
       case '\033[B':
+        if (term.historyCursor > 0) {
+          term.historyCursor -= 1;
+          term.clearCurrentLine();
+          term.currentLine = h[term.historyCursor];
+          term.write(term.currentLine);
+        } else {
+          term.clearCurrentLine();
+        }
+        break;
       case '\033[C':
+        console.log('c');
+        // TOOD: arrow keys
+        // term.write('\x1b[C');
+        break;
       case '\033[D':
+        console.log('d');
+        // term.write('\x1b[D');
         break;
       default: // Print all other characters
-        currentLine = currentLine.concat(e);
+        term.currentLine = term.currentLine.concat(e);
         term.write(e);
     }
   });
