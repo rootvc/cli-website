@@ -11,7 +11,12 @@ const commands = {
 
   echo: function(args) {
     const message = args.join(" ");
-    term.stylePrint(message);
+    term.stylePrint(`\r\n${message}`);
+  },
+
+  say: function(args) {
+    const message = args.join(" ");
+    term.stylePrint(`\r\n(Robot voice): ${message}`);
   },
 
   pwd: function() {
@@ -45,7 +50,11 @@ const commands = {
   },
 
   tail: function(args) {
-    commands["cat"](args);
+    command(`cat ${args}`);
+  },
+
+  open: function(args) {
+    command(`cat ${args}`);
   },
 
   emacs: function() {
