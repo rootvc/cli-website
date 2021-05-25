@@ -112,6 +112,7 @@ function runRootTerminal(term) {
         term.historyCursor = -1;
         term.prompt();
         break;
+      case '\u0008': // Ctrl+H
       case '\u007F': // Backspace (DEL)
         term.currentLine = term.currentLine.substring(0, term.currentLine.length - 1);
         // Do not delete the prompt
