@@ -1,11 +1,21 @@
 const commands = {
   help: function() {
-    const maxCmdLength = 25;
+    const maxCmdLength = Math.max(...Object.keys(help).map(x => x.length));
+    term.writeln("");
     Object.entries(help).forEach(function(kv) {
-      var cmd = kv[0];
-      const rightPad = maxCmdLength - cmd.length;
-      cmd = cmd.concat(" ".repeat(rightPad));
-      term.stylePrint(cmd + kv[1]);
+      const cmd = kv[0];
+      const desc = kv[1];
+      if (term.cols >= 80) {
+        const rightPad = maxCmdLength - cmd.length + 2;
+        const sep = " ".repeat(rightPad);
+        term.stylePrint(`${cmd}${sep}${desc}`);
+      } else {
+        if (cmd != 'help') { // skip second leading newline
+          term.writeln("");
+        }
+        term.stylePrint(cmd);
+        term.stylePrint(desc);
+      }
     });
   },
 
@@ -42,63 +52,200 @@ const commands = {
     if (filename == "readme.md") {
       term.stylePrint(readme);
     } else if (filename == "id_rsa") {
-      term.stylePrint("Nice try.");
+      term.stylePrint("Nice try");
     }
     else {
       term.stylePrint(`No such file: ${filename}`);
     }
   },
 
+  grep: function(args) {
+    const q = args[0];
+    const filename = args[1];
+    var readme = "_aut inveniam viam aut faciam_";
+
+    if (!q || !filename) {
+      term.stylePrint("usage: %grep% [pattern] [filename]");
+      return;
+    }
+
+    if (filename == "readme.md") {
+      const matches = readme.matchAll(q);
+      for (match of matches) {
+        readme = readme.replaceAll(match[0], colorText(match[0], "files"));
+      } 
+      term.writeln(readme);
+    } else if (filename == "id_rsa") {
+      term.stylePrint("Nice try");
+    }
+    else {
+      term.stylePrint(`No such file or directory: ${filename}`);
+    }
+  },
+
+  finger: function(args) {
+    const user = args[0];
+
+    switch(user) {
+      case 'guest':
+        term.stylePrint("Login: guest            Name: Guest");
+        term.stylePrint("Directory: /home/guest  Shell: /bin/zsh");
+        term.stylePrint("No Mail.");
+        term.stylePrint("No Plan.");
+        break;
+      case 'root':
+        term.stylePrint("Login: root             Name: That's Us!");
+        term.stylePrint("Directory: /root        Shell: /bin/zsh");
+        term.stylePrint("Ugh, so much Mail.");
+        term.stylePrint("Epic Plan.");
+        break;
+      case 'avidan':
+      case 'kane':
+      case 'chrissy':
+      case 'lee':
+      case 'emily':
+      case 'laelah':
+        term.stylePrint(`Login: ${user}   Name: ${team[user]["name"]}`);
+        term.stylePrint(`Directory: /home/${user}   Shell: /bin/zsh`);
+        term.stylePrint("Ugh, so much Mail.");
+        term.stylePrint("Epic Plan.");
+        break;
+      default:
+        term.stylePrint(user ? `%finger%: ${user}: no such user` : "usage: %finger% [user]");
+        break;
+    }
+  },
+
+  groups: function(args) {
+    const user = args[0];
+
+    switch(user) {
+      case 'guest':
+        term.stylePrint("staff everyone guest lps founders engineers investors");
+        break;
+      case 'root':
+        term.stylePrint("wheel staff everyone admin engineers investors firms");
+        break;
+      case 'avidan':
+        term.stylePrint("wheel staff everyone admin engineers investors managingpartner handypersons tinkers agtech foodtech foodies coffeesnobs");
+        break;
+      case 'kane':
+        term.stylePrint("wheel staff everyone admin engineers investors partners tinkers mcad motorcyclists gearheads machinepix sportshooters gamers");
+        break;
+      case 'chrissy':
+        term.stylePrint("wheel staff everyone admin engineers investors partners electrical mfg ecad wearables healthtech gearheads automotive sportshooters");
+        break;
+      case 'lee':
+        term.stylePrint("wheel staff everyone admin engineers investors partners software devtools data ai+ml gamers winesnobs");
+        break;
+      case 'emily':
+        term.stylePrint("wheel staff everyone admin engineers investors principals mechanical space automotive winesnobs");
+      case 'laelah':
+        term.stylePrint("wheel staff everyone admin operations miracleworkers gamers");
+        break;
+      default:
+        term.stylePrint(user ? `%groups%: ${user}: no such user` : "usage: %groups% [user]");
+        break;
+    }
+  },
+
+  gzip: function() {
+    term.stylePrint("What are you going to do with a zip file on a fake terminal, seriously?");
+  },
+
+  free: function() {
+    term.stylePrint("Honestly, our memory isn't what it used to be");
+  },
+
   tail: function(args) {
-    command(`cat ${args}`);
+    command(`cat ${args.join(" ")}`);
+  },
+
+  less: function(args) {
+    command(`cat ${args.join(" ")}`);
+  },
+
+  head: function(args) {
+    command(`cat ${args.join(" ")}`);
   },
 
   open: function(args) {
-    command(`cat ${args}`);
+    command(`cat ${args.join(" ")}`);
   },
 
   emacs: function() {
-    term.stylePrint("emacs not installed. try: vi");
+    term.stylePrint("%emacs% not installed. try: %vi%");
   },
 
   vim: function() {
-    term.stylePrint("vim not installed. try: emacs");
+    term.stylePrint("%vim% not installed. try: %emacs%");
   },
 
   vi: function() {
-    term.stylePrint("vi not installed. try: emacs");
+    term.stylePrint("%vi% not installed. try: %emacs%");
   },
 
   pico: function() {
-    term.stylePrint("pico not installed. try: vi or emacs");
+    term.stylePrint("%pico% not installed. try: %vi% or %emacs%");
   },
 
   nano: function() {
-    term.stylePrint("nano not installed. try: vi or emacs");
+    term.stylePrint("%nano% not installed. try: %vi% or %emacs%");
   },
 
   pine: function() {
     openURL("mailto:team@root.vc");
   },
 
-  curl: function() {
-    term.stylePrint("Sorry, CORS isn't going to let you do that from the browser.");
+  curl: function(args) {
+    term.stylePrint(`Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource ${args[0]}.`);
   },
 
-  ftp: function() {
-    command("curl");
+  ftp: function(args) {
+    command(`curl ${args.join(" ")}`);
   },
 
-  ssh: function() {
-    command("curl");
+  ssh: function(args) {
+    command(`curl ${args.join(" ")}`);
   },
 
-  sftp: function() {
-    command("curl");
+  sftp: function(args) {
+    command(`curl ${args.join(" ")}`);
   },
 
   rm: function() {
-    term.stylePrint("I can't let you do that, Dave.");
+    term.stylePrint("I can't let you do that, Dave");
+  },
+
+  mkdir: function() {
+    term.stylePrint("Come on, don't mess with our immaculate file system");
+  },
+
+  alias: function() {
+    term.stylePrint("Just call me HAL");
+  },
+
+  df: function() {
+    term.stylePrint("Nice try. Just get a Dropbox");
+  },
+
+  kill: function() {
+    term.stylePrint("Easy, killer");
+  },
+
+  history: function() {
+    term.history.forEach((element, index) => {
+      term.stylePrint(`${1000 + index}  ${element}`);
+    });
+  },
+
+  find: function(args) {
+    const file = args[0];
+    if (src == "id_rsa" || src == "readme.md") {
+      term.stylePrint(file);
+    } else {
+      term.stylePrint(`%find%: ${file}: No such file or directory`);
+    }
   },
 
   fdisk: function() {
@@ -106,45 +253,39 @@ const commands = {
   },
 
   chown: function() {
-    term.stylePrint("You do not have permission to chown.");
+    term.stylePrint("You do not have permission to %chown%");
   },
 
   chmod: function() {
-    term.stylePrint("You do not have permission to chmod.");
+    term.stylePrint("You do not have permission to %chmod%");
   },
 
   mv: function(args) {
     const src = args[0];
-    const _dest = args[1];
 
-    if (src == "id_rsa") {
-      term.stylePrint("You do not have permission to copy file id_rsa.");
-    } else if (src == "readme.md") {
-      term.stylePrint("You do not have permission to copy file README.md.");
+    if (src == "id_rsa" || src == "readme.md") {
+      term.stylePrint(`You do not have permission to move file ${src}`);
     } else {
-      term.stylePrint(`File not found: ${src}.`);
+      term.stylePrint(`mv: ${src}: No such file or directory`);
     }
   },
 
   cp: function(args) {
     const src = args[0];
-    const _dest = args[1];
 
-    if (src == "id_rsa") {
-      term.stylePrint("You do not have permission to copy file id_rsa.");
-    } else if (src == "readme.md") {
-      term.stylePrint("You do not have permission to copy file README.md.");
+    if (src == "id_rsa" || src == "readme.md") {
+      term.stylePrint(`You do not have permission to copy file ${src}`);
     } else {
-      term.stylePrint(`File not found: ${src}.`);
+      term.stylePrint(`cp: ${src}: No such file or directory`);
     }
   },
 
   touch: function() {
-    term.stylePrint("You can't touch this.");
+    term.stylePrint("You can't %touch% this");
   },
 
   sudo: function() {
-    term.stylePrint("guest not in the sudoers file. This incident will be reported.");
+    term.stylePrint("guest not in the sudoers file. This incident will be reported");
   },
 
   su: function() {
@@ -160,7 +301,7 @@ const commands = {
   },
 
   stop: function() {
-    term.stylePrint("Can't stop, won't stop.");
+    term.stylePrint("Can't stop, won't stop");
   },
 
   whoami: function() {
@@ -172,7 +313,7 @@ const commands = {
   },
 
   other: function() {
-    term.stylePrint("Yeah, I didn't literally mean other. I mean try some Linux commands.");
+    term.stylePrint("Yeah, I didn't literally mean %other%. I mean try some Linux commands");
   },
 
   whois: function(args) {
@@ -216,9 +357,7 @@ const commands = {
       term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
     } else {
       const company = portfolio[name];
-      if (term.cols >= 60) {
-        term.printArt(name)
-      }
+      term.cols >= 60 ? term.printArt(name) : term.writeln("");
       term.stylePrint(company["name"]);
       term.stylePrint(company["url"]);
       if (company["memo"]) {
@@ -235,6 +374,14 @@ const commands = {
 
   woman: function(args) {
     command(`tldr ${args}`);
+  },
+
+  ps: function() {
+    term.stylePrint("PID TTY       TIME CMD");
+    term.stylePrint("424 ttys00 0:00.33 %-zsh%");
+    term.stylePrint("158 ttys01 0:09.70 %/bin/npm start%");
+    term.stylePrint("767 ttys02 0:00.02 %/bin/sh%");
+    term.stylePrint("337 ttys03 0:13.37 %/bin/cgminer -o pwn.d%");
   },
 
   git: function() {

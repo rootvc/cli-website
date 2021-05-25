@@ -19,10 +19,10 @@ function preloadASCIIArt() {
     loadArt(c, 0.5, 1.0);
   }
 
-  loadArt("rootvc-square", 1.0, term.cols >= 60 ? 0.5 : 0.9);
+  loadArt("rootvc-square", 1.0, term.cols >= 60 ? 0.5 : 1.0);
   const people = Object.keys(team);
   for (p of people) {
-    loadArt(p, 1.0, term.cols >= 60 ? 0.5 : 0.9);
+    loadArt(p, 1.0, term.cols >= 60 ? 0.5 : 1.0);
   }
 }
 
@@ -42,7 +42,7 @@ function loadArt(id, ratio, scale, callback) {
     parentDiv.appendChild(div);
   }
 
-  if (term.cols >= 60) {
+  if (term.cols >= 40) {
     aalib.read.image.fromURL(filename)
       .map(aalib.aa({ width: width, height: height }))
       .map(aalib.render.html({

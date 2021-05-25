@@ -18,6 +18,9 @@ function runRootTerminal(term) {
   };
 
   term.stylePrint = (text) => {
+    // Text Wrap
+    text = wordWrap(text, term.cols);
+
     // Hyperlinks
     const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
     const urlMatches = text.matchAll(urlRegex);
@@ -27,14 +30,11 @@ function runRootTerminal(term) {
     // Commands
     const cmds = Object.keys(commands);
     for (cmd of cmds) {
-      const cmdMatches = text.matchAll(`(^${cmd}|^other)`);
+      const cmdMatches = text.matchAll(`%${cmd}%`);
       for (match of cmdMatches) {
-        text = text.replace(match[0], colorText(match[0], "command"));
+        text = text.replace(match[0], colorText(cmd, "command"));
       }  
     }
-
-    // Text Wrap
-    text = wordWrap(text, term.cols);
 
     term.writeln(text);
   };
@@ -202,24 +202,22 @@ function colorText(text, color) {
 function wordWrap(str, maxWidth) {
   var newLineStr = "\r\n"; done = false; res = '';
   while (str.length > maxWidth) {
-      found = false;
-      // Inserts new line at first whitespace of the line
-      for (i = maxWidth - 1; i >= 0; i--) {
-          if (_testWhite(str.charAt(i))) {
-              res = res + [str.slice(0, i), newLineStr].join('');
-              str = str.slice(i + 1);
-              found = true;
-              break;
-          }
-      }
-      // Inserts new line at maxWidth position, the word is too long to wrap
-      if (!found) {
-          res += [str.slice(0, maxWidth), newLineStr].join('');
-          str = str.slice(maxWidth);
-      }
-
+    found = false;
+    // Inserts new line at first whitespace of the line
+    for (i = maxWidth - 1; i >= 0; i--) {
+        if (_testWhite(str.charAt(i))) {
+            res = res + [str.slice(0, i), newLineStr].join('');
+            str = str.slice(i + 1);
+            found = true;
+            break;
+        }
+    }
+    // Inserts new line at maxWidth position, the word is too long to wrap
+    if (!found) {
+        res += [str.slice(0, maxWidth), newLineStr].join('');
+        str = str.slice(maxWidth);
+    }
   }
-
   return res + str;
 }
 
