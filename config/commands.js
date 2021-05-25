@@ -1,7 +1,6 @@
 const commands = {
   help: function() {
     const maxCmdLength = Math.max(...Object.keys(help).map(x => x.length));
-    term.writeln("");
     Object.entries(help).forEach(function(kv) {
       const cmd = kv[0];
       const desc = kv[1];
@@ -96,7 +95,11 @@ const commands = {
   },
 
   instagram: function() {
-    displayURL("https://www.instagram.com/machinepix/");
+    displayURL("https://instagram.com/machinepix/");
+  },
+
+  insta: function() {
+    command("instagram");
   },
 
   other: function() {
@@ -105,12 +108,12 @@ const commands = {
 
   echo: function(args) {
     const message = args.join(" ");
-    term.stylePrint(`\r\n${message}`);
+    term.stylePrint(message);
   },
 
   say: function(args) {
     const message = args.join(" ");
-    term.stylePrint(`\r\n(Robot voice): ${message}`);
+    term.stylePrint(`(Robot voice): ${message}`);
   },
 
   pwd: function() {

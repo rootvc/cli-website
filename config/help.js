@@ -9,5 +9,5 @@ const help = {
   "%instagram%": "instagram account",
   "%git%": "our repos",
   "%test%": "do not use",
-  "%other%": "or try some of your favorite linux commands, (e.g. %ls%, %groups%, %history%)"
+  "%other%": "or try some of your favorite linux commands, (e.g. %ls%)"
 };
