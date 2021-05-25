@@ -1,3 +1,8 @@
+const FILES = {
+  "id_rsa": "Nice try!",
+  "README.md": "# Root Ventures\r\n## Seeding bold engineers.\r\n\r\n_aut inveniam viam aut faciam_",
+};
+
 const commands = {
   help: function() {
     const maxCmdLength = Math.max(...Object.keys(help).map(x => x.length));
@@ -121,12 +126,12 @@ const commands = {
   },
 
   ls: function() {
-    term.stylePrint(colorText("id_rsa     README.md", "files"));
+    term.stylePrint(colorText(Object.keys(FILES).join("   "), "files"));
   },
 
   cd: function(args) {
     const dir = args[0];
-    if (dir == "/" || dir == ".") {
+    if (dir == "/" || dir == "." || dir == "../") {
     } else {
       term.stylePrint(`No such directory: ${dir}`);
     }
@@ -134,14 +139,10 @@ const commands = {
 
   cat: function(args) {
     const filename = args[0];
-    const readme = "_aut inveniam viam aut faciam_";
 
-    if (filename == "readme.md") {
-      term.stylePrint(readme);
-    } else if (filename == "id_rsa") {
-      term.stylePrint("Nice try");
-    }
-    else {
+    if (Object.keys(FILES).includes(filename)) {
+      term.writeln(FILES[filename]);
+    } else {
       term.stylePrint(`No such file: ${filename}`);
     }
   },
@@ -149,23 +150,20 @@ const commands = {
   grep: function(args) {
     const q = args[0];
     const filename = args[1];
-    var readme = "_aut inveniam viam aut faciam_";
 
     if (!q || !filename) {
       term.stylePrint("usage: %grep% [pattern] [filename]");
       return;
     }
 
-    if (filename == "readme.md") {
-      const matches = readme.matchAll(q);
+    if (Object.keys(FILES).includes(filename)) {
+      var file = FILES[filename];
+      const matches = file.matchAll(q);
       for (match of matches) {
-        readme = readme.replaceAll(match[0], colorText(match[0], "files"));
+        file = file.replaceAll(match[0], colorText(match[0], "files"));
       } 
-      term.writeln(readme);
-    } else if (filename == "id_rsa") {
-      term.stylePrint("Nice try");
-    }
-    else {
+      term.writeln(file);
+    } else {
       term.stylePrint(`No such file or directory: ${filename}`);
     }
   },

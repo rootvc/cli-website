@@ -95,7 +95,7 @@ function runRootTerminal(term) {
           });
         }
         term.prompt();
-        term.currentLine = ""; // TODO: clearCurrentLine? And add historyCursor = -1 there?
+        term.currentLine = ""; // TODO: call clearCurrentLine instead? And add historyCursor = -1 there?
         term.historyCursor = -1;
         term.scrollToBottom();
         break;
@@ -114,10 +114,13 @@ function runRootTerminal(term) {
         break;
       case '\u0008': // Ctrl+H
       case '\u007F': // Backspace (DEL)
-        term.currentLine = term.currentLine.substring(0, term.currentLine.length - 1);
         // Do not delete the prompt
         if (term._core.buffer.x > 2) {
-          term.write('\b \b');
+          const newLine = term.currentLine.slice(0, pos - 1) + term.currentLine.slice(pos);
+          term.clearCurrentLine();
+          term.currentLine = newLine;
+          term.write(newLine);
+          term.write('\x1b[D'.repeat(newLine.length - pos + 1));
         }
         break;
       case '\033[A': // up
@@ -152,7 +155,6 @@ function runRootTerminal(term) {
       default: // Print all other characters
         const length = term.currentLine.length;
         const newLine = `${term.currentLine.slice(0, pos)}${e}${term.currentLine.slice(pos)}`;
-
         term.clearCurrentLine();
         term.currentLine = newLine;
         term.write(newLine);
@@ -161,7 +163,7 @@ function runRootTerminal(term) {
   });
 
   init();
-  // These 3 things are not always called when we reinitialize
+  // These 3 things are called on init, but are not always called during re-init
   term.prompt();
   term._initialized = true;
   term.clearCurrentLine();
@@ -179,8 +181,8 @@ function displayURL(url) {
 }
 
 function command(line) {
-  const parts = line.toLowerCase().split(" ");
-  const cmd = parts[0];
+  const parts = line.split(" ");
+  const cmd = parts[0].toLowerCase();
   const args = parts.slice(1, parts.length).map((el) => el.trim());
   const fn = commands[cmd];
   if (typeof(fn) === "undefined") {
@@ -200,6 +202,7 @@ function colorText(text, color) {
 }
 
 // https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
+// TODO: This should treat \r\n as a newline
 function wordWrap(str, maxWidth) {
   var newLineStr = "\r\n"; done = false; res = '';
   while (str.length > maxWidth) {
