@@ -85,7 +85,6 @@ function runRootTerminal(term) {
           term.history.push(term.currentLine);
           term.currentLine = term.currentLine.trim();
           command(term.currentLine);
-          term.scrollToBottom();
 
           const tokens = term.currentLine.split(" ");
           window.dataLayer = window.dataLayer || [];
@@ -98,6 +97,7 @@ function runRootTerminal(term) {
         term.prompt();
         term.currentLine = ""; // TODO: clearCurrentLine? And add historyCursor = -1 there?
         term.historyCursor = -1;
+        term.scrollToBottom();
         break;
       case '\u0001': // Ctrl+A
         term.write('\x1b[D'.repeat(pos));
