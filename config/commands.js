@@ -68,6 +68,9 @@ const commands = {
       }
       term.stylePrint("");
       term.stylePrint(company["description"]);
+      if (company["demo"]) {
+        term.stylePrint(`Try it with command: %${name}%`);
+      }
     }
   },
 
@@ -88,6 +91,7 @@ const commands = {
   },
 
   twitter: function() {
+    displayURL("https://twitter.com/rootvc");
     displayURL("https://twitter.com/machinepix");
   },
 
@@ -407,4 +411,30 @@ const commands = {
     term.stylePrint("767 ttys02 0:00.02 %/bin/sh%");
     term.stylePrint("337 ttys03 0:13.37 %/bin/cgminer -o pwn.d%");
   },
+
+  ge: function() {
+    command("greatexpectations");
+  },
+
+  great_expectations: function() {
+    command("greatexpectations");
+  },
+
+  zed: function() {
+    term.stylePrint("Coming soon! ;)");
+  },
+
+  privacy: function() {
+    command("privacydynamics");
+  },
+}
+
+// Add commands for company demos
+for (kv of Object.entries(portfolio)) {
+  const key = kv[0];
+  const val = kv[1];
+
+  if (val["demo"]) {
+    commands[key] = () => displayURL(val["demo"]);
+  }
 }

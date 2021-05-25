@@ -1,12 +1,12 @@
 const help = {
   "%help%": "list all commands (you're looking at it)",
-  "%whois% root": "learn about us",
-  "%whois% [partner]": "display info on partner",
+  "%whois% root": "learn about the firm",
+  "%whois% [partner]": "learn about us",
   "%tldr%": "list all portfolio companies",
-  "%tldr% [company_name]": "display info on portfolio company",
+  "%tldr% [company_name]": "learn about a portfolio company",
   "%email%": "reach out to us",
-  "%twitter%": "@machinepix twitter",
-  "%instagram%": "@machinepix instagram",
+  "%twitter%": "twitter accounts",
+  "%instagram%": "instagram account",
   "%git%": "our repos",
   "%test%": "do not use",
   "%other%": "or try some of your favorite linux commands, (e.g. %ls%, %groups%, %history%)"
