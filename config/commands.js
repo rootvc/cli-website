@@ -215,7 +215,7 @@ const commands = {
   },
 
   zsh: function() {
-    term.init();
+    term.init(term.user);
   },
 
   cat: function(args) {
@@ -453,20 +453,20 @@ const commands = {
     }
   },
 
-  su: function() {
-    if (term.user != "root") {
-      term.stylePrint("Welcome. You are one of us now!");
-      term.user = "root";
+  su: function(args) {
+    user = args[0] || "root";
+
+    if (user == "root" || user == "guest") {
+      term.user = user;
       term.command("cd ~");
-    }
+    } 
   },
 
   exit: function() {
-    if (term.user == "root") {
-      term.user = "guest";
-    } else {
-      term.reset();
-    }
+    term.reset();
+    term.write("Thanks for playing. Come back soon!");
+    term._initialized = false;
+    return 1;
   },
 
   quit: function() {

@@ -96,9 +96,23 @@ extend = (term) => {
     if (typeof(fn) === "undefined") {
       term.stylePrint(`Command not found: ${cmd}. Try 'help' to get started.`);
     } else {
-      fn(args);
+      return fn(args);
     }
   }
+
+  term.init = (user = "guest", preserveHistory = false) => {
+    fitAddon.fit();
+    preloadASCIIArt();
+    term.reset();
+    term.printLogoType();
+    term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
+    term.stylePrint(`Type ${colorText("help", "command")} to get started.`);
+    term.user = user;
+    if (!preserveHistory) {
+      term.history = [];
+    }
+    term.focus();
+  };
 }
 
 // https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
