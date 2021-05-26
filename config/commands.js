@@ -1,15 +1,3 @@
-const FILES = {
-  "id_rsa": "Nice try!",
-  "README.md": "# Root Ventures\r\n## Seeding bold engineers.\r\n\r\n_aut inveniam viam aut faciam_",
-};
-
-const DIRS = {
-  "~": ["id_rsa", "README.md"],
-  "bin": ["zsh"],
-  "home": Object.keys(team).concat("guest", "root").sort(),
-  "/": ["bin", "home"],
-};
-
 const commands = {
   help: function() {
     const maxCmdLength = Math.max(...Object.keys(help).map(x => x.length));
@@ -230,10 +218,6 @@ const commands = {
     term.init();
   },
 
-  "./zsh": function() {
-    command("zsh");
-  },
-
   cat: function(args) {
     const filename = args[0];
 
@@ -272,14 +256,10 @@ const commands = {
       case 'guest':
         term.stylePrint("Login: guest            Name: Guest");
         term.stylePrint("Directory: /home/guest  Shell: /bin/zsh");
-        term.stylePrint("No Mail.");
-        term.stylePrint("No Plan.");
         break;
       case 'root':
         term.stylePrint("Login: root             Name: That's Us!");
         term.stylePrint("Directory: /home/root   Shell: /bin/zsh");
-        term.stylePrint("Ugh, so much Mail.");
-        term.stylePrint("Epic Plan.");
         break;
       case 'avidan':
       case 'kane':
@@ -289,8 +269,6 @@ const commands = {
       case 'laelah':
         term.stylePrint(`Login: ${user}   Name: ${team[user]["name"]}`);
         term.stylePrint(`Directory: /home/${user}   Shell: /bin/zsh`);
-        term.stylePrint("Ugh, so much Mail.");
-        term.stylePrint("Epic Plan.");
         break;
       default:
         term.stylePrint(user ? `%finger%: ${user}: no such user` : "usage: %finger% [user]");

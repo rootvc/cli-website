@@ -7,7 +7,7 @@ const help = {
   "%email%": "reach out to us",
   "%twitter%": "twitter accounts",
   "%instagram%": "instagram account",
-  "%git%": "our repos",
+  "%github%": "our repos",
   "%test%": "do not use",
-  "%other%": "or try some of your favorite linux commands, (e.g. %ls%)"
+  "%other%": "try your favorite linux commands, (e.g. %ls%, %groups%, %su%)"
 };

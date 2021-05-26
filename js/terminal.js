@@ -94,6 +94,40 @@ function runRootTerminal(term) {
           term.write('\x1b[D');
         }
         break;
+      case '\t': // tab
+        const cmd = term.currentLine.split(" ")[0];
+        const rest = term.currentLine.slice(cmd.length).trim();
+        const autocompleteCmds = Object.keys(commands).filter((c) => c.startsWith(cmd));
+        var autocompleteArgs;
+
+        // detect what to autocomplete
+        if (autocompleteCmds && autocompleteCmds.length > 1) {
+          const oldLine = term.currentLine;
+          term.stylePrint(`\r\n${autocompleteCmds.sort().join("   ")}`);
+          term.prompt();
+          term.setCurrentLine(oldLine);
+        } else if (["cat", "tail", "less", "head", "open", "mv", "cp", "chown", "chmod"].includes(cmd)) {
+          autocompleteArgs = _filesHere().filter((f) => f.startsWith(rest));
+        } else if (["whois", "finger", "groups"].includes(cmd)) {
+          autocompleteArgs = Object.keys(team).filter((f) => f.startsWith(rest));
+        } else if (["man", "woman", "tldr"].includes(cmd)) {
+          autocompleteArgs = Object.keys(portfolio).filter((f) => f.startsWith(rest));
+        } else if (["cd"].includes(cmd)) {
+          autocompleteArgs = _filesHere().filter((d) => d.startsWith(rest) && !Object.keys(FILES).includes(d));
+        }
+
+        // do the autocompleting
+        if (autocompleteArgs && autocompleteArgs.length > 1) {
+          const oldLine = term.currentLine;
+          term.writeln(`\r\n${autocompleteArgs.join("   ")}`);
+          term.prompt();
+          term.setCurrentLine(oldLine);
+        } else if (commands[cmd] && autocompleteArgs && autocompleteArgs.length > 0) {
+          term.setCurrentLine(`${cmd} ${autocompleteArgs[0]}`);
+        } else if (autocompleteCmds && autocompleteCmds.length == 1) {
+          term.setCurrentLine(`${autocompleteCmds[0]} `);
+        }
+        break;
       default: // Print all other characters
         const newLine = `${term.currentLine.slice(0, term.pos())}${e}${term.currentLine.slice(term.pos())}`;
         term.setCurrentLine(newLine, true);
