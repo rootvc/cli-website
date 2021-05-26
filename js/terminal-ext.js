@@ -1,18 +1,32 @@
 // TODO: make this a proper addon
 extend = (term) => {
+  term.currentLine = "";
+  term.user = "guest";
+  term.host = "rootpc";
+  term.cwd = "~";
+  term.sep = ":";
+  term._promptChar = "$";
   term.history = [];
   term.historyCursor = -1;
-  term.pos = () => term._core.buffer.x - 2;
+  term.pos = () => term._core.buffer.x - term._promptRawText().length - 1;
+  term._promptRawText = () => `${term.user}${term.sep}${term.host} ${term.cwd} $`;
 
-  term.promptChar = '\x1b[1;32m$\x1b[0;38m ';
+  term.promptText = () => {
+    var text = term._promptRawText().replace(term.user, colorText(term.user, "user"))
+      .replace(term.sep, colorText(term.sep, ""))
+      .replace(term.host, colorText(term.host, ""))
+      .replace(term.cwd, colorText(term.cwd, "hyperlink"))
+      .replace(term._promptChar, colorText(term._promptChar, "prompt"));
+    return text;
+  }
 
-  term.prompt = () => {
-    term.write(`\r\n${term.promptChar}`);
+  term.prompt = (prefix = "\r\n", suffix = " ") => {
+    term.write(`${prefix}${term.promptText()}${suffix}`);
   };
 
   term.clearCurrentLine = (goToEndofHistory = false) => {
     term.write('\x1b[2K\r');
-    term.write(term.promptChar);
+    term.prompt("", " ");
     term.currentLine = "";
     if (goToEndofHistory) {
       term.historyCursor = -1;

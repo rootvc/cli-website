@@ -126,12 +126,13 @@ const commands = {
   },
 
   ls: function() {
-    term.stylePrint(colorText(Object.keys(FILES).join("   "), "files"));
+    term.stylePrint(Object.keys(FILES).join("   "));
   },
 
   cd: function(args) {
     const dir = args[0];
-    if (dir == "/" || dir == "." || dir == "../") {
+    // TODO: Better fake file system
+    if (dir == "/" || dir == "." || dir == "../" || dir == "~") {
     } else {
       term.stylePrint(`No such directory: ${dir}`);
     }

@@ -17,7 +17,7 @@ function runRootTerminal(term) {
     term._initialized = false;
     init();
     for (c of term.history) {
-      term.writeln(`\r\n${term.promptChar} ${c}\r\n`);
+      term.prompt("\r\n", ` ${c}\r\n`);
       term.command(c);
     }
     term.prompt();
@@ -50,11 +50,11 @@ function runRootTerminal(term) {
         term.clearCurrentLine(true);
         break;
       case '\u0001': // Ctrl+A
-        term.write('\x1b[D'.repeat(pos));
+        term.write('\x1b[D'.repeat(term.pos()));
         break;
       case '\u0005': // Ctrl+E
         if (term.pos() < term.currentLine.length) {
-          term.write('\x1b[C'.repeat(term.currentLine.length - pos));
+          term.write('\x1b[C'.repeat(term.currentLine.length - term.pos()));
         }
         break;
       case '\u0003': // Ctrl+C
@@ -65,7 +65,7 @@ function runRootTerminal(term) {
       case '\u0008': // Ctrl+H
       case '\u007F': // Backspace (DEL)
         // Do not delete the prompt
-        if (term._core.buffer.x > 2) {
+        if (term.pos() > 0) {
           const newLine = term.currentLine.slice(0, term.pos() - 1) + term.currentLine.slice(term.pos());
           term.setCurrentLine(newLine, true)
         }
@@ -85,12 +85,12 @@ function runRootTerminal(term) {
         }
         break;
       case '\033[C': // right
-        if (term._core.buffer.x - 2 < term.currentLine.length) {
+        if (term.pos() < term.currentLine.length) {
           term.write('\x1b[C');
         }
         break;
       case '\033[D': // left
-        if (term._core.buffer.x > 2) {
+        if (term.pos() > 0) {
           term.write('\x1b[D');
         }
         break;
@@ -105,14 +105,14 @@ function runRootTerminal(term) {
   // These 3 things are called on init, but are not always called during re-init
   term.prompt();
   term._initialized = true;
-  term.clearCurrentLine(true);
 }
 
 function colorText(text, color) {
   const colors = {
     "command": "\x1b[1;35m",
     "hyperlink": "\x1b[1;34m",
-    "files": "\x1b[1;33m",
+    "user": "\x1b[1;33m",
+    "prompt": "\x1b[1;32m",
   }
   return `${colors[color] || ""}${text}\x1b[0;38m`;
 }
