@@ -371,15 +371,22 @@ const commands = {
   },
 
   sudo: function() {
-    term.stylePrint("guest not in the sudoers file. This incident will be reported");
+    term.stylePrint(`${colorText(term.user, "user")} is not in the sudoers file. This incident will be reported`);
   },
 
   su: function() {
-    term.command("sudo");
+    if (term.user != "root") {
+      term.stylePrint("Welcome. You are one of us now!");
+      term.user = "root";
+    }
   },
 
   exit: function() {
-    term.command("test");
+    if (term.user == "root") {
+      term.user = "guest";
+    } else {
+      term.command("test");
+    }
   },
 
   quit: function() {
