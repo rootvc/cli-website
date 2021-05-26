@@ -23,7 +23,7 @@ const commands = {
     const people = Object.keys(team);
 
     if (!name) {
-      term.stylePrint("%whois%: Missing argument. Try:\r\n");
+      term.stylePrint("%whois%: Learn about the firm, or a partner - usage:\r\n");
       term.stylePrint("%whois% root");
       for (p of people) {
         term.stylePrint(`%whois% ${p}`);
@@ -51,7 +51,7 @@ const commands = {
     const name = (args[0] || "");
     if (!name) {
       const companies = Object.keys(portfolio);
-      term.stylePrint("%tldr%: Missing argument. Try:\r\n");
+      term.stylePrint("%tldr%: Learn about a portfolio company - usage:\r\n");
       for (c of companies) {
         term.stylePrint(`%tldr% ${c}`);
       }
@@ -74,11 +74,11 @@ const commands = {
   },
 
   git: function() {
-    term.command("github");
+    term.displayURL("https://github.com/rootvc/cli-website");
   },
 
   test: function() {
-    term.openURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
+    term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
   },
 
   email: function() {
@@ -478,7 +478,7 @@ const commands = {
   },
 
   whoami: function() {
-    term.stylePrint("guest");
+    term.stylePrint(term.user);
   },
 
   passwd: function() {
@@ -501,6 +501,10 @@ const commands = {
     term.stylePrint("337 ttys03 0:13.37 %/bin/cgminer -o pwn.d%");
   },
 
+  zed: function() {
+    term.stylePrint("Coming soon! ;)");
+  },
+
   ge: function() {
     term.command("greatexpectations");
   },
@@ -509,14 +513,9 @@ const commands = {
     term.command("greatexpectations");
   },
 
-  zed: function() {
-    term.stylePrint("Coming soon! ;)");
-  },
-
   privacy: function() {
     term.command("privacydynamics");
   },
-  // TODO: languages, e.g. node, ruby
 }
 
 // Add commands for company demos

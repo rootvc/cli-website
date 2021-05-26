@@ -26,9 +26,6 @@ function runRootTerminal(term) {
   });
 
   term.onData(e => {
-    var h = [... term.history];
-    h.reverse();
-
     switch (e) {
       case '\r': // Enter
         term.writeln("");
@@ -71,12 +68,14 @@ function runRootTerminal(term) {
         }
         break;
       case '\033[A': // up
+        var h = [... term.history].reverse();
         if (term.historyCursor < h.length - 1) {
           term.historyCursor += 1;
           term.setCurrentLine(h[term.historyCursor], false);
         }
         break;
       case '\033[B': // down
+        var h = [... term.history].reverse();
         if (term.historyCursor > 0) {
           term.historyCursor -= 1;
           term.setCurrentLine(h[term.historyCursor], false);
@@ -131,12 +130,13 @@ function runRootTerminal(term) {
       default: // Print all other characters
         const newLine = `${term.currentLine.slice(0, term.pos())}${e}${term.currentLine.slice(term.pos())}`;
         term.setCurrentLine(newLine, true);
+        break;
     }
     term.scrollToBottom();
   });
 
   term.init();
-  // These 3 things are called on init, but are not always called during re-init
+  // These things are called on init, but are not necessarily called during re-init
   term.prompt();
   term._initialized = true;
 }

@@ -35,7 +35,7 @@ const portfolio = {
   //   demo: "https://okteto.com/docs/getting-started/index.html",
   // },
 
-  // privacydynamics: {
+  // privacy_dynamics: {
   //   demo: "https://www.privacydynamics.io/demo/contact",
   // },
 };
