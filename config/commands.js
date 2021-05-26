@@ -133,18 +133,7 @@ const commands = {
   },
 
   ls: function() {
-    switch(term.cwd) {
-      case "~":
-        if (term.user == "root") {
-          term.stylePrint(Object.keys(FILES).join("   "));
-        } else {
-          term.stylePrint("id_rsa");
-        }
-        break;
-      default:
-        term.stylePrint(DIRS[term.cwd].join("   "));
-        break;
-    }
+    term.stylePrint(_filesHere().join("   "));
   },
 
   cd: function(args) {
@@ -248,16 +237,7 @@ const commands = {
   cat: function(args) {
     const filename = args[0];
 
-    if (filename == "README.md") {
-      if (term.user == "root") {
-        term.writeln(FILES[filename]);
-      } else {
-        term.stylePrint(`No such file: ${filename}`);
-      }
-      return;
-    }
-
-    if (DIRS[term.cwd].includes(filename)) {
+    if (_filesHere().includes(filename)) {
       term.writeln(FILES[filename]);
     } else {
       term.stylePrint(`No such file: ${filename}`);
@@ -563,4 +543,8 @@ for (kv of Object.entries(portfolio)) {
   if (val["demo"]) {
     commands[key] = () => term.displayURL(val["demo"]);
   }
+}
+
+function _filesHere() {
+  return DIRS[term.cwd].filter((e) => e != 'README.md' || term.user == "root" );
 }
