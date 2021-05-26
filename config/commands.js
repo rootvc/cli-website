@@ -444,8 +444,13 @@ const commands = {
     term.stylePrint("You can't %touch% this");
   },
 
-  sudo: function() {
-    term.stylePrint(`${colorText(term.user, "user")} is not in the sudoers file. This incident will be reported`);
+  sudo: function(args) {
+    if (term.user == "root") {
+      term.command(args.join(" "));
+    }
+    else {
+      term.stylePrint(`${colorText(term.user, "user")} is not in the sudoers file. This incident will be reported`);
+    }
   },
 
   su: function() {
@@ -511,6 +516,7 @@ const commands = {
   privacy: function() {
     term.command("privacydynamics");
   },
+  // TODO: languages, e.g. node, ruby
 }
 
 // Add commands for company demos
