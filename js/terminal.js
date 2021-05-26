@@ -3,7 +3,7 @@ function runRootTerminal(term) {
     return;
   }
 
-  const init = function() {
+  term.init = () => {
     fitAddon.fit();
     preloadASCIIArt();
     term.reset();
@@ -15,7 +15,7 @@ function runRootTerminal(term) {
 
   window.addEventListener('resize', function () {
     term._initialized = false;
-    init();
+    term.init();
     for (c of term.history) {
       term.prompt("\r\n", ` ${c}\r\n`);
       term.command(c);
@@ -101,7 +101,7 @@ function runRootTerminal(term) {
     term.scrollToBottom();
   });
 
-  init();
+  term.init();
   // These 3 things are called on init, but are not always called during re-init
   term.prompt();
   term._initialized = true;

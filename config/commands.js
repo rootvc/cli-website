@@ -3,6 +3,13 @@ const FILES = {
   "README.md": "# Root Ventures\r\n## Seeding bold engineers.\r\n\r\n_aut inveniam viam aut faciam_",
 };
 
+const DIRS = {
+  "~": ["id_rsa", "README.md"],
+  "bin": ["zsh"],
+  "home": Object.keys(team).concat("guest", "root").sort(),
+  "/": ["bin", "home"],
+};
+
 const commands = {
   help: function() {
     const maxCmdLength = Math.max(...Object.keys(help).map(x => x.length));
@@ -122,26 +129,135 @@ const commands = {
   },
 
   pwd: function() {
-    term.stylePrint("/");
+    term.stylePrint("/" + term.cwd.replaceAll("~", `home/${term.user}`));
   },
 
   ls: function() {
-    term.stylePrint(Object.keys(FILES).join("   "));
+    switch(term.cwd) {
+      case "~":
+        if (term.user == "root") {
+          term.stylePrint(Object.keys(FILES).join("   "));
+        } else {
+          term.stylePrint("id_rsa");
+        }
+        break;
+      default:
+        term.stylePrint(DIRS[term.cwd].join("   "));
+        break;
+    }
   },
 
   cd: function(args) {
     const dir = args[0];
-    // TODO: Better fake file system
-    if (dir == "/" || dir == "." || dir == "../" || dir == "~") {
-    } else {
-      term.stylePrint(`No such directory: ${dir}`);
+    
+    switch(dir) {
+      case "~":
+      case "~/":
+        term.cwd = "~";
+        break;
+      case "..":
+      case "../":
+        if (term.cwd == "~") {
+          term.command("cd /home");
+        } else if (term.cwd == "home" || term.cwd == "bin") {
+          term.command("cd /");
+        }
+        break;
+      case "../../":
+      case "../../../":
+      case "../../../../":
+      case "/":
+        term.cwd = "/";
+        break;
+      case "home":
+        if (term.cwd == "/") {
+          term.command("cd /home");
+        } else {
+          term.stylePrint(`You do not have permission to access this directory`);
+        }
+        break;
+      case "/home":
+        term.cwd = "home";
+        break;
+      case "guest":
+      case "root":
+        if (term.cwd == "home") {
+          if (term.user == dir) {
+            term.command("cd ~");
+          } else {
+            term.stylePrint(`You do not have permission to access this directory`);
+          }
+        } else {
+          term.stylePrint(`No such directory: ${dir}`);
+        }
+        break;
+      case "../home/avidan":
+      case "../home/kane":
+      case "../home/chrissy":
+      case "../home/lee":
+      case "../home/emily":
+      case "../home/laelah":
+        if (term.cwd == "~" || term.cwd == "bin") {
+          term.command(`cd ${dir.split("/")[2]}`);
+        } else {
+          term.stylePrint(`No such directory: ${dir}`);
+        }
+        break;
+      case "/home/avidan":
+      case "/home/kane":
+      case "/home/chrissy":
+      case "/home/lee":
+      case "/home/emily":
+      case "/home/laelah":
+      case "avidan":
+      case "kane":
+      case "chrissy":
+      case "lee":
+      case "emily":
+      case "laelah":
+        term.stylePrint(`You do not have permission to access this directory`);
+        break;
+      case "/bin":
+        term.command("bin")
+        break;
+      case "bin":
+        if (term.cwd == "/") {
+          term.cwd = "bin";
+        } else {
+          term.stylePrint(`No such directory: ${dir}`);
+        }
+        break;
+      case "":
+      case ".":
+      case "./":
+        break;
+      default:
+        term.stylePrint(`No such directory: ${dir}`);
+        break;
     }
+  },
+
+  zsh: function() {
+    term.init();
+  },
+
+  "./zsh": function() {
+    command("zsh");
   },
 
   cat: function(args) {
     const filename = args[0];
 
-    if (Object.keys(FILES).includes(filename)) {
+    if (filename == "README.md") {
+      if (term.user == "root") {
+        term.writeln(FILES[filename]);
+      } else {
+        term.stylePrint(`No such file: ${filename}`);
+      }
+      return;
+    }
+
+    if (DIRS[term.cwd].includes(filename)) {
       term.writeln(FILES[filename]);
     } else {
       term.stylePrint(`No such file: ${filename}`);
@@ -181,7 +297,7 @@ const commands = {
         break;
       case 'root':
         term.stylePrint("Login: root             Name: That's Us!");
-        term.stylePrint("Directory: /root        Shell: /bin/zsh");
+        term.stylePrint("Directory: /home/root   Shell: /bin/zsh");
         term.stylePrint("Ugh, so much Mail.");
         term.stylePrint("Epic Plan.");
         break;
@@ -349,20 +465,20 @@ const commands = {
   mv: function(args) {
     const src = args[0];
 
-    if (src == "id_rsa" || src == "readme.md") {
+    if (Object.keys(FILES).includes(src)) {
       term.stylePrint(`You do not have permission to move file ${src}`);
     } else {
-      term.stylePrint(`mv: ${src}: No such file or directory`);
+      term.stylePrint(`%mv%: ${src}: No such file or directory`);
     }
   },
 
   cp: function(args) {
     const src = args[0];
 
-    if (src == "id_rsa" || src == "readme.md") {
+    if (Object.keys(FILES).includes(src)) {
       term.stylePrint(`You do not have permission to copy file ${src}`);
     } else {
-      term.stylePrint(`cp: ${src}: No such file or directory`);
+      term.stylePrint(`%cp%: ${src}: No such file or directory`);
     }
   },
 
@@ -378,6 +494,7 @@ const commands = {
     if (term.user != "root") {
       term.stylePrint("Welcome. You are one of us now!");
       term.user = "root";
+      term.command("cd ~");
     }
   },
 
@@ -385,7 +502,7 @@ const commands = {
     if (term.user == "root") {
       term.user = "guest";
     } else {
-      term.command("test");
+      term.reset();
     }
   },
 
