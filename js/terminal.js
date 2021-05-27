@@ -24,7 +24,7 @@ function runRootTerminal(term) {
             const tokens = term.currentLine.split(" ");
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
-              "event": "command",
+              "event": "commandSent",
               "command": tokens.shift(),
               "args": tokens.join(" "),
             });
