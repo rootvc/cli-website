@@ -22,16 +22,17 @@ function runRootTerminal(term) {
             status = term.command(term.currentLine);
 
             const tokens = term.currentLine.split(" ");
+            const cmd = tokens.shift();
+            const args = tokens.join(" ");
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               "event": "commandSent",
-              "command": tokens.shift(),
-              "args": tokens.join(" "),
+              "command": cmd,
+              "args": args,
             });
           }
 
           if (status != 1) {
-            console.log(status);
             term.prompt();
             term.clearCurrentLine(true);
           }
