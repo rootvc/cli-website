@@ -16,18 +16,18 @@ __    __         _
 function preloadASCIIArt() {
   const companies = Object.keys(portfolio);
   for (c of companies) {
-    loadArt(c, 0.5, 1.0);
+    _loadArt(c, 0.5, 1.0);
   }
 
-  loadArt("rootvc-square", 1.0, term.cols >= 60 ? 0.5 : 1.0);
+  _loadArt("rootvc-square", 1.0, term.cols >= 60 ? 0.5 : 1.0);
   const people = Object.keys(team);
   for (p of people) {
-    loadArt(p, 1.0, term.cols >= 60 ? 0.5 : 1.0);
+    _loadArt(p, 1.0, term.cols >= 60 ? 0.5 : 1.0);
   }
 }
 
 // TODO: Here is where we should insert alternatives to ASCII as text
-function loadArt(id, ratio, scale, callback) {
+function _loadArt(id, ratio, scale, callback) {
   const NICE_CHARSET = aalib.charset.SIMPLE_CHARSET + " ";
   const parentDiv = document.getElementById("aa-all");
   const width = Math.floor(term.cols * scale);

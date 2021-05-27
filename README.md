@@ -66,7 +66,7 @@ Who needs a website when you have a terminal.
  - vim
  - zsh
 
- Missing a favorite one? Make a PR!
+Missing a favorite one? Make a PR!
 
 ## Portfolio CLIs
 Future project: get the Hello Worlds working for every portfolio company with a CLI or npm/pypi/cargo package
@@ -79,3 +79,5 @@ Future project: get the Hello Worlds working for every portfolio company with a 
  - zed
 
 Will be live here, shortly: [https://root.vc](https://root.vc).
+
+_aut viam inveniam aut faciam_

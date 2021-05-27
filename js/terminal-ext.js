@@ -100,9 +100,22 @@ extend = (term) => {
     }
   }
 
+  term.resizeListener = () => {
+    term._initialized = false;
+    term.init(term.user, true);
+    for (c of term.history) {
+      term.prompt("\r\n", ` ${c}\r\n`);
+      term.command(c);
+    }
+    term.prompt();
+    term.scrollToBottom();
+    term._initialized = true;
+  };
+
   term.init = (user = "guest", preserveHistory = false) => {
     fitAddon.fit();
     preloadASCIIArt();
+    preloadFiles();
     term.reset();
     term.printLogoType();
     term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
@@ -116,7 +129,7 @@ extend = (term) => {
 }
 
 // https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
-// TODO: This should treat \r\n as a newline
+// TODO: This doesn't work well at detecting newline
 function _wordWrap(str, maxWidth) {
   var newLineStr = "\r\n"; done = false; res = '';
   while (str.length > maxWidth) {

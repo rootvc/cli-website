@@ -222,7 +222,7 @@ const commands = {
     const filename = args[0];
 
     if (_filesHere().includes(filename)) {
-      term.writeln(FILES[filename]);
+      term.writeln(getFileContents(filename));
     } else {
       term.stylePrint(`No such file: ${filename}`);
     }
@@ -237,8 +237,8 @@ const commands = {
       return;
     }
 
-    if (Object.keys(FILES).includes(filename)) {
-      var file = FILES[filename];
+    if (_filesHere().includes(filename)) {
+      var file = getFileContents(filename);
       const matches = file.matchAll(q);
       for (match of matches) {
         file = file.replaceAll(match[0], colorText(match[0], "files"));
@@ -281,27 +281,27 @@ const commands = {
 
     switch(user) {
       case 'guest':
-        term.stylePrint("staff everyone guest lps founders engineers investors");
+        term.stylePrint("guest lps founders engineers investors");
         break;
       case 'root':
-        term.stylePrint("wheel staff everyone admin engineers investors firms");
+        term.stylePrint("wheel investors engineers hardtech firms");
         break;
       case 'avidan':
-        term.stylePrint("wheel staff everyone admin engineers investors managingpartner handypersons tinkers agtech foodtech foodies coffeesnobs");
+        term.stylePrint("wheel investors engineers managingpartner handypersons tinkers agtech foodtech foodies coffeesnobs");
         break;
       case 'kane':
-        term.stylePrint("wheel staff everyone admin engineers investors partners tinkers mcad motorcyclists gearheads machinepix sportshooters gamers");
+        term.stylePrint("wheel investors engineers partners tinkers mcad motorcyclists gearheads machinepix sportshooters gamers");
         break;
       case 'chrissy':
-        term.stylePrint("wheel staff everyone admin engineers investors partners electrical mfg ecad wearables healthtech gearheads automotive sportshooters");
+        term.stylePrint("wheel investors engineers partners electrical manufacturing ecad wearables healthtech gearheads automotive sportshooters");
         break;
       case 'lee':
-        term.stylePrint("wheel staff everyone admin engineers investors partners software devtools data ai+ml gamers winesnobs");
+        term.stylePrint("wheel investors engineers partners software devtools data ai+ml gamers winesnobs");
         break;
       case 'emily':
-        term.stylePrint("wheel staff everyone admin engineers investors principals mechanical space automotive winesnobs");
+        term.stylePrint("wheel investors engineers principals mechanical space automotive winesnobs");
       case 'laelah':
-        term.stylePrint("wheel staff everyone admin operations miracleworkers gamers");
+        term.stylePrint("wheel admin operations miracleworkers gamers");
         break;
       default:
         term.stylePrint(user ? `%groups%: ${user}: no such user` : "usage: %groups% [user]");
@@ -423,7 +423,7 @@ const commands = {
   mv: function(args) {
     const src = args[0];
 
-    if (Object.keys(FILES).includes(src)) {
+    if (_filesHere().includes(src)) {
       term.stylePrint(`You do not have permission to move file ${src}`);
     } else {
       term.stylePrint(`%mv%: ${src}: No such file or directory`);
@@ -433,7 +433,7 @@ const commands = {
   cp: function(args) {
     const src = args[0];
 
-    if (Object.keys(FILES).includes(src)) {
+    if (_filesHere().includes(src)) {
       term.stylePrint(`You do not have permission to copy file ${src}`);
     } else {
       term.stylePrint(`%cp%: ${src}: No such file or directory`);
@@ -463,6 +463,7 @@ const commands = {
   },
 
   exit: function() {
+    window.removeEventListener("resize", term.resizeListener);
     term.reset();
     term.write("Thanks for playing. Come back soon!");
     term._initialized = false;

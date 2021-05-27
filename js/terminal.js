@@ -7,17 +7,7 @@ function runRootTerminal(term) {
   term._initialized = true;
   term.prompt();
 
-  window.addEventListener('resize', function () {
-    term._initialized = false;
-    term.init(term.user, true);
-    for (c of term.history) {
-      term.prompt("\r\n", ` ${c}\r\n`);
-      term.command(c);
-    }
-    term.prompt();
-    term.scrollToBottom();
-    term._initialized = true;
-  });
+  window.addEventListener("resize", term.resizeListener);
 
   term.onData(e => {
     if (term._initialized) {
@@ -111,7 +101,7 @@ function runRootTerminal(term) {
           } else if (["man", "woman", "tldr"].includes(cmd)) {
             autocompleteArgs = Object.keys(portfolio).filter((f) => f.startsWith(rest));
           } else if (["cd"].includes(cmd)) {
-            autocompleteArgs = _filesHere().filter((d) => d.startsWith(rest) && !Object.keys(FILES).includes(d));
+            autocompleteArgs = _filesHere().filter((dir) => dir.startsWith(rest) && !DIRS[term.cwd].includes(dir));
           }
 
           // do the autocompleting
@@ -122,6 +112,8 @@ function runRootTerminal(term) {
             term.setCurrentLine(oldLine);
           } else if (commands[cmd] && autocompleteArgs && autocompleteArgs.length > 0) {
             term.setCurrentLine(`${cmd} ${autocompleteArgs[0]}`);
+          } else if (commands[cmd] && autocompleteArgs && autocompleteArgs.length == 0) {
+            term.setCurrentLine(`${cmd} ${rest}`);
           } else if (autocompleteCmds && autocompleteCmds.length == 1) {
             term.setCurrentLine(`${autocompleteCmds[0]} `);
           }
