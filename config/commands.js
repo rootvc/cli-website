@@ -124,6 +124,7 @@ const commands = {
     term.stylePrint(_filesHere().join("   "));
   },
 
+  // I am so, so sorry for this code.
   cd: function(args) {
     const dir = args[0];
     
@@ -136,7 +137,7 @@ const commands = {
       case "../":
         if (term.cwd == "~") {
           term.command("cd /home");
-        } else if (term.cwd == "home" || term.cwd == "bin") {
+        } else if (["home", "bin"].includes(term.cwd)) {
           term.command("cd /");
         }
         break;
