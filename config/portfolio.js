@@ -49,7 +49,7 @@ const portfolio = {
      description: "Lorem ipsum dolor sit amet etc etc",
      demo: "https://okteto.com/docs/getting-started/index.html",
    },
-
+ 
    privacy_dynamics: {
      name: "Privacy Dynamics",
      url: "https://privacydynamics.io",
@@ -60,6 +60,18 @@ const portfolio = {
    nautilus_labs: {
      name: "Nautilus Labs",
      url: "https://nautiluslabs.com",
+     description: "Lorem ipsum dolor sit amet etc etc",
+   },
+  
+    ntopology: {
+     name: "nTopology",
+     url: "https://ntopology.com",
+     description: "Lorem ipsum dolor sit amet etc etc",
+   },
+  
+   tortuga_agtech: {
+     name: "Tortuga AgTech",
+     url: "https://www.tortugaagtech.com",
      description: "Lorem ipsum dolor sit amet etc etc",
    },
  
