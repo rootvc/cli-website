@@ -29,7 +29,7 @@ const commands = {
         term.stylePrint(`%whois% ${p}`);
       }
     } else if (name == "root") {
-      const description = "Root Ventures is a hard tech seed fund based in San Francisco. We are engineers leading the first venture rounds for technical founding teams solving hard problem.";
+      const description = "Root Ventures is a hard tech seed fund based in San Francisco. With $150M AUM, we are engineers leading the first venture rounds for technical founders solving hard problems.";
       term.printArt("rootvc-square");
       term.stylePrint(description);
     } else if (Object.keys(team).includes(name)) {
