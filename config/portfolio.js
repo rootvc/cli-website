@@ -160,7 +160,7 @@ const portfolio = {
    },
   
    crux: {
-     name: "Crux OCM",
+     name: "Crux",
      url: "https://www.cruxocm.com",
      description: "Crux is SaaS for the autonomous operation of oil & gas midstream infrastructure. The “Midstream” oil and gas segment is the facilities and processes that sit between the upstream and downstream oil and gas segments, including processing, storage and transportation of crude oil and natural gas (eg. pipeline and storage companies). Crux is the “autopilot” for manually-controlled SCADA processes that allows operators to bring assets to maximum revenue operation as fast as physically possible.",
    },
@@ -224,11 +224,6 @@ const portfolio = {
      description: "Plethora is a manufacturing company that makes mechanical hardware iteration as efficient as software design iteration. Unlike traditional design-for-manufacturability (DFM) processes which require engineers to exit their Computer Aided Design (CAD) programs and send files back and forth to separate programs and people for manufacturing, Plethora’s DFM software sits directly inside existing CAD and automatically provides DFM feedback. Plethora then allows parts to be ordered directly from within CAD, which they can then autonomously manufacture and fulfill without human checks because their DFM software has already verified the part.",
    },
   
-   preact: {
-     name: "Preact",
-     description: "Lorem ipsum dolor sit amet etc etc",
-   },
-  
    prynt: {
      name: "Prynt",
      url: "https://www.prynt.co/#/?_k=4hdttp",
@@ -239,16 +234,6 @@ const portfolio = {
      name: "Righthook",
      url: "https://righthook.io",
      description: "Righthook reduces the time and cost required to develop autonomous vehicles. Empirically testing AVs during development is expensive, legally cumbersome, and slow because they are bottlenecked by hardware iteration and road time. Righthook’s suite of simulated testing software can solve these challenges by allowing AV companies to rapidly iterate and experiment virtually without being bottlenecked by hardware iteration cycles.",
-   },
-  
-   seecontrol: {
-     name: "SeeControl",
-     description: "Lorem ipsum dolor sit amet etc etc",
-   },
-  
-   wallaby: {
-     name: "Wallaby",
-     description: "Lorem ipsum dolor sit amet etc etc",
    },
   
    mimeo_labs: {
