@@ -16,18 +16,18 @@ __    __         _
 function preloadASCIIArt() {
   const companies = Object.keys(portfolio);
   for (c of companies) {
-    _loadArt(c, 0.5, 1.0, 'jpg');
+    _loadArt(c, 0.5, 1.0, 'jpg', false);
   }
 
-  _loadArt("rootvc-square", 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png');
+  _loadArt("rootvc-square", 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png', false);
   const people = Object.keys(team);
   for (p of people) {
-    _loadArt(p, 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png');
+    _loadArt(p, 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png', true);
   }
 }
 
 // TODO: Here is where we should insert alternatives to ASCII as text
-function _loadArt(id, ratio, scale, ext, callback) {
+function _loadArt(id, ratio, scale, ext, inverse, callback) {
   const NICE_CHARSET = aalib.charset.SIMPLE_CHARSET + " ";
   const parentDiv = document.getElementById("aa-all");
   const width = Math.floor(term.cols * scale);
@@ -43,9 +43,10 @@ function _loadArt(id, ratio, scale, ext, callback) {
   }
 
   if (term.cols >= 40) {
-    aalib.read.image.fromURL(filename)
-      .map(aalib.aa({ width: width, height: height }))
-      .map(aalib.render.html({
+    var aa = aalib.read.image.fromURL(filename)
+      .map(aalib.aa({ width: width, height: height }));
+    if (inverse) { aa = aa.map(aalib.filter.inverse()); }
+    aa.map(aalib.render.html({
         el: div,
         charset: NICE_CHARSET,
       }))
