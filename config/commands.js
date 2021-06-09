@@ -53,7 +53,8 @@ const commands = {
       const companies = Object.keys(portfolio);
       term.stylePrint("%tldr%: Learn about a portfolio company - usage:\r\n");
       for (c of companies) {
-        term.stylePrint(`%tldr% ${c}`);
+        const data = portfolio[c];
+        term.stylePrint(`%tldr% ${c} ${colorText("or", "user")} visit: ${data["url"]}`);
       }
     } else if (!portfolio[name]) {
       term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
@@ -68,7 +69,7 @@ const commands = {
       term.stylePrint("");
       term.stylePrint(company["description"]);
       if (company["demo"]) {
-        term.stylePrint(`Try it with term.command: %${name}%`);
+        term.stylePrint(`Try it with command: %${name}%`);
       }
     }
   },
@@ -508,15 +509,15 @@ const commands = {
   },
 
   ge: function() {
-    term.command("greatexpectations");
+    term.command("great_expectations");
   },
 
   great_expectations: function() {
-    term.command("greatexpectations");
+    term.command("superconductive");
   },
 
   privacy: function() {
-    term.command("privacydynamics");
+    term.command("privacy_dynamics");
   },
 }
 

@@ -216,6 +216,7 @@ const portfolio = {
 
   loom: {
     name: "Loom",
+    url: "(inactive)",
     description: "Loom enables the rapid deployment and reconfiguration of industrial robots. The company is building an open source, pre-safety-certified, hardware-agnostic operating system and software development kit (SDK) for industrial robots. Safety certification for robotic systems is a long and expensive process that has limited the market for industrial robots; Loom allows engineers to quickly develop and deploy robotics applications that are automatically safety certified.",
   },
 
@@ -239,6 +240,7 @@ const portfolio = {
 
   mimeo: {
     name: "Mimeo Labs",
+    url: "(inactive)",
     description: "Mimeo Labs improves the quality of life for breastfeeding mothers. The company makes a biomimetic breast pump. Traditional breast pumps are designed around crude mechanical systems, which can lead to physical pain, inefficiency, and unreliability. Mimeo uses advanced mechanical design and material science to replicate natural processes to alleviate these issues.",
   },
 
