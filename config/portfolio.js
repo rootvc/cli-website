@@ -69,7 +69,7 @@ const portfolio = {
      description: "nTopology’s software reduces the mechanical engineering cost and increases the performance of parts by enabling engineers to generatively design and optimize parts for advanced manufacturing (eg. 3D printing or CNC machining). This is valuable across a variety of industries including aerospace, oil & energy, medical devices and implants, consumer electronics, and heavy industrials.",
    },
   
-   tortuga_agtech: {
+   tortuga: {
      name: "Tortuga AgTech",
      url: "https://www.tortugaagtech.com",
      description: "Tortuga increases yields and profits for strawberry and soft fruit growers through higher density growing, more precise packing, and better supply forecasting. The company builds low-cost autonomous harvesting robots, which it sells as a service to growers. Tortuga’s robots reduce the volatility of labor supply and weather conditions, which can account for as much as 20% lost product for growers.",
@@ -93,7 +93,7 @@ const portfolio = {
      description: "Versatile is an onsite construction data provider that uses a custom sensor pack attached to crane hooks to record and classify crane utilization and activity. The Versatile software platform is able to use this real-time data to generate actionable insights that help construction managers improve throughput and reduce timelines.",
    },
   
-   dusty_robotics: {
+   dusty: {
      name: "Dusty Robotics",
      url: "https://www.dustyrobotics.com",
      description: "Dusty Robotics increases productivity, reduces cascading slippage, and reduces costly errors in complex construction projects. The construction robotics company’s first product is an autonomous ground robot that can mark layout information from BIM (Building Information Modeling) software directly onto a construction site, preventing costly errors and rework. The long-term goal of Dusty is a fully automated construction site with minimal human error.",
@@ -159,7 +159,7 @@ const portfolio = {
      description: "Sensable is a video analytics platform that reduces direct labor costs by providing deep insight into warehouse operations. The Sensable product utilizes video sensors and machine learning to analyze worker activity and compliance. Sensable provides reports, real-time notifications, and business insights to support daily staffing and allocation decisions, as well as long-term labor planning and budgeting.",
    },
   
-   crux_ocm: {
+   crux: {
      name: "Crux OCM",
      url: "https://www.cruxocm.com",
      description: "Crux is SaaS for the autonomous operation of oil & gas midstream infrastructure. The “Midstream” oil and gas segment is the facilities and processes that sit between the upstream and downstream oil and gas segments, including processing, storage and transportation of crude oil and natural gas (eg. pipeline and storage companies). Crux is the “autopilot” for manually-controlled SCADA processes that allows operators to bring assets to maximum revenue operation as fast as physically possible.",
