@@ -519,6 +519,14 @@ const commands = {
   privacy: function() {
     term.command("privacy_dynamics");
   },
+
+  ln: function() {
+    term.command("alan");
+  },
+
+  anycloud: function() {
+    term.command("alan");
+  },
 }
 
 // Add commands for company demos
