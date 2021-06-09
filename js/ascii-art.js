@@ -16,23 +16,23 @@ __    __         _
 function preloadASCIIArt() {
   const companies = Object.keys(portfolio);
   for (c of companies) {
-    _loadArt(c, 0.5, 1.0);
+    _loadArt(c, 0.5, 1.0, 'jpg');
   }
 
-  _loadArt("rootvc-square", 1.0, term.cols >= 60 ? 0.5 : 1.0);
+  _loadArt("rootvc-square", 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png');
   const people = Object.keys(team);
   for (p of people) {
-    _loadArt(p, 1.0, term.cols >= 60 ? 0.5 : 1.0);
+    _loadArt(p, 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png');
   }
 }
 
 // TODO: Here is where we should insert alternatives to ASCII as text
-function _loadArt(id, ratio, scale, callback) {
+function _loadArt(id, ratio, scale, ext, callback) {
   const NICE_CHARSET = aalib.charset.SIMPLE_CHARSET + " ";
   const parentDiv = document.getElementById("aa-all");
   const width = Math.floor(term.cols * scale);
   const height = Math.floor(width / 2 * ratio);
-  var filename = `/images/${id}.png`;
+  var filename = `/images/${id}.${ext}`;
 
   var div = document.getElementById(id);
   
@@ -51,7 +51,7 @@ function _loadArt(id, ratio, scale, callback) {
       }))
       .subscribe(callback);
   } else {
-    div.innerText = `[ Photo: ${document.location.href}images/${id}.png ]`;
+    div.innerText = `[ Photo: ${document.location.href}images/${id}.${ext} ]`;
   }
 }
 
