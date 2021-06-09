@@ -52,7 +52,7 @@ const commands = {
     if (!name) {
       const companies = Object.keys(portfolio);
       term.stylePrint("%tldr%: Learn about a portfolio company - usage:\r\n");
-      for (c of companies) {
+      for (c of companies.sort()) {
         const data = portfolio[c];
         term.stylePrint(`%tldr% ${c} ${colorText("or", "user")} visit: ${data["url"]}`);
       }
