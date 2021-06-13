@@ -23,6 +23,7 @@ Who needs a website when you have a terminal.
  - cd
  - chmod
  - chown
+ - clear
  - cp
  - curl
  - df
@@ -62,6 +63,7 @@ Who needs a website when you have a terminal.
  - sudo
  - tail
  - touch
+ - uname
  - vi
  - vim
  - zsh
