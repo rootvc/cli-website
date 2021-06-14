@@ -55,7 +55,7 @@ const commands = {
       for (c of companies.sort()) {
         const data = portfolio[c];
         const tabs = `\t\t`;
-        if (c.length() > 11) {
+        if (${data["name"].length > 11) {
           const tabs = `\t`;
         }
         term.stylePrint(`%tldr% ${c}`+tabs+`${colorText("or", "user")} visit: ${data["url"]}`);
