@@ -56,7 +56,7 @@ const commands = {
         const data = portfolio[c];
         const tabs = `\t\t`;
         if (c.length > 11) {
-          const tab = `\t`;
+          const tabs = `\t`;
         }
         term.stylePrint(`%tldr% ${c}`+tabs+`${colorText("or", "user")} visit: ${data["url"]}`);
       }
