@@ -54,11 +54,11 @@ const commands = {
       term.stylePrint("%tldr%: Learn about a portfolio company - usage:\r\n");
       for (c of companies.sort()) {
         const data = portfolio[c];
-        const tabs = '\t\t';
+        const tabs = `\t\t`;
         if (c.length > 11) {
-          const tab = '\t';
+          const tab = `\t`;
         }
-        term.stylePrint(`%tldr% ${c}'+tabs+'${colorText("or", "user")} visit: ${data["url"]}`);
+        term.stylePrint(`%tldr% ${c}`+tabs+`${colorText("or", "user")} visit: ${data["url"]}`);
       }
     } else if (!portfolio[name]) {
       term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
