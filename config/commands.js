@@ -517,7 +517,7 @@ const commands = {
   uname: function(args) {
     switch(args[0]) {
       case "-a":
-        term.stylePrint("RootPC rootpc 0.0.1 RootPC Kernal Version 0.0.1 root:xnu-31415.926.5~3/RELEASE_X86_64 x86_64");
+        term.stylePrint("RootPC rootpc 0.0.1 RootPC Kernel Version 0.0.1 root:xnu-31415.926.5~3/RELEASE_X86_64 x86_64");
         break;
       case "-mrs":
         term.stylePrint("RootPC 0.0.1 x86_64");
