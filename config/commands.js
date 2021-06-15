@@ -509,6 +509,10 @@ const commands = {
     term.command(`tldr ${args}`);
   },
 
+  ping: function() {
+    term.stylePrint("pong");
+  },
+
   ps: function() {
     term.stylePrint("PID TTY       TIME CMD");
     term.stylePrint("424 ttys00 0:00.33 %-zsh%");
