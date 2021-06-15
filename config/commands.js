@@ -57,6 +57,9 @@ const commands = {
         const tabs = c.length > 10 ? "\t" : "\t\t";
         const sep = term.cols >= 76 ? tabs : "\r\n";
         term.stylePrint(`%tldr% ${c}${sep}${data["url"]}`);
+        if (term.cols < 76 && c != companies[companies.length - 1]) {
+          term.writeln("");
+        }
       }
     } else if (!portfolio[name]) {
       term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
