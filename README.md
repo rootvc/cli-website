@@ -45,6 +45,7 @@ Who needs a website when you have a terminal.
  - ls
  - man (alias: woman)
  - mkdir
+ - more
  - mv
  - nano
  - open
@@ -62,6 +63,7 @@ Who needs a website when you have a terminal.
  - su
  - sudo
  - tail
+ - top
  - touch
  - uname
  - vi
