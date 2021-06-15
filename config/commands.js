@@ -54,7 +54,7 @@ const commands = {
       term.stylePrint("%tldr%: Learn about a portfolio company - usage:\r\n");
       for (c of companies.sort()) {
         const data = portfolio[c];
-        const tabs = `\t\t`;
+        var tabs = `\t\t`;
         if (String(c).length > 10) {
           tabs = `\t`;
         }
