@@ -56,7 +56,7 @@ const commands = {
         const data = portfolio[c];
         const tabs = c.length > 10 ? "\t" : "\t\t";
         const sep = term.cols >= 74 ? tabs : "\r\n";
-        term.stylePrint(`%tldr% ${c}${sep}${colorText("or", "user")} visit: ${data["url"]}`);
+        term.stylePrint(`%tldr% ${c}${sep}${data["url"]}`);
       }
     } else if (!portfolio[name]) {
       term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
