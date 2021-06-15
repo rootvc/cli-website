@@ -55,7 +55,7 @@ const commands = {
       for (c of companies.sort()) {
         const data = portfolio[c];
         const tabs = c.length > 10 ? "\t" : "\t\t";
-        const sep = term.cols >= 74 ? tabs : "\r\n";
+        const sep = term.cols >= 76 ? tabs : "\r\n";
         term.stylePrint(`%tldr% ${c}${sep}${data["url"]}`);
       }
     } else if (!portfolio[name]) {
