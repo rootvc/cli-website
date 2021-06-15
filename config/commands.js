@@ -474,7 +474,9 @@ const commands = {
     if (user == "root" || user == "guest") {
       term.user = user;
       term.command("cd ~");
-    } 
+    } else {
+      term.stylePrint("su: Sorry");
+    }
   },
 
   exit: function() {
