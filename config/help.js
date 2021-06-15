@@ -11,5 +11,5 @@ const help = {
   "%git%": "this repo",
   "%github%": "all repos",
   "%test%": "do not use",
-  "%other%": "try your favorite linux commands, (e.g. %ls%, %groups%, %su%)"
+  "%other%": "try your fav commands (e.g. %ls%, %groups%, %su%)"
 };
