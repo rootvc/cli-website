@@ -233,6 +233,9 @@ const commands = {
     } else {
       term.stylePrint(`No such file: ${filename}`);
     }
+    if (filename == "id_rsa") {
+      term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
+    }
   },
 
   grep: function(args) {
