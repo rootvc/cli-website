@@ -204,7 +204,7 @@ const portfolio = {
 
   shaper: {
     name: "Shaper",
-    url: "https://shapertools.com/en-us",
+    url: "https://shapertools.com",
     description: "Shaper Tools makes the Origin, a handheld router that uses computer vision and precision controls to automatically hold a pre-programmed pattern on whatever it’s cutting, essentially “auto-correcting” an operator’s movements. This allows users to accomplish with a hand tool complex cuts that normally require industrial CNC machines. Ultimately, Shaper plans to design and produce a line of power tools that utilizes its advanced auto-correcting system to disrupt the tool and CNC industry.",
   },
 

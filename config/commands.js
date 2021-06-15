@@ -54,11 +54,9 @@ const commands = {
       term.stylePrint("%tldr%: Learn about a portfolio company - usage:\r\n");
       for (c of companies.sort()) {
         const data = portfolio[c];
-        var tabs = `\t\t`;
-        if (String(c).length > 10) {
-          tabs = `\t`;
-        }
-        term.stylePrint(`%tldr% ${c}`+tabs+`${colorText("or", "user")} visit: ${data["url"]}`);
+        const tabs = c.length > 10 ? "\t" : "\t\t";
+        const sep = term.cols >= 74 ? tabs : "\r\n";
+        term.stylePrint(`%tldr% ${c}${sep}${colorText("or", "user")} visit: ${data["url"]}`);
       }
     } else if (!portfolio[name]) {
       term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
