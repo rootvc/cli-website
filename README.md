@@ -80,6 +80,8 @@ Future project: get the Hello Worlds working for every portfolio company with a 
  - privacy_dynamics (alias: privacy)
  - zed
 
-Will be live here, shortly: [https://root.vc](https://root.vc).
+Live at: [https://root.vc](https://root.vc).
+
+Special thanks to [Jerry Neumann](https://www.linkedin.com/in/jerryneumann/) at [NEU VC](https://neuvc.com/) for the inspiration for this website concept.
 
 _aut viam inveniam aut faciam_
