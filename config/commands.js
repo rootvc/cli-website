@@ -338,6 +338,10 @@ const commands = {
     term.command(`cat ${args.join(" ")}`);
   },
 
+  more: function(args) {
+    term.command(`cat ${args.join(" ")}`);
+  },
+
   emacs: function() {
     term.stylePrint("%emacs% not installed. try: %vi%");
   },
@@ -518,6 +522,10 @@ const commands = {
       default:
         term.stylePrint("RootPC");
     }
+  },
+
+  top: function() {
+    term.command("ps");
   },
 
   clear: function() {
