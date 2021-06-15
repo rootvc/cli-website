@@ -84,7 +84,7 @@ const commands = {
   },
 
   test: function() {
-    term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
+    term.openURL("https://www.youtube.com/watch?v=dQw4w9WgXcQ");
   },
 
   email: function() {
