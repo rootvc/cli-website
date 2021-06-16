@@ -565,7 +565,7 @@ const commands = {
   },
 
   anycloud: function() {
-    term.command("alan");
+    term.stylePrint("https://docs.anycloudapp.com/documentation/tutorials/aws-node");
   },
 }
 
