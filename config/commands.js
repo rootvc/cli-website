@@ -29,7 +29,7 @@ const commands = {
         term.stylePrint(`%whois% ${p}`);
       }
     } else if (name == "root") {
-      const description = "Root Ventures is a hard tech seed fund based in San Francisco with $150M AUM. We are engineers leading the first venture rounds for technical founders solving hard problems. Our typical check size in Fund II is $1-2M. We don't mind leading, co-leading, or following. We aim to be your best partner and the investor who best understands your product and your technology. With 2/3 of our fund in reserve, we also want to be your longest term partner, investing in every round, and bridging between rounds when we have to. Try %whois% and one of avidan, kane, chrissy, lee, emily, or laelah to learn more about our team.";
+      const description = "Root Ventures is a hard tech seed fund in San Francisco with $150M AUM. We are engineers leading the first venture rounds for technical founders solving hard problems. Our typical check size is $1-2M. We don't mind leading, co-leading, or following. We aim to be your best partner and the investor who best understands your product and your technology. With 2/3 of our fund in reserve, we also want to be your longest term partner, investing in every round, and bridging between rounds when we have to. Try %whois% and one of avidan, kane, chrissy, lee, emily, or laelah to learn more about our team.";
       term.printArt("rootvc-square");
       term.stylePrint(description);
     } else if (Object.keys(team).includes(name)) {
