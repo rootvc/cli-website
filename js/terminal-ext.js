@@ -45,14 +45,18 @@ extend = (term) => {
   }
 
   term.stylePrint = (text) => {
-    // Text Wrap
-    text = _wordWrap(text, Math.min(term.cols, 76));
-
     // Hyperlinks
     const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
     const urlMatches = text.matchAll(urlRegex);
+    let allowWrapping = true;
     for (match of urlMatches) {
+      allowWrapping = match[0].length < 76;
       text = text.replace(match[0], colorText(match[0], "hyperlink"));
+    }
+
+    // Text Wrap
+    if (allowWrapping) { 
+      text = _wordWrap(text, Math.min(term.cols, 76));
     }
 
     // Commands
