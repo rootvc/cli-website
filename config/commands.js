@@ -242,6 +242,10 @@ const commands = {
     const q = args[0];
     const filename = args[1];
 
+    if (filename == "id_rsa") {
+      term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
+    }
+    
     if (!q || !filename) {
       term.stylePrint("usage: %grep% [pattern] [filename]");
       return;
