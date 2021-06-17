@@ -408,6 +408,12 @@ const commands = {
     term.stylePrint("Easy, killer");
   },
 
+  locate: function() {
+    term.stylePrint("Root Ventures");
+    term.stylePrint("2670 Harrison St");
+    term.stylePrint("San Francisco, CA 94110");
+  },
+
   history: function() {
     term.history.forEach((element, index) => {
       term.stylePrint(`${1000 + index}  ${element}`);

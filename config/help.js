@@ -10,6 +10,7 @@ const help = {
   "%instagram%": "instagram account",
   "%git%": "this repo",
   "%github%": "all repos",
+  "%locate%": "physical address",
   "%test%": "do not use",
   "%other%": "try your fav commands (e.g. %ls%, %groups%, %su%)"
 };
