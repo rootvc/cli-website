@@ -255,4 +255,10 @@ const portfolio = {
     url: "https://radicalsemiconductor.com",
     description: "Radical Semiconductor has developed an approach to creating electronic fingerprints that are unique to each individual IC. Current methods for providing hardware chip-level security are large, power hungry, and still subject to physical and quantum attacks. Radical’s technology relies on analog circuits combined with new cryptography techniques. Ultimately, their solution can be used to prevent malicious attacks on hardware, prevent counterfeit components from being injected into the supply chain, and provide end-to-end traceability at a chip level.",
   },
+
+  zed: {
+    name: "zed",
+    url: "https://zed.dev",
+    description: "Zed is a fully-native desktop code editor focused on high performance, clean design, and seamless collaboration.",
+  },
 };
