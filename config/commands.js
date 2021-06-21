@@ -132,7 +132,7 @@ const commands = {
 
   // I am so, so sorry for this code.
   cd: function(args) {
-    const dir = args[0];
+    let dir = args[0] || "~";
     
     switch(dir) {
       case "~":
@@ -211,7 +211,6 @@ const commands = {
           term.stylePrint(`No such directory: ${dir}`);
         }
         break;
-      case "":
       case ".":
       case "./":
         break;
