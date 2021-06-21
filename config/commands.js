@@ -204,7 +204,7 @@ const commands = {
         term.stylePrint(`You do not have permission to access this directory`);
         break;
       case "/bin":
-        term.command("bin")
+        term.cwd = "bin";
         break;
       case "bin":
         if (term.cwd == "/") {
