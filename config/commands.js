@@ -133,23 +133,25 @@ const commands = {
   // I am so, so sorry for this code.
   cd: function(args) {
     let dir = args[0] || "~";
+    if (dir != "/") {
+      // strip trailing slash
+      dir = dir.replace(/\/$/, "");
+    }
     
     switch(dir) {
       case "~":
-      case "~/":
         term.cwd = "~";
         break;
       case "..":
-      case "../":
         if (term.cwd == "~") {
           term.command("cd /home");
         } else if (["home", "bin"].includes(term.cwd)) {
           term.command("cd /");
         }
         break;
-      case "../../":
-      case "../../../":
-      case "../../../../":
+      case "../..":
+      case "../../..":
+      case "../../../..":
       case "/":
         term.cwd = "/";
         break;
@@ -212,7 +214,6 @@ const commands = {
         }
         break;
       case ".":
-      case "./":
         break;
       default:
         term.stylePrint(`No such directory: ${dir}`);
