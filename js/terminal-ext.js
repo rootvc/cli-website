@@ -93,9 +93,9 @@ extend = (term) => {
   }
 
   term.command = (line) => {
-    const parts = line.split(" ");
+    const parts = line.split(/\s+/);
     const cmd = parts[0].toLowerCase();
-    const args = parts.slice(1, parts.length).map((el) => el.trim());
+    const args = parts.slice(1, parts.length)
     const fn = commands[cmd];
     if (typeof(fn) === "undefined") {
       term.stylePrint(`Command not found: ${cmd}. Try 'help' to get started.`);
