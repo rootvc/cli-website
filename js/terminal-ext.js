@@ -1,4 +1,5 @@
 // TODO: make this a proper addon
+
 extend = (term) => {
   term.currentLine = "";
   term.user = "guest";
@@ -10,6 +11,7 @@ extend = (term) => {
   term.historyCursor = -1;
   term.pos = () => term._core.buffer.x - term._promptRawText().length - 1;
   term._promptRawText = () => `${term.user}${term.sep}${term.host} ${term.cwd} $`;
+  term.deepLink = window.location.hash.replace("#","").split("-").join(" ");
 
   term.promptText = () => {
     var text = term._promptRawText().replace(term.user, colorText(term.user, "user"))
@@ -107,6 +109,7 @@ extend = (term) => {
   term.resizeListener = () => {
     term._initialized = false;
     term.init(term.user, true);
+    term.runDeepLink();
     for (c of term.history) {
       term.prompt("\r\n", ` ${c}\r\n`);
       term.command(c);
@@ -130,6 +133,12 @@ extend = (term) => {
     }
     term.focus();
   };
+
+  term.runDeepLink = () => {
+    if (term.deepLink != "") {
+      term.command(term.deepLink);
+    }
+  }
 }
 
 // https://stackoverflow.com/questions/14484787/wrap-text-in-javascript

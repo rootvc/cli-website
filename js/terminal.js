@@ -5,6 +5,7 @@ function runRootTerminal(term) {
 
   term.init();
   term._initialized = true;
+  term.runDeepLink();
   term.prompt();
 
   window.addEventListener("resize", term.resizeListener);
