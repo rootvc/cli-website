@@ -426,7 +426,7 @@ const commands = {
 
   find: function(args) {
     const file = args[0];
-    if (src == "id_rsa" || src == "readme.md") {
+    if (file == "id_rsa" || file == "readme.md") {
       term.stylePrint(file);
     } else {
       term.stylePrint(`%find%: ${file}: No such file or directory`);
