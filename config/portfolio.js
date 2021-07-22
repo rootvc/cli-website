@@ -84,7 +84,7 @@ const portfolio = {
   serve: {
     name: "Serve",
     url: "https://serveautomation.com",
-    description: "Serve Automation is building fully automated pizza production systems. Pizza is one of the largest food categories in the USA, but there is huge variability in price and quality of pizzas sold. Serve’s founding team of rocket scientists from SpaceX is building closed-loop machines that allow for high quality pizzas to be produced rapidly with no human input at the price of fast food pizza. This allows customers to order high-end pizza at low-end prices and delivery times.",
+    description: "Serve Automation is building fully automated food production systems. Serve’s founding team of rocket scientists from SpaceX is building closed-loop machines that allow for high quality food items to be produced rapidly with no human input at the price of fast food. This allows customers to order high-end product at low-end prices and delivery times.",
   },
 
   versatile: {
