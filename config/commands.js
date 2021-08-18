@@ -62,7 +62,7 @@ const commands = {
         }
       }
     } else if (!portfolio[name]) {
-      term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: team@root.vc`);
+      term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: hello@root.vc`);
     } else {
       const company = portfolio[name];
       term.cols >= 60 ? term.printArt(name) : term.writeln("");
@@ -373,7 +373,7 @@ const commands = {
   },
 
   pine: function() {
-    term.openURL("mailto:team@root.vc");
+    term.openURL("mailto:hello@root.vc");
   },
 
   curl: function(args) {
