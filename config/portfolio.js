@@ -1,7 +1,7 @@
 const portfolio = {
   esper: {
     name: "Esper",
-    url: "https://esper.com",
+    url: "https://esper.io",
     description: "Esper allows enterprises to rapidly deploy and manage apps on edge hardware without having to manage a supply chain, security, or over-the-air updates. The company’s hardened Android for single-purpose devices such as ATMs, logistics devices, and kiosks allows customers to use Google’s developer resources with enterprise-grade security considerations.",
     memo: null,
     demo: "https://esper.io/signup",
