@@ -558,7 +558,7 @@ const commands = {
   },
 
   web: function() {
-    term.command("welcome.htm");
+    term.command("open welcome.htm");
   },
 
   clear: function() {
