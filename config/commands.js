@@ -557,6 +557,10 @@ const commands = {
     term.command("ps");
   },
 
+  web: function() {
+    term.command("welcome.htm");
+  },
+
   clear: function() {
     term.init();
   },
