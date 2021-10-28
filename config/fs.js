@@ -4,10 +4,11 @@ const _LOCAL_FILES = {
 
 const _REMOTE_FILES = {
   "README.md": "https://raw.githubusercontent.com/rootvc/cli-website/main/README.md",
+  "welcome.htm": "https://raw.githubusercontent.com/rootvc/cli-website/main/welcome.htm",
 };
 
 const DIRS = {
-  "~": ["id_rsa", "README.md"],
+  "~": ["id_rsa", "welcome.htm", "README.md"],
   "bin": ["zsh"],
   "home": Object.keys(team).concat("guest", "root").sort(),
   "/": ["bin", "home"],
@@ -38,6 +39,10 @@ function _insertFileToDOM(name, txt) {
 }
 
 function getFileContents(filename) {
+  console.log(filename);
   const div = document.getElementById(filename);
-  return div.innerHTML.replaceAll("<br>", "\r\n");
+  return div.innerHTML
+    .replaceAll("<br>", "\r\n")
+    .replaceAll("&gt;", ">")
+    .replaceAll("&lt;", "<");
 }

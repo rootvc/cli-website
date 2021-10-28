@@ -4,6 +4,34 @@ function buildGeoPage() {
     const whois = document.getElementById("whois");
     whois.innerHTML = whoisRoot.split(" Try")[0];
 
+    const portfolioTable = document.getElementById("portfolio");
+    for (p in portfolio) {
+        const row = portfolioTable.insertRow(-1);
+        const logoCell = row.insertCell();
+        const descriptionCell = row.insertCell();
+        const urlCell = row.insertCell();
+
+        logoCell.setAttribute("class", "portfolio-photo");
+        descriptionCell.setAttribute("class", "portfolio-description");
+
+        const logoImgTag = document.createElement("img");
+        logoImgTag.setAttribute("src", `images/${p}.jpg`);
+        logoImgTag.setAttribute("alt", `${portfolio[p].name}`);
+        logoCell.appendChild(logoImgTag);
+
+        if (portfolio[p].url != "(inactive)") {
+            const urlATag = document.createElement("a");
+            urlATag.setAttribute("href", portfolio[p].url);
+            urlATag.setAttribute("alt", `${portfolio[p].name}`);
+            urlATag.innerHTML = portfolio[p].url;
+            urlCell.appendChild(urlATag);
+        } else {
+            urlCell.innerHTML = portfolio[p].url;
+        }
+        
+        descriptionCell.innerHTML = portfolio[p].description;
+    }
+
     const teamTable = document.getElementById("team");
     for (t in team) {
         const row = teamTable.insertRow(-1);
@@ -28,31 +56,5 @@ function buildGeoPage() {
 
         titleCell.innerHTML = team[t].title;
         descriptionCell.innerHTML = team[t].description;
-    }
-
-    const portfolioTable = document.getElementById("portfolio");
-    for (p in portfolio) {
-        if (portfolio[p].url != "(inactive)") {
-            const row = portfolioTable.insertRow(-1);
-            const logoCell = row.insertCell();
-            const urlCell = row.insertCell();
-            const descriptionCell = row.insertCell();
-
-            logoCell.setAttribute("class", "portfolio-photo");
-            descriptionCell.setAttribute("class", "portfolio-description");
-
-            const logoImgTag = document.createElement("img");
-            logoImgTag.setAttribute("src", `images/${p}.jpg`);
-            logoImgTag.setAttribute("alt", `${portfolio[p].name}`);
-            logoCell.appendChild(logoImgTag);
-
-            const urlATag = document.createElement("a");
-            urlATag.setAttribute("href", portfolio[p].url);
-            urlATag.setAttribute("alt", `${portfolio[p].name}`);
-            urlATag.innerHTML = portfolio[p].url;
-            urlCell.appendChild(urlATag);
-
-            descriptionCell.innerHTML = portfolio[p].description;
-        }
     }
 }

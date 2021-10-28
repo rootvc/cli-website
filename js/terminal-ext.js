@@ -126,7 +126,8 @@ extend = (term) => {
     term.reset();
     term.printLogoType();
     term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
-    term.stylePrint(`Type ${colorText("help", "command")} to get started.`);
+    term.stylePrint(`Type ${colorText("help", "command")} to get started, or type ${colorText("web", "command")} to see our website. (Not recommended)`);
+
     term.user = user;
     if (!preserveHistory) {
       term.history = [];

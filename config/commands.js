@@ -347,7 +347,12 @@ const commands = {
   },
 
   open: function(args) {
-    term.command(`cat ${args.join(" ")}`);
+    if (args[0].split(".")[1] == "htm") {
+      console.log(args[0]);
+      term.openURL(`./${args[0]}`);
+    } else {
+      term.command(`cat ${args.join(" ")}`);
+    }
   },
 
   more: function(args) {
