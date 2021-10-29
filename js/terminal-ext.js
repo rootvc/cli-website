@@ -46,7 +46,7 @@ extend = (term) => {
     }
   }
 
-  term.stylePrint = (text) => {
+  term.stylePrint = (text, wrap = true) => {
     // Hyperlinks
     const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
     const urlMatches = text.matchAll(urlRegex);
@@ -57,7 +57,7 @@ extend = (term) => {
     }
 
     // Text Wrap
-    if (allowWrapping) { 
+    if (allowWrapping && wrap) { 
       text = _wordWrap(text, Math.min(term.cols, 76));
     }
 
@@ -83,10 +83,15 @@ extend = (term) => {
     term.writeln(term.cols >= 40 ? LOGO_TYPE : "[Root Ventures]\r\n");
   }
 
-  term.openURL = (url) => {
+  term.openURL = (url, newWindow = true) => {
     term.stylePrint(`Opening ${url}`);
     if (term._initialized) {
-      window.open(url, "_blank");
+      console.log(newWindow);
+      if (newWindow) {
+        window.open(url, "_blank");
+      } else {
+        window.location.href = url;
+      }
     }
   }
 
@@ -126,8 +131,7 @@ extend = (term) => {
     term.reset();
     term.printLogoType();
     term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
-    term.stylePrint(`Type ${colorText("help", "command")} to get started.`);
-    term.stylePrint(`Or type ${colorText("web", "command")} to see our website (Not recommended.)`);
+    term.stylePrint(`Type ${colorText("help", "command")} to get started. Or type ${colorText("exit", "command")} for web version.`, false);
 
     term.user = user;
     if (!preserveHistory) {

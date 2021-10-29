@@ -44,7 +44,7 @@ function buildGeoPage() {
         descriptionCell.setAttribute("class", "team-description");
 
         const photoImgTag = document.createElement("img");
-        photoImgTag.setAttribute("src", `images/${t}.png`);
+        photoImgTag.setAttribute("src", `images/geo/${t}2.jpg`);
         photoImgTag.setAttribute("alt", `${team[t].name}`);
         photoCell.appendChild(photoImgTag);
 

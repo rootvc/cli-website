@@ -348,8 +348,7 @@ const commands = {
 
   open: function(args) {
     if (args[0].split(".")[1] == "htm") {
-      console.log(args[0]);
-      term.openURL(`./${args[0]}`);
+      term.openURL(`./${args[0]}`, false);
     } else {
       term.command(`cat ${args.join(" ")}`);
     }
@@ -496,20 +495,12 @@ const commands = {
     }
   },
 
-  exit: function() {
-    window.removeEventListener("resize", term.resizeListener);
-    term.reset();
-    term.write("Thanks for playing. Come back soon!");
-    term._initialized = false;
-    return 1;
-  },
-
   quit: function() {
     term.command("exit");
   },
 
   stop: function() {
-    term.stylePrint("Can't stop, won't stop");
+    term.command("exit");
   },
 
   whoami: function() {
@@ -557,7 +548,7 @@ const commands = {
     term.command("ps");
   },
 
-  web: function() {
+  exit: function() {
     term.command("open welcome.htm");
   },
 
