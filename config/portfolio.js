@@ -262,7 +262,7 @@ const portfolio = {
     description: "Zed is a fully-native desktop code editor focused on high performance, clean design, and seamless collaboration.",
   },
 
-    zed: {
+  kayhan: {
     name: "Kayhan",
     url: "https://kayhan.space",
     description: "Kayhan’s spaceflight operations platform allows satellite operators to focus on their core mission.",
