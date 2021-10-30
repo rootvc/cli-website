@@ -14,21 +14,33 @@ function buildGeoPage() {
         logoCell.setAttribute("class", "portfolio-photo");
         descriptionCell.setAttribute("class", "portfolio-description");
 
+        // <img> of company logo
         const logoImgTag = document.createElement("img");
         logoImgTag.setAttribute("src", `images/${p}.jpg`);
         logoImgTag.setAttribute("alt", `${portfolio[p].name}`);
-        logoCell.appendChild(logoImgTag);
 
         if (portfolio[p].url != "(inactive)") {
+            // add logo w company link to table
+            const logoLinkImgTag = document.createElement("a");
+            logoLinkImgTag.setAttribute("href", portfolio[p].url);
+            logoLinkImgTag.setAttribute("target", `_blank`);
+            logoLinkImgTag.setAttribute("alt", `${portfolio[p].name}`);
+            logoLinkImgTag.appendChild(logoImgTag);
+            logoCell.appendChild(logoLinkImgTag);
+
+            // add company URL to table
             const urlATag = document.createElement("a");
             urlATag.setAttribute("href", portfolio[p].url);
             urlATag.setAttribute("alt", `${portfolio[p].name}`);
             urlATag.innerHTML = portfolio[p].url;
-            urlCell.appendChild(urlATag);
-        } else {
+            urlCell.appendChild(urlATag);            
+        } else { // inactive company doesn't have links
+            logoCell.appendChild(logoImgTag);
+
             urlCell.innerHTML = portfolio[p].url;
         }
         
+        // add company description to table
         descriptionCell.innerHTML = portfolio[p].description;
     }
 
