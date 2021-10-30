@@ -247,7 +247,7 @@ const portfolio = {
   sixwheel: {
     name: "SixWheel",
     url: "https://sixwheel.com",
-    description: "SixWheel brings autonomy and electrification to long haul trukcing operations.",
+    description: "SixWheel brings autonomy and electrification to long haul trucking operations.",
   },
 
   radical: {
