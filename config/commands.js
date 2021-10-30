@@ -398,6 +398,10 @@ const commands = {
     term.command(`curl ${args.join(" ")}`);
   },
 
+  scp: function(args) {
+    term.stylePrint(`████████████ Request Blocked: The ███████████ Policy disallows reading the ██████ resource ${args[0]}.`);
+  },
+
   rm: function() {
     term.stylePrint("I can't let you do that, Dave");
   },
