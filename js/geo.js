@@ -32,6 +32,7 @@ function buildGeoPage() {
             const urlATag = document.createElement("a");
             urlATag.setAttribute("href", portfolio[p].url);
             urlATag.setAttribute("alt", `${portfolio[p].name}`);
+            urlATag.setAttribute("target", "_blank");
             urlATag.innerHTML = portfolio[p].url;
             urlCell.appendChild(urlATag);            
         } else { // inactive company doesn't have links
