@@ -6,4 +6,3 @@ persistentVolume:
   enabled: false
 sync:
   - .:/usr/src
-workdir: /usr/src
