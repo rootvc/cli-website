@@ -1,10 +1,7 @@
 name: cli-website
-autocreate: true
-command: netlify dev
+command: npm start
 forward:
-- 8888:80
-image: okteto.dev/netlify
-interface: 0.0.0.0
+- 8080:8888
 persistentVolume:
   enabled: false
 sync:

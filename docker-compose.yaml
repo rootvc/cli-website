@@ -1,0 +1,6 @@
+services:
+  cli-website:
+    image: okteto.dev/cli-website
+    build: .
+    ports:
+    - 8888:8888
