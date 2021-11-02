@@ -5,7 +5,7 @@ WORKDIR /usr/src
 ADD package.json .
 RUN npm install
 
-# COPY ./* /usr/src/
+COPY . /usr/src/
 
 RUN npm run build
 
