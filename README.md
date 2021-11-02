@@ -88,4 +88,6 @@ Live at: [https://root.vc](https://root.vc).
 
 Special thanks to [Jerry Neumann](https://www.linkedin.com/in/jerryneumann/) at [Neu Venture Capital](https://neuvc.com/) for the inspiration for this website concept.
 
+Thanks to the team at [divshot](https://www.divshot.com) for the awesome and hilarious [Geocities Bootstrap Theme](https://github.com/divshot/geo-bootstrap).
+
 _aut viam inveniam aut faciam_
