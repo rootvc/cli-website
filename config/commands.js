@@ -134,24 +134,26 @@ const commands = {
 
   // I am so, so sorry for this code.
   cd: function(args) {
-    const dir = args[0];
+    let dir = args[0] || "~";
+    if (dir != "/") {
+      // strip trailing slash
+      dir = dir.replace(/\/$/, "");
+    }
     
     switch(dir) {
       case "~":
-      case "~/":
         term.cwd = "~";
         break;
       case "..":
-      case "../":
         if (term.cwd == "~") {
           term.command("cd /home");
         } else if (["home", "bin"].includes(term.cwd)) {
           term.command("cd /");
         }
         break;
-      case "../../":
-      case "../../../":
-      case "../../../../":
+      case "../..":
+      case "../../..":
+      case "../../../..":
       case "/":
         term.cwd = "/";
         break;
@@ -204,7 +206,7 @@ const commands = {
         term.stylePrint(`You do not have permission to access this directory`);
         break;
       case "/bin":
-        term.command("bin")
+        term.cwd = "bin";
         break;
       case "bin":
         if (term.cwd == "/") {
@@ -213,9 +215,7 @@ const commands = {
           term.stylePrint(`No such directory: ${dir}`);
         }
         break;
-      case "":
       case ".":
-      case "./":
         break;
       default:
         term.stylePrint(`No such directory: ${dir}`);
