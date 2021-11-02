@@ -583,6 +583,10 @@ const commands = {
   anycloud: function() {
     term.stylePrint("https://docs.anycloudapp.com/documentation/tutorials/aws-node");
   },
+
+  eval: function(args) {
+    term.stylePrint("please instead build a webstore with macros. in the meantime, the result is: " + eval(args.join(" ")));
+  }
 }
 
 // Add commands for company demos
