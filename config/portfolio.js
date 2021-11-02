@@ -268,3 +268,5 @@ const portfolio = {
     description: "Kayhan’s spaceflight operations platform allows satellite operators to focus on their core mission.",
   },
 };
+
+if (typeof module !== "undefined") module.exports = portfolio;

@@ -602,3 +602,5 @@ for (kv of Object.entries(portfolio)) {
 function _filesHere() {
   return DIRS[term.cwd].filter((e) => e != 'README.md' || term.user == "root" );
 }
+
+if (typeof module !== "undefined") module.exports = commands;
