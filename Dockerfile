@@ -1,4 +1,4 @@
-FROM node:14-slim
+FROM okteto/node:14
 
 WORKDIR /usr/src
 
