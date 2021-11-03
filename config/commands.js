@@ -436,8 +436,8 @@ const commands = {
 
   find: function(args) {
     const file = args[0];
-    if (file == "id_rsa" || file == "readme.md") {
-      term.stylePrint(file);
+    if (Object.keys(_FILES).includes(file)) {
+      term.stylePrint(_FULL_PATHS[file]);
     } else {
       term.stylePrint(`%find%: ${file}: No such file or directory`);
     }
@@ -600,5 +600,5 @@ for (kv of Object.entries(portfolio)) {
 }
 
 function _filesHere() {
-  return DIRS[term.cwd].filter((e) => e != 'README.md' || term.user == "root" );
+  return _DIRS[term.cwd].filter((e) => e != 'README.md' || term.user == "root" );
 }

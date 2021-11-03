@@ -103,7 +103,7 @@ function runRootTerminal(term) {
           } else if (["man", "woman", "tldr"].includes(cmd)) {
             autocompleteArgs = Object.keys(portfolio).filter((f) => f.startsWith(rest));
           } else if (["cd"].includes(cmd)) {
-            autocompleteArgs = _filesHere().filter((dir) => dir.startsWith(rest) && !DIRS[term.cwd].includes(dir));
+            autocompleteArgs = _filesHere().filter((dir) => dir.startsWith(rest) && !_DIRS[term.cwd].includes(dir));
           }
 
           // do the autocompleting

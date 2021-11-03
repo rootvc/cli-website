@@ -7,12 +7,33 @@ const _REMOTE_FILES = {
   "welcome.htm": "https://raw.githubusercontent.com/rootvc/cli-website/main/welcome.htm",
 };
 
-const DIRS = {
+const _FILES = {
+  ..._LOCAL_FILES,
+  ..._REMOTE_FILES,
+}
+
+const _DIRS = {
   "~": ["id_rsa", "welcome.htm", "README.md"],
   "bin": ["zsh"],
   "home": Object.keys(team).concat("guest", "root").sort(),
   "/": ["bin", "home"],
 };
+
+let _FULL_PATHS = {};
+for (const [key, values] of Object.entries(_DIRS)) {
+  for (const value of values) {
+    switch (key) {
+      case "~":
+        _FULL_PATHS[value] = `${key}/${value}`;
+        break;
+      case "/":
+        _FULL_PATHS[value] = `/${value}`;
+        break;
+      default:
+        _FULL_PATHS[value] = `/${key}/${value}`;
+    }
+  }
+}
 
 function preloadFiles() {
   for (kv of Object.entries(_REMOTE_FILES)) {
