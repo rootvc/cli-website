@@ -180,7 +180,7 @@ const portfolio = {
 
   cloudastructure: {
     name: "Cloudastructure",
-    url: "https://cloudastructure.com",
+    url: "(inactive)",
     description: "Cloudastructure makes cloud-based Building Access Control.",
   },
 
