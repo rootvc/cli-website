@@ -52,7 +52,7 @@ extend = (term) => {
     const urlMatches = text.matchAll(urlRegex);
     let allowWrapping = true;
     for (match of urlMatches) {
-      allowWrapping = match[0].length < 76;
+      // allowWrapping = match[0].length < 76;
       text = text.replace(match[0], colorText(match[0], "hyperlink"));
     }
 
