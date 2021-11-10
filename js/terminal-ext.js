@@ -53,12 +53,8 @@ extend = (term) => {
     let allowWrapping = true;
     for (match of urlMatches) {
 
-      // don't stylePrint URLs
-      term.writeln(text);
-      return;
-
-      // allowWrapping = match[0].length < 76;
-      // text = text.replace(match[0], colorText(match[0], "hyperlink"));
+      allowWrapping = match[0].length < 76;
+      text = text.replace(match[0], colorText(match[0], "hyperlink"));
     }
 
     // Text Wrap
