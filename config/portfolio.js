@@ -267,4 +267,17 @@ const portfolio = {
     url: "https://kayhan.space",
     description: "Kayhan’s spaceflight operations platform allows satellite operators to focus on their core mission.",
   },
+  
+  allspice: {
+    name: "AllSpice",
+    url: "https://www.allspice.io/",
+    description: "A Git platform made for hardware.",
+  },
+  
+  quilter: {
+    name: "Quilter",
+    url: "https://www.quilter.ai/",
+    description: "Next generation of automated tools for electrical engineers.",
+  }
+  
 };
