@@ -271,13 +271,13 @@ const portfolio = {
   allspice: {
     name: "AllSpice",
     url: "https://www.allspice.io/",
-    description: "A Git platform made for hardware.",
+    description: "Collaboration and testing platform for hardware teams.",
   },
   
   quilter: {
     name: "Quilter",
     url: "https://www.quilter.ai/",
-    description: "Next generation of automated tools for electrical engineers.",
+    description: "Automated design tools for electrical engineers.",
   }
   
 };
