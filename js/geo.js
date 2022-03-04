@@ -70,4 +70,12 @@ function buildGeoPage() {
         titleCell.innerHTML = team[t].title;
         descriptionCell.innerHTML = team[t].description;
     }
+
+    comcastifyjs.letsPrepareTheseImages();
+    comcastifyjs.fixMyImagesLoadingSoFast({
+        boxColor: '#000000',
+        loadMaxPercent: 1.0,
+        loadSpeed: 800,
+        loadIncrement: 5
+    })();
 }

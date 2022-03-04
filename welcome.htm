@@ -46,25 +46,6 @@
 
       <script src="js/geo.js"></script>
       <script src="js/comcastify.js"></script>
-      <script type="text/javascript">
-        $(document).ready(function () {
-          $('#main_content').headsmart();
-
-          comcastifyjs.letsPrepareTheseImages();
-
-        });
-
-        $(window).load(function () {
-
-          comcastifyjs.fixMyImagesLoadingSoFast({
-            loadMaxPercent: 1.0,
-            loadSpeed: 400,
-            loadIncrement: 5,
-            boxColor: '#ece4d8'
-          })();
-
-        });
-      </script>
       <script src="config/portfolio.js"></script>
       <script src="config/team.js"></script>
       <script src="config/commands.js"></script>
@@ -94,6 +75,11 @@
         .hammertime {
           margin: 50px 0;
         }
+
+        td {
+          position: relative;
+        }
+
       </style>
 
     </head>
