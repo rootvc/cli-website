@@ -282,7 +282,7 @@ const portfolio = {
 
   adept: {
     name: "Adept",
-    url: "https://www.adept.ai",
+    url: "https://adept.ai",
     description: "Useful general intelligence.",
   }
   
