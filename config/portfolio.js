@@ -270,13 +270,13 @@ const portfolio = {
   
   allspice: {
     name: "AllSpice",
-    url: "https://www.allspice.io",
+    url: "https://allspice.io",
     description: "Collaboration and testing platform for hardware teams.",
   },
   
   quilter: {
     name: "Quilter",
-    url: "https://www.quilter.ai",
+    url: "https://quilter.ai",
     description: "Automated design tools for electrical engineers.",
   },
 
