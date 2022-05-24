@@ -278,6 +278,12 @@ const portfolio = {
     name: "Quilter",
     url: "https://www.quilter.ai/",
     description: "Automated design tools for electrical engineers.",
+  },
+
+  adept: {
+    name: "Adept",
+    url: "https://www.adept.ai/",
+    description: "Useful general intelligence.",
   }
   
 };
