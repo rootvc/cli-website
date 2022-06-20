@@ -139,8 +139,8 @@ const commands = {
       // strip trailing slash
       dir = dir.replace(/\/$/, "");
     }
-    
-    switch(dir) {
+
+    switch (dir) {
       case "~":
         term.cwd = "~";
         break;
@@ -247,7 +247,7 @@ const commands = {
     if (filename == "id_rsa") {
       term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
     }
-    
+
     if (!q || !filename) {
       term.stylePrint("usage: %grep% [pattern] [filename]");
       return;
@@ -258,7 +258,7 @@ const commands = {
       const matches = file.matchAll(q);
       for (match of matches) {
         file = file.replaceAll(match[0], colorText(match[0], "files"));
-      } 
+      }
       term.writeln(file);
     } else {
       term.stylePrint(`No such file or directory: ${filename}`);
@@ -268,7 +268,7 @@ const commands = {
   finger: function(args) {
     const user = args[0];
 
-    switch(user) {
+    switch (user) {
       case 'guest':
         term.stylePrint("Login: guest            Name: Guest");
         term.stylePrint("Directory: /home/guest  Shell: /bin/zsh");
@@ -295,7 +295,7 @@ const commands = {
   groups: function(args) {
     const user = args[0];
 
-    switch(user) {
+    switch (user) {
       case 'guest':
         term.stylePrint("guest lps founders engineers investors");
         break;
@@ -536,7 +536,7 @@ const commands = {
   },
 
   uname: function(args) {
-    switch(args[0]) {
+    switch (args[0]) {
       case "-a":
         term.stylePrint("RootPC rootpc 0.0.1 RootPC Kernel Version 0.0.1 root:xnu-31415.926.5~3/RELEASE_X86_64 x86_64");
         break;
@@ -586,6 +586,31 @@ const commands = {
 
   eval: function(args) {
     term.stylePrint("please instead build a webstore with macros. in the meantime, the result is: " + eval(args.join(" ")));
+  },
+
+  upgrade: async function(args) {
+    const timeUnit = 1000; // useful for development, set to 10 to run faster, set to 1000 for production
+    term.VERSION = 3;
+    term.init();
+    term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/rootvc/manifests/3.0.0`);
+    await term.progressBar(4 * timeUnit);
+    term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/go/blobs/sha256:51869c798355307b59992918e9a595c53072d7a29458dbe5b8d105b63d3dd1c0`);
+    await term.progressBar(2 * timeUnit);
+    term.write(`\r\n${colorText("==>", "hyperlink")} Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:51869c798355307b59992918e9a595c53072d7a29458dbe5b8d105b6`);
+    await term.progressBar(1 * timeUnit);
+    await term.delayStylePrint("\r\n", 1 * timeUnit);
+    await term.dottedPrint('Calculating new fund size', 3);
+    await term.delayPrint(`Updated fund size:          ${colorText("$150M", "prompt")}\r\n`, 1 * timeUnit);
+    await term.delayPrint(`Updated typical check size: ${colorText("$2-3M", "prompt")}\r\n`, 1 * timeUnit);
+    await term.delayPrint(`Found mission:              ${colorText("Seeding bold engineers.", "user")}\r\n`, 1 * timeUnit);
+    await term.delayPrint(`Thesis unchanged:           ${colorText("Investing at the earliest stages of technical founders taking engineering risk.", "user")}\r\n`, 1 * timeUnit);
+    await term.delayPrint(`Required dependencies:      ${colorText("New founders.", "user")}\r\n`, 1 * timeUnit);
+
+    await term.delayStylePrint(`\r\n${colorText("You are now running Root Ventures version 3.0.", "hyperlink")}\r\n`, 1 * timeUnit);
+    await term.delayPrint("Note that VERSION 3.0 is an unstable build of the terminal.\r\n", 1 * timeUnit);
+    await term.delayPrint("Please report any bugs you find.\r\n", 1 * timeUnit);
+
+    term.prompt();
   }
 }
 
@@ -600,5 +625,5 @@ for (kv of Object.entries(portfolio)) {
 }
 
 function _filesHere() {
-  return _DIRS[term.cwd].filter((e) => e != 'README.md' || term.user == "root" );
+  return _DIRS[term.cwd].filter((e) => e != 'README.md' || term.user == "root");
 }

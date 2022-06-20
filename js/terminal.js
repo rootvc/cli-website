@@ -14,17 +14,20 @@ function runRootTerminal(term) {
     if (term._initialized) {
       switch (e) {
         case '\r': // Enter
-          term.writeln("");
-          var status;
+          var exitStatus;
+          term.currentLine = term.currentLine.trim();
+          const tokens = term.currentLine.split(" ");
+          const cmd = tokens.shift();
+          const args = tokens.join(" ");
+
+          if (cmd != 'upgrade') {
+            term.writeln("");
+          }
 
           if (term.currentLine.length > 0) {
             term.history.push(term.currentLine);
-            term.currentLine = term.currentLine.trim();
-            status = term.command(term.currentLine);
+            exitStatus = term.command(term.currentLine);
 
-            const tokens = term.currentLine.split(" ");
-            const cmd = tokens.shift();
-            const args = tokens.join(" ");
             window.dataLayer = window.dataLayer || [];
             window.dataLayer.push({
               "event": "commandSent",
@@ -33,7 +36,7 @@ function runRootTerminal(term) {
             });
           }
 
-          if (status != 1) {
+          if (exitStatus != 1 && cmd != 'upgrade') {
             term.prompt();
             term.clearCurrentLine(true);
           }
@@ -59,14 +62,14 @@ function runRootTerminal(term) {
           }
           break;
         case '\033[A': // up
-          var h = [... term.history].reverse();
+          var h = [...term.history].reverse();
           if (term.historyCursor < h.length - 1) {
             term.historyCursor += 1;
             term.setCurrentLine(h[term.historyCursor], false);
           }
           break;
         case '\033[B': // down
-          var h = [... term.history].reverse();
+          var h = [...term.history].reverse();
           if (term.historyCursor > 0) {
             term.historyCursor -= 1;
             term.setCurrentLine(h[term.historyCursor], false);
@@ -85,7 +88,7 @@ function runRootTerminal(term) {
           }
           break;
         case '\t': // tab
-          const cmd = term.currentLine.split(" ")[0];
+          cmd = term.currentLine.split(" ")[0];
           const rest = term.currentLine.slice(cmd.length).trim();
           const autocompleteCmds = Object.keys(commands).filter((c) => c.startsWith(cmd));
           var autocompleteArgs;
@@ -136,6 +139,7 @@ function colorText(text, color) {
     "hyperlink": "\x1b[1;34m",
     "user": "\x1b[1;33m",
     "prompt": "\x1b[1;32m",
+    "bold": "\x1b[1;37m"
   }
   return `${colors[color] || ""}${text}\x1b[0;38m`;
 }
