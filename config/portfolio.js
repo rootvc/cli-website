@@ -257,7 +257,7 @@ const portfolio = {
   },
 
   zed: {
-    name: "zed",
+    name: "Zed",
     url: "https://zed.dev",
     description: "Zed is a fully-native desktop code editor focused on high performance, clean design, and seamless collaboration.",
   },
@@ -284,6 +284,18 @@ const portfolio = {
     name: "Adept",
     url: "https://adept.ai",
     description: "Useful general intelligence.",
+  },
+  
+  aperture: {
+    name: "Aperture Data",
+    url: "https://aperturedata.io",
+    description: "Aperture manage images and videos with a database purpose-built for data science and machine learning."
+  },
+  
+  supertokens: {
+    name: "SuperTokens",
+    url: "https://supertokens.io",
+    description: "SuperTokens is the best Open Source solution for user authentication."
   }
   
 };
