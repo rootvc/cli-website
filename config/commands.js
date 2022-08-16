@@ -605,13 +605,32 @@ const commands = {
     await term.delayPrint(`Found mission:              ${colorText("Seeding bold engineers.", "user")}\r\n`, 1 * timeUnit);
     await term.delayPrint(`Thesis unchanged:           ${colorText("Investing at the earliest stages of technical founders taking engineering risk.", "user")}\r\n`, 1 * timeUnit);
     await term.delayPrint(`Required dependencies:      ${colorText("New founders.", "user")}\r\n`, 1 * timeUnit);
+    await term.delayPrint(`Updating cron:              ${colorText("Missing 1 job. Try", "user")} ${colorText("crontab -e", "command")}${colorText(".", "user")}\r\n`, 1 * timeUnit);
 
-    await term.delayStylePrint(`\r\n${colorText("You are now running Root Ventures version 3.0.", "hyperlink")}\r\n`, 1 * timeUnit);
+    await term.delayPrint(`\r\n${colorText("You are now running Root Ventures version 3.0.", "hyperlink")}\r\n`, 1 * timeUnit);
     await term.delayPrint("Note that VERSION 3.0 is an unstable build of the terminal.\r\n", 1 * timeUnit);
     await term.delayPrint("Please report any bugs you find.\r\n", 1 * timeUnit);
 
     term.prompt();
+  },
+
+  crontab: async function(args) {
+    if (args == '-e') {
+      term.stylePrint("\r\n0 0 0 1 1 ? 2016/3 echo New version of Root Ventures detected. Please upgrade your terminal with upgrade.\r\n");
+      term.stylePrint("Root Ventures jobs available. Apply with %apply%.");
+      term.stylePrint("Job description goes here.");
+    } else {
+      term.stylePrint("Unrecognized option.");
+    }
+  },
+
+  apply: async function(args) {
+    const email = "apply-cli@root.vc";
+    const subject = "Applying to the open job at Root Ventures!";
+    const body = "Wow! I love your website. It's so cool. I definitely want to work with this awesome team. Here's my resume."
+    location.href = `mailto:${email}?subject=${subject}&body=${body}`;
   }
+
 }
 
 // Add commands for company demos
