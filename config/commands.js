@@ -588,13 +588,13 @@ const commands = {
     term.stylePrint("please instead build a webstore with macros. in the meantime, the result is: " + eval(args.join(" ")));
   },
 
-  upgrade: async function(args) {
+  upgrade: async function() {
     const timeUnit = 1000; // useful for development, set to 10 to run faster, set to 1000 for production
     term.VERSION = 3;
     term.init();
     term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/rootvc/manifests/3.0.0`);
     await term.progressBar(4 * timeUnit);
-    term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/go/blobs/sha256:51869c798355307b59992918e9a595c53072d7a29458dbe5b8d105b63d3dd1c0`);
+    term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/rust/blobs/sha256:51869c798355307b59992918e9a595c53072d7a29458dbe5b8d105b63d3dd1c0`);
     await term.progressBar(2 * timeUnit);
     term.write(`\r\n${colorText("==>", "hyperlink")} Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:51869c798355307b59992918e9a595c53072d7a29458dbe5b8d105b6`);
     await term.progressBar(1 * timeUnit);
@@ -605,32 +605,47 @@ const commands = {
     await term.delayPrint(`Found mission:              ${colorText("Seeding bold engineers.", "user")}\r\n`, 1 * timeUnit);
     await term.delayPrint(`Thesis unchanged:           ${colorText("Investing at the earliest stages of technical founders taking engineering risk.", "user")}\r\n`, 1 * timeUnit);
     await term.delayPrint(`Required dependencies:      ${colorText("New founders.", "user")}\r\n`, 1 * timeUnit);
-    await term.delayPrint(`Updating cron:              ${colorText("Missing 1 job. Try", "user")} ${colorText("crontab -e", "command")}${colorText(".", "user")}\r\n`, 1 * timeUnit);
+    await term.delayStylePrint(`Updating jobs:              Found 2 new jobs. Use %jobs% to learn more.`, 1 * timeUnit);
 
     await term.delayPrint(`\r\n${colorText("You are now running Root Ventures version 3.0.", "hyperlink")}\r\n`, 1 * timeUnit);
+    await term.delayStylePrint("Read more here: https://medium.com/rootvc/fund-3", 1 * timeUnit);
     await term.delayPrint("Note that VERSION 3.0 is an unstable build of the terminal.\r\n", 1 * timeUnit);
     await term.delayPrint("Please report any bugs you find.\r\n", 1 * timeUnit);
 
     term.prompt();
   },
 
-  crontab: async function(args) {
-    if (args == '-e') {
-      term.stylePrint("\r\n0 0 0 1 1 ? 2016/3 echo New version of Root Ventures detected. Please upgrade your terminal with upgrade.\r\n");
-      term.stylePrint("Root Ventures jobs available. Apply with %apply%.");
-      term.stylePrint("Job description goes here.");
+  jobs: function() {
+    term.stylePrint(`[1]   Running                 analyst &`);
+    term.stylePrint(`[2]   Running                 hacker &`);
+    term.stylePrint("\r\nUse %fg% [id] to see details of a job. (Yes, we know that's not exactly how %jobs% works, but bear with us.");
+  },
+
+  bg: function(args) {
+    term.stylePrint(`Sorry. If you want to background one of these jobs, you'll need to help us fill it. Try %fg% ${args} instead.`);
+  },
+
+  fg: function(args) {
+    if (args == '1') {
+      term.stylePrint(`
+        `);
+      term.stylePrint("Use %apply% [id] to apply!");
+    } else if (args == '2') {
+      term.stylePrint(`
+        `);
+      term.stylePrint("Use %apply% [id] to apply!");
     } else {
-      term.stylePrint("Unrecognized option.");
+      term.stylePrint(`Job id: ${args} not found.`);
     }
   },
 
-  apply: async function(args) {
-    const email = "apply-cli@root.vc";
-    const subject = "Applying to the open job at Root Ventures!";
-    const body = "Wow! I love your website. It's so cool. I definitely want to work with this awesome team. Here's my resume."
+  apply: function(args) {
+    const email = "join@root.vc";
+    const role = (args == 2) ? "hacker in residence" : "analyst";
+    const subject = `Applying for ${role} at Root Ventures!`;
+    const body = "Wow! I love your website. It's so cool. I definitely want to work with this awesome team. Here's my resume.";
     location.href = `mailto:${email}?subject=${subject}&body=${body}`;
   }
-
 }
 
 // Add commands for company demos
