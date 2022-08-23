@@ -608,7 +608,7 @@ const commands = {
     await term.delayStylePrint(`Updating jobs:              Found 2 new jobs. Use %jobs% to learn more.`, 1 * timeUnit);
 
     await term.delayPrint(`\r\n${colorText("You are now running Root Ventures version 3.0.", "hyperlink")}\r\n`, 1 * timeUnit);
-    await term.delayStylePrint("Read more here: https://medium.com/rootvc/fund-3", 1 * timeUnit);
+    await term.delayStylePrint("Read more here: https://medium.com/@kane/root-ventures-fund-iii-ae11386f75bd", 1 * timeUnit);
     await term.delayPrint("Note that VERSION 3.0 is an unstable build of the terminal.\r\n", 1 * timeUnit);
     await term.delayPrint("Please report any bugs you find.\r\n", 1 * timeUnit);
 
@@ -618,7 +618,7 @@ const commands = {
   jobs: function() {
     term.stylePrint(`[1]   Running                 analyst &`);
     term.stylePrint(`[2]   Running                 hacker &`);
-    term.stylePrint("\r\nUse %fg% [id] to see details of a job. (Yes, we know that's not exactly how %jobs% works, but bear with us.");
+    term.stylePrint("\r\nUse %fg% [id] to see details of a job.\r\n(Yes, we know that's not exactly how %jobs% works, but bear with us.");
   },
 
   bg: function(args) {
@@ -626,16 +626,13 @@ const commands = {
   },
 
   fg: function(args) {
-    if (args == '1') {
-      term.stylePrint(`
-        `);
-      term.stylePrint("Use %apply% [id] to apply!");
-    } else if (args == '2') {
-      term.stylePrint(`
-        `);
-      term.stylePrint("Use %apply% [id] to apply!");
+    const job = jobs[args];
+
+    if (job) {
+      job.map(line => term.stylePrint(line));
+      term.stylePrint(`\r\n%apply% ${args} to apply!`);
     } else {
-      term.stylePrint(`Job id: ${args} not found.`);
+      term.stylePrint(`job id ${args} not found.`);
     }
   },
 
