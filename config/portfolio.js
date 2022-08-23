@@ -148,9 +148,9 @@ const portfolio = {
   },
 
   thread: {
-    name: "Thread",
-    url: "https://threadfertility.com",
-    description: "Thread improves fertility outcomes using advanced automation.",
+    name: "Oma Fertility",
+    url: "https://omafertility.com/",
+    description: "Oma improves fertility outcomes through advanced automation.",
   },
 
   sensable: {
@@ -176,12 +176,6 @@ const portfolio = {
     name: "Mashgin",
     url: "https://mashgin.com",
     description: "Mashgin automates self-checkout.",
-  },
-
-  cloudastructure: {
-    name: "Cloudastructure",
-    url: "(inactive)",
-    description: "Cloudastructure makes cloud-based Building Access Control.",
   },
 
   creator: {
@@ -214,12 +208,6 @@ const portfolio = {
     description: "Cape Networks allows IT professionals to monitor, text, and repair enterprise networks remotely.",
   },
 
-  loom: {
-    name: "Loom",
-    url: "(inactive)",
-    description: "Loom enables the rapid deployment and reconfiguration of industrial robots.",
-  },
-
   plethora: {
     name: "Plethora",
     url: "https://plethora.com",
@@ -236,12 +224,6 @@ const portfolio = {
     name: "Righthook",
     url: "https://righthook.io",
     description: "Righthook reduces the time and cost required to develop autonomous vehicles.",
-  },
-
-  mimeo: {
-    name: "Mimeo Labs",
-    url: "(inactive)",
-    description: "Mimeo Labs improves the quality of life for breastfeeding mothers.",
   },
 
   sixwheel: {
