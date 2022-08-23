@@ -7,14 +7,14 @@ const jobs = {
 
     "\r\nAbout the job:",
     "* Diligence new investment opportunities, drive expert interviews, write investment memos, and discuss deals in weekly partner meetings.",
-    "* Support the Root portfolio with recruiting, sales, financing, and ad - hoc projects.",
+    "* Support the Root portfolio with recruiting, sales, financing, and ad-hoc projects.",
     "* Grow our network and represent Root Ventures at social and industry events.",
-    "* Manage fund operations: learn how VCs work beneath the hood and help us identify opportunities to improve our operations—then spec and build the solutions.",
-    "* Work on ongoing internal engineering projects.This year's: restoring a retro vending machine.",
+    "* Manage fund operations: learn how VCs work beneath the hood and help us identify opportunities to improve our operations, then spec and build the solutions.",
+    "* Work on ongoing internal engineering projects. This year's: restoring a retro vending machine.",
 
     "\r\nAbout you:",
     "* Is curious and opinionated about new technologies and entrepreneurship.",
-    "* Thrives in an unstructured work environment; independent and self - motivated.Prefers action over asking.",
+    "* Thrives in an unstructured work environment; independent and self-motivated. Prefers action over asking.",
     "* Enjoys diving into new technologies and markets with firsthand experimentation. “Hello world”-s the crap out of things.",
     "* Eager and comfortable meeting with founders, investors, and operators on a daily basis.",
     "* Strong existing ties to the engineering and / or startup community is a plus.",
@@ -22,7 +22,7 @@ const jobs = {
     "\r\nJob qualifications:",
     "* Technical studies in school and / or active contributions to technical communities.",
     "* Strong communication and analytical skills.",
-    "* 1 - 2 years work experience(internships count).",
+    "* 1-2 years work experience(internships count).",
 
     "\r\nIf you think you'd enjoy working here, shoot us a note with a resume and tell us about a favorite side project you've worked on or want to work on."
   ],
@@ -43,7 +43,7 @@ const jobs = {
     "\r\nAbout you:",
     "* Capable of figuring out and writing all kinds of software. (But you don't have to be a proficient expert on all, or any, of it!)",
     "* Curious and opinionated about new technologies and entrepreneurship.",
-    "* Thrives in an unstructured work environment; independent and self - motivated.Prefers action over asking.",
+    "* Thrives in an unstructured work environment; independent and self-motivated. Prefers action over asking.",
     "* Enjoys diving into new technologies and markets with firsthand experimentation. “Hello world”-s the crap out of things.",
     "* Strong existing ties to the engineering and / or startup community is a plus.",
 
