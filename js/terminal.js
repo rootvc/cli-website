@@ -5,13 +5,14 @@ function runRootTerminal(term) {
 
   term.init();
   term._initialized = true;
+  term.locked = false;
   term.runDeepLink();
   term.prompt();
 
   window.addEventListener("resize", term.resizeListener);
 
   term.onData(e => {
-    if (term._initialized) {
+    if (term._initialized && !term.locked) {
       switch (e) {
         case '\r': // Enter
           var exitStatus;

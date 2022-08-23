@@ -437,6 +437,8 @@ const commands = {
   },
 
   easterbunny: async function(args) {
+    term.locked = true;
+
     if (killed) {
       if (term.VERSION != 3) {
         term.stylePrint("%easterbunny% only available in version 3.0. Use %upgrade% to upgrade.");
@@ -460,6 +462,7 @@ const commands = {
         term.writeln(data.status);
 
         term.prompt();
+        term.locked = false;
       }
     } else {
       // lol
@@ -638,6 +641,8 @@ const commands = {
   upgrade: async function() {
     term.VERSION = 3;
     term.init();
+    term.locked = true;
+
     term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/rootvc/manifests/3.0.0`);
     await term.progressBar(4 * timeUnit);
     term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/rust/blobs/sha256:51869c798355307b59992918e9a595c53072d7a29458dbe5b8d105b63d3dd1c0`);
@@ -660,6 +665,7 @@ const commands = {
     await term.delayPrint("Please report any bugs you find.\r\n", 1 * timeUnit);
 
     term.prompt();
+    term.locked = false;
   },
 
   jobs: function() {
