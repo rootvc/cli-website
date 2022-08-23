@@ -147,7 +147,7 @@ const portfolio = {
     description: "Coral is the best, easiest manicure.",
   },
 
-  thread: {
+  oma_fertility: {
     name: "Oma Fertility",
     url: "https://omafertility.com/",
     description: "Oma improves fertility outcomes through advanced automation.",
