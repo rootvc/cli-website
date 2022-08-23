@@ -3,7 +3,7 @@ const jobs = {
     "We're hiring an Analyst!",
 
     "\r\nRoot Ventures is a $325M Seed VC based in San Francisco. We invest in technical teams at the earliest stages, focusing on founders building products at the frontier of technology and founders building the tools to make it all possible.",
-    "As an Analyst, you'll play a critical role at Root: researching new markets, diligencing potential investments, supporting portfolio companies, and managing fund operations. We're a team of engineers and tinkerers, so you'll also be helping us with our constant office improvement projects.",
+    "\r\nAs an Analyst, you'll play a critical role at Root: researching new markets, diligencing potential investments, supporting portfolio companies, and managing fund operations. We're a team of engineers and tinkerers, so you'll also be helping us with our constant office improvement projects.",
 
     "\r\nAbout the job:",
     "* Diligence new investment opportunities, drive expert interviews, write investment memos, and discuss deals in weekly partner meetings.",
@@ -31,7 +31,6 @@ const jobs = {
     "We're hiring a Hacker in Residence!",
 
     "\r\nRoot Ventures is a $325M Seed VC based in San Francisco. We invest in technical teams at the earliest stages, focusing on founders building products at the frontier of technology and founders building the tools to make it all possible.",
-    "As an Analyst, you'll play a critical role at Root: researching new markets, diligencing potential investments, supporting portfolio companies, and managing fund operations. We're a team of engineers and tinkerers, so you'll also be helping us with our constant office improvement projects.",
 
     "\r\nAbout the job:",
     "* Hack on some fun and useful (and not so useful) internal projects like the website, cocktail bar ordering app for parties, NFC coasters.",
