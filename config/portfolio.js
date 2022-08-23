@@ -86,6 +86,12 @@ const portfolio = {
     url: "https://serveautomation.com",
     description: "Serve Automation is building fully automated food production systems.",
   },
+  
+  sequence: {
+    name: "Sequence",
+    url: "https://sequence.film",
+    description: "Sequence is a new real-time, collaborative, browser-based video editor."
+  },
 
   versatile: {
     name: "Versatile",
