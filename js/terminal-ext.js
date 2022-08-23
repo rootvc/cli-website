@@ -1,6 +1,7 @@
 // TODO: make this a proper addon
 
 extend = (term) => {
+  term.VERSION = term.VERSION || 2;
   term.currentLine = "";
   term.user = "guest";
   term.host = "rootpc";
@@ -11,7 +12,7 @@ extend = (term) => {
   term.historyCursor = -1;
   term.pos = () => term._core.buffer.x - term._promptRawText().length - 1;
   term._promptRawText = () => `${term.user}${term.sep}${term.host} ${term.cwd} $`;
-  term.deepLink = window.location.hash.replace("#","").split("-").join(" ");
+  term.deepLink = window.location.hash.replace("#", "").split("-").join(" ");
 
   term.promptText = () => {
     var text = term._promptRawText().replace(term.user, colorText(term.user, "user"))
@@ -20,6 +21,43 @@ extend = (term) => {
       .replace(term.cwd, colorText(term.cwd, "hyperlink"))
       .replace(term._promptChar, colorText(term._promptChar, "prompt"));
     return text;
+  }
+
+  term.timer = ms => new Promise(res => setTimeout(res, ms));
+
+  term.dottedPrint = async (phrase, n) => {
+    term.write(phrase);
+
+    for (let i = 0; i < n; i++) {
+      await term.delayPrint('.', 1000);
+    }
+    term.write("\r\n");
+  }
+
+  term.progressBar = async (t, msg) => {
+    var r;
+
+    if (msg) {
+      term.write(msg);
+    }
+    term.write("\r\n[");
+
+    for (let i = 0; i < term.cols / 2; i = i + 1) {
+      r = Math.round(Math.random() * t / 20);
+      t = t - r;
+      await term.delayPrint('█', r);
+    }
+    term.write("]\r\n");
+  }
+
+  term.delayPrint = async (str, t) => {
+    await term.timer(t);
+    term.write(str);
+  }
+
+  term.delayStylePrint = async (str, t, wrap) => {
+    await term.timer(t);
+    term.stylePrint(str, wrap);
   }
 
   term.prompt = (prefix = "\r\n", suffix = " ") => {
@@ -57,7 +95,7 @@ extend = (term) => {
     }
 
     // Text Wrap
-    if (allowWrapping && wrap) { 
+    if (allowWrapping && wrap) {
       text = _wordWrap(text, Math.min(term.cols, 76));
     }
 
@@ -67,7 +105,7 @@ extend = (term) => {
       const cmdMatches = text.matchAll(`%${cmd}%`);
       for (match of cmdMatches) {
         text = text.replace(match[0], colorText(cmd, "command"));
-      }  
+      }
     }
 
     term.writeln(text);
@@ -104,7 +142,7 @@ extend = (term) => {
     const cmd = parts[0].toLowerCase();
     const args = parts.slice(1, parts.length)
     const fn = commands[cmd];
-    if (typeof(fn) === "undefined") {
+    if (typeof (fn) === "undefined") {
       term.stylePrint(`Command not found: ${cmd}. Try 'help' to get started.`);
     } else {
       return fn(args);
@@ -130,8 +168,13 @@ extend = (term) => {
     preloadFiles();
     term.reset();
     term.printLogoType();
-    term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
-    term.stylePrint(`Type ${colorText("help", "command")} to get started. Or type ${colorText("exit", "command")} for web version.`, false);
+    if (term.VERSION == 2) {
+      term.stylePrint(`\n${colorText("New version of Root Ventures detected.", "user")}`);
+      term.stylePrint(`Please upgrade your terminal with ${colorText("upgrade", "command")}.`);
+    } else {
+      term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
+      term.stylePrint(`Type ${colorText("help", "command")} to get started. Or type ${colorText("exit", "command")} for web version.`, false);
+    }
 
     term.user = user;
     if (!preserveHistory) {
@@ -155,17 +198,17 @@ function _wordWrap(str, maxWidth) {
     found = false;
     // Inserts new line at first whitespace of the line
     for (i = maxWidth - 1; i >= 0; i--) {
-        if (_testWhite(str.charAt(i))) {
-            res = res + [str.slice(0, i), newLineStr].join('');
-            str = str.slice(i + 1);
-            found = true;
-            break;
-        }
+      if (_testWhite(str.charAt(i))) {
+        res = res + [str.slice(0, i), newLineStr].join('');
+        str = str.slice(i + 1);
+        found = true;
+        break;
+      }
     }
     // Inserts new line at maxWidth position, the word is too long to wrap
     if (!found) {
-        res += [str.slice(0, maxWidth), newLineStr].join('');
-        str = str.slice(maxWidth);
+      res += [str.slice(0, maxWidth), newLineStr].join('');
+      str = str.slice(maxWidth);
     }
   }
   return res + str;

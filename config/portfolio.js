@@ -165,11 +165,11 @@ const portfolio = {
     description: "Crux automates critical energy infrastructure.",
   },
 
-  alan: {
-    name: "Alan",
-    url: "https://alan-lang.org",
-    description: "Alan is a brand new programming language, runtime, and hosting environment that makes distributed computing as easy as local computing.",
-    demo: "https://docs.alan-lang.org/getting_started.html#writing-a-hello-world-example"
+  iasql: {
+    name: "IaSQL",
+    url: "https://iasql.com",
+    description: "IaSQL is the next evolution of infrastructure management, allowing you to manage your infra in a database instead of stateless config files.",
+    demo: "https://docs.iasql.com/"
   },
 
   mashgin: {
@@ -259,7 +259,7 @@ const portfolio = {
   zed: {
     name: "Zed",
     url: "https://zed.dev",
-    description: "Zed is a fully-native desktop code editor focused on high performance, clean design, and seamless collaboration.",
+    description: "Zed is a fully-native desktop code editor focused on high performance, clean design, and real-time collaboration.",
   },
 
   kayhan: {
@@ -296,6 +296,12 @@ const portfolio = {
     name: "SuperTokens",
     url: "https://supertokens.io",
     description: "SuperTokens is the best Open Source solution for user authentication."
+  },
+
+  fudge: {
+    name: "Fudge",
+    url: "https://fudge.ai",
+    description: "Fudge is the best way to speed up your website to improve conversion rates and increase revenue."
   }
   
 };
