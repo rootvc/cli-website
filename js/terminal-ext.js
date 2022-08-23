@@ -25,7 +25,7 @@ extend = (term) => {
 
   term.timer = ms => new Promise(res => setTimeout(res, ms));
 
-  term.dottedPrint = async (phrase, n, newline = false) => {
+  term.dottedPrint = async (phrase, n, newline = true) => {
     term.write(phrase);
 
     for (let i = 0; i < n; i++) {
