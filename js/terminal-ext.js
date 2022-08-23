@@ -25,13 +25,15 @@ extend = (term) => {
 
   term.timer = ms => new Promise(res => setTimeout(res, ms));
 
-  term.dottedPrint = async (phrase, n) => {
+  term.dottedPrint = async (phrase, n, newline = false) => {
     term.write(phrase);
 
     for (let i = 0; i < n; i++) {
       await term.delayPrint('.', 1000);
     }
-    term.write("\r\n");
+    if (newline) {
+      term.write("\r\n");
+    }
   }
 
   term.progressBar = async (t, msg) => {

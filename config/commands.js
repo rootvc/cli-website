@@ -1,4 +1,6 @@
 const whoisRoot = "Root Ventures is a hard tech seed fund in San Francisco with $150M AUM. We are engineers leading the first venture rounds for technical founders solving hard problems. Our typical check size is $1-2M. We don't mind leading, co-leading, or following. We aim to be your best partner and the investor who best understands your product and your technology. With 2/3 of our fund in reserve, we also want to be your longest term partner, investing in every round, and bridging between rounds when we have to. Try %whois% and one of avidan, kane, chrissy, lee, emily, or laelah to learn more about our team.";
+const timeUnit = 1000; // useful for development, set to 10 to run faster, set to 1000 for production
+let killed = false;
 
 const commands = {
   help: function() {
@@ -418,8 +420,51 @@ const commands = {
     term.stylePrint("Nice try. Just get a Dropbox");
   },
 
-  kill: function() {
-    term.stylePrint("Easy, killer");
+  kill: function(args) {
+    if (args && args.slice(-1) == 337) {
+      killed = true;
+      term.stylePrint("Phew! Thanks for killing that crypto miner process for us!");
+      term.stylePrint("As a thank you for your hard work, please have a special gift on us.");
+      term.stylePrint("\r\n%easterbunny% name email streetaddress zip\r\n");
+      term.stylePrint("One last thing though. We're going to need to you url encode each of those individual string parameters yourself. Sorry, the crypto miner used up all our resources. This is definitely not a test.")
+    } else {
+      term.stylePrint("You can't kill me!");
+    }
+  },
+
+  killall: function(args) {
+    term.command(`kill ${args.join(" ")}`);
+  },
+
+  easterbunny: async function(args) {
+    if (killed) {
+      if (term.VERSION != 3) {
+        term.stylePrint("%easterbunny% only available in version 3.0. Use %upgrade% to upgrade.");
+      } else if (args.length != 4) {
+        term.stylePrint("There should be 4 arguments: name email streetaddress zip (each url encoded).")
+      }
+      else {
+        const name = args[0];
+        const email = args[1];
+        const streetaddress = args[2];
+        const zip = args[3];
+
+        const url = `https://hooks.zapier.com/hooks/catch/36670/bzptdx5?Name=${name}&Email=${email}&Address=${streetaddress}&Zip=${zip}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        console.log(JSON.stringify(data));
+
+        term.write(`\r\n${colorText("==>", "hyperlink")} Requesting ${url}`);
+        await term.progressBar(1 * timeUnit);
+        await term.dottedPrint('\r\nRecording your info for a special prize', 3, false);
+        term.writeln(data.status);
+
+        term.prompt();
+      }
+    } else {
+      // lol
+      term.stylePrint(`Command not found: %easterbunny%. Try 'help' to get started.`);
+    }
   },
 
   locate: function() {
@@ -532,7 +577,9 @@ const commands = {
     term.stylePrint("424 ttys00 0:00.33 %-zsh%");
     term.stylePrint("158 ttys01 0:09.70 %/bin/npm start%");
     term.stylePrint("767 ttys02 0:00.02 %/bin/sh%");
-    term.stylePrint("337 ttys03 0:13.37 %/bin/cgminer -o pwn.d%");
+    if (!killed) {
+      term.stylePrint("337 ttys03 0:13.37 %/bin/cgminer -o pwn.d%");
+    }
   },
 
   uname: function(args) {
@@ -589,7 +636,6 @@ const commands = {
   },
 
   upgrade: async function() {
-    const timeUnit = 1000; // useful for development, set to 10 to run faster, set to 1000 for production
     term.VERSION = 3;
     term.init();
     term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/rootvc/manifests/3.0.0`);
@@ -608,7 +654,8 @@ const commands = {
     await term.delayStylePrint(`Updating jobs:              Found 2 new jobs. Use %jobs% to learn more.`, 1 * timeUnit);
 
     await term.delayPrint(`\r\n${colorText("You are now running Root Ventures version 3.0.", "hyperlink")}\r\n`, 1 * timeUnit);
-    await term.delayStylePrint("Read more here: https://medium.com/@kane/root-ventures-fund-iii-ae11386f75bd", 1 * timeUnit);
+    await term.delayStylePrint("Read more here:");
+    await term.delayStylePrint("https://medium.com/@kane/root-ventures-fund-iii-ae11386f75bd", 1 * timeUnit);
     await term.delayPrint("Note that VERSION 3.0 is an unstable build of the terminal.\r\n", 1 * timeUnit);
     await term.delayPrint("Please report any bugs you find.\r\n", 1 * timeUnit);
 
@@ -618,7 +665,8 @@ const commands = {
   jobs: function() {
     term.stylePrint(`[1]   Running                 analyst &`);
     term.stylePrint(`[2]   Running                 hacker &`);
-    term.stylePrint("\r\nUse %fg% [id] to see details of a job.\r\n(Yes, we know that's not exactly how %jobs% works, but bear with us.");
+    term.stylePrint("\r\nUse %fg% [id] to see details of a job.")
+    term.stylePrint("Yes, we know that's not exactly how %jobs% works, but close enough.");
   },
 
   bg: function(args) {
