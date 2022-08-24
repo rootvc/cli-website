@@ -11,6 +11,13 @@ const team = {
     description: "Before joining Root Ventures, Kane was founder and Head of Product at Brilliant Bicycle Co. He has also worked as an early-stage investor at RRE Ventures, a software engineer at Romotive, and a Project Manager at Microsoft. Kane has an AB in Computer Science from Harvard.",
     linkedin: "https://www.linkedin.com/in/kanehsieh/",
   },
+  "kevin": {
+    name: "Kevin Kwok",
+    title: "QSBS Ontologist",
+    description: "^_^",
+    linkedin: "https://kwokchain.com/"
+    
+  },
   "chrissy": {
     name: "Chrissy Meyer",
     title: "Partner",
