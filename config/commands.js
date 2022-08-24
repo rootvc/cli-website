@@ -643,6 +643,9 @@ const commands = {
     term.init();
     term.locked = true;
 
+    // small convenience method for changing spacing to newlines for mobile
+    const m = (str) => term.cols < 40 ? str.replaceAll(/\s\s+/g, "\r\n") : str;
+
     term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/rootvc/manifests/3.0.0`);
     await term.progressBar(4 * timeUnit);
     term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/rust/blobs/sha256:51869c798355307b59992918e9a595c53072d7a29458dbe5b8d105b63d3dd1c0`);
@@ -653,10 +656,10 @@ const commands = {
     await term.dottedPrint('Calculating new fund size', 3);
     await term.delayPrint(`Updated fund size:          ${colorText("$150M", "prompt")}\r\n`, 1 * timeUnit);
     await term.delayPrint(`Updated typical check size: ${colorText("$2-3M", "prompt")}\r\n`, 1 * timeUnit);
-    await term.delayPrint(`Found mission:              ${colorText("Seeding bold engineers.", "user")}\r\n`, 1 * timeUnit);
-    await term.delayPrint(`Thesis unchanged:           ${colorText("Investing at the earliest stages of technical founders taking engineering risk.", "user")}\r\n`, 1 * timeUnit);
-    await term.delayPrint(`Required dependencies:      ${colorText("New founders.", "user")}\r\n`, 1 * timeUnit);
-    await term.delayStylePrint(`Updating jobs:              Found 2 new jobs. Use %jobs% to learn more.`, 1 * timeUnit);
+    await term.delayPrint(m(`Found mission:              ${colorText("Seeding bold engineers.", "user")}\r\n`), 1 * timeUnit);
+    await term.delayPrint(m(`Thesis unchanged:           ${colorText("Investing at the earliest stages of technical founders taking engineering risk.", "user")}\r\n`), 1 * timeUnit);
+    await term.delayPrint(m(`Required dependencies:      ${colorText("New founders.", "user")}\r\n`), 1 * timeUnit);
+    await term.delayStylePrint(m(`Updating jobs:              Found 2 new jobs. Use %jobs% to learn more.`), 1 * timeUnit);
 
     await term.delayPrint(`\r\n${colorText("You are now running Root Ventures version 3.0.", "hyperlink")}\r\n`, 1 * timeUnit);
     await term.delayStylePrint("Read more here: https://bit.ly/rootvc-fund3", 1 * timeUnit);

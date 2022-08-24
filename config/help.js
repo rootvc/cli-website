@@ -11,6 +11,7 @@ const help = {
   "%git%": "this repo",
   "%github%": "all repos",
   "%locate%": "physical address",
+  "%jobs%": "check out our job openings",
   "%test%": "do not use",
   "%other%": "try your fav commands (e.g. %ls%, %groups%, %su%)"
 };
