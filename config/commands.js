@@ -667,6 +667,7 @@ const commands = {
     await term.delayPrint("Please report any bugs you find.\r\n", 1 * timeUnit);
 
     term.prompt();
+    term.clearCurrentLine();
     term.locked = false;
   },
 
