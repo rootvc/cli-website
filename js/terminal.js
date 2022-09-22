@@ -9,9 +9,7 @@ function runRootTerminal(term) {
   term.runDeepLink();
   term.prompt();
 
-  window.on('load', () => {
-    window.addEventListener("resize", term.resizeListener);
-  });
+  window.onload = (_) => { window.addEventListener("resize", term.resizeListener) };
 
   term.onData(e => {
     if (term._initialized && !term.locked) {
