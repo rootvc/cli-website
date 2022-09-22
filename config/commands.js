@@ -91,6 +91,10 @@ const commands = {
     term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
   },
 
+  swag: function() {
+    term.openURL("https://rootvc.creator-spring.com");
+  },
+
   email: function() {
     term.command("pine");
   },

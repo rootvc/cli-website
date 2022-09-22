@@ -16,6 +16,7 @@ Who needs a website when you have a terminal.
   - instagram: instagram account
   - git: this repo
   - github: all repos
+  - swag: rootvc store
   - test: do not use
   - other: try your favorite linux commands
 
