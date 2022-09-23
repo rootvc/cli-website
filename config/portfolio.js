@@ -208,18 +208,6 @@ const portfolio = {
     description: "Cape Networks allows IT professionals to monitor, text, and repair enterprise networks remotely.",
   },
 
-  plethora: {
-    name: "Plethora",
-    url: "https://plethora.com",
-    description: "Plethora is a manufacturing company that makes mechanical hardware iteration as efficient as software design iteration.",
-  },
-
-  prynt: {
-    name: "Prynt",
-    url: "https://prynt.co",
-    description: "Prynt is an augmented reality instant photo product.",
-  },
-
   righthook: {
     name: "Righthook",
     url: "https://righthook.io",
