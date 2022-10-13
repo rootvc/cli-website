@@ -698,7 +698,11 @@ const commands = {
     const role = (args == 2) ? "hacker in residence" : "analyst";
     const subject = `Applying for ${role} at Root Ventures!`;
     const body = "Wow! I love your website. It's so cool. I definitely want to work with this awesome team. Here's my resume.";
-    location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    const mailToLink = `mailto:${email}?subject=${subject}&body=${body}`;
+    location.href = mailToLink;
+    term.stylePrint('(your browser may have blocked our CLI from taking you to a mailto: link...)');
+    term.stylePrint("you can click here if that didn't work:")
+    term.displayURL(mailToLink);
   }
 }
 
