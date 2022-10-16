@@ -470,6 +470,10 @@ const commands = {
     }
   },
 
+  keypad: async function(args) {
+    term.openURL("https://root.vc/keypad");
+  },
+
   locate: function() {
     term.stylePrint("Root Ventures");
     term.stylePrint("2670 Harrison St");
