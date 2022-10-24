@@ -141,12 +141,6 @@ const portfolio = {
     description: "Trucklabs reduces fuel costs and increases profit margins for long haul trucking fleets.",
   },
 
-  coral: {
-    name: "Coral",
-    url: "https://trycoral.com",
-    description: "Coral is the best, easiest manicure.",
-  },
-
   oma_fertility: {
     name: "Oma Fertility",
     url: "https://omafertility.com/",
