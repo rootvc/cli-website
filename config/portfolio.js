@@ -82,9 +82,9 @@ const portfolio = {
   },
 
   serve: {
-    name: "Serve",
-    url: "https://serveautomation.com",
-    description: "Serve Automation is building fully automated food production systems.",
+    name: "Stellar Pizza",
+    url: "https://eatstellarpizza.com",
+    description: "Stellar Pizza is building the future of automated food production.",
   },
 
   versatile: {
