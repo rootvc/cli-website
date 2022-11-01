@@ -266,6 +266,18 @@ const portfolio = {
     name: "Fudge",
     url: "https://fudge.ai",
     description: "Fudge is the best way to speed up your website to improve conversion rates and increase revenue."
+  },
+
+  kodra: {
+    name: "Kodra",
+    url: "https://kodra.ai",
+    description: "Fast dataset curation for machine learning."
+  },
+
+  topologic: {
+    name: "Topologic",
+    url: "https://topologic.io",
+    description: "Design and automation software for textile manufacturing."
   }
   
 };
