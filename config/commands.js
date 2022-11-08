@@ -351,7 +351,10 @@ const commands = {
   open: function(args) {
     if (args[0].split(".")[1] == "htm") {
       term.openURL(`./${args[0]}`, false);
-    } else {
+    } else if (args[0].split(".")[1] == "the pod bay doors") {
+      term.stylePrint("I'm sorry Dave, I'm afraid I can't do that.");
+    } 
+    else {
       term.command(`cat ${args.join(" ")}`);
     }
   },
