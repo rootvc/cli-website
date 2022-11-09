@@ -348,7 +348,7 @@ const commands = {
     term.command(`cat ${args.join(" ")}`);
   },
 
-  open: function(args) {w
+  open: function(args) {
     if (!args.length) {
       term.stylePrint("%open%: open a file - usage:\r\n");
       term.stylePrint("%open% test.htm");
