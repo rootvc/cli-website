@@ -19,7 +19,7 @@ const portfolio = {
     name: "Particle",
     url: "https://particle.io",
     description: "Particle is the largest professional IoT development platform.",
-    demo: "https://docs.particle.io/quickstart/boron/",
+    demo: "https://docs.particle.io/",
   },
 
   daily: {
@@ -72,7 +72,7 @@ const portfolio = {
   tortuga: {
     name: "Tortuga AgTech",
     url: "https://tortugaagtech.com",
-    description: "Tortuga increases yields and profits for strawberry and soft fruit growers through higher density growing, more precise packing, and better supply forecasting.",
+    description: "Tortuga automates agriculture for high value produce.",
   },
 
   instrumental: {
@@ -96,7 +96,7 @@ const portfolio = {
   dusty: {
     name: "Dusty Robotics",
     url: "https://dustyrobotics.com",
-    description: "Dusty Robotics increases productivity, reduces cascading slippage, and reduces costly errors in complex construction projects.",
+    description: "Dusty Robotics automates layout in complex construction projects.",
   },
 
   thruwave: {
@@ -120,7 +120,7 @@ const portfolio = {
   chargelab: {
     name: "ChargeLab",
     url: "https://chargelab.co",
-    description: "ChargeLab provides API- and software-defined EV charging networks.",
+    description: "ChargeLab builds API- and software-defined EV charging networks.",
   },
 
   wildtype: {
