@@ -308,7 +308,7 @@ const commands = {
         term.stylePrint("wheel investors engineers managingpartner handypersons tinkers agtech foodtech foodies coffeesnobs");
         break;
       case 'kane':
-        term.stylePrint("wheel investors engineers partners tinkers mcad motorcyclists gearheads machinepix sportshooters gamers");
+        term.stylePrint("wheel investors engineers partners tinkerers cad motorcyclists gearheads machinepix sportshooters gamers");
         break;
       case 'chrissy':
         term.stylePrint("wheel investors engineers partners electrical manufacturing ecad wearables healthtech gearheads automotive sportshooters");
@@ -412,7 +412,7 @@ const commands = {
   },
 
   rm: function() {
-    term.stylePrint("I can't let you do that, Dave");
+    term.stylePrint("I'm sorry Dave, I'm afraid I can't do that.");
   },
 
   mkdir: function() {
