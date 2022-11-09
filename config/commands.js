@@ -333,7 +333,7 @@ const commands = {
   },
 
   free: function() {
-    term.stylePrint("Honestly, our memory isn't what it used to be");
+    term.stylePrint("Honestly, our memory isn't what it used to be.");
   },
 
   tail: function(args) {
@@ -416,15 +416,15 @@ const commands = {
   },
 
   mkdir: function() {
-    term.stylePrint("Come on, don't mess with our immaculate file system");
+    term.stylePrint("Come on, don't mess with our immaculate file system.");
   },
 
   alias: function() {
-    term.stylePrint("Just call me HAL");
+    term.stylePrint("Just call me HAL.");
   },
 
   df: function() {
-    term.stylePrint("Nice try. Just get a Dropbox");
+    term.stylePrint("Nice try. Just get a Dropbox.");
   },
 
   kill: function(args) {
