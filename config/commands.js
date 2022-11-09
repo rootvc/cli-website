@@ -348,9 +348,16 @@ const commands = {
     term.command(`cat ${args.join(" ")}`);
   },
 
-  open: function(args) {
-    if (args[0].split(".")[1] == "htm") {
+  open: function(args) {w
+    if (!args.length) {
+      term.stylePrint("%open%: open a file - usage:\r\n");
+      term.stylePrint("%open% test.htm");
+    } else if (args[0].split(".")[0] == "test" && args[0].split(".")[1] == "htm") {
+      term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
+    } else if (args[0].split(".")[1] == "htm") {
       term.openURL(`./${args[0]}`, false);
+    } else if (args.join(" ") == "the pod bay doors") {
+      term.stylePrint("I'm sorry Dave, I'm afraid I can't do that.");
     } else {
       term.command(`cat ${args.join(" ")}`);
     }
