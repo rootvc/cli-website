@@ -348,7 +348,11 @@ const commands = {
     term.command(`cat ${args.join(" ")}`);
   },
 
+<<<<<<< HEAD
   open: function(args) {w
+=======
+  open: function(args) {
+>>>>>>> 45168450f86010ea5dcc6ea733b923ec57a31c5f
     if (!args.length) {
       term.stylePrint("%open%: open a file - usage:\r\n");
       term.stylePrint("%open% test.htm");
