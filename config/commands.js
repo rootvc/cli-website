@@ -308,7 +308,7 @@ const commands = {
         term.stylePrint("wheel investors engineers managingpartner handypersons tinkers agtech foodtech foodies coffeesnobs");
         break;
       case 'kane':
-        term.stylePrint("wheel investors engineers partners tinkers mcad motorcyclists gearheads machinepix sportshooters gamers");
+        term.stylePrint("wheel investors engineers partners tinkers cad motorcyclists gearheads machinepix sportshooters gamers");
         break;
       case 'chrissy':
         term.stylePrint("wheel investors engineers partners electrical manufacturing ecad wearables healthtech gearheads automotive sportshooters");
@@ -348,9 +348,20 @@ const commands = {
     term.command(`cat ${args.join(" ")}`);
   },
 
+<<<<<<< HEAD
+  open: function(args) {w
+=======
   open: function(args) {
-    if (args[0].split(".")[1] == "htm") {
+>>>>>>> 45168450f86010ea5dcc6ea733b923ec57a31c5f
+    if (!args.length) {
+      term.stylePrint("%open%: open a file - usage:\r\n");
+      term.stylePrint("%open% test.htm");
+    } else if (args[0].split(".")[0] == "test" && args[0].split(".")[1] == "htm") {
+      term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
+    } else if (args[0].split(".")[1] == "htm") {
       term.openURL(`./${args[0]}`, false);
+    } else if (args.join(" ") == "the pod bay doors") {
+      term.stylePrint("I'm sorry Dave, I'm afraid I can't do that.");
     } else {
       term.command(`cat ${args.join(" ")}`);
     }
@@ -405,7 +416,7 @@ const commands = {
   },
 
   rm: function() {
-    term.stylePrint("I can't let you do that, Dave");
+    term.stylePrint("I'm sorry Dave, I'm afraid I can't do that.");
   },
 
   mkdir: function() {
@@ -413,7 +424,7 @@ const commands = {
   },
 
   alias: function() {
-    term.stylePrint("Just call me HAL");
+    term.stylePrint("Just call me HAL.");
   },
 
   df: function() {
