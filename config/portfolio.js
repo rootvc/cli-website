@@ -60,7 +60,7 @@ const portfolio = {
   nautilus: {
     name: "Nautilus Labs",
     url: "https://nautiluslabs.com",
-    description: "Nautilus Labs allows maritime fleet operators to monitor and optimize shipping routes and fuel costs in real time.",
+    description: "Nautilus Labs allows maritime fleets to optimize shipping routes and energy costs in real time.",
   },
 
   ntopology: {
