@@ -81,7 +81,7 @@ const portfolio = {
     description: "Instrumental generates real time insights for mass manufacturing.",
   },
 
-  serve: {
+  stellar: {
     name: "Stellar Pizza",
     url: "https://eatstellarpizza.com",
     description: "Stellar Pizza is building the future of automated food production.",
