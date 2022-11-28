@@ -444,9 +444,9 @@ const commands = {
   },
 
   easterbunny: async function(args) {
-    term.locked = true;
-
     if (killed) {
+      term.locked = true;
+      
       if (term.VERSION != 3) {
         term.stylePrint("%easterbunny% only available in version 3.0. Use %upgrade% to upgrade.");
       } else if (args.length != 4) {
