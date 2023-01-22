@@ -458,7 +458,7 @@ const commands = {
         const streetaddress = args[2];
         const zip = args[3];
 
-        const url = `https://hooks.zapier.com/hooks/catch/36670/bzptdx5?Name=${name}&Email=${email}&Address=${streetaddress}&Zip=${zip}`;
+        const url = `https://hooks.zapier.com/hooks/catch/36670/bvhesbe?Name=${name}&Email=${email}&Address=${streetaddress}&Zip=${zip}`;
         const res = await fetch(url);
         const data = await res.json();
         console.log(JSON.stringify(data));
