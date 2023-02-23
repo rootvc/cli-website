@@ -400,6 +400,14 @@ const commands = {
     term.stylePrint(`Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource ${args[0]}.`);
   },
 
+  wget: function(args) {
+    if (args[0] === undefined) {
+      term.stylePrint("wget: missing URL");
+      return   
+    }
+    term.stylePrint(`%wget% not installed. try: %curl% ${args[0]}`);
+  },
+
   ftp: function(args) {
     term.command(`curl ${args.join(" ")}`);
   },
