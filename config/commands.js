@@ -134,6 +134,11 @@ const commands = {
     term.stylePrint(_filesHere().join("   "));
   },
 
+  date: function() {
+    const date = new Date();
+    term.stylePrint(date.toString());
+  },
+
   // I am so, so sorry for this code.
   cd: function(args) {
     let dir = args[0] || "~";
