@@ -671,7 +671,7 @@ const commands = {
     await term.delayPrint(`\r\n${colorText("You are now running Root Ventures version 3.0.", "hyperlink")}\r\n`, 1 * timeUnit);
     await term.delayStylePrint("Read more here: https://bit.ly/rootvc-fund3", 1 * timeUnit);
     await term.delayPrint("Note that VERSION 3.0 is an unstable build of the terminal.\r\n", 1 * timeUnit);
-    await term.delayPrint("Please report any bugs you find.\r\n", 1 * timeUnit);
+    await term.delayStylePrint("Please report any bugs you find: https://github.com/rootvc/cli-website/issues/new\r\n", 1 * timeUnit);
 
     term.prompt();
     term.clearCurrentLine();
