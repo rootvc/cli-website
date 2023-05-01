@@ -49,7 +49,7 @@ var comcastifyjs = (function () {
         elements: args.elements || document.getElementsByTagName('img'),  // elements affected
         boxColor: args.boxColor || '#000000',                 // color of box overlay
         loadMaxPercent: args.loadMaxPercent || 0.0,           // max percentage to load images
-        loadSpeed: args.loadSpeed || 500,                     // how often in ms to pass
+        loadSpeed: args.loadSpeed || 300,                     // how often in ms to pass
         randLoadIncrement: args.randLoadIncrement || false,   // true to randomize load increment
         loadIncrement: args.loadIncrement || 1,               // pixels to load per pass
         randomPause: args.randomPause || 0.0                  // probability of skipping a pass
