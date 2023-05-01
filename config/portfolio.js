@@ -316,6 +316,6 @@ const portfolio = {
     name: "Ruby Robotics",
     url: "https://ruby-robotics.com",
     description:
-      "Vertically integrated robotics and AI to autonomously prepare, image and assess tissue during biopsy procedures.",
+      "Robotics and AI to autonomously prepare, image, and assess tissue during biopsy procedures.",
   },
 };
