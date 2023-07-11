@@ -88,7 +88,7 @@ const commands = {
   },
   
   agm: function() {
-    term.displayURL("http://annualmeeting.root.vc");
+    term.openURL("http://annualmeeting.root.vc");
   },
   
   test: function() {
