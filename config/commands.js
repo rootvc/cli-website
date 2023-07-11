@@ -86,7 +86,11 @@ const commands = {
   git: function() {
     term.displayURL("https://github.com/rootvc/cli-website");
   },
-
+  
+  agm: function() {
+    term.displayURL("http://annualmeeting.root.vc");
+  },
+  
   test: function() {
     term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
   },
