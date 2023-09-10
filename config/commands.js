@@ -92,7 +92,7 @@ const commands = {
   },
   
   test: function() {
-    term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
+    term.openURL("https://i.imgur.com/Q2Unw.gif");
   },
 
   email: function() {
