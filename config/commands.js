@@ -242,7 +242,7 @@ const commands = {
       term.stylePrint(`No such file: ${filename}`);
     }
     if (filename == "id_rsa") {
-      term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
+      term.openURL("https://i.imgur.com/Q2Unw.gif");
     }
   },
 
@@ -251,7 +251,7 @@ const commands = {
     const filename = args[1];
 
     if (filename == "id_rsa") {
-      term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
+      term.openURL("https://i.imgur.com/Q2Unw.gif");
     }
 
     if (!q || !filename) {
@@ -357,7 +357,7 @@ const commands = {
       term.stylePrint("%open%: open a file - usage:\r\n");
       term.stylePrint("%open% test.htm");
     } else if (args[0].split(".")[0] == "test" && args[0].split(".")[1] == "htm") {
-      term.openURL("https://gfycat.com/ifr/WhiteBountifulAfricangroundhornbill");
+      term.openURL("https://i.imgur.com/Q2Unw.gif");
     } else if (args[0].split(".")[1] == "htm") {
       term.openURL(`./${args[0]}`, false);
     } else if (args.join(" ") == "the pod bay doors") {
