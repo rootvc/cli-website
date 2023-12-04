@@ -318,4 +318,12 @@ const portfolio = {
     description:
       "Robotics and AI to autonomously prepare, image, and assess tissue during biopsy procedures.",
   },
+
+  parsnip: {
+    name: "Parsnip",
+    url: "https://parsnip.ai",
+    description:
+      "An AI-native personalized learning engine to scoop knowledge into your brain, starting with cooking.",
+    demo: "https://apps.apple.com/us/app/parsnip-level-up-your-cooking/id1592325213",
+  },
 };
