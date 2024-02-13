@@ -23,9 +23,7 @@ function runRootTerminal(term) {
             const cmd = tokens.shift();
             const args = tokens.join(" ");
 
-            if (cmd != 'upgrade') {
-              term.writeln("");
-            }
+            term.writeln("");
 
             if (term.currentLine.length > 0) {
               term.history.push(term.currentLine);
@@ -39,7 +37,7 @@ function runRootTerminal(term) {
               });
             }
 
-            if (exitStatus != 1 && cmd != 'upgrade') {
+            if (exitStatus != 1) {
               term.prompt();
               term.clearCurrentLine(true);
             }

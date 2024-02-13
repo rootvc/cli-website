@@ -1,7 +1,6 @@
 // TODO: make this a proper addon
 
 extend = (term) => {
-  term.VERSION = term.VERSION || 2;
   term.currentLine = "";
   term.user = "guest";
   term.host = "rootpc";
@@ -170,14 +169,8 @@ extend = (term) => {
     preloadFiles();
     term.reset();
     term.printLogoType();
-    if (term.VERSION == 2) {
-      term.stylePrint(`\n${colorText("New version of Root Ventures detected.", "user")}`);
-      term.stylePrint(`Please upgrade your terminal with ${colorText("upgrade", "command")}.`);
-      term.stylePrint(`Type ${colorText("help", "command")} to get started. Or type ${colorText("exit", "command")} for web version.`, false);
-    } else {
-      term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
-      term.stylePrint(`Type ${colorText("help", "command")} to get started. Or type ${colorText("exit", "command")} for web version.`, false);
-    }
+    term.stylePrint('Welcome to the Root Ventures terminal. Seeding bold engineers!');
+    term.stylePrint(`Type ${colorText("help", "command")} to get started. Or type ${colorText("exit", "command")} for web version.`, false);
 
     term.user = user;
     if (!preserveHistory) {

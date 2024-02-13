@@ -86,11 +86,11 @@ const commands = {
   git: function() {
     term.displayURL("https://github.com/rootvc/cli-website");
   },
-  
+
   agm: function() {
     term.openURL("http://annualmeeting.root.vc");
   },
-  
+
   test: function() {
     term.openURL("https://i.imgur.com/Q2Unw.gif");
   },
@@ -447,40 +447,6 @@ const commands = {
     term.command(`kill ${args.join(" ")}`);
   },
 
-  easterbunny: async function(args) {
-    term.locked = true;
-
-    if (killed) {
-      if (term.VERSION != 3) {
-        term.stylePrint("%easterbunny% only available in version 3.0. Use %upgrade% to upgrade.");
-      } else if (args.length != 4) {
-        term.stylePrint("There should be 4 arguments: name email streetaddress zip (each url encoded).")
-      }
-      else {
-        const name = args[0];
-        const email = args[1];
-        const streetaddress = args[2];
-        const zip = args[3];
-
-        const url = `https://hooks.zapier.com/hooks/catch/36670/bvhesbe?Name=${name}&Email=${email}&Address=${streetaddress}&Zip=${zip}`;
-        const res = await fetch(url);
-        const data = await res.json();
-        console.log(JSON.stringify(data));
-
-        term.write(`\r\n${colorText("==>", "hyperlink")} Requesting ${url}`);
-        await term.progressBar(1 * timeUnit);
-        await term.dottedPrint('\r\nRecording your info for a special prize', 3, false);
-        term.writeln(data.status);
-
-        term.prompt();
-        term.locked = false;
-      }
-    } else {
-      // lol
-      term.stylePrint(`Command not found: %easterbunny%. Try 'help' to get started.`);
-    }
-  },
-
   locate: function() {
     term.stylePrint("Root Ventures");
     term.stylePrint("2670 Harrison St");
@@ -647,39 +613,6 @@ const commands = {
 
   eval: function(args) {
     term.stylePrint("please instead build a webstore with macros. in the meantime, the result is: " + eval(args.join(" ")));
-  },
-
-  upgrade: async function() {
-    term.VERSION = 3;
-    term.init();
-    term.locked = true;
-
-    // small convenience method for changing spacing to newlines for mobile
-    const m = (str) => term.cols < 40 ? str.replaceAll(/\s\s+/g, "\r\n") : str;
-
-    term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/rootvc/manifests/3.0.0`);
-    await term.progressBar(4 * timeUnit);
-    term.write(`\r\n${colorText("==>", "hyperlink")} Downloading https://ghcr.io/v2/homebrew/core/rust/blobs/sha256:51869c798355307b59992918e9a595c53072d7a29458dbe5b8d105b63d3dd1c0`);
-    await term.progressBar(2 * timeUnit);
-    term.write(`\r\n${colorText("==>", "hyperlink")} Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:51869c798355307b59992918e9a595c53072d7a29458dbe5b8d105b6`);
-    await term.progressBar(1 * timeUnit);
-    await term.delayStylePrint("\r\n", 1 * timeUnit);
-    await term.dottedPrint('Calculating new fund size', 3);
-    await term.delayPrint(`Updated fund size:          ${colorText("$150M", "prompt")}\r\n`, 1 * timeUnit);
-    await term.delayPrint(`Updated typical check size: ${colorText("$2-3M", "prompt")}\r\n`, 1 * timeUnit);
-    await term.delayPrint(m(`Found mission:              ${colorText("Seeding bold engineers.", "user")}\r\n`), 1 * timeUnit);
-    await term.delayPrint(m(`Thesis unchanged:           ${colorText("Investing at the earliest stages of technical founders taking engineering risk.", "user")}\r\n`), 1 * timeUnit);
-    await term.delayPrint(m(`Required dependencies:      ${colorText("New founders.", "user")}\r\n`), 1 * timeUnit);
-    await term.delayStylePrint(m(`Updating jobs:              Found 2 new jobs. Use %jobs% to learn more.`), 1 * timeUnit);
-
-    await term.delayPrint(`\r\n${colorText("You are now running Root Ventures version 3.0.", "hyperlink")}\r\n`, 1 * timeUnit);
-    await term.delayStylePrint("Read more here: https://bit.ly/rootvc-fund3", 1 * timeUnit);
-    await term.delayPrint("Note that VERSION 3.0 is an unstable build of the terminal.\r\n", 1 * timeUnit);
-    await term.delayStylePrint("Please report any bugs you find: https://github.com/rootvc/cli-website/issues/new\r\n", 1 * timeUnit);
-
-    term.prompt();
-    term.clearCurrentLine();
-    term.locked = false;
   },
 
   jobs: function() {
