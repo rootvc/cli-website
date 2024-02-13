@@ -613,10 +613,10 @@ const commands = {
   },
 
   jobs: function() {
-    term.stylePrint(`[1]   Running                 analyst &`);
+    term.stylePrint(`[1]   Running                 operations &`);
     term.stylePrint(`[2]   Running                 hacker &`);
     term.stylePrint("\r\nUse %fg% [id] to see details of a job.")
-    term.stylePrint("Yes, we know that's not exactly how %jobs% works, but close enough.");
+    term.stylePrint("Yes, we know that's not exactly how %jobs% works in Unix, but close enough.");
   },
 
   bg: function(args) {
@@ -636,7 +636,7 @@ const commands = {
 
   apply: function(args) {
     const email = "join@root.vc";
-    const role = (args == 2) ? "hacker in residence" : "analyst";
+    const role = (args == 2) ? "hacker in residence" : "operations";
     const subject = `Applying for ${role} at Root Ventures!`;
     const body = "Wow! I love your website. It's so cool. I definitely want to work with this awesome team. Here's my resume.";
     location.href = `mailto:${email}?subject=${subject}&body=${body}`;

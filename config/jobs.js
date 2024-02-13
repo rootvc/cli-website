@@ -1,30 +1,38 @@
 const jobs = {
   1: [
-    "We're hiring an Analyst!",
+    "We're hiring a Head of Operations!",
 
     "\r\nRoot Ventures is a $325M Seed VC based in San Francisco. We invest in technical teams at the earliest stages, focusing on founders building products at the frontier of technology and founders building the tools to make it all possible.",
-    "\r\nAs an Analyst, you'll play a critical role at Root: researching new markets, diligencing potential investments, supporting portfolio companies, and managing fund operations. We're a team of engineers and tinkerers, so you'll also be helping us with our constant office improvement projects.",
+    "\r\nAs Head of Operations, you will play a critical role at Root: leading fund operations, expanding our community, supporting portfolio companies, and supporting LP relations/fundraising. We're a team of engineers and tinkerers, so you'll even be helping us with our constant office improvement projects",
+    "\r\nFor example:",
+    "\r\nhttps://medium.com/root-ventures/the-best-office-coffee-youll-ever-have-6fe9e190c2d2",
+    "\r\nhttps://twitter.com/kane/status/1129451259860099072?s=42&t=S8qKlku3sxAC83sfR9tM7A",
+    "\r\nhttps://github.com/rootvc/photobooth/",
 
     "\r\nAbout the job:",
-    "* Diligence new investment opportunities, drive expert interviews, write investment memos, and discuss deals in weekly partner meetings.",
-    "* Support the Root portfolio with recruiting, sales, financing, and ad-hoc projects.",
-    "* Grow our network and represent Root Ventures at social and industry events.",
-    "* Manage fund operations: learn how VCs work beneath the hood and help us identify opportunities to improve our operations, then spec and build the solutions.",
-    "* Work on ongoing internal engineering projects. This year's: restoring a retro vending machine.",
+    "Fund operations: manage third party vendors including outsourced finance, legal, and tax teams.",
+    "* Support LP relations and fundraising operations as we raise new funds and SPVs.",
+    "* Identify opportunities to expand Root Ventures’ community and brand.",
+    "* Organize and manage operations for community events, LP summits, founder offsites, etc.",
+    "* Support the growing Root portfolio of roughly 40 companies with occasional recruiting, sales, financing, and ad-hoc projects.",
 
     "\r\nAbout you:",
-    "* Is curious and opinionated about new technologies and entrepreneurship.",
-    "* Thrives in an unstructured work environment; independent and self-motivated. Prefers action over asking.",
-    "* Enjoys diving into new technologies and markets with firsthand experimentation. “Hello world”-s the crap out of things.",
-    "* Eager and comfortable meeting with founders, investors, and operators on a daily basis.",
-    "* Strong existing ties to the engineering and / or startup community is a plus.",
+    "* Ability to wear many hats: operations, finance, investor relations, community.",
+    "* Excellent attention to detail.",
+    "* Thrives in an unstructured work environment; independent and self-motivated. Someone that defaults to action and finds unexpected opportunities to help.",
+    `* Has an attitude of being "above no job, and below no job".`,
+    "* Creativity: there’s nothing more tedious than boilerplate corporate events. In the past we have hosted events with bonsai planting, knife forging, model rocketry, and wine tasting. What more can we do to connect with our awesome community?",
+    "* Eager and comfortable meeting with founders, LPs, and operators on a daily basis.",
+    "* Strong existing ties to the startup community is a plus.",
+    "* Techno-optimist: we’re all here because we believe in human greatness and technology’s role in realizing it.",
 
     "\r\nJob qualifications:",
-    "* Technical studies in school and / or active contributions to technical communities.",
-    "* Strong communication and analytical skills.",
-    "* 1-2 years work experience(internships count).",
+    "*Strong communication and analytical skills.",
+    "* At least 3-5 years of work experience in VC, startup operations or finance.",
+    "* Based or able to relocate to the San Francisco Bay Area.We are an in-office team.",
 
-    "\r\nIf you think you'd enjoy working here, shoot us a note with a resume and tell us about a favorite side project you've worked on or want to work on."
+    "\r\nIf you think you'd enjoy working here, apply using this form:",
+    "https://airtable.com/appa7l9ujKrRWbI1A/shrt0AD56IRaSHjoS",
   ],
 
   2: [
