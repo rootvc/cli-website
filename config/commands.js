@@ -434,10 +434,7 @@ const commands = {
   kill: function(args) {
     if (args && args.slice(-1) == 337) {
       killed = true;
-      term.stylePrint("Phew! Thanks for killing that crypto miner process for us!");
-      term.stylePrint("As a thank you for your hard work, please have a special gift on us.");
-      term.stylePrint("\r\n%easterbunny% name email streetaddress zip\r\n");
-      term.stylePrint("One last thing though. We're going to need to you url encode each of those individual string parameters yourself. Sorry, the crypto miner used up all our resources. This is definitely not a test.")
+      term.stylePrint("Root Ventures crypto miner disabled.");
     } else {
       term.stylePrint("You can't kill me!");
     }
