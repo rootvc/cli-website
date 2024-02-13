@@ -3,8 +3,6 @@ Who needs a website when you have a terminal.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/f3bfb854-9bc6-40a7-8d4c-2cccd3850764/deploy-status)](https://app.netlify.com/sites/rootvc-cli-website/deploys)
 
-[![Develop on Okteto](https://okteto.com/develop-okteto.svg)](https://cloud.okteto.com/deploy)
-
 ## Basic Commands
   - help: list all commands
   - whois root: learn about us
