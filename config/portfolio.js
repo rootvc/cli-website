@@ -319,3 +319,5 @@ const portfolio = {
       "Robotics and AI to autonomously prepare, image, and assess tissue during biopsy procedures.",
   },
 };
+
+if (typeof module !== "undefined") module.exports = portfolio;

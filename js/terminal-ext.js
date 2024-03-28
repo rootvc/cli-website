@@ -184,6 +184,7 @@ extend = (term) => {
       term.command(term.deepLink);
     }
   }
+  return term;
 }
 
 // https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
@@ -214,3 +215,5 @@ function _testWhite(x) {
   var white = new RegExp(/^\s$/);
   return white.test(x.charAt(0));
 };
+
+if (typeof module !== "undefined") module.exports = extend;

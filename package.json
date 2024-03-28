@@ -16,6 +16,13 @@
   },
   "scripts": {
     "build": "npm install && mkdir -p ./css && cp node_modules/xterm/css/*.css ./css && mkdir -p ./js && cp node_modules/xterm*/lib/*.js* ./js && cp node_modules/aalib.js/dist/aalib.js* ./js",
-    "start": "netlify dev"
+    "start": "netlify dev",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^27.3.1"
+  },
+  "jest": {
+    "testEnvironment": "jsdom"
   }
 }
