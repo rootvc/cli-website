@@ -318,4 +318,9 @@ const portfolio = {
     description:
       "Robotics and AI to autonomously prepare, image, and assess tissue during biopsy procedures.",
   },
+  cady: {
+    name: "CADY Solutions",
+    url: "https://cadysolutions.com",
+    description: "CADY automates the electrical schematic analysis process"
+  }
 };
