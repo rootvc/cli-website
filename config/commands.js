@@ -639,6 +639,10 @@ const commands = {
     const role = (args == 2) ? "hacker in residence" : "operations";
     const subject = `Applying for ${role} at Root Ventures!`;
     const body = "Wow! I love your website. It's so cool. I definitely want to work with this awesome team. Here's my resume.";
+    term.stylePrint(`Send email to: ${email}` );
+    term.stylePrint(`Subject: ${subject}`);
+    term.stylePrint(`Body: ${body}`);
+
     location.href = `mailto:${email}?subject=${subject}&body=${body}`;
   }
 }
