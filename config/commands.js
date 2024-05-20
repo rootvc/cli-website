@@ -396,7 +396,7 @@ const commands = {
   },
 
   curl: function(args) {
-    term.stylePrint(`Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource ${args[0]}.`);
+    term.stylePrint(`Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource ${args[0]}. Use a real terminal.`);
   },
 
   ftp: function(args) {
@@ -613,8 +613,7 @@ const commands = {
   },
 
   jobs: function() {
-    term.stylePrint(`[1]   Running                 operations &`);
-    term.stylePrint(`[2]   Running                 hacker &`);
+    term.stylePrint(`[1]   Running                 investor &`);
     term.stylePrint("\r\nUse %fg% [id] to see details of a job.")
     term.stylePrint("Yes, we know that's not exactly how %jobs% works in Unix, but close enough.");
   },
@@ -635,11 +634,20 @@ const commands = {
   },
 
   apply: function(args) {
-    const email = "join@root.vc";
-    const role = (args == 2) ? "hacker in residence" : "operations";
-    const subject = `Applying for ${role} at Root Ventures!`;
-    const body = "Wow! I love your website. It's so cool. I definitely want to work with this awesome team. Here's my resume.";
-    location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+    if (args == 1) {
+      term.stylePrint("If you think you'd enjoy working here, apply by hitting the following endpoint:");
+      term.stylePrint("\r\nhttps://hooks.attio.com/w/1d456d59-a7ac-4211-ac1d-fac612f7f491/5fc14931-0124-4121-b281-1dbfb64dceb2\r\n");
+      term.stylePrint(`with a ${colorText("POST", "command")} request containing a json object with 3 keys:`);
+      term.stylePrint(`\r\n{`);
+      term.stylePrint(`\t${colorText("name", "command")}: [your name]`);
+      term.stylePrint(`\t${colorText("email", "command")}: [your email]`);
+      term.stylePrint(`\t${colorText("linkedin", "command")}: [your linkedin profile url]`);
+      term.stylePrint(`}`);
+    } else if (!args || args == "") {
+      term.stylePrint("Please provide a job id. Use %jobs% to list all current jobs.");
+    } else {
+      term.stylePrint(`Job id ${args[0]} not found. Use %jobs% to list all current jobs.`)
+    }
   }
 }
 
