@@ -46,8 +46,9 @@
 
       <script src="js/aalib.js"></script>
       <script src="js/xterm.js"></script>
-      <script src="js/xterm-addon-fit.js"></script>
-      <script src="js/xterm-addon-web-links.js"></script>
+      <script src="js/addon-fit.js"></script>
+      <script src="js/addon-web-links.js"></script>
+      <script src="js/rickroll.js"></script>
       <script src="js/terminal.js"></script>
       <script src="js/terminal-ext.js"></script>
       <script src="js/ascii-art.js"></script>
@@ -81,6 +82,21 @@
         term.loadAddon(webLinksAddon);
         extend(term);
         runRootTerminal(term);
+
+        // MutationObserver listens to changes of .xterm-rows (term.onRender() doesn't work)
+        const targetNode = document.querySelector('.xterm-rows');
+        if (targetNode) {
+          const config = { childList: true, subtree: true, characterData: true };
+          const callback = function (mutationsList, observer) {
+            observer.disconnect();
+            RickRoll();
+            observer.observe(targetNode, config);
+          };
+          const observer = new MutationObserver(callback);
+          observer.observe(targetNode, config);
+        } else {
+          console.warn('No element with class "xterm-rows" found.');
+        }
       </script>
     </body>
   </html>
