@@ -3,12 +3,11 @@
   "version": "0.1.0",
   "description": "Root Ventures' awesome website",
   "dependencies": {
+    "@xterm/addon-fit": "^0.10.0",
+    "@xterm/addon-web-links": "^0.11.0",
+    "@xterm/xterm": "^5.5.0",
     "aalib.js": "^2.0.0",
-    "ai": "^3.0.18",
-    "netlify-cli": "^6.14.7",
-    "xterm": "^4.10.0",
-    "xterm-addon-fit": "^0.5.0",
-    "xterm-addon-web-links": "^0.4.0"
+    "netlify-cli": "^6.14.7"
   },
   "license": "MIT",
   "repository": {
@@ -16,7 +15,7 @@
     "url": "git@github.com:rootvc/cli-website.git"
   },
   "scripts": {
-    "build": "npm install && mkdir -p ./css && cp node_modules/xterm/css/*.css ./css && mkdir -p ./js && cp node_modules/xterm*/lib/*.js* ./js && cp node_modules/aalib.js/dist/aalib.js* ./js",
+    "build": "npm install && mkdir -p ./css && cp node_modules/@xterm/xterm/css/*.css ./css && mkdir -p ./js && cp node_modules/@xterm/*/lib/*.js* ./js && cp node_modules/aalib.js/dist/aalib.js* ./js",
     "start": "netlify dev"
   }
 }

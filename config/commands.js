@@ -92,7 +92,14 @@ const commands = {
   },
 
   test: function() {
-    term.openURL("https://i.imgur.com/Q2Unw.gif");
+    // innerText HTMLElement pointer for the correct terminal line.
+    // We use this line to replace it with a video element.
+    term.stylePrint(`${colorText("nf134bf139b", "command")}`, false);
+    
+    // Mass print of background lines to correctly represent the height of the video
+    for(let i = 0; i < 41; i++) {
+      term.stylePrint(`${colorText("dn19BRXub191", "command")}`, false);
+    }
   },
 
   email: function() {
@@ -242,7 +249,14 @@ const commands = {
       term.stylePrint(`No such file: ${filename}`);
     }
     if (filename == "id_rsa") {
-      term.openURL("https://i.imgur.com/Q2Unw.gif");
+      // innerText HTMLElement pointer for the correct terminal line.
+      //  We use this line to replace it with a video element.
+      term.stylePrint(`${colorText("nf134bf139b", "command")}`, false);
+
+      // Mass print of background lines to correctly represent the height of the video
+      for(let i = 0; i < 41; i++) {
+        term.stylePrint(`${colorText("dn19BRXub191", "command")}`, false);
+      }
     }
   },
 
