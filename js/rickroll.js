@@ -5,7 +5,7 @@ const baseSearchText = "vsabnBRXofjub";
 const xpathExpression = `//span[starts-with(text(),'${baseSearchText}') and string-length(text())=string-length('${baseSearchText}')+2 and substring(text(), string-length('${baseSearchText}')+1) >= '00' and substring(text(), string-length('${baseSearchText}')+1) <= '99']`;
 
 function RickRoll() {
-  const isMobile = term && term.cols >= 40 ? false : true;
+  const isMobile = term && term.cols >= 90 ? false : true;
   const colSize = isMobile ? RickRollPhone[0].length : RickRollDesktop[0].length;
 
   const frameArray = isMobile ? RickRollPhone : RickRollDesktop;
