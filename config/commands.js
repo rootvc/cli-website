@@ -11,7 +11,7 @@ function SpawnRickRollPointers() {
     return str;
   }
   
-  const colSize = term.cols >= 40 ? 39 : 24
+  const colSize = term.cols >= 90 ? 39 : 24
   
   for(let i = 0; i <= colSize; i++) {
     term.stylePrint(`${colorText(`vsabnBRXofjub${padNumber(i,2)}`, "command")}`, false);
