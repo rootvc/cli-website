@@ -41,10 +41,8 @@ function RickRoll() {
   }
 
   intervalId = setInterval(() => {
-    if (spanElements.length >= colSize) {
-      for (let i = 0; i < ColArray.length; i++) {
-        spanElements[i].innerText = frameArray[currentFrame][ColArray[i]];
-      }
+    for (let i = 0; i < ColArray.length; i++) {
+      spanElements[i].innerText = frameArray[currentFrame][ColArray[i]];
     }
     currentFrame = (currentFrame + 1) % frameLength;
   }, 40);
