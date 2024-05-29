@@ -637,11 +637,12 @@ const commands = {
     if (args == 1) {
       term.stylePrint("If you think you'd enjoy working here, apply by hitting the following endpoint:");
       term.stylePrint("\r\nhttps://hooks.attio.com/w/1d456d59-a7ac-4211-ac1d-fac612f7f491/5fc14931-0124-4121-b281-1dbfb64dceb2\r\n");
-      term.stylePrint(`with a ${colorText("POST", "command")} request containing a json object with 3 keys:`);
+      term.stylePrint(`with a ${colorText("POST", "command")} request containing a json object with 4 keys:`);
       term.stylePrint(`\r\n{`);
       term.stylePrint(`\t${colorText("name", "command")}: [your name]`);
       term.stylePrint(`\t${colorText("email", "command")}: [your email]`);
       term.stylePrint(`\t${colorText("linkedin", "command")}: [your linkedin profile url]`);
+      term.stylePrint(`\t${colorText("notes", "command")}: [(optional) anything else you'd like to share? e.g. projects, writing, etc.]`);
       term.stylePrint(`}`);
     } else if (!args || args == "") {
       term.stylePrint("Please provide a job id. Use %jobs% to list all current jobs.");
