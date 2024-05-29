@@ -27,6 +27,13 @@ const team = {
       "Lee was most recently CTO at Teespring. Previously, Lee was a mechanical engineer at iRobot, a software engineer at Pivotal Labs, Lead Engineer at SideTour (acquired by Groupon in 2013), and engineering manager for GrouponLive. He graduated from Olin College of Engineering with a degree in Systems Engineering.",
     linkedin: "https://www.linkedin.com/in/leeredwards/",
   },
+  ben: {
+    name: "Ben Lovell",
+    title: "Head of Operations",
+    description:
+      "Ben worked at a16z, Menlo Ventures, and FT Partners to build operational automation and data pipelines. He also cofounded an adtech startup for rideshare companies. Ben graduated with a BA from Stanford University.",
+    linkedin: "https://www.linkedin.com/in/lovellb/",
+  },
   laelah: {
     name: "Laelah Reino",
     title: "Operations Manager",
