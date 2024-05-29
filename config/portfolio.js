@@ -183,7 +183,6 @@ const portfolio = {
     url: "https://iasql.com",
     description:
       "IaSQL is the next evolution of infrastructure management, allowing you to manage your infra in a database instead of stateless config files.",
-    demo: "https://docs.iasql.com/",
   },
 
   mashgin: {
@@ -318,9 +317,28 @@ const portfolio = {
     description:
       "Robotics and AI to autonomously prepare, image, and assess tissue during biopsy procedures.",
   },
+
   cady: {
     name: "CADY Solutions",
     url: "https://cadysolutions.com",
-    description: "CADY automates the electrical schematic analysis process"
-  }
+    description: "CADY automates the electrical schematic analysis process."
+  },
+
+  sublayer: {
+    name: "Sublayer",
+    url: "https://sublayer.com",
+    description: "Sublayer is AI-assisted coding that works the way you do."
+  },
+
+  nullify: {
+    name: "Nullify",
+    url: "https://nullify.ai",
+    description: "Nullify performs product security tasks alongside your developers."
+  },
+
+  trieve: {
+    name: "Trieve",
+    url: "https://trieve.ai",
+    description: "Trieve provides infrastructure for building AI search into your applications."
+  },
 };
