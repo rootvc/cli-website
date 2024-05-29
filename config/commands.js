@@ -642,7 +642,7 @@ const commands = {
       term.stylePrint(`\t${colorText("name", "command")}: [your name]`);
       term.stylePrint(`\t${colorText("email", "command")}: [your email]`);
       term.stylePrint(`\t${colorText("linkedin", "command")}: [your linkedin profile url]`);
-      term.stylePrint(`\t${colorText("notes", "command")}: [(optional) anything else you'd like to share? e.g. projects, writing, etc.]`);
+      term.stylePrint(`\t${colorText("notes", "command")}: [(optional) anything else you'd like to share?]`);
       term.stylePrint(`}`);
     } else if (!args || args == "") {
       term.stylePrint("Please provide a job id. Use %jobs% to list all current jobs.");
