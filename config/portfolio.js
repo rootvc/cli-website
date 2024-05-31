@@ -318,6 +318,12 @@ const portfolio = {
       "Robotics and AI to autonomously prepare, image, and assess tissue during biopsy procedures.",
   },
 
+  instance: {
+    name: "Instance",
+    url: "https://instance.bio",
+    description: "Instance is the fastest way to synthesize DNA."
+  },
+
   cady: {
     name: "CADY Solutions",
     url: "https://cadysolutions.com",
