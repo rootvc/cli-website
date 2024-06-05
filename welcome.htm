@@ -1,256 +1,371 @@
 <!doctype html>
-  <html>
+<html>
     <head>
-      <meta charset="utf-8" />
-      <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-      <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1" />
-      <link rel="shortcut icon" href="/favicon.png">
-      <title>Root Ventures</title>
-      <link rel="canonical" href="https://www.root.vc"/>
-      <meta property="og:site_name" content="Root Ventures"/>
-      <meta property="og:title" content="Root Ventures"/>
-      <meta property="og:url" content="https://www.root.vc"/>
-      <meta property="og:type" content="website"/>
-      <meta property="og:description" content="Hard tech seed investors supporting founders at the earliest stages. Best coffee in San Francisco ☕️"/>
-      <meta property="og:image" content="images/geo/social.png"/>
-      <meta property="og:image:width" content="1581"/>
-      <meta property="og:image:height" content="826"/>
-      <meta itemprop="name" content="Root Ventures"/>
-      <meta itemprop="url" content="https://www.root.vc"/>
-      <meta itemprop="description" content="Hard tech seed investors supporting founders at the earliest stages. Best coffee in San Francisco ☕️"/>
-      <meta itemprop="thumbnailUrl" content="images/geo/social.png"/>
-      <link rel="image_src" href="images/geo/social.png" />
-      <meta itemprop="image" content="images/geo/social.png"/>
-      <meta name="twitter:title" content="Root Ventures"/>
-      <meta name="twitter:image" content="images/geo/social.png"/>
-      <meta name="twitter:url" content="https://www.root.vc/welcome.htm"/>
-      <meta name="twitter:card" content="summary"/>
-      <meta name="twitter:creator" content="@rootvc">
-      <meta name="twitter:site" content="@rootvc">
-      <meta name="twitter:description" content="Hard tech seed investors supporting founders at the earliest stages. Best coffee in San Francisco ☕️"/>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="shortcut icon" href="/favicon.png" />
+        <title>Root Ventures</title>
+        <link rel="canonical" href="https://www.root.vc" />
+        <meta property="og:site_name" content="Root Ventures" />
+        <meta property="og:title" content="Root Ventures" />
+        <meta property="og:url" content="https://www.root.vc" />
+        <meta property="og:type" content="website" />
+        <meta
+            property="og:description"
+            content="Hard tech seed investors supporting founders at the earliest stages. Best coffee in San Francisco ☕️"
+        />
+        <meta property="og:image" content="images/geo/social.png" />
+        <meta property="og:image:width" content="1581" />
+        <meta property="og:image:height" content="826" />
+        <meta itemprop="name" content="Root Ventures" />
+        <meta itemprop="url" content="https://www.root.vc" />
+        <meta
+            itemprop="description"
+            content="Hard tech seed investors supporting founders at the earliest stages. Best coffee in San Francisco ☕️"
+        />
+        <meta itemprop="thumbnailUrl" content="images/geo/social.png" />
+        <link rel="image_src" href="images/geo/social.png" />
+        <meta itemprop="image" content="images/geo/social.png" />
+        <meta name="twitter:title" content="Root Ventures" />
+        <meta name="twitter:image" content="images/geo/social.png" />
+        <meta name="twitter:url" content="https://www.root.vc/welcome.htm" />
+        <meta name="twitter:card" content="summary" />
+        <meta name="twitter:creator" content="@rootvc" />
+        <meta name="twitter:site" content="@rootvc" />
+        <meta
+            name="twitter:description"
+            content="Hard tech seed investors supporting founders at the earliest stages. Best coffee in San Francisco ☕️"
+        />
 
-      <!-- Google Tag Manager -->
-      <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-        })(window,document,'script','dataLayer','GTM-TQ954FQ');</script>
-      <!-- End Google Tag Manager -->
+        <!-- Google Tag Manager -->
+        <script>
+            (function (w, d, s, l, i) {
+                w[l] = w[l] || [];
+                w[l].push({
+                    "gtm.start": new Date().getTime(),
+                    event: "gtm.js",
+                });
+                var f = d.getElementsByTagName(s)[0],
+                    j = d.createElement(s),
+                    dl = l != "dataLayer" ? "&l=" + l : "";
+                j.async = true;
+                j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
+                f.parentNode.insertBefore(j, f);
+            })(window, document, "script", "dataLayer", "GTM-TQ954FQ");
+        </script>
+        <!-- End Google Tag Manager -->
 
-      <script src="js/geo.js"></script>
-      <script src="js/comcastify.js"></script>
-      <script src="config/portfolio.js"></script>
-      <script src="config/team.js"></script>
-      <script src="config/commands.js"></script>
-      <link rel="stylesheet" href="css/bootstrap.css" />
+        <script src="js/geo.js"></script>
+        <script src="js/comcastify.js"></script>
+        <script src="config/portfolio.js"></script>
+        <script src="config/team.js"></script>
+        <script src="config/commands.js"></script>
+        <link rel="stylesheet" href="css/bootstrap.css" />
 
-      <style>
-        body {
-          margin: 25px;
-        }
+        <style>
+            body {
+                margin: 25px;
+            }
 
-        .team-photo {
-          width: 25%;
-        }
+            .team-photo {
+                width: 25%;
+            }
 
-        .team-photo img {
-          min-width: 100px;
-        }
+            .team-photo img {
+                min-width: 100px;
+            }
 
-        .portfolio-photo img {
-          max-width: 100px;
-        }
+            .portfolio-photo img {
+                max-width: 100px;
+            }
 
-        .team-description, .portfolio-description {
-          width: 50%;
-        }
+            .team-description,
+            .portfolio-description {
+                width: 50%;
+            }
 
-        .hammertime {
-          margin: 50px 0;
-        }
+            .hammertime {
+                margin: 50px 0;
+            }
 
-        td {
-          position: relative;
-        }
-
-      </style>
-
+            td {
+                position: relative;
+            }
+        </style>
     </head>
     <body>
-      <p class="pull-right">
-        <a href="https://github.com/divshot/geo-bootstrap" target="_blank">
-          <img src="images/geo/geocities.jpg">
-        </a>
-      </p>
+        <p class="pull-right">
+            <a href="https://github.com/divshot/geo-bootstrap" target="_blank">
+                <img src="images/geo/geocities.jpg" />
+            </a>
+        </p>
 
-      <p class="pull-left">
-        <a href="index.html">< Back</a>
-      </p>
+        <p class="pull-left">
+            <a href="index.html">< Back</a>
+        </p>
 
-      <br><br><br>
+        <br /><br /><br />
 
-      <center>
-        <img src="images/geo/construction.gif">
+        <center>
+            <img src="images/geo/construction.gif" />
 
-        <h1>
-          <font color="#FF0000">R</font>
-          <font color="#FF5A00">o</font>
-          <font color="#FFB400">o</font>
-          <font color="#FFff00">t</font>
-          &nbsp;
-          <font color="#A5ff00">V</font>
-          <font color="#4Bff00">e</font>
-          <font color="#00ff00">n</font>
-          <font color="#00ffff">t</font>
-          <font color="#00B4ff">u</font>
-          <font color="#0000ff">r</font>
-          <font color="#A500ff">e</font>
-          <font color="#FF00B4">s</font>
-        </h1>
-        <h2><blink>Seeding bold engineers</blink></h2>
-        <h3><marquee>Seed stage venture capital firm investing in hard tech.</marquee></h3>
-        <h4><img src="images/geo/banana.gif"> San Francisco, CA <img src="images/geo/banana.gif"></h4>
-        <h4 style="color: red;">Hiring for a new investing role! <blink><a href="#jobs">Apply here!</a></blink></h4>
-        <img id="logo" src = "images/logo.png" alt="Root Ventures" style="display: none;"/>
-        <br>
-        <img src="images/geo/divider.gif">
-      </center>
+            <h1>
+                <font color="#FF0000">R</font>
+                <font color="#FF5A00">o</font>
+                <font color="#FFB400">o</font>
+                <font color="#FFff00">t</font>
+                &nbsp;
+                <font color="#A5ff00">V</font>
+                <font color="#4Bff00">e</font>
+                <font color="#00ff00">n</font>
+                <font color="#00ffff">t</font>
+                <font color="#00B4ff">u</font>
+                <font color="#0000ff">r</font>
+                <font color="#A500ff">e</font>
+                <font color="#FF00B4">s</font>
+            </h1>
+            <h2><blink>Seeding bold engineers</blink></h2>
+            <h3>
+                <marquee>
+                    Seed stage venture capital firm investing in hard tech.
+                </marquee>
+            </h3>
+            <h4>
+                <img src="images/geo/banana.gif" /> San Francisco, CA
+                <img src="images/geo/banana.gif" />
+            </h4>
+            <h4 style="color: red">
+                Hiring for a new investing role!
+                <blink><a href="#jobs">Apply here!</a></blink>
+            </h4>
+            <img
+                id="logo"
+                src="images/logo.png"
+                alt="Root Ventures"
+                style="display: none"
+            />
+            <br />
+            <img src="images/geo/divider.gif" />
+        </center>
 
-      <h2>About Us</h2>
-      <p id="whois"></p>
+        <h2>About Us</h2>
+        <p id="whois"></p>
 
-      <center>
-        <br>
-        <img src="images/geo/rainbow.gif">
-        <br>
-      </center>
+        <center>
+            <br />
+            <img src="images/geo/rainbow.gif" />
+            <br />
+        </center>
 
-      <div class="well">
-        <h2>
-          <img src="images/geo/underconstruction.gif">
-          Portfolio
-          <img src="images/geo/underconstruction.gif">
-        </h2>
-        <table id="portfolio" cellpadding="2" cellspacing="2" class="table table-bordered">
-        </table>
-      </div>
+        <div class="well">
+            <h2>
+                <img src="images/geo/underconstruction.gif" />
+                Portfolio
+                <img src="images/geo/underconstruction.gif" />
+            </h2>
+            <table
+                id="portfolio"
+                cellpadding="2"
+                cellspacing="2"
+                class="table table-bordered"
+            ></table>
+        </div>
 
-      <center class="hammertime">
-        <img src="images/geo/mchammer.gif">&nbsp;&nbsp;
-        <img src="images/geo/mchammer.gif">&nbsp;&nbsp;
-        <img src="images/geo/mchammer.gif">
-      </center>
+        <center class="hammertime">
+            <img src="images/geo/mchammer.gif" />&nbsp;&nbsp;
+            <img src="images/geo/mchammer.gif" />&nbsp;&nbsp;
+            <img src="images/geo/mchammer.gif" />
+        </center>
 
-      <div>
-        <h2>Team</h2>
-        <table id="team" cellpadding="2" cellspacing="2" class="table table-bordered">
-        </table>
-      </div>
+        <div>
+            <h2>Team</h2>
+            <table
+                id="team"
+                cellpadding="2"
+                cellspacing="2"
+                class="table table-bordered"
+            ></table>
+        </div>
 
-      <br>
-      <center>
-        <img src="images/geo/flames.gif">
-      </center>
-      <br><br>
+        <br />
+        <center>
+            <img src="images/geo/flames.gif" />
+        </center>
+        <br /><br />
 
-      <a name="jobs"></a>
-      <h2>Sign Our Guestbook!</h2>
-      <p>Actually, this is a job application.</p>
-      <table class="table table-bordered">
-          <tr>
-              <td style="width: 33%;">
-                <form action="https://hooks.zapier.com/hooks/catch/36670/2yf0r0u/" method="post" id="guestbook" class="form-horizontal">
-                    <label><p>name</p>
-                        <input type="text" id="name" name="name"/>
-                    </label>
-                    <label><p>electronic mail address</p>
-                        <input type="text" id="email" name="email"/>
-                    </label>
-                    <label><p>linkedin or myspace url</p>
-                        <input type="text" id="linkedin" name="linkedin"/>
-                    </label>
-                    <label><p>notes (optional)</p>
-                        <textarea style="width: 95%" id="notes" name="notes" rows=10></textarea>
-                    </label>
+        <a name="jobs"></a>
+        <h2>Sign Our Guestbook!</h2>
+        <p>Actually, this is a job application.</p>
+        <table class="table table-bordered">
+            <tr>
+                <td style="width: 33%">
+                    <form
+                        action="https://hooks.zapier.com/hooks/catch/36670/2yf0r0u/"
+                        method="post"
+                        id="guestbook"
+                        class="form-horizontal"
+                    >
+                        <label
+                            ><p>name</p>
+                            <input type="text" id="name" name="name" />
+                        </label>
+                        <label
+                            ><p>electronic mail address</p>
+                            <input type="text" id="email" name="email" />
+                        </label>
+                        <label
+                            ><p>linkedin or myspace url</p>
+                            <input type="text" id="linkedin" name="linkedin" />
+                        </label>
+                        <label
+                            ><p>notes (optional)</p>
+                            <textarea
+                                style="width: 95%"
+                                id="notes"
+                                name="notes"
+                                rows="10"
+                            ></textarea>
+                        </label>
 
-                    <input type="submit"/>
-                </form>
-                <p>Or if you prefer, apply directly via API <a href="/">here</a>.</p>
+                        <input type="submit" />
+                    </form>
+                    <p>
+                        Or if you prefer, apply directly via API
+                        <a href="/">here</a>.
+                    </p>
                 </td>
                 <td>
                     <h2><blink>We're hiring an Investor!</blink></h2>
-                    <br/>
+                    <br />
 
-                    <p>Root Ventures is a $325M Seed VC based in San Francisco. We invest in technical teams at the earliest stages, focusing on founders building products at the frontier of technology and founders building the tools to make it all possible.</p>
-                    <br/>
-                    <p>Your role will include identifying & analyzing potential investment opportunities, assisting with due diligence, performing market research & competitive analysis, and strengthening our network through hosting & attending events. We're a team of engineers and tinkerers, so you'll even be helping us with our constant office improvement projects.</p>
-                    <br/>
+                    <p>
+                        Root Ventures is a Seed VC based in San Francisco. We
+                        invest in technical teams at the earliest stages,
+                        focusing on founders building products at the frontier
+                        of technology and founders building the tools to make it
+                        all possible.
+                    </p>
+                    <br />
+                    <p>
+                        Your role will include identifying & analyzing potential
+                        investment opportunities, assisting with due diligence,
+                        performing market research & competitive analysis, and
+                        strengthening our network through hosting & attending
+                        events. We're a team of engineers and tinkerers, so
+                        you'll even be helping us with our constant office
+                        improvement projects.
+                    </p>
+                    <br />
 
                     <h4>About the job:</h4>
 
-                    <p>We operate at the intersection between hard technologies & business. We obsess about the latest technological advancements, and how they will change entire industries and humanity. This is not an engineering job. This is not a strategy consulting job. It’s definitely not an investment banking job. We work in a strange place in between. As a member of the Root investment team, you’ll get to spend time thinking about technical challenges and their industry implications at very deep levels.</p>
-                    <br/>
+                    <p>
+                        We operate at the intersection between hard technologies
+                        & business. We obsess about the latest technological
+                        advancements, and how they will change entire industries
+                        and humanity. This is not an engineering job. This is
+                        not a strategy consulting job. It’s definitely not an
+                        investment banking job. We work in a strange place in
+                        between. As a member of the Root investment team, you’ll
+                        get to spend time thinking about technical challenges
+                        and their industry implications at very deep levels.
+                    </p>
+                    <br />
 
                     <h4>About you:</h4>
                     <ul>
-                     <li>Excellent attention to detail.</li>
-                     <li>Thrives in an unstructured work environment; independent and self-motivated. Someone that defaults to action and finds unexpected opportunities to help.</li>
-                     <li>Creativity: where should we be looking for opportunities that few others are?</li>
-                     <li>Strong existing ties to the tech or startup community is a plus.</li>
-                     <li>Personally passionate about technology; tinkerers and hobbyists like the rest of us.</li>
-                     <li>Techno-optimist: we’re all here because we believe in human greatness and technology’s role in realizing it.</li>
+                        <li>Excellent attention to detail.</li>
+                        <li>
+                            Thrives in an unstructured work environment;
+                            independent and self-motivated. Someone that
+                            defaults to action and finds unexpected
+                            opportunities to help.
+                        </li>
+                        <li>
+                            Creativity: where should we be looking for
+                            opportunities that few others are?
+                        </li>
+                        <li>
+                            Strong existing ties to the tech or startup
+                            community is a plus.
+                        </li>
+                        <li>
+                            Personally passionate about technology; tinkerers
+                            and hobbyists like the rest of us.
+                        </li>
+                        <li>
+                            Techno-optimist: we’re all here because we believe
+                            in human greatness and technology’s role in
+                            realizing it.
+                        </li>
                     </ul>
-                     <br/>
+                    <br />
 
                     <h4>Job qualifications:</h4>
                     <ul>
-                     <li>Strong communication and analytical skills.</li>
-                     <li>At least 3-5 years of work experience in VC, startup operations, engineering, or finance.</li>
-                     <li>Based or able to relocate to the San Francisco Bay Area. We are an in-office team.</li>
+                        <li>Strong communication and analytical skills.</li>
+                        <li>
+                            At least 3-5 years of work experience in VC, startup
+                            operations, engineering, or finance.
+                        </li>
+                        <li>
+                            Based or able to relocate to the San Francisco Bay
+                            Area. We are an in-office team.
+                        </li>
                     </ul>
                 </td>
-          </tr>
-      </table>
-      <br><br>
-
-
-      <footer class="footer">
-        <span class="pull-left">
-          <table cellpadding="2" cellspacing="2">
-            <tbody><tr>
-              <td>
-                <img src="images/geo/ie_logo.gif">
-              </td>
-              <td>
-                <img src="images/geo/ns_logo.gif">
-              </td>
-              <td>
-                <img src="images/geo/notepad.gif">
-              </td>
             </tr>
-          </tbody></table>
-        </span>
+        </table>
+        <br /><br />
 
-        <span class="pull-right">
-          <img src="images/geo/hacker.gif">Built by <a href="http://github.com/rootvc/cli-website" tagret="_blank">Root Ventures Team</a>
-        </span>
-      </footer>
+        <footer class="footer">
+            <span class="pull-left">
+                <table cellpadding="2" cellspacing="2">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <img src="images/geo/ie_logo.gif" />
+                            </td>
+                            <td>
+                                <img src="images/geo/ns_logo.gif" />
+                            </td>
+                            <td>
+                                <img src="images/geo/notepad.gif" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </span>
 
-      <center>
-        <img src="images/geo/counter2.gif">
-      </center>
+            <span class="pull-right">
+                <img src="images/geo/hacker.gif" />Built by
+                <a href="http://github.com/rootvc/cli-website" tagret="_blank"
+                    >Root Ventures Team</a
+                >
+            </span>
+        </footer>
 
-      <br><br>
+        <center>
+            <img src="images/geo/counter2.gif" />
+        </center>
 
-      <script>
-        buildGeoPage();
-      </script>
+        <br /><br />
 
-      <!-- Google Tag Manager (noscript) -->
-      <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-TQ954FQ"
-        height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-      <!-- End Google Tag Manager (noscript) -->
+        <script>
+            buildGeoPage();
+        </script>
 
+        <!-- Google Tag Manager (noscript) -->
+        <noscript
+            ><iframe
+                src="https://www.googletagmanager.com/ns.html?id=GTM-TQ954FQ"
+                height="0"
+                width="0"
+                style="display: none; visibility: hidden"
+            ></iframe
+        ></noscript>
+        <!-- End Google Tag Manager (noscript) -->
     </body>
-  </html>
+</html>
