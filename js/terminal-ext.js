@@ -89,15 +89,8 @@ extend = (term) => {
     // Hyperlinks
     const urlRegex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
     const urlMatches = text.matchAll(urlRegex);
-    let allowWrapping = true;
     for (match of urlMatches) {
-      allowWrapping = match[0].length < 76;
       text = text.replace(match[0], colorText(match[0], "hyperlink"));
-    }
-
-    // Text Wrap
-    if (allowWrapping && wrap) {
-      text = _wordWrap(text, Math.min(term.cols, 76));
     }
 
     // Commands
@@ -187,31 +180,3 @@ extend = (term) => {
   }
 }
 
-// https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
-// TODO: This doesn't work well at detecting newline
-function _wordWrap(str, maxWidth) {
-  var newLineStr = "\r\n"; done = false; res = '';
-  while (str.length > maxWidth) {
-    found = false;
-    // Inserts new line at first whitespace of the line
-    for (i = maxWidth - 1; i >= 0; i--) {
-      if (_testWhite(str.charAt(i))) {
-        res = res + [str.slice(0, i), newLineStr].join('');
-        str = str.slice(i + 1);
-        found = true;
-        break;
-      }
-    }
-    // Inserts new line at maxWidth position, the word is too long to wrap
-    if (!found) {
-      res += [str.slice(0, maxWidth), newLineStr].join('');
-      str = str.slice(maxWidth);
-    }
-  }
-  return res + str;
-}
-
-function _testWhite(x) {
-  var white = new RegExp(/^\s$/);
-  return white.test(x.charAt(0));
-};
