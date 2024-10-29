@@ -76,12 +76,16 @@ extend = (term) => {
   };
 
   term.setCurrentLine = (newLine, preserveCursor = false) => {
+    // Something with the new xterm package is messing up the location of term.pos() right after the clearCurrentLine()
+    // Because of this, we need to collect the position beforehand.
+    const oldPos = term.pos()
     const length = term.currentLine.length;
     term.clearCurrentLine();
     term.currentLine = newLine;
     term.write(newLine);
     if (preserveCursor) {
-      term.write('\x1b[D'.repeat(length - term.pos()));
+      // New XTERM package cursor preservation fix
+      term.write('\x1b[D'.repeat(length - oldPos));
     }
   }
 
