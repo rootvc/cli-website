@@ -41,4 +41,11 @@ const team = {
       "Laelah has spent over 15 years in marketing for films, consumer products, and subscription-based services. Laelah Reino has a BA in Business Administration with a Marketing concentration from Drexel University.",
     linkedin: "https://www.linkedin.com/in/laelah-reino-78b6a51/",
   },
+  zodi: {
+    name: "Zodi Chalat",
+    title: "Associate Investor",
+    description:
+      "Zodi began his career as an engineer working on ML infrastructure at Netflix before moving into venture investing. He previously studied CS and comparative literature at Yale.",
+    linkedin: "https://linkedin.com/in/zodi"
+  }
 };

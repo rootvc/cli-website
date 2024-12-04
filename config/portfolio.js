@@ -158,13 +158,7 @@ const portfolio = {
     description:
       "Trucklabs reduces fuel costs and increases profit margins for long haul trucking fleets.",
   },
-
-  oma_fertility: {
-    name: "Oma Fertility",
-    url: "",
-    description: "Oma improves fertility outcomes through advanced automation.",
-  },
-
+  
   sensable: {
     name: "Sensable",
     url: "https://getsensable.com",
@@ -321,78 +315,95 @@ const portfolio = {
   instance: {
     name: "Instance",
     url: "https://instance.bio",
-    description: "Instance is the fastest way to synthesize DNA."
+    description: "Instance is the fastest way to synthesize DNA.",
   },
 
   cady: {
     name: "CADY Solutions",
     url: "https://cadysolutions.com",
-    description: "CADY automates the electrical schematic analysis process."
+    description: "CADY automates the electrical schematic analysis process.",
   },
 
   sublayer: {
     name: "Sublayer",
     url: "https://sublayer.com",
-    description: "Sublayer is AI-assisted coding that works the way you do."
+    description: "Sublayer is AI-assisted coding that works the way you do.",
   },
 
   nullify: {
     name: "Nullify",
     url: "https://nullify.ai",
-    description: "Nullify performs product security tasks alongside your developers."
+    description:
+      "Nullify performs product security tasks alongside your developers.",
   },
 
   trieve: {
     name: "Trieve",
     url: "https://trieve.ai",
-    description: "Trieve provides infrastructure for building AI search into your applications."
+    description:
+      "Trieve provides infrastructure for building AI search into your applications.",
+  },
+
+  genalpha: {
+    name: "GenAlpha",
+    url: "https://www.generation-alpha-transistor.com/",
+    description:
+      "GenAlpha is an AI copilot for analog and mixed-signal chip design.",
   },
 
   breakpoint: {
     name: "Breakpoint AI",
     url: "https://setbreakpoint.com",
-    description: "Breakpoint uses AI to detect failures in computer vision models and re-trains them to prevent future issues."
+    description:
+      "Breakpoint uses AI to detect failures in computer vision models and re-trains them to prevent future issues.",
   },
 
   determinate: {
     name: "Determinate Systems",
-    url: "https://determinate.systems/",
-    description: "Determinate provides enterprise-grade solutions for Nix package management."
+    url: "https://determinate.systems",
+    description:
+      "Determinate provides enterprise-grade solutions for Nix package management.",
   },
 
   genalpha: {
     name: "Gen Alpha",
     url: "https://www.generation-alpha-transistor.com/",
-    description: "Gen Alpha builds AI copilots for analog and mixed-signal chip design to streamline workflows."
+    description:
+      "Gen Alpha builds AI copilots for analog and mixed-signal chip design to streamline workflows.",
   },
 
   hunch: {
     name: "Hunch",
     url: "https://hunchdata.com",
-    description: "Hunch provides collaborative data exploration and visualization tools for non-technical users."
+    description:
+      "Hunch provides collaborative data exploration and visualization tools for non-technical users.",
   },
 
   illoca: {
     name: "Illoca",
     url: "https://illoca.ai",
-    description: "Illoca accelerates commercial architecture workflows with generative AI for AEC software."
+    description:
+      "Illoca accelerates commercial architecture workflows with generative AI for AEC software.",
   },
 
   integrated: {
     name: "Integrated Biosciences",
     url: "https://integratebio.co",
-    description: "Integrated uses optogenetics and ML to discover drugs for neurodegenerative and age-related diseases."
+    description:
+      "Integrated uses optogenetics and ML to discover drugs for neurodegenerative and age-related diseases.",
   },
 
   latent: {
     name: "Latent Technology",
     url: "https://latent-technology.com",
-    description: "Latent helps animators and game developers create life-like 3D assets with AI-powered tools."
+    description:
+      "Latent helps animators and game developers create life-like 3D assets with AI-powered tools.",
   },
 
   patterns: {
     name: "Patterns",
     url: "https://patterns.app",
-    description: "Patterns provides tools and infrastructure for developing modern AI applications efficiently."
-  }
+    description:
+      "Patterns provides tools and infrastructure for developing modern AI applications efficiently.",
+  },
 };
