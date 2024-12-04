@@ -34,11 +34,11 @@ const portfolio = {
   },
 
   hash: {
-    name: "Hash",
+    name: "HASH",
     url: "https://hash.ai",
     description:
-      "Hash is a web-based platform for simulation and modeling, starting with agent-based modeling (ABM) and simulation.",
-    demo: "https://core.hash.ai/new",
+      "HASH is an open-source, self-building database that grows and maintains a typed graph of entities on your behalf.",
+    demo: "https://app.hash.ai/",
   },
 
   superconductive: {
