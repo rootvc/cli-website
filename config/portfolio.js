@@ -352,5 +352,53 @@ const portfolio = {
     name: "GenAlpha",
     url: "https://www.generation-alpha-transistor.com/",
     description: "GenAlpha is an AI copilot for analog and mixed-signal chip design."
+  },
+      
+  breakpoint: {
+    name: "Breakpoint AI",
+    url: "https://setbreakpoint.com",
+    description: "Breakpoint uses AI to detect failures in computer vision models and re-trains them to prevent future issues."
+  },
+
+  determinate: {
+    name: "Determinate Systems",
+    url: "https://determinate.systems/",
+    description: "Determinate provides enterprise-grade solutions for Nix package management."
+  },
+
+  genalpha: {
+    name: "Gen Alpha",
+    url: "https://www.generation-alpha-transistor.com/",
+    description: "Gen Alpha builds AI copilots for analog and mixed-signal chip design to streamline workflows."
+  },
+
+  hunch: {
+    name: "Hunch",
+    url: "https://hunchdata.com",
+    description: "Hunch provides collaborative data exploration and visualization tools for non-technical users."
+  },
+
+  illoca: {
+    name: "Illoca",
+    url: "https://illoca.ai",
+    description: "Illoca accelerates commercial architecture workflows with generative AI for AEC software."
+  },
+
+  integrated: {
+    name: "Integrated Biosciences",
+    url: "https://integratebio.co",
+    description: "Integrated uses optogenetics and ML to discover drugs for neurodegenerative and age-related diseases."
+  },
+
+  latent: {
+    name: "Latent Technology",
+    url: "https://latent-technology.com",
+    description: "Latent helps animators and game developers create life-like 3D assets with AI-powered tools."
+  },
+
+  patterns: {
+    name: "Patterns",
+    url: "https://patterns.app",
+    description: "Patterns provides tools and infrastructure for developing modern AI applications efficiently."
   }
 };
