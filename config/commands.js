@@ -2,6 +2,22 @@ const whoisRoot = "Root Ventures is a San Francisco-based deep tech seed fund. A
 const timeUnit = 1000; // useful for development, set to 10 to run faster, set to 1000 for production
 let killed = false;
 
+function SpawnRickRollPointers() {
+  function padNumber(num, length) {
+    let str = num.toString();
+    while (str.length < length) {
+        str = '0' + str;
+    }
+    return str;
+  }
+  
+  const colSize = term.cols >= 90 ? 39 : 24
+  
+  for(let i = 0; i <= colSize; i++) {
+    term.stylePrint(`${colorText(`vsabnBRXofjub${padNumber(i,2)}`, "command")}`, false);
+  }
+}
+
 const commands = {
   help: function() {
     const maxCmdLength = Math.max(...Object.keys(help).map(x => x.length));
@@ -92,7 +108,7 @@ const commands = {
   },
 
   test: function() {
-    term.openURL("https://i.imgur.com/Q2Unw.gif");
+    SpawnRickRollPointers()
   },
 
   email: function() {
@@ -242,7 +258,7 @@ const commands = {
       term.stylePrint(`No such file: ${filename}`);
     }
     if (filename == "id_rsa") {
-      term.openURL("https://i.imgur.com/Q2Unw.gif");
+      SpawnRickRollPointers()
     }
   },
 
