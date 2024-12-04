@@ -37,7 +37,7 @@ const portfolio = {
     name: "Hash",
     url: "https://hash.ai",
     description:
-      "Hash is a web-based platform for simulation and modeling, starting with agent-based modeling (ABM) and simulation.",
+      "Hash is a self-building database that securely pulls and stores data from any app you use on the web.",
     demo: "https://core.hash.ai/new",
   },
 
@@ -161,7 +161,7 @@ const portfolio = {
 
   oma_fertility: {
     name: "Oma Fertility",
-    url: "https://omafertility.com/",
+    url: "",
     description: "Oma improves fertility outcomes through advanced automation.",
   },
 
