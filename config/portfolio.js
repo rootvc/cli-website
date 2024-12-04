@@ -193,7 +193,7 @@ const portfolio = {
 
   creator: {
     name: "Creator",
-    url: "https://creator.rest",
+    url: "",
     description: "Creator builds fully autonomous hamburger robots.",
   },
 
@@ -234,14 +234,14 @@ const portfolio = {
 
   sixwheel: {
     name: "SixWheel",
-    url: "https://sixwheel.com",
+    url: "",
     description:
       "SixWheel brings autonomy and electrification to long haul trucking operations.",
   },
 
   radical: {
     name: "Radical",
-    url: "https://radicalsemiconductor.com",
+    url: "",
     description:
       "Radical Semiconductor provides hardware security down to the individual IC.",
   },
