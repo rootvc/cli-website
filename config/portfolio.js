@@ -348,6 +348,12 @@ const portfolio = {
     description: "Trieve provides infrastructure for building AI search into your applications."
   },
 
+  genalpha: {
+    name: "GenAlpha",
+    url: "https://www.generation-alpha-transistor.com/",
+    description: "GenAlpha is an AI copilot for analog and mixed-signal chip design."
+  },
+      
   breakpoint: {
     name: "Breakpoint AI",
     url: "https://setbreakpoint.com",
