@@ -29,7 +29,7 @@ const team = {
   },
   zodi: {
     name: "Zodi Chalat",
-    title: "Associate Investor",
+    title: "Associate",
     description:
       "Zodi began his career as an engineer working on ML infrastructure at Netflix before moving into venture investing. He previously studied CS and comparative literature at Yale.",
     linkedin: "https://linkedin.com/in/zodi",
