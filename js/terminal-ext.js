@@ -174,7 +174,7 @@ extend = (term) => {
     term.reset();
     term.printLogoType();
     term.stylePrint(
-      "Welcome to the Root Ventures terminal. We are investing in technical founders.",
+      "Welcome to the Root Ventures terminal. Technical seed investors.",
     );
     term.stylePrint(
       `Type ${colorText("help", "command")} to get started. Or type ${colorText("exit", "command")} for web version.`,
