@@ -27,6 +27,13 @@ const team = {
       "Lee was most recently CTO at Teespring. Previously, Lee was a mechanical engineer at iRobot, a software engineer at Pivotal Labs, Lead Engineer at SideTour (acquired by Groupon in 2013), and engineering manager for GrouponLive. He graduated from Olin College of Engineering with a degree in Systems Engineering.",
     linkedin: "https://www.linkedin.com/in/leeredwards/",
   },
+  zodi: {
+    name: "Zodi Chalat",
+    title: "Associate Investor",
+    description:
+      "Zodi began his career as an engineer working on ML infrastructure at Netflix before moving into venture investing. He previously studied CS and comparative literature at Yale.",
+    linkedin: "https://linkedin.com/in/zodi",
+  },
   ben: {
     name: "Ben Lovell",
     title: "Head of Operations",
@@ -41,11 +48,4 @@ const team = {
       "Laelah has spent over 15 years in marketing for films, consumer products, and subscription-based services. Laelah Reino has a BA in Business Administration with a Marketing concentration from Drexel University.",
     linkedin: "https://www.linkedin.com/in/laelah-reino-78b6a51/",
   },
-  zodi: {
-    name: "Zodi Chalat",
-    title: "Associate Investor",
-    description:
-      "Zodi began his career as an engineer working on ML infrastructure at Netflix before moving into venture investing. He previously studied CS and comparative literature at Yale.",
-    linkedin: "https://linkedin.com/in/zodi"
-  }
 };

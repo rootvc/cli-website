@@ -367,7 +367,7 @@ const portfolio = {
 
   genalpha: {
     name: "Gen Alpha",
-    url: "https://www.generation-alpha-transistor.com/",
+    url: "https://www.generation-alpha-transistor.com",
     description:
       "Gen Alpha builds AI copilots for analog and mixed-signal chip design to streamline workflows.",
   },
