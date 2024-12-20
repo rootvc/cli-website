@@ -381,7 +381,7 @@ const portfolio = {
 
   illoca: {
     name: "Illoca",
-    url: "https://illoca.ai",
+    url: "https://illoca.com",
     description:
       "Illoca accelerates commercial architecture workflows with generative AI for AEC software.",
   },
