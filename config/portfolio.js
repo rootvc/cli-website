@@ -406,4 +406,11 @@ const portfolio = {
     description:
       "Patterns provides tools and infrastructure for developing modern AI applications efficiently.",
   },
+
+  subtrace: {
+    name: "Subtrace",
+    url: "https://subtrace.dev",
+    description:
+      "Subtrace automatically tracks all HTTP requests coming in and going out of your production backend.",
+  },
 };
