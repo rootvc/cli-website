@@ -1,4 +1,4 @@
-const whoisRoot = "Root Ventures is a San Francisco-based deep tech seed fund. As engineers ourselves, we specialize in leading initial funding for founders tackling new technical opportunities. Our initial investments typically range from $2-3M. With a selective few new deals a year and 2/3 of our funds in reserve, we are committed to being a long-term partner. Try %whois% and one of avidan, kane, chrissy, lee, ben, or laelah to learn more about our team.";
+const whoisRoot = "Root Ventures is a San Francisco-based deep tech seed fund. As engineers ourselves, we specialize in leading initial funding for founders tackling new technical opportunities. Our initial investments typically range from $2-3M. With a selective few new deals a year and 2/3 of our funds in reserve, we are committed to being a long-term partner. Try %whois% and one of avidan, kane, chrissy, lee, ben, zodi, or laelah to learn more about our team.";
 const timeUnit = 1000; // useful for development, set to 10 to run faster, set to 1000 for production
 let killed = false;
 
@@ -189,7 +189,8 @@ const commands = {
       case "../home/kane":
       case "../home/chrissy":
       case "../home/lee":
-      case "../home/emily":
+      case "../home/zodi":
+      case "../home/ben":
       case "../home/laelah":
         if (term.cwd == "~" || term.cwd == "bin") {
           term.command(`cd ${dir.split("/")[2]}`);
@@ -201,13 +202,15 @@ const commands = {
       case "/home/kane":
       case "/home/chrissy":
       case "/home/lee":
-      case "/home/emily":
+      case "/home/zodi":
+      case "/home/ben":
       case "/home/laelah":
       case "avidan":
       case "kane":
       case "chrissy":
       case "lee":
-      case "emily":
+      case "zodi":
+      case "ben":
       case "laelah":
         term.stylePrint(`You do not have permission to access this directory`);
         break;
@@ -287,7 +290,8 @@ const commands = {
       case 'kane':
       case 'chrissy':
       case 'lee':
-      case 'emily':
+      case 'zodi':
+      case 'ben':
       case 'laelah':
         term.stylePrint(`Login: ${user}   Name: ${team[user]["name"]}`);
         term.stylePrint(`Directory: /home/${user}   Shell: /bin/zsh`);
@@ -320,8 +324,11 @@ const commands = {
       case 'lee':
         term.stylePrint("wheel investors engineers partners software devtools data ai+ml gamers winesnobs");
         break;
-      case 'emily':
-        term.stylePrint("wheel investors engineers principals mechanical space automotive winesnobs");
+      case 'zodi':
+        term.stylePrint("wheel investors engineers investors ai+ml simulation terraforming maine");
+        break;
+      case 'ben':
+        term.stylePrint("wheel operations photography ironman racecars canyoneering");
         break;
       case 'laelah':
         term.stylePrint("wheel admin operations miracleworkers gamers");
