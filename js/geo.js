@@ -5,7 +5,10 @@ function buildGeoPage() {
   whois.innerHTML = whoisRoot.split(" Try")[0];
 
   const portfolioTable = document.getElementById("portfolio");
-  for (p in portfolio) {
+  const sortedPortfolioKeys = Object.keys(portfolio).sort((a, b) => 
+    portfolio[a].name.localeCompare(portfolio[b].name)
+  );
+  for (const p of sortedPortfolioKeys) {
     const row = portfolioTable.insertRow(-1);
     const logoCell = row.insertCell();
     const descriptionCell = row.insertCell();
