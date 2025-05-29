@@ -91,7 +91,7 @@ extend = (term) => {
   term.stylePrint = (text, wrap = true) => {
     // Hyperlinks
     const urlRegex =
-      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,24}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
     const urlMatches = text.matchAll(urlRegex);
     let allowWrapping = true;
     for (match of urlMatches) {
