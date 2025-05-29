@@ -169,8 +169,6 @@ extend = (term) => {
 
   term.init = (user = "guest", preserveHistory = false) => {
     fitAddon.fit();
-    preloadASCIIArt();
-    preloadFiles();
     term.reset();
     term.printLogoType();
     term.stylePrint(
@@ -190,6 +188,12 @@ extend = (term) => {
       term.history = [];
     }
     term.focus();
+    
+    // Defer heavy operations to avoid blocking cursor
+    setTimeout(() => {
+      preloadASCIIArt();
+      preloadFiles();
+    }, 100);
   };
 
   term.runDeepLink = () => {
