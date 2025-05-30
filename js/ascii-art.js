@@ -14,16 +14,33 @@ __    __         _
 `.replaceAll("\n", "\r\n");
 
 function preloadASCIIArt() {
-  const companies = Object.keys(portfolio);
-  for (c of companies) {
-    _loadArt(c, 0.5, 1.0, 'jpg', false);
-  }
-
+  // Load rootvc logo first as it's most commonly used
   _loadArt("rootvc-square", 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png', false);
+  
+  // Load other assets in small batches with delays to avoid blocking
+  const companies = Object.keys(portfolio);
   const people = Object.keys(team);
-  for (p of people) {
-    _loadArt(p, 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png', true);
+  const allItems = [
+    ...companies.map(c => ({id: c, ratio: 0.5, scale: 1.0, ext: 'jpg', inverse: false})),
+    ...people.map(p => ({id: p, ratio: 1.0, scale: term.cols >= 60 ? 0.5 : 1.0, ext: 'png', inverse: true}))
+  ];
+  
+  let index = 0;
+  function loadNextBatch() {
+    const batchSize = 3;
+    for (let i = 0; i < batchSize && index < allItems.length; i++) {
+      const item = allItems[index];
+      _loadArt(item.id, item.ratio, item.scale, item.ext, item.inverse);
+      index++;
+    }
+    
+    if (index < allItems.length) {
+      setTimeout(loadNextBatch, 100);
+    }
   }
+  
+  // Start loading after a delay
+  setTimeout(loadNextBatch, 200);
 }
 
 // TODO: Here is where we should insert alternatives to ASCII as text
@@ -58,5 +75,17 @@ function _loadArt(id, ratio, scale, ext, inverse, callback) {
 
 function getArt(id) {
   const div = document.getElementById(id);
+  if (!div || !div.innerText) {
+    // If art isn't loaded yet, load it immediately
+    if (id === "rootvc-square") {
+      _loadArt(id, 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png', false);
+    } else if (Object.keys(portfolio).includes(id)) {
+      _loadArt(id, 0.5, 1.0, 'jpg', false);
+    } else if (Object.keys(team).includes(id)) {
+      _loadArt(id, 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png', true);
+    }
+    // Return a placeholder while loading
+    return `Loading ${id}...`;
+  }
   return div.innerText.replaceAll("\n", "\n\r");
 }

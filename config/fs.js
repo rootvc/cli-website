@@ -36,12 +36,26 @@ for (const [key, values] of Object.entries(_DIRS)) {
 }
 
 function preloadFiles() {
-  for (kv of Object.entries(_REMOTE_FILES)) {
-    _loadFile(kv[0]);
-  }
-
+  // Load local files immediately as they're already available
   for (kv of Object.entries(_LOCAL_FILES)) {
     _insertFileToDOM(kv[0], kv[1]);
+  }
+
+  // Load remote files asynchronously with delays to avoid blocking
+  const remoteFiles = Object.entries(_REMOTE_FILES);
+  let index = 0;
+  
+  function loadNextFile() {
+    if (index < remoteFiles.length) {
+      _loadFile(remoteFiles[index][0]);
+      index++;
+      setTimeout(loadNextFile, 100);
+    }
+  }
+  
+  // Start loading remote files after a delay
+  if (remoteFiles.length > 0) {
+    setTimeout(loadNextFile, 50);
   }
 }
 
