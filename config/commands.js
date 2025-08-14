@@ -95,6 +95,10 @@ const commands = {
     term.openURL("https://i.imgur.com/Q2Unw.gif");
   },
 
+  swag: function() {
+    term.openURL("https://rootvc.creator-spring.com");
+  },
+
   email: function() {
     term.command("pine");
   },
