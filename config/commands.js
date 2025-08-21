@@ -138,6 +138,11 @@ const commands = {
     term.stylePrint(_filesHere().join("   "));
   },
 
+  date: function() {
+    const date = new Date();
+    term.stylePrint(date.toString());
+  },
+
   // I am so, so sorry for this code.
   cd: function(args) {
     let dir = args[0] || "~";
@@ -404,6 +409,14 @@ const commands = {
 
   curl: function(args) {
     term.stylePrint(`Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource ${args[0]}. Use a real terminal.`);
+  },
+
+  wget: function(args) {
+    if (args[0] === undefined) {
+      term.stylePrint("wget: missing URL");
+      return   
+    }
+    term.stylePrint(`%wget% not installed. try: %curl% ${args[0]}`);
   },
 
   ftp: function(args) {
