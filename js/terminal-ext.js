@@ -13,6 +13,11 @@ extend = (term) => {
   term._promptRawText = () =>
     `${term.user}${term.sep}${term.host} ${term.cwd} $`;
   term.deepLink = window.location.hash.replace("#", "").split("-").join(" ");
+  
+  // Simple tab completion state
+  term.tabIndex = 0;
+  term.tabOptions = [];
+  term.tabBase = "";
 
   term.promptText = () => {
     var text = term
