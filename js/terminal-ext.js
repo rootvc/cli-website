@@ -1,6 +1,7 @@
 // TODO: make this a proper addon
 
 extend = (term) => {
+  term.VERSION = term.VERSION || 3;
   term.currentLine = "";
   term.user = "guest";
   term.host = "rootpc";
@@ -182,23 +183,37 @@ extend = (term) => {
     preloadFiles();
     term.reset();
     term.printLogoType();
-    term.stylePrint(
-      "Welcome to the Root Ventures terminal. Technical seed investors."
-    );
-    term.stylePrint(
-      `Type ${colorText("help", "command")} to get started. Or type ${colorText(
-        "exit",
-        "command"
-      )} for web version.`,
-      false
-    );
-    term.stylePrint(
-      `\r\nOpen jobs detected. Type ${colorText(
-        "jobs",
-        "command"
-      )} for more info.`,
-      false
-    );
+    if (term.VERSION == 3) {
+      term.stylePrint(
+        `\n${colorText("New version of Root Ventures detected.", "user")}`
+      );
+      term.stylePrint(
+        `Please upgrade your terminal with ${colorText("upgrade", "command")}.`
+      );
+    } else {
+      term.stylePrint(
+        "Welcome to the Root Ventures terminal. Seeding bold engineers!"
+      );
+      term.stylePrint(
+        `Type ${colorText(
+          "help",
+          "command"
+        )} to get started. Or type ${colorText(
+          "exit",
+          "command"
+        )} for web version.`,
+        false
+      );
+    }
+    if (Object.keys(jobs).length > 0) {
+      term.stylePrint(
+        `\r\nOpen jobs detected. Type ${colorText(
+          "jobs",
+          "command"
+        )} for more info.`,
+        false
+      );
+    }
 
     term.user = user;
     if (!preserveHistory) {
