@@ -1,11 +1,31 @@
-const whoisRoot = "Root Ventures is a San Francisco-based deep tech seed fund. As a team of engineers, we specialize in leading the first round of investments for technical founders.  Try %whois% and one of avidan, kane, chrissy, lee, ben, zodi, or laelah to learn more about our team.";
+const whoisRoot =
+  "Root Ventures is a San Francisco-based deep tech seed fund. As engineers ourselves, we specialize in leading initial funding for founders tackling new technical opportunities. Our initial investments typically range from $3-5M. With a selective few new deals a year and 2/3 of our funds in reserve, we are committed to being a long-term partner. Try %whois% and one of avidan, kane, chrissy, lee, ben, zodi, or laelah to learn more about our team.";
 const timeUnit = 1000; // useful for development, set to 10 to run faster, set to 1000 for production
 let killed = false;
 
+function SpawnRickRollPointers() {
+  function padNumber(num, length) {
+    let str = num.toString();
+    while (str.length < length) {
+      str = "0" + str;
+    }
+    return str;
+  }
+
+  const colSize = term.cols >= 90 ? 39 : 24;
+
+  for (let i = 0; i <= colSize; i++) {
+    term.stylePrint(
+      `${colorText(`vsabnBRXofjub${padNumber(i, 2)}`, "command")}`,
+      false
+    );
+  }
+}
+
 const commands = {
-  help: function() {
-    const maxCmdLength = Math.max(...Object.keys(help).map(x => x.length));
-    Object.entries(help).forEach(function(kv) {
+  help: function () {
+    const maxCmdLength = Math.max(...Object.keys(help).map((x) => x.length));
+    Object.entries(help).forEach(function (kv) {
       const cmd = kv[0];
       const desc = kv[1];
       if (term.cols >= 80) {
@@ -13,21 +33,24 @@ const commands = {
         const sep = " ".repeat(rightPad);
         term.stylePrint(`${cmd}${sep}${desc}`);
       } else {
-        if (cmd != 'help') { // skip second leading newline
+        if (cmd != "help") {
+          // skip second leading newline
           term.writeln("");
         }
         term.stylePrint(cmd);
         term.stylePrint(desc);
       }
-    })
+    });
   },
 
-  whois: function(args) {
+  whois: function (args) {
     const name = args[0];
     const people = Object.keys(team);
 
     if (!name) {
-      term.stylePrint("%whois%: Learn about the firm, or a partner - usage:\r\n");
+      term.stylePrint(
+        "%whois%: Learn about the firm, or a partner - usage:\r\n"
+      );
       term.stylePrint("%whois% root");
       for (p of people) {
         term.stylePrint(`%whois% ${p}`);
@@ -39,11 +62,13 @@ const commands = {
     } else if (Object.keys(team).includes(name)) {
       const person = team[name];
       term.printArt(name);
-      term.stylePrint(`\r\n${person["name"]}, ${person["title"]} - ${name}@root.vc`);
+      term.stylePrint(
+        `\r\n${person["name"]}, ${person["title"]} - ${name}@root.vc`
+      );
       term.stylePrint(`${person["linkedin"]}\r\n`);
       term.stylePrint(person["description"]);
     } else {
-      term.stylePrint(`User ${name || ''} not found. Try:\r\n`);
+      term.stylePrint(`User ${name || ""} not found. Try:\r\n`);
       term.stylePrint("%whois% root");
       for (p of people) {
         term.stylePrint(`%whois% ${p}`);
@@ -51,8 +76,8 @@ const commands = {
     }
   },
 
-  tldr: function(args) {
-    const name = (args[0] || "");
+  tldr: function (args) {
+    const name = args[0] || "";
     if (!name) {
       const companies = Object.keys(portfolio);
       term.stylePrint("%tldr%: Learn about a portfolio company - usage:\r\n");
@@ -66,7 +91,9 @@ const commands = {
         }
       }
     } else if (!portfolio[name]) {
-      term.stylePrint(`Portfolio company ${name} not found. Should we talk to them? Email us: hello@root.vc`);
+      term.stylePrint(
+        `Portfolio company ${name} not found. Should we talk to them? Email us: hello@root.vc`
+      );
     } else {
       const company = portfolio[name];
       term.cols >= 60 ? term.printArt(name) : term.writeln("");
@@ -83,63 +110,65 @@ const commands = {
     }
   },
 
-  git: function() {
+  git: function () {
     term.displayURL("https://github.com/rootvc/cli-website");
   },
 
-  agm: function() {
+  agm: function () {
     term.openURL("http://annualmeeting.root.vc");
   },
 
-  test: function() {
-    term.openURL("https://i.imgur.com/Q2Unw.gif");
+  test: function () {
+    SpawnRickRollPointers();
   },
 
-  email: function() {
+  email: function () {
     term.command("pine");
   },
 
-  github: function() {
+  github: function () {
     term.displayURL("https://github.com/rootvc");
   },
 
-  twitter: function() {
+  twitter: function () {
     term.displayURL("https://twitter.com/rootvc");
     term.displayURL("https://twitter.com/machinepix");
   },
 
-  instagram: function() {
+  instagram: function () {
     term.displayURL("https://instagram.com/machinepix/");
   },
 
-  insta: function() {
+  insta: function () {
     term.command("instagram");
   },
 
-  other: function() {
-    term.stylePrint("Yeah, I didn't literally mean %other%. I mean try some Linux commands");
+  other: function () {
+    term.stylePrint(
+      "Yeah, I didn't literally mean %other%. I mean try some Linux commands"
+    );
   },
 
-  echo: function(args) {
+  echo: function (args) {
     const message = args.join(" ");
     term.stylePrint(message);
   },
 
-  say: function(args) {
+  say: function (args) {
     const message = args.join(" ");
     term.stylePrint(`(Robot voice): ${message}`);
   },
 
-  pwd: function() {
+  pwd: function () {
     term.stylePrint("/" + term.cwd.replaceAll("~", `home/${term.user}`));
   },
 
-  ls: function() {
+  ls: function () {
     term.stylePrint(_filesHere().join("   "));
   },
 
   // I am so, so sorry for this code.
-  cd: function(args) {
+  cd: function (args) {
     let dir = args[0] || "~";
     if (dir != "/") {
       // strip trailing slash
@@ -167,7 +196,9 @@ const commands = {
         if (term.cwd == "/") {
           term.command("cd /home");
         } else {
-          term.stylePrint(`You do not have permission to access this directory`);
+          term.stylePrint(
+            `You do not have permission to access this directory`
+          );
         }
         break;
       case "/home":
@@ -179,7 +210,9 @@ const commands = {
           if (term.user == dir) {
             term.command("cd ~");
           } else {
-            term.stylePrint(`You do not have permission to access this directory`);
+            term.stylePrint(
+              `You do not have permission to access this directory`
+            );
           }
         } else {
           term.stylePrint(`No such directory: ${dir}`);
@@ -232,11 +265,11 @@ const commands = {
     }
   },
 
-  zsh: function() {
+  zsh: function () {
     term.init(term.user);
   },
 
-  cat: function(args) {
+  cat: function (args) {
     const filename = args[0];
 
     if (_filesHere().includes(filename)) {
@@ -245,11 +278,11 @@ const commands = {
       term.stylePrint(`No such file: ${filename}`);
     }
     if (filename == "id_rsa") {
-      term.openURL("https://i.imgur.com/Q2Unw.gif");
+      SpawnRickRollPointers();
     }
   },
 
-  grep: function(args) {
+  grep: function (args) {
     const q = args[0];
     const filename = args[1];
 
@@ -274,96 +307,117 @@ const commands = {
     }
   },
 
-  finger: function(args) {
+  finger: function (args) {
     const user = args[0];
 
     switch (user) {
-      case 'guest':
+      case "guest":
         term.stylePrint("Login: guest            Name: Guest");
         term.stylePrint("Directory: /home/guest  Shell: /bin/zsh");
         break;
-      case 'root':
+      case "root":
         term.stylePrint("Login: root             Name: That's Us!");
         term.stylePrint("Directory: /home/root   Shell: /bin/zsh");
         break;
-      case 'avidan':
-      case 'kane':
-      case 'chrissy':
-      case 'lee':
-      case 'zodi':
-      case 'ben':
-      case 'laelah':
+      case "avidan":
+      case "kane":
+      case "chrissy":
+      case "lee":
+      case "zodi":
+      case "ben":
+      case "laelah":
         term.stylePrint(`Login: ${user}   Name: ${team[user]["name"]}`);
         term.stylePrint(`Directory: /home/${user}   Shell: /bin/zsh`);
         break;
       default:
-        term.stylePrint(user ? `%finger%: ${user}: no such user` : "usage: %finger% [user]");
+        term.stylePrint(
+          user ? `%finger%: ${user}: no such user` : "usage: %finger% [user]"
+        );
         break;
     }
   },
 
-  groups: function(args) {
+  groups: function (args) {
     const user = args[0];
 
     switch (user) {
-      case 'guest':
+      case "guest":
         term.stylePrint("guest lps founders engineers investors");
         break;
-      case 'root':
+      case "root":
         term.stylePrint("wheel investors engineers deep tech firms");
         break;
-      case 'avidan':
-        term.stylePrint("wheel investors engineers managingpartner handypersons tinkers agtech foodtech foodies coffeesnobs");
+      case "avidan":
+        term.stylePrint(
+          "wheel investors engineers managingpartner handypersons tinkers agtech foodtech foodies coffeesnobs"
+        );
         break;
-      case 'kane':
-        term.stylePrint("wheel investors engineers partners tinkerers cad motorcyclists gearheads machinepix sportshooters gamers");
+      case "kane":
+        term.stylePrint(
+          "wheel investors engineers partners tinkerers cad motorcyclists gearheads machinepix sportshooters gamers"
+        );
         break;
-      case 'chrissy':
-        term.stylePrint("wheel investors engineers partners electrical manufacturing ecad wearables healthtech gearheads automotive sportshooters");
+      case "chrissy":
+        term.stylePrint(
+          "wheel investors engineers partners electrical manufacturing ecad wearables healthtech gearheads automotive sportshooters"
+        );
         break;
-      case 'lee':
-        term.stylePrint("wheel investors engineers partners software devtools data ai+ml gamers winesnobs");
+      case "lee":
+        term.stylePrint(
+          "wheel investors engineers partners software devtools data ai+ml gamers winesnobs"
+        );
         break;
-      case 'zodi':
-        term.stylePrint("wheel investors engineers investors ai+ml simulation terraforming maine");
+      case "zodi":
+        term.stylePrint(
+          "wheel investors engineers investors ai+ml simulation terraforming maine"
+        );
         break;
-      case 'ben':
-        term.stylePrint("wheel operations photography ironman racecars canyoneering");
+      case "ben":
+        term.stylePrint(
+          "wheel operations photography ironman racecars canyoneering"
+        );
         break;
-      case 'laelah':
+      case "laelah":
         term.stylePrint("wheel admin operations miracleworkers gamers");
         break;
       default:
-        term.stylePrint(user ? `%groups%: ${user}: no such user` : "usage: %groups% [user]");
+        term.stylePrint(
+          user ? `%groups%: ${user}: no such user` : "usage: %groups% [user]"
+        );
         break;
     }
   },
 
-  gzip: function() {
-    term.stylePrint("What are you going to do with a zip file on a fake terminal, seriously?");
+  gzip: function () {
+    term.stylePrint(
+      "What are you going to do with a zip file on a fake terminal, seriously?"
+    );
   },
 
-  free: function() {
+  free: function () {
     term.stylePrint("Honestly, our memory isn't what it used to be.");
   },
 
-  tail: function(args) {
+  tail: function (args) {
     term.command(`cat ${args.join(" ")}`);
   },
 
-  less: function(args) {
+  less: function (args) {
     term.command(`cat ${args.join(" ")}`);
   },
 
-  head: function(args) {
+  head: function (args) {
     term.command(`cat ${args.join(" ")}`);
   },
 
-  open: function(args) {
+  open: function (args) {
     if (!args.length) {
       term.stylePrint("%open%: open a file - usage:\r\n");
       term.stylePrint("%open% test.htm");
-    } else if (args[0].split(".")[0] == "test" && args[0].split(".")[1] == "htm") {
+    } else if (
+      args[0].split(".")[0] == "test" &&
+      args[0].split(".")[1] == "htm"
+    ) {
       term.openURL("https://i.imgur.com/Q2Unw.gif");
     } else if (args[0].split(".")[1] == "htm") {
       term.openURL(`./${args[0]}`, false);
@@ -374,71 +428,75 @@ const commands = {
     }
   },
 
-  more: function(args) {
+  more: function (args) {
     term.command(`cat ${args.join(" ")}`);
   },
 
-  emacs: function() {
+  emacs: function () {
     term.stylePrint("%emacs% not installed. try: %vi%");
   },
 
-  vim: function() {
+  vim: function () {
     term.stylePrint("%vim% not installed. try: %emacs%");
   },
 
-  vi: function() {
+  vi: function () {
     term.stylePrint("%vi% not installed. try: %emacs%");
   },
 
-  pico: function() {
+  pico: function () {
     term.stylePrint("%pico% not installed. try: %vi% or %emacs%");
   },
 
-  nano: function() {
+  nano: function () {
     term.stylePrint("%nano% not installed. try: %vi% or %emacs%");
   },
 
-  pine: function() {
+  pine: function () {
     term.openURL("mailto:hello@root.vc");
   },
 
-  curl: function(args) {
-    term.stylePrint(`Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource ${args[0]}. Use a real terminal.`);
+  curl: function (args) {
+    term.stylePrint(
+      `Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource ${args[0]}. Use a real terminal.`
+    );
   },
 
-  ftp: function(args) {
+  ftp: function (args) {
     term.command(`curl ${args.join(" ")}`);
   },
 
-  ssh: function(args) {
+  ssh: function (args) {
     term.command(`curl ${args.join(" ")}`);
   },
 
-  sftp: function(args) {
+  sftp: function (args) {
     term.command(`curl ${args.join(" ")}`);
   },
 
-  scp: function(args) {
-    term.stylePrint(`████████████ Request Blocked: The ███████████ Policy disallows reading the ██████ resource ${args[0]}.`);
+  scp: function (args) {
+    term.stylePrint(
+      `████████████ Request Blocked: The ███████████ Policy disallows reading the ██████ resource ${args[0]}.`
+    );
   },
 
-  rm: function() {
+  rm: function () {
     term.stylePrint("I'm sorry Dave, I'm afraid I can't do that.");
   },
 
-  mkdir: function() {
+  mkdir: function () {
     term.stylePrint("Come on, don't mess with our immaculate file system.");
   },
 
-  alias: function() {
+  alias: function () {
     term.stylePrint("Just call me HAL.");
   },
 
-  df: function() {
+  df: function () {
     term.stylePrint("Nice try. Just get a Dropbox.");
   },
 
-  kill: function(args) {
+  kill: function (args) {
     if (args && args.slice(-1) == 337) {
       killed = true;
       term.stylePrint("Root Ventures crypto miner disabled.");
@@ -447,23 +505,23 @@ const commands = {
     }
   },
 
-  killall: function(args) {
+  killall: function (args) {
     term.command(`kill ${args.join(" ")}`);
   },
 
-  locate: function() {
+  locate: function () {
     term.stylePrint("Root Ventures");
     term.stylePrint("2670 Harrison St");
     term.stylePrint("San Francisco, CA 94110");
   },
 
-  history: function() {
+  history: function () {
     term.history.forEach((element, index) => {
       term.stylePrint(`${1000 + index}  ${element}`);
-    })
+    });
   },
 
-  find: function(args) {
+  find: function (args) {
     const file = args[0];
     if (Object.keys(_FILES).includes(file)) {
       term.stylePrint(_FULL_PATHS[file]);
@@ -472,19 +530,19 @@ const commands = {
     }
   },
 
-  fdisk: function() {
+  fdisk: function () {
     term.command("rm");
   },
 
-  chown: function() {
+  chown: function () {
     term.stylePrint("You do not have permission to %chown%");
   },
 
-  chmod: function() {
+  chmod: function () {
     term.stylePrint("You do not have permission to %chmod%");
   },
 
-  mv: function(args) {
+  mv: function (args) {
     const src = args[0];
 
     if (_filesHere().includes(src)) {
@@ -494,7 +552,7 @@ const commands = {
     }
   },
 
-  cp: function(args) {
+  cp: function (args) {
     const src = args[0];
 
     if (_filesHere().includes(src)) {
@@ -504,20 +562,24 @@ const commands = {
     }
   },
 
-  touch: function() {
+  touch: function () {
     term.stylePrint("You can't %touch% this");
   },
 
-  sudo: function(args) {
+  sudo: function (args) {
     if (term.user == "root") {
       term.command(args.join(" "));
-    }
-    else {
-      term.stylePrint(`${colorText(term.user, "user")} is not in the sudoers file. This incident will be reported`);
+    } else {
+      term.stylePrint(
+        `${colorText(
+          term.user,
+          "user"
+        )} is not in the sudoers file. This incident will be reported`
+      );
     }
   },
 
-  su: function(args) {
+  su: function (args) {
     user = args[0] || "root";
 
     if (user == "root" || user == "guest") {
@@ -528,35 +590,37 @@ const commands = {
     }
   },
 
-  quit: function() {
+  quit: function () {
     term.command("exit");
   },
 
-  stop: function() {
+  stop: function () {
     term.command("exit");
   },
 
-  whoami: function() {
+  whoami: function () {
     term.stylePrint(term.user);
   },
 
-  passwd: function() {
-    term.stylePrint("Wow. Maybe don't enter your password into a sketchy web-based term.command prompt?");
+  passwd: function () {
+    term.stylePrint(
+      "Wow. Maybe don't enter your password into a sketchy web-based term.command prompt?"
+    );
   },
 
-  man: function(args) {
+  man: function (args) {
     term.command(`tldr ${args}`);
   },
 
-  woman: function(args) {
+  woman: function (args) {
     term.command(`tldr ${args}`);
   },
 
-  ping: function() {
+  ping: function () {
     term.stylePrint("pong");
   },
 
-  ps: function() {
+  ps: function () {
     term.stylePrint("PID TTY       TIME CMD");
     term.stylePrint("424 ttys00 0:00.33 %-zsh%");
     term.stylePrint("158 ttys01 0:09.70 %/bin/npm start%");
@@ -566,10 +630,12 @@ const commands = {
     }
   },
 
-  uname: function(args) {
+  uname: function (args) {
     switch (args[0]) {
       case "-a":
-        term.stylePrint("RootPC rootpc 0.0.1 RootPC Kernel Version 0.0.1 root:xnu-31415.926.5~3/RELEASE_X86_64 x86_64");
+        term.stylePrint(
+          "RootPC rootpc 0.0.1 RootPC Kernel Version 0.0.1 root:xnu-31415.926.5~3/RELEASE_X86_64 x86_64"
+        );
         break;
       case "-mrs":
         term.stylePrint("RootPC 0.0.1 x86_64");
@@ -579,77 +645,188 @@ const commands = {
     }
   },
 
-  top: function() {
+  top: function () {
     term.command("ps");
   },
 
-  exit: function() {
+  exit: function () {
     term.command("open welcome.htm");
   },
 
-  clear: function() {
+  clear: function () {
     term.init();
   },
 
-  zed: function() {
+  zed: function () {
     term.stylePrint("Coming soon! ;)");
   },
 
-  ge: function() {
+  ge: function () {
     term.command("great_expectations");
   },
 
-  great_expectations: function() {
+  great_expectations: function () {
     term.command("superconductive");
   },
 
-  privacy: function() {
+  privacy: function () {
     term.command("privacy_dynamics");
   },
 
-  eval: function(args) {
-    term.stylePrint("please instead build a webstore with macros. in the meantime, the result is: " + eval(args.join(" ")));
+  eval: function (args) {
+    term.stylePrint(
+      "please instead build a webstore with macros. in the meantime, the result is: " +
+        eval(args.join(" "))
+    );
   },
 
-  jobs: function() {
-    term.stylePrint(`[1]   Running                 investor &`);
-    term.stylePrint("\r\nUse %fg% [id] to see details of a job.")
-    term.stylePrint("Yes, we know that's not exactly how %jobs% works in Unix, but close enough.");
+  upgrade: async function (args) {
+    const timeUnit = 1000; // useful for development, set to 10 to run faster, set to 1000 for production
+    term.VERSION = 4;
+    term.init();
+    term.locked = true;
+    term.write(
+      `\r\n${colorText(
+        "==>",
+        "hyperlink"
+      )} Downloading https://ghcr.io/v2/homebrew/core/rootvc/manifests/4.0.0`
+    );
+    await term.progressBar(4 * timeUnit);
+    term.write(
+      `\r\n${colorText(
+        "==>",
+        "hyperlink"
+      )} Downloading https://ghcr.io/v2/homebrew/core/go/blobs/sha256:51869c798355307b59992918e9a595c53072d7a29458dbe5b8d105b63d3dd1c0`
+    );
+    await term.progressBar(2 * timeUnit);
+    term.write(
+      `\r\n${colorText(
+        "==>",
+        "hyperlink"
+      )} Downloading from https://pkg-containers.githubusercontent.com/ghcr1/blobs/sha256:51869c798355307b59992918e9a595c53072d7a29458dbe5b8d105b6`
+    );
+    await term.progressBar(1 * timeUnit);
+    term.write(
+      `\r\n${colorText("==>", "hyperlink")} npm install left-pad@latest`
+    );
+    await term.progressBar(0.5 * timeUnit);
+
+    await term.delayStylePrint("\r\n", 1 * timeUnit);
+    await term.dottedPrint("Calculating new fund size", 3);
+    await term.delayPrint(
+      `Updated fund size:          ${colorText("$190M", "prompt")}\r\n`,
+      1 * timeUnit
+    );
+    await term.delayPrint(
+      `Updated typical check size: ${colorText("up to $5M", "prompt")}\r\n`,
+      1 * timeUnit
+    );
+    await term.delayPrint(
+      `Found mission:              ${colorText(
+        "Seeding bold engineers.",
+        "user"
+      )}\r\n`,
+      1 * timeUnit
+    );
+    await term.delayPrint(
+      `Thesis (no update):         ${colorText(
+        "Investing at the earliest stages of technical founders taking engineering risk.",
+        "user"
+      )}\r\n`,
+      1 * timeUnit
+    );
+
+    await term.delayStylePrint(
+      `\r\n${colorText(
+        "You are now running Root Ventures version 4.0.",
+        "hyperlink"
+      )}\r\n`,
+      1 * timeUnit
+    );
+    await term.delayStylePrint(
+      `To learn more about this release, RTFM at: ${colorText(
+        "https://bit.ly/rvfund4",
+        "hyperlink"
+      )}\r\n`,
+      0.5 * timeUnit
+    );
+    await term.delayStylePrint(
+      `or remote into our coffee grinder at: ${colorText(
+        "https//rootventures.coffee",
+        "hyperlink"
+      )}\r\n`,
+      0.5 * timeUnit
+    );
+    await term.delayPrint(
+      "Note that VERSION 4.0 is an unstable build of the terminal.\r\n",
+      1 * timeUnit
+    );
+    await term.delayPrint("Please report any bugs you find.\r\n", 1 * timeUnit);
+
+    term.prompt();
+    term.clearCurrentLine();
+    term.locked = false;
   },
 
-  bg: function(args) {
-    term.stylePrint(`Sorry. If you want to background one of these jobs, you'll need to help us fill it. Try %fg% ${args} instead.`);
+  jobs: function () {
+    term.stylePrint(`No jobs currently found. Check back later.`);
   },
 
-  fg: function(args) {
+  bg: function (args) {
+    term.stylePrint(
+      `Sorry. If you want to background one of these jobs, you'll need to help us fill it. Try %fg% ${args} instead.`
+    );
+  },
+
+  fg: function (args) {
     const job = jobs[args];
 
     if (job) {
-      job.map(line => term.stylePrint(line));
+      job.map((line) => term.stylePrint(line));
       term.stylePrint(`\r\n%apply% ${args} to apply!`);
     } else {
       term.stylePrint(`job id ${args} not found.`);
     }
   },
 
-  apply: function(args) {
+  apply: function (args) {
     if (args == 1) {
-      term.stylePrint("If you think you'd enjoy working here, apply by hitting the following endpoint:");
-      term.stylePrint("\r\nhttps://hooks.attio.com/w/1d456d59-a7ac-4211-ac1d-fac612f7f491/5fc14931-0124-4121-b281-1dbfb64dceb2\r\n");
-      term.stylePrint(`with a ${colorText("POST", "command")} request containing a json object with 4 keys (use a real terminal):`);
+      term.stylePrint(
+        "If you think you'd enjoy working here, apply by hitting the following endpoint:"
+      );
+      term.stylePrint(
+        "\r\nhttps://hooks.attio.com/w/1d456d59-a7ac-4211-ac1d-fac612f7f491/5fc14931-0124-4121-b281-1dbfb64dceb2\r\n"
+      );
+      term.stylePrint(
+        `with a ${colorText(
+          "POST",
+          "command"
+        )} request containing a json object with 4 keys (use a real terminal):`
+      );
       term.stylePrint(`\r\n{`);
       term.stylePrint(`\t${colorText("name", "command")}: [your name]`);
       term.stylePrint(`\t${colorText("email", "command")}: [your email]`);
-      term.stylePrint(`\t${colorText("linkedin", "command")}: [your linkedin profile url]`);
-      term.stylePrint(`\t${colorText("notes", "command")}: [(optional) anything else you'd like to share?]`);
+      term.stylePrint(
+        `\t${colorText("linkedin", "command")}: [your linkedin profile url]`
+      );
+      term.stylePrint(
+        `\t${colorText(
+          "notes",
+          "command"
+        )}: [(optional) anything else you'd like to share?]`
+      );
       term.stylePrint(`}`);
     } else if (!args || args == "") {
-      term.stylePrint("Please provide a job id. Use %jobs% to list all current jobs.");
+      term.stylePrint(
+        "Please provide a job id. Use %jobs% to list all current jobs."
+      );
     } else {
-      term.stylePrint(`Job id ${args[0]} not found. Use %jobs% to list all current jobs.`)
+      term.stylePrint(
+        `Job id ${args[0]} not found. Use %jobs% to list all current jobs.`
+      );
     }
-  }
-}
+  },
+};
 
 // Add commands for company demos
 for (kv of Object.entries(portfolio)) {
@@ -662,5 +839,5 @@ for (kv of Object.entries(portfolio)) {
 }
 
 function _filesHere() {
-  return _DIRS[term.cwd].filter((e) => e != 'README.md' || term.user == "root");
+  return _DIRS[term.cwd].filter((e) => e != "README.md" || term.user == "root");
 }

@@ -1,6 +1,7 @@
 // TODO: make this a proper addon
 
 extend = (term) => {
+  term.VERSION = term.VERSION || 3;
   term.currentLine = "";
   term.user = "guest";
   term.host = "rootpc";
@@ -13,7 +14,7 @@ extend = (term) => {
   term._promptRawText = () =>
     `${term.user}${term.sep}${term.host} ${term.cwd} $`;
   term.deepLink = window.location.hash.replace("#", "").split("-").join(" ");
-  
+
   // Simple tab completion state
   term.tabIndex = 0;
   term.tabOptions = [];
@@ -84,12 +85,16 @@ extend = (term) => {
   };
 
   term.setCurrentLine = (newLine, preserveCursor = false) => {
+    // Something with the new xterm package is messing up the location of term.pos() right after the clearCurrentLine()
+    // Because of this, we need to collect the position beforehand.
+    const oldPos = term.pos();
     const length = term.currentLine.length;
     term.clearCurrentLine();
     term.currentLine = newLine;
     term.write(newLine);
     if (preserveCursor) {
-      term.write("\x1b[D".repeat(length - term.pos()));
+      // term.write("\x1b[D".repeat(length - term.pos()));
+      term.write("\x1b[D".repeat(length - oldPos));
     }
   };
 
@@ -178,17 +183,37 @@ extend = (term) => {
     preloadFiles();
     term.reset();
     term.printLogoType();
-    term.stylePrint(
-      "Welcome to the Root Ventures terminal. Technical seed investors.",
-    );
-    term.stylePrint(
-      `Type ${colorText("help", "command")} to get started. Or type ${colorText("exit", "command")} for web version.`,
-      false,
-    );
-    term.stylePrint(
-      `\r\nOpen jobs detected. Type ${colorText("jobs", "command")} for more info.`,
-      false,
-    );
+    if (term.VERSION == 3) {
+      term.stylePrint(
+        `\n${colorText("New version of Root Ventures detected.", "user")}`
+      );
+      term.stylePrint(
+        `Please upgrade your terminal with ${colorText("upgrade", "command")}.`
+      );
+    } else {
+      term.stylePrint(
+        "Welcome to the Root Ventures terminal. Seeding bold engineers!"
+      );
+      term.stylePrint(
+        `Type ${colorText(
+          "help",
+          "command"
+        )} to get started. Or type ${colorText(
+          "exit",
+          "command"
+        )} for web version.`,
+        false
+      );
+    }
+    if (Object.keys(jobs).length > 0) {
+      term.stylePrint(
+        `\r\nOpen jobs detected. Type ${colorText(
+          "jobs",
+          "command"
+        )} for more info.`,
+        false
+      );
+    }
 
     term.user = user;
     if (!preserveHistory) {
