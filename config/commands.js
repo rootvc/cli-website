@@ -743,6 +743,20 @@ const commands = {
       )}\r\n`,
       1 * timeUnit
     );
+    await term.delayStylePrint(
+      `To learn more about this release, RTFM at: ${colorText(
+        "https://bit.ly/rvfund4",
+        "hyperlink"
+      )}\r\n`,
+      0.5 * timeUnit
+    );
+    await term.delayStylePrint(
+      `or remote into our coffee grinder at: ${colorText(
+        "https//rootventures.coffee",
+        "hyperlink"
+      )}\r\n`,
+      0.5 * timeUnit
+    );
     await term.delayPrint(
       "Note that VERSION 4.0 is an unstable build of the terminal.\r\n",
       1 * timeUnit
