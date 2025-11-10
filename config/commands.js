@@ -752,7 +752,7 @@ const commands = {
     );
     await term.delayStylePrint(
       `or remote into our coffee grinder at: ${colorText(
-        "https//rootventures.coffee",
+        "https://rootventures.coffee",
         "hyperlink"
       )}\r\n`,
       0.5 * timeUnit
@@ -762,6 +762,17 @@ const commands = {
       1 * timeUnit
     );
     await term.delayPrint("Please report any bugs you find.\r\n", 1 * timeUnit);
+
+    term.stylePrint(
+      `\r\nType ${colorText(
+        "help",
+        "command"
+      )} to get started. Or type ${colorText(
+        "exit",
+        "command"
+      )} for web version.`,
+      false
+    );
 
     term.prompt();
     term.clearCurrentLine();
