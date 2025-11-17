@@ -423,7 +423,7 @@ const portfolio = {
 
   loopwork: {
     name: "Loopwork",
-    url: "https://loop.work/",
+    url: "https://loopwork.com/",
     description:
       "Loopwork is building the next generation of agents.",
   },
