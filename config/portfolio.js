@@ -413,4 +413,25 @@ const portfolio = {
     description:
       "Subtrace automatically tracks all HTTP requests coming in and going out of your production backend.",
   },
+
+  digichem: {
+    name: "Digichem",
+    url: "https://www.digichem.com/",
+    description:
+      "Digichem prototypes and manufactures custom molecules online.",
+  },
+
+  loopwork: {
+    name: "Loopwork",
+    url: "https://loopwork.com/",
+    description:
+      "Loopwork is building the next generation of agents.",
+  },
+
+  feather: {
+    name: "Feather",
+    url: "https://feather.solutions/",
+    description:
+      "Feather provides FEA that runs in the browser.",
+  },
 };
