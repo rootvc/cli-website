@@ -434,4 +434,11 @@ const portfolio = {
     description:
       "Feather provides FEA that runs in the browser.",
   },
+
+  vibe_robotics: {
+    name: "Vibe Robotics",
+    url: "https://vbr.sh/",
+    description:
+      "Vibe Robotics, founded by Kai Backman and Luke Church, builds novel programming interfaces for robotics.",
+  }
 };
