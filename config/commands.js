@@ -780,7 +780,17 @@ const commands = {
   },
 
   jobs: function () {
-    term.stylePrint(`No jobs currently found. Check back later.`);
+    const jobIds = Object.keys(jobs);
+    if (jobIds.length === 0) {
+      term.stylePrint(`No jobs currently found. Check back later.`);
+    } else {
+      term.stylePrint(`Open positions:\r\n`);
+      jobIds.forEach((id) => {
+        const jobTitle = jobs[id][0];
+        term.stylePrint(`[${id}] ${jobTitle}`);
+      });
+      term.stylePrint(`\r\nUse %fg% [job_id] to view details, or %apply% [job_id] to apply.`);
+    }
   },
 
   bg: function (args) {
@@ -801,33 +811,123 @@ const commands = {
   },
 
   apply: function (args) {
-    if (args == 1) {
-      term.stylePrint(
-        "If you think you'd enjoy working here, apply by hitting the following endpoint:"
-      );
-      term.stylePrint(
-        "\r\nhttps://hooks.attio.com/w/1d456d59-a7ac-4211-ac1d-fac612f7f491/5fc14931-0124-4121-b281-1dbfb64dceb2\r\n"
-      );
-      term.stylePrint(
-        `with a ${colorText(
-          "POST",
-          "command"
-        )} request containing a json object with 4 keys (use a real terminal):`
-      );
-      term.stylePrint(`\r\n{`);
-      term.stylePrint(`\t${colorText("name", "command")}: [your name]`);
-      term.stylePrint(`\t${colorText("email", "command")}: [your email]`);
-      term.stylePrint(
-        `\t${colorText("linkedin", "command")}: [your linkedin profile url]`
-      );
-      term.stylePrint(
-        `\t${colorText(
-          "notes",
-          "command"
-        )}: [(optional) anything else you'd like to share?]`
-      );
-      term.stylePrint(`}`);
-    } else if (!args || args == "") {
+    if (args == 1 || (args.length > 0 && args[0] == 1)) {
+      // Immediately lock terminal and start async flow
+      term.locked = true;
+
+      (async () => {
+        term.stylePrint(
+          "Great! Let's get your application started. (Press Ctrl+C to cancel at any time)\r\n"
+        );
+
+        // Collect application data
+        const name = await term.collectInput("What's your name?");
+        if (!name) {
+          term.stylePrint("\r\nApplication cancelled.");
+          term.prompt();
+          term.clearCurrentLine(true);
+          term.locked = false;
+          return;
+        }
+
+        const email = await term.collectInput("Email address");
+        if (!email) {
+          term.stylePrint("\r\nApplication cancelled.");
+          term.prompt();
+          term.clearCurrentLine(true);
+          term.locked = false;
+          return;
+        }
+
+        const linkedin = await term.collectInput("LinkedIn profile URL", true);
+        if (linkedin === null) {
+          term.stylePrint("\r\nApplication cancelled.");
+          term.prompt();
+          term.clearCurrentLine(true);
+          term.locked = false;
+          return;
+        }
+
+        const github = await term.collectInput("GitHub username", true);
+        if (github === null) {
+          term.stylePrint("\r\nApplication cancelled.");
+          term.prompt();
+          term.clearCurrentLine(true);
+          term.locked = false;
+          return;
+        }
+
+        const notes = await term.collectInput(
+          "Why Root? What makes you a great fit?",
+          true
+        );
+        if (notes === null) {
+          term.stylePrint("\r\nApplication cancelled.");
+          term.prompt();
+          term.clearCurrentLine(true);
+          term.locked = false;
+          return;
+        }
+
+        // Show submission animation
+        term.stylePrint("\r\nSubmitting application...");
+
+        try {
+          const response = await fetch("/.netlify/functions/submit-application", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              name,
+              email,
+              linkedin: linkedin || undefined,
+              github: github || undefined,
+              notes: notes || undefined,
+              position: "Venture Capital Associate"
+            }),
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            term.stylePrint(
+              `\r\n${colorText("✓", "prompt")} Application submitted successfully!`
+            );
+            term.stylePrint(
+              "\r\nThanks for applying! We'll review your application and get back to you soon."
+            );
+            term.stylePrint(
+              `\r\nIn the meantime, check out our portfolio with ${colorText(
+                "tldr",
+                "command"
+              )} or learn more about the team with ${colorText(
+                "whois",
+                "command"
+              )}.`
+            );
+          } else {
+            throw new Error(result.error || "Submission failed");
+          }
+        } catch (error) {
+          term.stylePrint(
+            `\r\n${colorText("✗", "user")} Error submitting application: ${
+              error.message
+            }`
+          );
+          term.stylePrint(
+            "\r\nPlease try again or email us directly at hello@root.vc"
+          );
+        }
+
+        // Show prompt again and unlock
+        term.prompt();
+        term.clearCurrentLine(true);
+        term.locked = false;
+      })(); // Close the async IIFE
+
+      return 1; // Return 1 synchronously to prevent automatic prompt
+    } else if (!args || args == "" || args.length === 0) {
       term.stylePrint(
         "Please provide a job id. Use %jobs% to list all current jobs."
       );

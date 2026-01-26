@@ -1,3 +1,28 @@
 // NOTE: Right now, when you change these, you need to also change the listing of jobs by id in commands.js
 
-const jobs = {};
+const jobs = {
+  1: [
+    "Venture Capital Associate",
+    "",
+    "Root Ventures is looking for a technical associate to join our team in San Francisco.",
+    "",
+    "We're a deep tech seed fund that invests in bold engineers building the future.",
+    "As an associate, you'll work directly with partners to source deals, conduct",
+    "technical diligence, and support portfolio companies.",
+    "",
+    "What we're looking for:",
+    "  • Strong technical background (CS degree, engineering experience, or equivalent)",
+    "  • Genuine curiosity about emerging technologies and startups",
+    "  • Excellent communication skills - you can explain complex tech simply",
+    "  • Hustle and resourcefulness - you figure things out",
+    "  • Passion for working with technical founders",
+    "",
+    "Bonus points:",
+    "  • You've built side projects or contributed to open source",
+    "  • You're active in technical communities",
+    "  • You have startup experience",
+    "",
+    "This is a rare opportunity to learn venture capital from experienced operators",
+    "and work with some of the most innovative technical founders in the world.",
+  ],
+};

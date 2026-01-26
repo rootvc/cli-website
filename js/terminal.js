@@ -217,11 +217,17 @@ function runRootTerminal(term) {
             term.tabOptions = [];
             term.tabBase = "";
 
-            const newLine = `${term.currentLine.slice(
-              0,
-              term.pos()
-            )}${e}${term.currentLine.slice(term.pos())}`;
-            term.setCurrentLine(newLine, true);
+            // Optimize: just write the character instead of redrawing entire line
+            if (e.length === 1 && e.charCodeAt(0) >= 32) {
+              const pos = term.pos();
+              const restOfLine = term.currentLine.slice(pos);
+              term.currentLine = term.currentLine.slice(0, pos) + e + restOfLine;
+              term.write(e);
+              if (restOfLine.length > 0) {
+                term.write(restOfLine);
+                term.write("\x1b[D".repeat(restOfLine.length));
+              }
+            }
             break;
         }
         term.scrollToBottom();
