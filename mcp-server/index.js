@@ -7,11 +7,6 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
-// Attio webhook URL for Root Ventures job applications
-// This is intentionally public - it only accepts job application data
-// and cannot be used to read or modify existing Attio records
-const ATTIO_WEBHOOK_URL = "https://hooks.attio.com/w/1d456d59-a7ac-4211-ac1d-fac612f7f491/5fc14931-0124-4121-b281-1dbfb64dceb2";
-
 // Job descriptions
 const JOBS = {
   "associate": {
