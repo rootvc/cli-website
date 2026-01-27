@@ -57,7 +57,10 @@ Apply via our MCP server in Claude Desktop:
      "mcpServers": {
        "root-ventures-jobs": {
          "command": "npx",
-         "args": ["-y", "@rootvc/jobs-mcp-server"]
+         "args": ["-y", "@rootvc/jobs-mcp-server"],
+         "env": {
+           "ATTIO_WEBHOOK_URL": "your-webhook-url-here"
+         }
        }
      }
    }
@@ -216,7 +219,7 @@ npm view @rootvc/jobs-mcp-server
 ## Security Considerations
 
 ✅ **Current setup:**
-- Attio webhook URL is public (by design)
+- Attio webhook URL is configured via `ATTIO_WEBHOOK_URL` environment variable
 - No sensitive credentials in code
 - Input validation on required fields
 - Error handling for API failures

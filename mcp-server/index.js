@@ -7,10 +7,12 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
-// Attio webhook URL for Root Ventures job applications
-// This is intentionally public - it only accepts job application data
-// and cannot be used to read or modify existing Attio records
-const ATTIO_WEBHOOK_URL = "https://hooks.attio.com/w/1d456d59-a7ac-4211-ac1d-fac612f7f491/5fc14931-0124-4121-b281-1dbfb64dceb2";
+// Attio webhook URL from environment variable
+const ATTIO_WEBHOOK_URL = process.env.ATTIO_WEBHOOK_URL;
+
+if (!ATTIO_WEBHOOK_URL) {
+  console.error("[MCP Error] ATTIO_WEBHOOK_URL environment variable is not set");
+}
 
 // Job descriptions
 const JOBS = {
@@ -162,6 +164,19 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
       case "apply_to_root_ventures": {
         const { name, email, linkedin, github, notes, position } = args;
+
+        // Check webhook URL is configured
+        if (!ATTIO_WEBHOOK_URL) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: "Error: ATTIO_WEBHOOK_URL environment variable is not configured.",
+              },
+            ],
+            isError: true,
+          };
+        }
 
         // Validate required fields
         if (!name || !email) {
