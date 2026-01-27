@@ -227,6 +227,58 @@ extend = (term) => {
       term.command(term.deepLink);
     }
   };
+
+  // Interactive input collection
+  term.collectInput = (prompt, isOptional = false) => {
+    return new Promise((resolve) => {
+      term.locked = true;
+      term.write(`\r\n${prompt}${isOptional ? ' (optional)' : ''}: `);
+      let inputBuffer = '';
+
+      const inputHandler = term.onData((e) => {
+        switch (e) {
+          case '\r': // Enter
+            term.write('\r\n');
+            inputHandler.dispose(); // Properly remove handler
+            term.locked = false;
+            resolve(inputBuffer.trim());
+            break;
+          case '\u0003': // Ctrl+C
+            term.write('^C\r\n');
+            inputHandler.dispose(); // Properly remove handler
+            term.locked = false;
+            resolve(null);
+            break;
+          case '\u007F': // Backspace
+          case '\u0008': // Ctrl+H
+            if (inputBuffer.length > 0) {
+              inputBuffer = inputBuffer.slice(0, -1);
+              term.write('\b \b');
+            }
+            break;
+          case '\u0015': // Ctrl+U (clear line)
+            while (inputBuffer.length > 0) {
+              term.write('\b \b');
+              inputBuffer = inputBuffer.slice(0, -1);
+            }
+            break;
+          case '\033[A': // Up arrow
+          case '\033[B': // Down arrow
+          case '\033[C': // Right arrow
+          case '\033[D': // Left arrow
+            // Ignore arrow keys for now (simple input)
+            break;
+          default:
+            // Only accept printable characters
+            if (e.length === 1 && e.charCodeAt(0) >= 32 && e.charCodeAt(0) < 127) {
+              inputBuffer += e;
+              term.write(e);
+            }
+            break;
+        }
+      });
+    });
+  };
 };
 
 // https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
