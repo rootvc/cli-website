@@ -159,6 +159,24 @@ const commands = {
     term.stylePrint(`(Robot voice): ${message}`);
   },
 
+  cowsay: function (args) {
+    const message = args.join(" ") || "moo";
+    const msgLen = message.length;
+    const top = " " + "_".repeat(msgLen + 2);
+    const bottom = " " + "-".repeat(msgLen + 2);
+    const cow = [
+      `< ${message} >`,
+      bottom,
+      "        \\   ^__^",
+      "         \\  (oo)\\_______",
+      "            (__)\\       )\\/\\",
+      "                ||----w |",
+      "                ||     ||",
+    ];
+    term.writeln(top);
+    cow.forEach((line) => term.writeln(line));
+  },
+
   pwd: function () {
     term.stylePrint("/" + term.cwd.replaceAll("~", `home/${term.user}`));
   },
