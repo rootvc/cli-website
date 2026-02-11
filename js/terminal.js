@@ -4,12 +4,14 @@ function runRootTerminal(term) {
   }
 
   term.init();
-  term._initialized = true;
   term.locked = false;
 
   window.onload = (_) => {
     term.prompt();
     term.runDeepLink();
+    
+    // Only set initialized flag after prompt is displayed
+    term._initialized = true;
 
     window.addEventListener("resize", term.resizeListener);
 
