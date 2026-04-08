@@ -15,13 +15,13 @@ __    __         _
 
 function preloadASCIIArt() {
   const companies = Object.keys(portfolio);
-  for (c of companies) {
+  for (const c of companies) {
     _loadArt(c, 0.5, 1.0, 'jpg', false);
   }
 
   _loadArt("rootvc-square", 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png', false);
   const people = Object.keys(team);
-  for (p of people) {
+  for (const p of people) {
     _loadArt(p, 1.0, term.cols >= 60 ? 0.5 : 1.0, 'png', true);
   }
 }

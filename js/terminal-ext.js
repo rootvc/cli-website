@@ -1,8 +1,18 @@
-// TODO: make this a proper addon
+// terminal-ext.js — Extends an xterm.js Terminal instance with all the custom
+// behavior needed to run the Root Ventures CLI.
+//
+// Usage: call extend(term) once after creating the Terminal, before calling
+// runRootTerminal(). This monkey-patches the term object in place rather than
+// subclassing, which keeps it compatible with xterm addons.
+//
+// TODO: make this a proper xterm addon
 
-extend = (term) => {
-  term.VERSION = term.VERSION || 3;
-  term.currentLine = "";
+const extend = (term) => {
+
+  // ── State ──────────────────────────────────────────────────────────────────
+
+  term.VERSION = term.VERSION || 3;  // bumped to 4 by `upgrade`
+  term.currentLine = "";             // text the user has typed so far
   term.user = "guest";
   term.host = "rootpc";
   term.cwd = "~";
@@ -10,16 +20,27 @@ extend = (term) => {
   term._promptChar = "$";
   term.history = [];
   term.historyCursor = -1;
-  term.pos = () => term._core.buffer.x - term._promptRawText().length - 1;
-  term._promptRawText = () =>
-    `${term.user}${term.sep}${term.host} ${term.cwd} $`;
-  term.deepLink = window.location.hash.replace("#", "").split("-").join(" ");
 
-  // Simple tab completion state
+  // Tab completion state — reset on any non-tab keypress.
   term.tabIndex = 0;
   term.tabOptions = [];
   term.tabBase = "";
 
+  // Cursor position relative to the start of the user's input (after the prompt).
+  // Uses the raw xterm buffer position minus the prompt's character length.
+  term.pos = () => term._core.buffer.x - term._promptRawText().length - 1;
+
+  // Plain-text prompt string used for length calculations.
+  term._promptRawText = () =>
+    `${term.user}${term.sep}${term.host} ${term.cwd} $`;
+
+  // Deep link: parse the URL hash as a command to run on load.
+  // E.g. /#whois-avidan → runs `whois avidan` (hyphens become spaces).
+  term.deepLink = window.location.hash.replace("#", "").split("-").join(" ");
+
+  // ── Prompt ─────────────────────────────────────────────────────────────────
+
+  // Returns the colorized prompt string for display.
   term.promptText = () => {
     var text = term
       ._promptRawText()
@@ -31,8 +52,106 @@ extend = (term) => {
     return text;
   };
 
+  // Writes a newline + prompt (default) or a custom prefix/suffix pair.
+  term.prompt = (prefix = "\r\n", suffix = " ") => {
+    term.write(`${prefix}${term.promptText()}${suffix}`);
+  };
+
+  // Erases the current input line and redraws the prompt, optionally resetting
+  // the history cursor so the next Up arrow starts from the most recent entry.
+  term.clearCurrentLine = (goToEndofHistory = false) => {
+    term.write("\x1b[2K\r");
+    term.prompt("", " ");
+    term.currentLine = "";
+    if (goToEndofHistory) {
+      term.historyCursor = -1;
+      term.scrollToBottom();
+    }
+  };
+
+  // Replaces the current input with newLine, preserving cursor position if asked.
+  term.setCurrentLine = (newLine, preserveCursor = false) => {
+    // Capture position before clearCurrentLine() because the xterm buffer
+    // cursor moves during the erase, making pos() unreliable immediately after.
+    const oldPos = term.pos();
+    const length = term.currentLine.length;
+    term.clearCurrentLine();
+    term.currentLine = newLine;
+    term.write(newLine);
+    if (preserveCursor) {
+      term.write("\x1b[D".repeat(length - oldPos));
+    }
+  };
+
+  // ── Output ─────────────────────────────────────────────────────────────────
+
+  // Prints a line of text with three processing passes applied in order:
+  //   1. URLs are detected and colorized as hyperlinks (disables wrapping for
+  //      long URLs since wrapping mid-URL would break clickability).
+  //   2. Long lines are word-wrapped to fit the terminal width (max 76 cols).
+  //   3. %command% tokens are replaced with colorized command names.
+  term.stylePrint = (text, wrap = true) => {
+    const urlRegex =
+      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,24}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
+    const urlMatches = text.matchAll(urlRegex);
+    let allowWrapping = true;
+    for (const match of urlMatches) {
+      allowWrapping = match[0].length < 76; // don't wrap lines that contain long URLs
+      text = text.replace(match[0], colorText(match[0], "hyperlink"));
+    }
+
+    if (allowWrapping && wrap) {
+      text = _wordWrap(text, Math.min(term.cols, 76));
+    }
+
+    // Replace %commandName% tokens with styled command names.
+    const cmds = Object.keys(commands);
+    for (const cmd of cmds) {
+      const cmdMatches = text.matchAll(`%${cmd}%`);
+      for (const match of cmdMatches) {
+        text = text.replace(match[0], colorText(cmd, "command"));
+      }
+    }
+
+    term.writeln(text);
+  };
+
+  // Renders the preloaded ASCII art for id into the terminal.
+  // Silently skipped on narrow terminals (< 40 cols).
+  term.printArt = (id) => {
+    if (term.cols >= 40) {
+      term.writeln(`\r\n${getArt(id)}\r\n`);
+    }
+  };
+
+  // Prints the Root Ventures ASCII logotype, or a plain-text fallback on
+  // very narrow terminals.
+  term.printLogoType = () => {
+    term.writeln(term.cols >= 40 ? LOGO_TYPE : "[Root Ventures]\r\n");
+  };
+
+  // Opens a URL in a new tab (default) or navigates the current page.
+  term.openURL = (url, newWindow = true) => {
+    term.stylePrint(`Opening ${url}`);
+    if (term._initialized) {
+      if (newWindow) {
+        window.open(url, "_blank");
+      } else {
+        window.location.href = url;
+      }
+    }
+  };
+
+  // Prints a URL as a styled hyperlink without opening it.
+  term.displayURL = (url) => {
+    term.stylePrint(colorText(url, "hyperlink"));
+  };
+
+  // ── Animation Helpers ──────────────────────────────────────────────────────
+
   term.timer = (ms) => new Promise((res) => setTimeout(res, ms));
 
+  // Prints phrase followed by n dots at 1-second intervals.
   term.dottedPrint = async (phrase, n, newline = true) => {
     term.write(phrase);
 
@@ -44,6 +163,8 @@ extend = (term) => {
     }
   };
 
+  // Renders an animated progress bar that fills over time t (ms).
+  // Randomizes the fill speed to look more authentic.
   term.progressBar = async (t, msg) => {
     var r;
 
@@ -70,88 +191,10 @@ extend = (term) => {
     term.stylePrint(str, wrap);
   };
 
-  term.prompt = (prefix = "\r\n", suffix = " ") => {
-    term.write(`${prefix}${term.promptText()}${suffix}`);
-  };
+  // ── Command Dispatch ───────────────────────────────────────────────────────
 
-  term.clearCurrentLine = (goToEndofHistory = false) => {
-    term.write("\x1b[2K\r");
-    term.prompt("", " ");
-    term.currentLine = "";
-    if (goToEndofHistory) {
-      term.historyCursor = -1;
-      term.scrollToBottom();
-    }
-  };
-
-  term.setCurrentLine = (newLine, preserveCursor = false) => {
-    // Something with the new xterm package is messing up the location of term.pos() right after the clearCurrentLine()
-    // Because of this, we need to collect the position beforehand.
-    const oldPos = term.pos();
-    const length = term.currentLine.length;
-    term.clearCurrentLine();
-    term.currentLine = newLine;
-    term.write(newLine);
-    if (preserveCursor) {
-      // term.write("\x1b[D".repeat(length - term.pos()));
-      term.write("\x1b[D".repeat(length - oldPos));
-    }
-  };
-
-  term.stylePrint = (text, wrap = true) => {
-    // Hyperlinks
-    const urlRegex =
-      /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,24}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/g;
-    const urlMatches = text.matchAll(urlRegex);
-    let allowWrapping = true;
-    for (match of urlMatches) {
-      allowWrapping = match[0].length < 76;
-      text = text.replace(match[0], colorText(match[0], "hyperlink"));
-    }
-
-    // Text Wrap
-    if (allowWrapping && wrap) {
-      text = _wordWrap(text, Math.min(term.cols, 76));
-    }
-
-    // Commands
-    const cmds = Object.keys(commands);
-    for (cmd of cmds) {
-      const cmdMatches = text.matchAll(`%${cmd}%`);
-      for (match of cmdMatches) {
-        text = text.replace(match[0], colorText(cmd, "command"));
-      }
-    }
-
-    term.writeln(text);
-  };
-
-  term.printArt = (id) => {
-    if (term.cols >= 40) {
-      term.writeln(`\r\n${getArt(id)}\r\n`);
-    }
-  };
-
-  term.printLogoType = () => {
-    term.writeln(term.cols >= 40 ? LOGO_TYPE : "[Root Ventures]\r\n");
-  };
-
-  term.openURL = (url, newWindow = true) => {
-    term.stylePrint(`Opening ${url}`);
-    if (term._initialized) {
-      console.log(newWindow);
-      if (newWindow) {
-        window.open(url, "_blank");
-      } else {
-        window.location.href = url;
-      }
-    }
-  };
-
-  term.displayURL = (url) => {
-    term.stylePrint(colorText(url, "hyperlink"));
-  };
-
+  // Parses and executes a command line string. Called both by the Enter handler
+  // in terminal.js and internally by commands that redirect to other commands.
   term.command = (line) => {
     const parts = line.split(/\s+/);
     const cmd = parts[0].toLowerCase();
@@ -164,11 +207,16 @@ extend = (term) => {
     }
   };
 
+  // ── Lifecycle ──────────────────────────────────────────────────────────────
+
+  // Called on window resize. xterm clears its buffer on resize, so we
+  // reinitialize the terminal and replay the entire command history to restore
+  // the visible output, then re-render the prompt at the bottom.
   term.resizeListener = () => {
     term._initialized = false;
     term.init(term.user, true);
     term.runDeepLink();
-    for (c of term.history) {
+    for (const c of term.history) {
       term.prompt("\r\n", ` ${c}\r\n`);
       term.command(c);
     }
@@ -177,6 +225,8 @@ extend = (term) => {
     term._initialized = true;
   };
 
+  // Resets the terminal to its initial state. If VERSION < 4, shows an upgrade
+  // prompt instead of the welcome message. Announces open jobs if any exist.
   term.init = (user = "guest", preserveHistory = false) => {
     fitAddon.fit();
     preloadASCIIArt();
@@ -222,13 +272,19 @@ extend = (term) => {
     term.focus();
   };
 
+  // Runs the deep-link command parsed from the URL hash on page load.
   term.runDeepLink = () => {
     if (term.deepLink != "") {
       term.command(term.deepLink);
     }
   };
 
-  // Interactive input collection
+  // ── Interactive Input ──────────────────────────────────────────────────────
+
+  // Prompts the user for a single line of input, suspending the normal input
+  // handler while waiting. Returns a Promise that resolves to:
+  //   - A trimmed string if the user pressed Enter (may be "" for optional fields)
+  //   - null if the user pressed Ctrl+C (cancelled)
   term.collectInput = (prompt, isOptional = false) => {
     return new Promise((resolve) => {
       term.locked = true;
@@ -237,15 +293,15 @@ extend = (term) => {
 
       const inputHandler = term.onData((e) => {
         switch (e) {
-          case '\r': // Enter
+          case '\r': // Enter — submit
             term.write('\r\n');
-            inputHandler.dispose(); // Properly remove handler
+            inputHandler.dispose();
             term.locked = false;
             resolve(inputBuffer.trim());
             break;
-          case '\u0003': // Ctrl+C
+          case '\u0003': // Ctrl+C — cancel, resolves to null
             term.write('^C\r\n');
-            inputHandler.dispose(); // Properly remove handler
+            inputHandler.dispose();
             term.locked = false;
             resolve(null);
             break;
@@ -253,10 +309,10 @@ extend = (term) => {
           case '\u0008': // Ctrl+H
             if (inputBuffer.length > 0) {
               inputBuffer = inputBuffer.slice(0, -1);
-              term.write('\b \b');
+              term.write('\b \b'); // erase character from display
             }
             break;
-          case '\u0015': // Ctrl+U (clear line)
+          case '\u0015': // Ctrl+U — clear entire input line
             while (inputBuffer.length > 0) {
               term.write('\b \b');
               inputBuffer = inputBuffer.slice(0, -1);
@@ -266,10 +322,10 @@ extend = (term) => {
           case '\033[B': // Down arrow
           case '\033[C': // Right arrow
           case '\033[D': // Left arrow
-            // Ignore arrow keys for now (simple input)
+            // Ignore — cursor movement not supported in collectInput
             break;
           default:
-            // Only accept printable characters
+            // Only accept printable ASCII characters
             if (e.length === 1 && e.charCodeAt(0) >= 32 && e.charCodeAt(0) < 127) {
               inputBuffer += e;
               term.write(e);
@@ -281,16 +337,19 @@ extend = (term) => {
   };
 };
 
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+// Wraps str at word boundaries to fit within maxWidth characters per line.
+// Falls back to a hard break at maxWidth if no whitespace is found.
+// TODO: This doesn't work well at detecting existing newlines in the input.
 // https://stackoverflow.com/questions/14484787/wrap-text-in-javascript
-// TODO: This doesn't work well at detecting newline
 function _wordWrap(str, maxWidth) {
-  var newLineStr = "\r\n";
-  done = false;
-  res = "";
+  const newLineStr = "\r\n";
+  let res = "";
   while (str.length > maxWidth) {
-    found = false;
-    // Inserts new line at first whitespace of the line
-    for (i = maxWidth - 1; i >= 0; i--) {
+    let found = false;
+    // Scan backwards from maxWidth to find a whitespace break point.
+    for (let i = maxWidth - 1; i >= 0; i--) {
       if (_testWhite(str.charAt(i))) {
         res = res + [str.slice(0, i), newLineStr].join("");
         str = str.slice(i + 1);
@@ -298,7 +357,7 @@ function _wordWrap(str, maxWidth) {
         break;
       }
     }
-    // Inserts new line at maxWidth position, the word is too long to wrap
+    // No whitespace found — hard-break at maxWidth.
     if (!found) {
       res += [str.slice(0, maxWidth), newLineStr].join("");
       str = str.slice(maxWidth);
@@ -308,6 +367,6 @@ function _wordWrap(str, maxWidth) {
 }
 
 function _testWhite(x) {
-  var white = new RegExp(/^\s$/);
+  const white = /^\s$/;
   return white.test(x.charAt(0));
 }

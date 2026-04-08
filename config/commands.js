@@ -1,8 +1,25 @@
+// commands.js — Terminal command definitions for the Root Ventures interactive CLI.
+//
+// Each key in `commands` maps to a function that runs when the user types that
+// command. Commands receive `args` as an array of whitespace-split tokens
+// (everything after the command name). They communicate with the user via the
+// global `term` object (see terminal-ext.js for its API).
+//
+// To add a new command, add an entry to `commands` below.
+// To add a simple redirect (alias), add an entry to `_aliases` at the bottom.
+
+// Blurb displayed by `whois root`.
 const whoisRoot =
   "Root Ventures is a San Francisco-based deep tech seed fund. As engineers ourselves, we specialize in leading initial funding for founders tackling new technical opportunities. Our initial investments typically range from $3-5M. With a selective few new deals a year and 2/3 of our funds in reserve, we are committed to being a long-term partner. Try %whois% and one of avidan, kane, chrissy, lee, ben, zodi, or laelah to learn more about our team.";
-const timeUnit = 1000; // useful for development, set to 10 to run faster, set to 1000 for production
+
+// Set to 10 during development to speed up animated sequences (upgrade, etc.).
+const timeUnit = 1000;
+
+// Tracks whether the user has "killed" the fake crypto miner easter egg (pid 337).
 let killed = false;
 
+// Emits a series of styled strings that the RickRoll animation in rickroll.js
+// interprets as frame pointers. Triggered by `cat id_rsa` or `test`.
 function SpawnRickRollPointers() {
   function padNumber(num, length) {
     let str = num.toString();
@@ -23,6 +40,10 @@ function SpawnRickRollPointers() {
 }
 
 const commands = {
+
+  // ── Info & Discovery ────────────────────────────────────────────────────────
+
+  // Lists all public commands from help.js, aligned to terminal width.
   help: function () {
     const maxCmdLength = Math.max(...Object.keys(help).map((x) => x.length));
     Object.entries(help).forEach(function (kv) {
@@ -43,6 +64,7 @@ const commands = {
     });
   },
 
+  // Displays bio and ASCII art portrait for a team member, or the firm blurb.
   whois: function (args) {
     const name = args[0];
     const people = Object.keys(team);
@@ -52,7 +74,7 @@ const commands = {
         "%whois%: Learn about the firm, or a partner - usage:\r\n"
       );
       term.stylePrint("%whois% root");
-      for (p of people) {
+      for (const p of people) {
         term.stylePrint(`%whois% ${p}`);
       }
     } else if (name == "root") {
@@ -70,18 +92,21 @@ const commands = {
     } else {
       term.stylePrint(`User ${name || ""} not found. Try:\r\n`);
       term.stylePrint("%whois% root");
-      for (p of people) {
+      for (const p of people) {
         term.stylePrint(`%whois% ${p}`);
       }
     }
   },
 
+  // Displays info about a portfolio company, or lists all companies.
+  // Each entry is sourced from portfolio.js; companies with a `demo` field
+  // also get a runnable command registered at the bottom of this file.
   tldr: function (args) {
     const name = args[0] || "";
     if (!name) {
       const companies = Object.keys(portfolio);
       term.stylePrint("%tldr%: Learn about a portfolio company - usage:\r\n");
-      for (c of companies.sort()) {
+      for (const c of companies.sort()) {
         const data = portfolio[c];
         const tabs = c.length > 10 ? "\t" : "\t\t";
         const sep = term.cols >= 76 ? tabs : "\r\n";
@@ -110,20 +135,14 @@ const commands = {
     }
   },
 
+  // ── Social & Contact ────────────────────────────────────────────────────────
+
   git: function () {
     term.displayURL("https://github.com/rootvc/cli-website");
   },
 
   agm: function () {
     term.openURL("http://annualmeeting.root.vc");
-  },
-
-  test: function () {
-    SpawnRickRollPointers();
-  },
-
-  email: function () {
-    term.command("pine");
   },
 
   github: function () {
@@ -139,9 +158,13 @@ const commands = {
     term.displayURL("https://instagram.com/machinepix/");
   },
 
-  insta: function () {
-    term.command("instagram");
+  pine: function () {
+    term.openURL("mailto:hello@root.vc");
   },
+
+  // ── File System ─────────────────────────────────────────────────────────────
+  // The virtual file system is defined in fs.js. Files are stored as hidden
+  // DOM elements and fetched from GitHub on first load.
 
   other: function () {
     term.stylePrint(
@@ -159,6 +182,7 @@ const commands = {
     term.stylePrint(`(Robot voice): ${message}`);
   },
 
+  // Expands ~ to /home/<user> to mimic a real shell.
   pwd: function () {
     term.stylePrint("/" + term.cwd.replaceAll("~", `home/${term.user}`));
   },
@@ -167,12 +191,50 @@ const commands = {
     term.stylePrint(_filesHere().join("   "));
   },
 
-  // I am so, so sorry for this code.
+  // Simulates a minimal Unix directory tree:
+  //   /
+  //   ├── bin/   (contains zsh)
+  //   └── home/  (contains guest, root, and each team member)
+  //       └── ~/  (the current user's home)
+  //
+  // Team member home dirs are always permission-denied to keep things fun.
+  // Paths are matched by regex before the switch so we don't have to hardcode
+  // team member names here — they're derived from team.js at runtime.
   cd: function (args) {
     let dir = args[0] || "~";
-    if (dir != "/") {
-      // strip trailing slash
-      dir = dir.replace(/\/$/, "");
+    if (dir !== "/") {
+      dir = dir.replace(/\/$/, ""); // strip trailing slash
+    }
+
+    const teamMembers = Object.keys(team);
+
+    // ../home/<member> — relative path from ~ or /bin
+    const relativeHomeMatch = dir.match(/^\.\.\/home\/(.+)$/);
+    if (relativeHomeMatch) {
+      if (term.cwd === "~" || term.cwd === "bin") {
+        term.command(`cd ${relativeHomeMatch[1]}`);
+      } else {
+        term.stylePrint(`No such directory: ${dir}`);
+      }
+      return;
+    }
+
+    // /home/<member> — absolute path to a home dir
+    const absoluteHomeMatch = dir.match(/^\/home\/(.+)$/);
+    if (absoluteHomeMatch) {
+      const member = absoluteHomeMatch[1];
+      if (teamMembers.includes(member)) {
+        term.stylePrint(`You do not have permission to access this directory`);
+      } else {
+        term.stylePrint(`No such directory: ${dir}`);
+      }
+      return;
+    }
+
+    // Bare team member name (e.g. `cd avidan`)
+    if (teamMembers.includes(dir)) {
+      term.stylePrint(`You do not have permission to access this directory`);
+      return;
     }
 
     switch (dir) {
@@ -180,12 +242,13 @@ const commands = {
         term.cwd = "~";
         break;
       case "..":
-        if (term.cwd == "~") {
+        if (term.cwd === "~") {
           term.command("cd /home");
-        } else if (["home", "bin"].includes(term.cwd)) {
+        } else if (term.cwd === "home" || term.cwd === "bin") {
           term.command("cd /");
         }
         break;
+      // Any deeply nested upward traversal just lands at root.
       case "../..":
       case "../../..":
       case "../../../..":
@@ -193,82 +256,53 @@ const commands = {
         term.cwd = "/";
         break;
       case "home":
-        if (term.cwd == "/") {
+        // `home` alone is only reachable from /
+        if (term.cwd === "/") {
           term.command("cd /home");
         } else {
-          term.stylePrint(
-            `You do not have permission to access this directory`
-          );
+          term.stylePrint(`You do not have permission to access this directory`);
         }
         break;
       case "/home":
         term.cwd = "home";
         break;
+      // guest and root can only cd to their own home
       case "guest":
       case "root":
-        if (term.cwd == "home") {
-          if (term.user == dir) {
+        if (term.cwd === "home") {
+          if (term.user === dir) {
             term.command("cd ~");
           } else {
-            term.stylePrint(
-              `You do not have permission to access this directory`
-            );
+            term.stylePrint(`You do not have permission to access this directory`);
           }
         } else {
           term.stylePrint(`No such directory: ${dir}`);
         }
         break;
-      case "../home/avidan":
-      case "../home/kane":
-      case "../home/chrissy":
-      case "../home/lee":
-      case "../home/zodi":
-      case "../home/ben":
-      case "../home/laelah":
-        if (term.cwd == "~" || term.cwd == "bin") {
-          term.command(`cd ${dir.split("/")[2]}`);
-        } else {
-          term.stylePrint(`No such directory: ${dir}`);
-        }
-        break;
-      case "/home/avidan":
-      case "/home/kane":
-      case "/home/chrissy":
-      case "/home/lee":
-      case "/home/zodi":
-      case "/home/ben":
-      case "/home/laelah":
-      case "avidan":
-      case "kane":
-      case "chrissy":
-      case "lee":
-      case "zodi":
-      case "ben":
-      case "laelah":
-        term.stylePrint(`You do not have permission to access this directory`);
-        break;
       case "/bin":
         term.cwd = "bin";
         break;
       case "bin":
-        if (term.cwd == "/") {
+        if (term.cwd === "/") {
           term.cwd = "bin";
         } else {
           term.stylePrint(`No such directory: ${dir}`);
         }
         break;
       case ".":
-        break;
+        break; // no-op
       default:
         term.stylePrint(`No such directory: ${dir}`);
         break;
     }
   },
 
+  // Reinitializes the terminal under the current user (simulates a new shell).
   zsh: function () {
     term.init(term.user);
   },
 
+  // Reading id_rsa triggers the RickRoll easter egg.
   cat: function (args) {
     const filename = args[0];
 
@@ -282,6 +316,7 @@ const commands = {
     }
   },
 
+  // Grepping id_rsa redirects to an appropriate reaction GIF instead.
   grep: function (args) {
     const q = args[0];
     const filename = args[1];
@@ -296,9 +331,9 @@ const commands = {
     }
 
     if (_filesHere().includes(filename)) {
-      var file = getFileContents(filename);
+      let file = getFileContents(filename);
       const matches = file.matchAll(q);
-      for (match of matches) {
+      for (const match of matches) {
         file = file.replaceAll(match[0], colorText(match[0], "files"));
       }
       term.writeln(file);
@@ -307,109 +342,7 @@ const commands = {
     }
   },
 
-  finger: function (args) {
-    const user = args[0];
-
-    switch (user) {
-      case "guest":
-        term.stylePrint("Login: guest            Name: Guest");
-        term.stylePrint("Directory: /home/guest  Shell: /bin/zsh");
-        break;
-      case "root":
-        term.stylePrint("Login: root             Name: That's Us!");
-        term.stylePrint("Directory: /home/root   Shell: /bin/zsh");
-        break;
-      case "avidan":
-      case "kane":
-      case "chrissy":
-      case "lee":
-      case "zodi":
-      case "ben":
-      case "laelah":
-        term.stylePrint(`Login: ${user}   Name: ${team[user]["name"]}`);
-        term.stylePrint(`Directory: /home/${user}   Shell: /bin/zsh`);
-        break;
-      default:
-        term.stylePrint(
-          user ? `%finger%: ${user}: no such user` : "usage: %finger% [user]"
-        );
-        break;
-    }
-  },
-
-  groups: function (args) {
-    const user = args[0];
-
-    switch (user) {
-      case "guest":
-        term.stylePrint("guest lps founders engineers investors");
-        break;
-      case "root":
-        term.stylePrint("wheel investors engineers deep tech firms");
-        break;
-      case "avidan":
-        term.stylePrint(
-          "wheel investors engineers managingpartner handypersons tinkers agtech foodtech foodies coffeesnobs"
-        );
-        break;
-      case "kane":
-        term.stylePrint(
-          "wheel investors engineers partners tinkerers cad motorcyclists gearheads machinepix sportshooters gamers"
-        );
-        break;
-      case "chrissy":
-        term.stylePrint(
-          "wheel investors engineers partners electrical manufacturing ecad wearables healthtech gearheads automotive sportshooters"
-        );
-        break;
-      case "lee":
-        term.stylePrint(
-          "wheel investors engineers partners software devtools data ai+ml gamers winesnobs"
-        );
-        break;
-      case "zodi":
-        term.stylePrint(
-          "wheel investors engineers investors ai+ml simulation terraforming maine"
-        );
-        break;
-      case "ben":
-        term.stylePrint(
-          "wheel operations photography ironman racecars canyoneering"
-        );
-        break;
-      case "laelah":
-        term.stylePrint("wheel admin operations miracleworkers gamers");
-        break;
-      default:
-        term.stylePrint(
-          user ? `%groups%: ${user}: no such user` : "usage: %groups% [user]"
-        );
-        break;
-    }
-  },
-
-  gzip: function () {
-    term.stylePrint(
-      "What are you going to do with a zip file on a fake terminal, seriously?"
-    );
-  },
-
-  free: function () {
-    term.stylePrint("Honestly, our memory isn't what it used to be.");
-  },
-
-  tail: function (args) {
-    term.command(`cat ${args.join(" ")}`);
-  },
-
-  less: function (args) {
-    term.command(`cat ${args.join(" ")}`);
-  },
-
-  head: function (args) {
-    term.command(`cat ${args.join(" ")}`);
-  },
-
+  // `open test.htm` is an easter egg; all other .htm files open in-page.
   open: function (args) {
     if (!args.length) {
       term.stylePrint("%open%: open a file - usage:\r\n");
@@ -428,99 +361,6 @@ const commands = {
     }
   },
 
-  more: function (args) {
-    term.command(`cat ${args.join(" ")}`);
-  },
-
-  emacs: function () {
-    term.stylePrint("%emacs% not installed. try: %vi%");
-  },
-
-  vim: function () {
-    term.stylePrint("%vim% not installed. try: %emacs%");
-  },
-
-  vi: function () {
-    term.stylePrint("%vi% not installed. try: %emacs%");
-  },
-
-  pico: function () {
-    term.stylePrint("%pico% not installed. try: %vi% or %emacs%");
-  },
-
-  nano: function () {
-    term.stylePrint("%nano% not installed. try: %vi% or %emacs%");
-  },
-
-  pine: function () {
-    term.openURL("mailto:hello@root.vc");
-  },
-
-  curl: function (args) {
-    term.stylePrint(
-      `Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource ${args[0]}. Use a real terminal.`
-    );
-  },
-
-  ftp: function (args) {
-    term.command(`curl ${args.join(" ")}`);
-  },
-
-  ssh: function (args) {
-    term.command(`curl ${args.join(" ")}`);
-  },
-
-  sftp: function (args) {
-    term.command(`curl ${args.join(" ")}`);
-  },
-
-  scp: function (args) {
-    term.stylePrint(
-      `████████████ Request Blocked: The ███████████ Policy disallows reading the ██████ resource ${args[0]}.`
-    );
-  },
-
-  rm: function () {
-    term.stylePrint("I'm sorry Dave, I'm afraid I can't do that.");
-  },
-
-  mkdir: function () {
-    term.stylePrint("Come on, don't mess with our immaculate file system.");
-  },
-
-  alias: function () {
-    term.stylePrint("Just call me HAL.");
-  },
-
-  df: function () {
-    term.stylePrint("Nice try. Just get a Dropbox.");
-  },
-
-  kill: function (args) {
-    if (args && args.slice(-1) == 337) {
-      killed = true;
-      term.stylePrint("Root Ventures crypto miner disabled.");
-    } else {
-      term.stylePrint("You can't kill me!");
-    }
-  },
-
-  killall: function (args) {
-    term.command(`kill ${args.join(" ")}`);
-  },
-
-  locate: function () {
-    term.stylePrint("Root Ventures");
-    term.stylePrint("2670 Harrison St");
-    term.stylePrint("San Francisco, CA 94110");
-  },
-
-  history: function () {
-    term.history.forEach((element, index) => {
-      term.stylePrint(`${1000 + index}  ${element}`);
-    });
-  },
-
   find: function (args) {
     const file = args[0];
     if (Object.keys(_FILES).includes(file)) {
@@ -530,8 +370,82 @@ const commands = {
     }
   },
 
-  fdisk: function () {
-    term.command("rm");
+  // ── Users & Permissions ─────────────────────────────────────────────────────
+  // These mimic standard Unix user commands. guest and root are the only two
+  // switchable users; team member home dirs are always permission-denied.
+
+  // Reports login info. Team member data comes from team.js.
+  finger: function (args) {
+    const user = args[0];
+    if (user === "guest") {
+      term.stylePrint("Login: guest            Name: Guest");
+      term.stylePrint("Directory: /home/guest  Shell: /bin/zsh");
+    } else if (user === "root") {
+      term.stylePrint("Login: root             Name: That's Us!");
+      term.stylePrint("Directory: /home/root   Shell: /bin/zsh");
+    } else if (team[user]) {
+      term.stylePrint(`Login: ${user}   Name: ${team[user]["name"]}`);
+      term.stylePrint(`Directory: /home/${user}   Shell: /bin/zsh`);
+    } else {
+      term.stylePrint(
+        user ? `%finger%: ${user}: no such user` : "usage: %finger% [user]"
+      );
+    }
+  },
+
+  // Group memberships live in each person's entry in team.js.
+  // guest and root have their own special groups defined inline here.
+  groups: function (args) {
+    const user = args[0];
+    const specialGroups = {
+      guest: "guest lps founders engineers investors",
+      root: "wheel investors engineers deep tech firms",
+    };
+    if (specialGroups[user] !== undefined) {
+      term.stylePrint(specialGroups[user]);
+    } else if (team[user]) {
+      term.stylePrint(team[user].groups);
+    } else {
+      term.stylePrint(
+        user ? `%groups%: ${user}: no such user` : "usage: %groups% [user]"
+      );
+    }
+  },
+
+  whoami: function () {
+    term.stylePrint(term.user);
+  },
+
+  passwd: function () {
+    term.stylePrint(
+      "Wow. Maybe don't enter your password into a sketchy web-based term.command prompt?"
+    );
+  },
+
+  // Only root can sudo; otherwise logs an incident (just like real life).
+  sudo: function (args) {
+    if (term.user == "root") {
+      term.command(args.join(" "));
+    } else {
+      term.stylePrint(
+        `${colorText(
+          term.user,
+          "user"
+        )} is not in the sudoers file. This incident will be reported`
+      );
+    }
+  },
+
+  // Switch between the two valid users: guest and root.
+  su: function (args) {
+    const user = args[0] || "root";
+
+    if (user == "root" || user == "guest") {
+      term.user = user;
+      term.command("cd ~");
+    } else {
+      term.stylePrint("su: Sorry");
+    }
   },
 
   chown: function () {
@@ -566,60 +480,10 @@ const commands = {
     term.stylePrint("You can't %touch% this");
   },
 
-  sudo: function (args) {
-    if (term.user == "root") {
-      term.command(args.join(" "));
-    } else {
-      term.stylePrint(
-        `${colorText(
-          term.user,
-          "user"
-        )} is not in the sudoers file. This incident will be reported`
-      );
-    }
-  },
+  // ── Process & System ────────────────────────────────────────────────────────
 
-  su: function (args) {
-    user = args[0] || "root";
-
-    if (user == "root" || user == "guest") {
-      term.user = user;
-      term.command("cd ~");
-    } else {
-      term.stylePrint("su: Sorry");
-    }
-  },
-
-  quit: function () {
-    term.command("exit");
-  },
-
-  stop: function () {
-    term.command("exit");
-  },
-
-  whoami: function () {
-    term.stylePrint(term.user);
-  },
-
-  passwd: function () {
-    term.stylePrint(
-      "Wow. Maybe don't enter your password into a sketchy web-based term.command prompt?"
-    );
-  },
-
-  man: function (args) {
-    term.command(`tldr ${args}`);
-  },
-
-  woman: function (args) {
-    term.command(`tldr ${args}`);
-  },
-
-  ping: function () {
-    term.stylePrint("pong");
-  },
-
+  // Shows a fake process list. PID 337 is a fake crypto miner that stays
+  // visible until the user runs `kill 337`.
   ps: function () {
     term.stylePrint("PID TTY       TIME CMD");
     term.stylePrint("424 ttys00 0:00.33 %-zsh%");
@@ -628,6 +492,28 @@ const commands = {
     if (!killed) {
       term.stylePrint("337 ttys03 0:13.37 %/bin/cgminer -o pwn.d%");
     }
+  },
+
+  // `kill 337` disables the fake crypto miner shown in `ps`.
+  kill: function (args) {
+    if (args && args.slice(-1) == 337) {
+      killed = true;
+      term.stylePrint("Root Ventures crypto miner disabled.");
+    } else {
+      term.stylePrint("You can't kill me!");
+    }
+  },
+
+  locate: function () {
+    term.stylePrint("Root Ventures");
+    term.stylePrint("2670 Harrison St");
+    term.stylePrint("San Francisco, CA 94110");
+  },
+
+  history: function () {
+    term.history.forEach((element, index) => {
+      term.stylePrint(`${1000 + index}  ${element}`);
+    });
   },
 
   uname: function (args) {
@@ -645,32 +531,85 @@ const commands = {
     }
   },
 
-  top: function () {
-    term.command("ps");
+  ping: function () {
+    term.stylePrint("pong");
   },
 
+  // Opens the GeoCities-style welcome page (welcome.htm).
   exit: function () {
     term.command("open welcome.htm");
   },
 
+  // Reinitializes the terminal, clearing history and resetting the prompt.
   clear: function () {
     term.init();
   },
 
+  // ── Easter Eggs & Jokes ─────────────────────────────────────────────────────
+
+  gzip: function () {
+    term.stylePrint(
+      "What are you going to do with a zip file on a fake terminal, seriously?"
+    );
+  },
+
+  free: function () {
+    term.stylePrint("Honestly, our memory isn't what it used to be.");
+  },
+
+  rm: function () {
+    term.stylePrint("I'm sorry Dave, I'm afraid I can't do that.");
+  },
+
+  mkdir: function () {
+    term.stylePrint("Come on, don't mess with our immaculate file system.");
+  },
+
+  alias: function () {
+    term.stylePrint("Just call me HAL.");
+  },
+
+  df: function () {
+    term.stylePrint("Nice try. Just get a Dropbox.");
+  },
+
+  // Editor wars — each editor points you to a different one.
+  emacs: function () {
+    term.stylePrint("%emacs% not installed. try: %vi%");
+  },
+
+  vim: function () {
+    term.stylePrint("%vim% not installed. try: %emacs%");
+  },
+
+  vi: function () {
+    term.stylePrint("%vi% not installed. try: %emacs%");
+  },
+
+  pico: function () {
+    term.stylePrint("%pico% not installed. try: %vi% or %emacs%");
+  },
+
+  nano: function () {
+    term.stylePrint("%nano% not installed. try: %vi% or %emacs%");
+  },
+
+  // Cross-origin policy joke — all network commands hit this wall.
+  curl: function (args) {
+    term.stylePrint(
+      `Cross-Origin Request Blocked: The Same Origin Policy disallows reading the remote resource ${args[0]}. Use a real terminal.`
+    );
+  },
+
+  // scp gets a more redacted treatment than curl.
+  scp: function (args) {
+    term.stylePrint(
+      `████████████ Request Blocked: The ███████████ Policy disallows reading the ██████ resource ${args[0]}.`
+    );
+  },
+
   zed: function () {
     term.stylePrint("Coming soon! ;)");
-  },
-
-  ge: function () {
-    term.command("great_expectations");
-  },
-
-  great_expectations: function () {
-    term.command("superconductive");
-  },
-
-  privacy: function () {
-    term.command("privacy_dynamics");
   },
 
   eval: function (args) {
@@ -680,8 +619,15 @@ const commands = {
     );
   },
 
+  test: function () {
+    SpawnRickRollPointers();
+  },
+
+  // ── Upgrade ─────────────────────────────────────────────────────────────────
+
+  // Animated sequence that "upgrades" the terminal to fund version 4.0.
+  // Locks the terminal during the animation to block user input.
   upgrade: async function (args) {
-    const timeUnit = 1000; // useful for development, set to 10 to run faster, set to 1000 for production
     term.VERSION = 4;
     term.init();
     term.locked = true;
@@ -779,6 +725,10 @@ const commands = {
     term.locked = false;
   },
 
+  // ── Jobs & Recruiting ────────────────────────────────────────────────────────
+  // Job data lives in jobs.js. Each job is an array of lines where index 0
+  // is the title and the rest is the description shown by `fg`.
+
   jobs: function () {
     const jobIds = Object.keys(jobs);
     if (jobIds.length === 0) {
@@ -799,6 +749,7 @@ const commands = {
     );
   },
 
+  // Prints all lines of a job listing.
   fg: function (args) {
     const job = jobs[args];
 
@@ -810,81 +761,60 @@ const commands = {
     }
   },
 
+  // Multi-step async application form. The terminal is locked during collection
+  // so normal keypress handling is suspended. Returns 1 to tell the main input
+  // loop not to re-render the prompt — the async IIFE does that itself when done.
+  //
+  // collectInput() resolves to: a string on submit, "" if skipped (optional
+  // fields), or null on Ctrl+C. Null means the user cancelled.
   apply: function (args) {
     if (args == 1 || (args.length > 0 && args[0] == 1)) {
-      // Immediately lock terminal and start async flow
       term.locked = true;
 
       (async () => {
+        // Shared cancellation handler — restores the terminal to a usable state.
+        const cancel = () => {
+          term.stylePrint("\r\nApplication cancelled.");
+          term.prompt();
+          term.clearCurrentLine(true);
+          term.locked = false;
+        };
+
         term.stylePrint(
           "Great! Let's get your application started. (Press Ctrl+C to cancel at any time)\r\n"
         );
 
-        // Collect application data
         const name = await term.collectInput("What's your name?");
-        if (!name) {
-          term.stylePrint("\r\nApplication cancelled.");
-          term.prompt();
-          term.clearCurrentLine(true);
-          term.locked = false;
-          return;
-        }
+        if (!name) { cancel(); return; }
 
         const email = await term.collectInput("Email address");
-        if (!email) {
-          term.stylePrint("\r\nApplication cancelled.");
-          term.prompt();
-          term.clearCurrentLine(true);
-          term.locked = false;
-          return;
-        }
+        if (!email) { cancel(); return; }
 
         const linkedin = await term.collectInput("LinkedIn profile URL", true);
-        if (linkedin === null) {
-          term.stylePrint("\r\nApplication cancelled.");
-          term.prompt();
-          term.clearCurrentLine(true);
-          term.locked = false;
-          return;
-        }
+        if (linkedin === null) { cancel(); return; }
 
         const github = await term.collectInput("GitHub username", true);
-        if (github === null) {
-          term.stylePrint("\r\nApplication cancelled.");
-          term.prompt();
-          term.clearCurrentLine(true);
-          term.locked = false;
-          return;
-        }
+        if (github === null) { cancel(); return; }
 
         const notes = await term.collectInput(
           "Why Root? What makes you a great fit?",
           true
         );
-        if (notes === null) {
-          term.stylePrint("\r\nApplication cancelled.");
-          term.prompt();
-          term.clearCurrentLine(true);
-          term.locked = false;
-          return;
-        }
+        if (notes === null) { cancel(); return; }
 
-        // Show submission animation
         term.stylePrint("\r\nSubmitting application...");
 
         try {
           const response = await fetch("/.netlify/functions/submit-application", {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               name,
               email,
               linkedin: linkedin || undefined,
               github: github || undefined,
               notes: notes || undefined,
-              position: "Venture Capital Associate"
+              position: "Venture Capital Associate",
             }),
           });
 
@@ -911,22 +841,20 @@ const commands = {
           }
         } catch (error) {
           term.stylePrint(
-            `\r\n${colorText("✗", "user")} Error submitting application: ${
-              error.message
-            }`
+            `\r\n${colorText("✗", "user")} Error submitting application: ${error.message}`
           );
           term.stylePrint(
             "\r\nPlease try again or email us directly at hello@root.vc"
           );
         }
 
-        // Show prompt again and unlock
         term.prompt();
         term.clearCurrentLine(true);
         term.locked = false;
-      })(); // Close the async IIFE
+      })();
 
-      return 1; // Return 1 synchronously to prevent automatic prompt
+      // Return 1 synchronously so terminal.js skips its automatic prompt render.
+      return 1;
     } else if (!args || args == "" || args.length === 0) {
       term.stylePrint(
         "Please provide a job id. Use %jobs% to list all current jobs."
@@ -939,16 +867,45 @@ const commands = {
   },
 };
 
-// Add commands for company demos
-for (kv of Object.entries(portfolio)) {
-  const key = kv[0];
-  const val = kv[1];
-
+// ── Portfolio Demo Commands ────────────────────────────────────────────────────
+// For any portfolio company that has a `demo` URL, register a command with the
+// company's key that opens the demo. E.g. `meroxa` opens meroxa's demo URL.
+for (const [key, val] of Object.entries(portfolio)) {
   if (val["demo"]) {
     commands[key] = () => term.displayURL(val["demo"]);
   }
 }
 
+// Returns the list of files visible in the current directory.
+// README.md is hidden from guest — root can see everything.
 function _filesHere() {
   return _DIRS[term.cwd].filter((e) => e != "README.md" || term.user == "root");
+}
+
+// ── Aliases ───────────────────────────────────────────────────────────────────
+// Simple one-to-one redirects. Each alias forwards its args to the target
+// command. Chains are fine — ge → great_expectations → superconductive.
+const _aliases = {
+  // Standard file viewing aliases
+  tail: "cat", less: "cat", head: "cat", more: "cat",
+  // Network commands all hit the same CORS wall
+  ftp: "curl", ssh: "curl", sftp: "curl",
+  // man/woman both show the tldr for a portfolio company
+  man: "tldr", woman: "tldr",
+  // Session control
+  quit: "exit", stop: "exit",
+  // Process management
+  killall: "kill",
+  top: "ps",
+  fdisk: "rm",
+  // Contact shortcuts
+  email: "pine",
+  insta: "instagram",
+  // Portfolio easter egg chains
+  ge: "great_expectations",
+  great_expectations: "superconductive",
+  privacy: "privacy_dynamics",
+};
+for (const [alias, target] of Object.entries(_aliases)) {
+  commands[alias] = (args) => term.command([target, ...args].join(" ").trim());
 }
