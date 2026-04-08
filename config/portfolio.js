@@ -440,5 +440,13 @@ const portfolio = {
     url: "https://vbr.sh/",
     description:
       "Vibe Robotics, founded by Kai Backman and Luke Church, builds novel programming interfaces for robotics.",
+  },
+
+  riderai: {
+    name: "RiderAI",
+    url: "https://therider.ai",
+    description:
+      "RiderAI is the AI intelligence layer for motorcycles and scooters, intervening in real time on brake and throttle to make the world's most popular — and most dangerous — vehicles dramatically safer and smarter.",
+    demo: "https://therider.ai",
   }
 };
