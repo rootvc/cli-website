@@ -82,6 +82,22 @@ Future project: get the Hello Worlds working for every portfolio company with a 
  - privacy_dynamics (alias: privacy)
  - zed
 
+## Build Notes
+Run `npm run build` before serving the site locally or deploying.
+
+That build now:
+ - copies and minifies the xterm vendor assets
+ - bundles the app boot/runtime code into `js/app.bundle.js`
+ - emits a minified lazy-load asset for the RickRoll animation
+
+## Performance Notes
+The terminal now initializes on `DOMContentLoaded` instead of waiting for `window.onload`, and optional work such as ASCII art preloading happens after the terminal is already usable.
+
+In local repeated Chromium benchmarks against the previous `HEAD`, median startup timings improved roughly:
+ - homepage prompt visible: `1941.7ms` -> `70.1ms`
+ - homepage first command rendered: `2076.5ms` -> `223.5ms`
+ - `#whois-lee` deep link rendered: `1159.9ms` -> `151.9ms`
+
 Live at: [https://root.vc](https://root.vc).
 
 Special thanks to [Jerry Neumann](https://www.linkedin.com/in/jerryneumann/) at [Neu Venture Capital](https://neuvc.com/) for the inspiration for this website concept.

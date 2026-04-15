@@ -39,22 +39,12 @@
         })(window,document,'script','dataLayer','GTM-TQ954FQ');</script>
       <!-- End Google Tag Manager -->
 
-      <script src="js/aalib.js"></script>
-      <script src="js/xterm.js"></script>
-      <script src="js/addon-fit.js"></script>
-      <script src="js/addon-web-links.js"></script>
-      <script src="js/rickroll.js"></script>
-      <script src="js/terminal.js"></script>
-      <script src="js/terminal-ext.js"></script>
-      <script src="js/ascii-art.js"></script>
-      <script src="config/help.js"></script>
-      <script src="config/portfolio.js"></script>
-      <script src="config/team.js"></script>
-      <script src="config/commands.js"></script>
-      <script src="config/fs.js"></script>
-      <script src="config/jobs.js"></script>
       <link rel="stylesheet" href="css/xterm.css" />
       <link rel="stylesheet" href="css/styles.css" />
+      <script defer src="js/xterm.js"></script>
+      <script defer src="js/addon-fit.js"></script>
+      <script defer src="js/addon-web-links.js"></script>
+      <script defer src="js/app.bundle.js"></script>
     </head>
     <body>
       <h1 style="display: none;">Root Ventures | Seeding bold engineers</h1>
@@ -67,31 +57,5 @@
       <div id="aa-all" style="display: none;"></div>
       <div id="files-all" style="display: none;"></div>
       <div id="terminal"></div>
-      <script>
-        var term = new Terminal({cursorBlink: true});
-        const fitAddon = new FitAddon.FitAddon();
-        const webLinksAddon = new WebLinksAddon.WebLinksAddon();
-
-        term.open(document.getElementById("terminal"));
-        term.loadAddon(fitAddon);
-        term.loadAddon(webLinksAddon);
-        extend(term);
-        runRootTerminal(term);
-
-        // MutationObserver listens to changes of .xterm-rows (term.onRender() doesn't work)
-        const targetNode = document.querySelector('.xterm-rows');
-        if (targetNode) {
-          const config = { childList: true, subtree: true, characterData: true };
-          const callback = function (mutationsList, observer) {
-            observer.disconnect();
-            RickRoll();
-            observer.observe(targetNode, config);
-          };
-          const observer = new MutationObserver(callback);
-          observer.observe(targetNode, config);
-        } else {
-          console.warn('No element with class "xterm-rows" found.');
-        }
-      </script>
     </body>
   </html>
