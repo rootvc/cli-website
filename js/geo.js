@@ -1,6 +1,4 @@
 function buildGeoPage() {
-  console.log("Building geocities page");
-
   const whois = document.getElementById("whois");
   whois.innerHTML = whoisRoot.split(" Try")[0];
 
@@ -50,7 +48,7 @@ function buildGeoPage() {
   }
 
   const teamTable = document.getElementById("team");
-  for (t in team) {
+  for (const t of Object.keys(team)) {
     const row = teamTable.insertRow(-1);
     const photoCell = row.insertCell();
     const nameCell = row.insertCell();
