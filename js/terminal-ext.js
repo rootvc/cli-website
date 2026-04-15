@@ -10,6 +10,7 @@ extend = (term) => {
   term._promptChar = "$";
   term.history = [];
   term.historyCursor = -1;
+  term.busy = false;
   term.pos = () => term._core.buffer.x - term._promptRawText().length - 1;
   term._promptRawText = () =>
     `${term.user}${term.sep}${term.host} ${term.cwd} $`;
@@ -128,7 +129,12 @@ extend = (term) => {
 
   term.printArt = (id) => {
     if (term.cols >= 40) {
-      term.writeln(`\r\n${getArt(id)}\r\n`);
+      const art = getArt(id);
+      if (art) {
+        term.writeln(`\r\n${art}\r\n`);
+      } else {
+        ensureASCIIArt(id);
+      }
     }
   };
 
@@ -164,9 +170,129 @@ extend = (term) => {
     }
   };
 
+  term.parseCommandLine = (line) => {
+    const trimmedLine = line.trim();
+    const parts = trimmedLine ? trimmedLine.split(/\s+/) : [""];
+    return {
+      line: trimmedLine,
+      cmd: (parts[0] || "").toLowerCase(),
+      args: parts.slice(1),
+    };
+  };
+
+  term.normalizeCommandForPreload = (cmd, args) => {
+    switch (cmd) {
+      case "man":
+      case "woman":
+        return { cmd: "tldr", args };
+      case "tail":
+      case "less":
+      case "head":
+      case "more":
+        return { cmd: "cat", args };
+      case "open":
+        if (!args.length) {
+          return { cmd, args };
+        }
+
+        if (
+          (args[0].split(".")[0] == "test" && args[0].split(".")[1] == "htm") ||
+          args[0].split(".")[1] == "htm" ||
+          args.join(" ") == "the pod bay doors"
+        ) {
+          return { cmd, args };
+        }
+
+        return { cmd: "cat", args };
+      default:
+        return { cmd, args };
+    }
+  };
+
+  term.preloadCommandAssets = async (line) => {
+    const parsed = term.parseCommandLine(line);
+    const normalized = term.normalizeCommandForPreload(parsed.cmd, parsed.args);
+    const tasks = [];
+    const artId = getASCIIArtIdForCommand(normalized.cmd, normalized.args);
+    const preloadFile = getPreloadFileForCommand(normalized.cmd, normalized.args);
+
+    if (artId) {
+      tasks.push(ensureASCIIArt(artId));
+    }
+
+    if (preloadFile) {
+      tasks.push(ensureFileLoaded(preloadFile));
+    }
+
+    if (tasks.length > 0) {
+      await Promise.all(tasks);
+    }
+  };
+
+  term.executeCommandLine = async (line, options = {}) => {
+    const settings = {
+      addToHistory: true,
+      manageBusy: true,
+      promptAfter: true,
+      showLeadingNewline: true,
+      trackAnalytics: true,
+      ...options,
+    };
+    const parsed = term.parseCommandLine(line);
+    let exitStatus;
+
+    try {
+      if (settings.manageBusy) {
+        term.busy = true;
+      }
+
+      await term.preloadCommandAssets(parsed.line);
+
+      if (settings.showLeadingNewline && parsed.cmd != "upgrade") {
+        term.writeln("");
+      }
+
+      if (parsed.line.length > 0) {
+        if (settings.addToHistory) {
+          term.history.push(parsed.line);
+        }
+
+        exitStatus = term.command(parsed.line);
+
+        if (settings.trackAnalytics) {
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "commandSent",
+            command: parsed.cmd,
+            args: parsed.args.join(" "),
+          });
+        }
+      }
+    } catch (error) {
+      console.error("Command preparation failed", error);
+      term.stylePrint("Command failed to load required assets. Please try again.");
+    } finally {
+      if (settings.promptAfter && exitStatus != 1 && parsed.cmd != "upgrade") {
+        term.prompt();
+        term.clearCurrentLine(true);
+      }
+
+      if (settings.manageBusy) {
+        term.busy = false;
+      }
+
+      term.scrollToBottom();
+    }
+
+    return exitStatus;
+  };
+
   term.resizeListener = () => {
     term._initialized = false;
     term.init(term.user, true);
+    if (typeof preloadASCIIArt === "function") {
+      window.scheduleIdleTask(() => preloadASCIIArt(), 1500);
+    }
     term.runDeepLink();
     for (c of term.history) {
       term.prompt("\r\n", ` ${c}\r\n`);
@@ -178,9 +304,7 @@ extend = (term) => {
   };
 
   term.init = (user = "guest", preserveHistory = false) => {
-    fitAddon.fit();
-    preloadASCIIArt();
-    preloadFiles();
+    window.fitAddon.fit();
     term.reset();
     term.printLogoType();
     if (term.VERSION == 3) {
@@ -224,7 +348,14 @@ extend = (term) => {
 
   term.runDeepLink = () => {
     if (term.deepLink != "") {
-      term.command(term.deepLink);
+      term.executeCommandLine(term.deepLink, {
+        addToHistory: false,
+        promptAfter: false,
+        showLeadingNewline: false,
+        trackAnalytics: false,
+      }).catch((error) => {
+        console.error("Deep link failed", error);
+      });
     }
   };
 

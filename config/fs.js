@@ -20,6 +20,7 @@ const _DIRS = {
 };
 
 let _FULL_PATHS = {};
+let _LOADING_FILES = {};
 for (const [key, values] of Object.entries(_DIRS)) {
   for (const value of values) {
     switch (key) {
@@ -46,22 +47,82 @@ function preloadFiles() {
 }
 
 function _loadFile(name) {
-  fetch(_REMOTE_FILES[name])
+  if (document.getElementById(name)) {
+    return Promise.resolve();
+  }
+
+  if (_LOADING_FILES[name]) {
+    return _LOADING_FILES[name];
+  }
+
+  _LOADING_FILES[name] = fetch(_REMOTE_FILES[name])
     .then(response => response.text())
-    .then((body) => _insertFileToDOM(name, body));
+    .then((body) => _insertFileToDOM(name, body))
+    .finally(() => {
+      delete _LOADING_FILES[name];
+    });
+
+  return _LOADING_FILES[name];
+}
+
+function ensureFileLoaded(name) {
+  if (!_FILES[name]) {
+    return Promise.resolve();
+  }
+
+  if (document.getElementById(name)) {
+    return Promise.resolve();
+  }
+
+  if (_REMOTE_FILES[name]) {
+    return _loadFile(name);
+  }
+
+  if (_LOCAL_FILES[name]) {
+    _insertFileToDOM(name, _LOCAL_FILES[name]);
+  }
+
+  return Promise.resolve();
+}
+
+function getPreloadFileForCommand(cmd, args) {
+  const filename = args[0];
+  if (!filename) {
+    return null;
+  }
+
+  if (["cat", "grep"].includes(cmd) && _REMOTE_FILES[filename]) {
+    return filename;
+  }
+
+  return null;
 }
 
 function _insertFileToDOM(name, txt) {
   const parentDiv = document.getElementById("files-all");
-  div = document.createElement("div");
-  div.id = name;
+  let div = document.getElementById(name);
+
+  if (!div) {
+    div = document.createElement("div");
+    div.id = name;
+    parentDiv.appendChild(div);
+  }
+
   div.innerText = txt;
-  parentDiv.appendChild(div);
+  return txt;
 }
 
 function getFileContents(filename) {
-  console.log(filename);
   const div = document.getElementById(filename);
+  if (!div) {
+    if (_REMOTE_FILES[filename]) {
+      _loadFile(filename);
+      return `Loading ${filename}. Try again in a moment.`;
+    }
+
+    return `File not found: ${filename}`;
+  }
+
   return div.innerHTML
     .replaceAll("<br>", "\r\n")
     .replaceAll("&gt;", ">")

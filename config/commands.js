@@ -120,6 +120,17 @@ const commands = {
 
   test: function () {
     SpawnRickRollPointers();
+    if (typeof window.ensureRickRollLoaded === "function") {
+      window.ensureRickRollLoaded().then(() => {
+        window.requestAnimationFrame(() => {
+          window.requestAnimationFrame(() => {
+            if (typeof RickRoll === "function") {
+              RickRoll();
+            }
+          });
+        });
+      });
+    }
   },
 
   email: function () {

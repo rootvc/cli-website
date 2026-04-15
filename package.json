@@ -16,7 +16,10 @@
     "url": "git@github.com:rootvc/cli-website.git"
   },
   "scripts": {
-    "build": "npm install && mkdir -p ./css && cp node_modules/@xterm/xterm/css/*.css ./css && mkdir -p ./js && cp node_modules/@xterm/*/lib/*.js* ./js && cp node_modules/aalib.js/dist/aalib.js* ./js",
+    "build": "node scripts/build-assets.js",
     "start": "netlify dev"
+  },
+  "devDependencies": {
+    "terser": "^5.46.1"
   }
 }
