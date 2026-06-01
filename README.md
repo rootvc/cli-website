@@ -1,7 +1,7 @@
 # cli-website
 Who needs a website when you have a terminal.
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/f3bfb854-9bc6-40a7-8d4c-2cccd3850764/deploy-status)](https://app.netlify.com/sites/rootvc-cli-website/deploys)
+Hosted on Vercel; the weekly AI reinvention cycle (in progress) runs on GitHub Actions.
 
 ## Basic Commands
   - help: list all commands
@@ -89,6 +89,9 @@ That build now:
  - copies and minifies the xterm vendor assets
  - bundles the app boot/runtime code into `js/app.bundle.js`
  - emits a minified lazy-load asset for the RickRoll animation
+
+## Local Dev
+`npm start` runs `vercel dev` — Vercel's local dev server. It serves the static root and exposes API routes from `api/` at `/api/*`. Requires the Vercel CLI to be authenticated (`vercel login`) and the project linked (`vercel link`).
 
 ## Performance Notes
 The terminal now initializes on `DOMContentLoaded` instead of waiting for `window.onload`, and optional work such as ASCII art preloading happens after the terminal is already usable.

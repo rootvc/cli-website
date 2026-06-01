@@ -12,6 +12,7 @@ const help = {
   "%github%": "all repos",
   "%locate%": "physical address",
   "%jobs%": "check out our job openings",
+  "%game%": "play Root Router",
   "%test%": "do not use",
   "%upgrade%": "upgrade to the latest version of Root Ventures",
   "%other%": "try your fav commands (e.g. %ls%, %groups%, %su%)",

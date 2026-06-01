@@ -1,0 +1,229 @@
+name: Weekly AI Reinvention Cycle
+
+# Sunday-evening cron that drives the autonomous Author + Editor cycle
+# documented in docs/plans/2026-06-01-001-feat-weekly-ai-reinvention-plan.md.
+#
+# DC14: claude-code-action is pinned to @v1. Before enabling the cron in
+# production, replace @v1 with a specific commit SHA so a supply-chain update
+# can't silently gain access to ANTHROPIC_API_KEY + GITHUB_TOKEN. Dependabot's
+# github-actions ecosystem will alert when the upstream tag moves.
+#
+# DC15: least-privilege permissions block; no PAT used.
+# DC9:  cost cap is enforced by --max-turns (in claude_args) and
+#       timeout-minutes (job-level wall-clock cap). Anthropic console per-key
+#       spending limit is the hard backstop.
+
+on:
+  schedule:
+    # Monday 01:00 UTC = Sunday 17:00 PST / Sunday 18:00 PDT. Adjust the hour
+    # if you want strict year-round consistency.
+    - cron: "0 1 * * 1"
+  workflow_dispatch:
+    inputs:
+      max_retries:
+        description: "Author retry limit (default 3)"
+        required: false
+        default: "3"
+      artifact_date:
+        description: "Override the cycle date (YYYY-MM-DD); blank uses today"
+        required: false
+        default: ""
+
+concurrency:
+  group: weekly-cycle
+  cancel-in-progress: false
+
+jobs:
+  cycle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45 # DC9: wall-clock ceiling
+
+    permissions:
+      contents: write
+      pull-requests: write
+      issues: write
+
+    steps:
+      - name: Checkout repository at main HEAD
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+          ref: main
+
+      - name: Capture starting SHA for race detection
+        id: starting_sha
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Compute cycle date
+        id: cycle_date
+        run: |
+          if [ -n "${{ github.event.inputs.artifact_date }}" ]; then
+            echo "date=${{ github.event.inputs.artifact_date }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "date=$(date -u +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Create cycle branch
+        run: |
+          git config user.email "noreply@root.vc"
+          git config user.name "Root Cycle Bot"
+          git checkout -b "cycle/${{ steps.cycle_date.outputs.date }}"
+
+      - name: Run claude-code-action cycle
+        # DC14: pinned to v1 SHA 537ffff2eff706bd7e3e1c3daf2d4b39067a9f85.
+        # Dependabot's github-actions ecosystem will alert when the upstream
+        # tag moves; reviewers should re-verify before bumping.
+        uses: anthropics/claude-code-action@537ffff2eff706bd7e3e1c3daf2d4b39067a9f85 # v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          # DC9: turn cap; the orchestrator's loop also enforces --max-retries.
+          claude_args: --max-turns 60 --allowedTools Agent,Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Skill,Bash
+          timeout_minutes: "40"
+          prompt_file: scripts/cycle/prompts/cycle.md
+
+      - name: Inspect cycle artifacts
+        id: inspect
+        run: |
+          ART="archive/${{ steps.cycle_date.outputs.date }}"
+          if [ -d "$ART" ] && [ -f "$ART/index.html" ]; then
+            echo "artifact_path=$ART" >> "$GITHUB_OUTPUT"
+            echo "success=true" >> "$GITHUB_OUTPUT"
+            if [ -f "$ART/meta.json" ]; then
+              THEME=$(node -e "console.log(JSON.parse(require('fs').readFileSync('$ART/meta.json','utf8')).theme_name || '')")
+              echo "theme=$THEME" >> "$GITHUB_OUTPUT"
+            fi
+          else
+            echo "success=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run smoke tests against the new artifact
+        if: steps.inspect.outputs.success == 'true'
+        env:
+          ARTIFACT_PATH: ${{ steps.inspect.outputs.artifact_path }}
+        run: npx vitest run tests/cycle/
+
+      - name: Check main moved during cycle (race detection)
+        id: race_check
+        if: steps.inspect.outputs.success == 'true'
+        run: |
+          git fetch origin main
+          CURRENT_MAIN=$(git rev-parse origin/main)
+          if [ "$CURRENT_MAIN" != "${{ steps.starting_sha.outputs.sha }}" ]; then
+            echo "main_moved=true" >> "$GITHUB_OUTPUT"
+            echo "Main HEAD moved from ${{ steps.starting_sha.outputs.sha }} to $CURRENT_MAIN during the cycle."
+          else
+            echo "main_moved=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push cycle branch
+        if: steps.inspect.outputs.success == 'true' && steps.race_check.outputs.main_moved == 'false'
+        run: |
+          git add archive/${{ steps.cycle_date.outputs.date }} index.html cli/ 2>/dev/null || true
+          git add archive/${{ steps.cycle_date.outputs.date }}
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 1
+          fi
+          git commit -m "drop: ${{ steps.cycle_date.outputs.date }} — ${{ steps.inspect.outputs.theme }}"
+          git push origin "cycle/${{ steps.cycle_date.outputs.date }}"
+
+      - name: Open auto-merge PR
+        if: steps.inspect.outputs.success == 'true' && steps.race_check.outputs.main_moved == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_BODY_PATH=$(mktemp)
+          node -e "
+            const fs = require('fs');
+            const meta = JSON.parse(fs.readFileSync('archive/${{ steps.cycle_date.outputs.date }}/meta.json','utf8'));
+            const social = JSON.parse(fs.readFileSync('archive/${{ steps.cycle_date.outputs.date }}/social.json','utf8'));
+            const { PR_BODY_TEMPLATE, renderTemplate } = require('./scripts/cycle/run-cycle.js');
+            const wfl = meta.where_facts_live || {};
+            const rendered = renderTemplate(PR_BODY_TEMPLATE, {
+              theme_name: meta.theme_name,
+              editorial_note: meta.editorial_note,
+              where_firm_name: wfl.firm_name,
+              where_mission: wfl.mission,
+              where_portfolio: wfl.portfolio,
+              where_team: wfl.team,
+              where_contact: wfl.contact,
+              history_view_concept: meta.history_view_concept,
+              tweet_draft: social.tweet_draft,
+              screenshot_brief: social.screenshot_brief,
+              preview_url: 'https://root.vc/archive/${{ steps.cycle_date.outputs.date }}/',
+            });
+            fs.writeFileSync('$PR_BODY_PATH', rendered);
+          "
+          gh pr create \
+            --base main \
+            --head "cycle/${{ steps.cycle_date.outputs.date }}" \
+            --title "drop: ${{ steps.cycle_date.outputs.date }} — ${{ steps.inspect.outputs.theme }}" \
+            --body-file "$PR_BODY_PATH"
+          gh pr merge "cycle/${{ steps.cycle_date.outputs.date }}" --auto --squash
+
+      - name: Open post-merge "Drop shipped" issue
+        if: success() && steps.inspect.outputs.success == 'true' && steps.race_check.outputs.main_moved == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE_BODY_PATH=$(mktemp)
+          node -e "
+            const fs = require('fs');
+            const meta = JSON.parse(fs.readFileSync('archive/${{ steps.cycle_date.outputs.date }}/meta.json','utf8'));
+            const social = JSON.parse(fs.readFileSync('archive/${{ steps.cycle_date.outputs.date }}/social.json','utf8'));
+            const { SUCCESS_ISSUE_TEMPLATE, renderTemplate } = require('./scripts/cycle/run-cycle.js');
+            const rendered = renderTemplate(SUCCESS_ISSUE_TEMPLATE, {
+              cycle_date: '${{ steps.cycle_date.outputs.date }}',
+              theme_name: meta.theme_name,
+              topical_hook_or_none: meta.topical && meta.topical_hook ? meta.topical_hook : '(no topical seed this week)',
+              editorial_note: meta.editorial_note,
+              live_url: 'https://root.vc/archive/${{ steps.cycle_date.outputs.date }}/',
+              tweet_draft: social.tweet_draft,
+              linkedin_draft: social.linkedin_draft,
+              screenshot_brief: social.screenshot_brief,
+            });
+            fs.writeFileSync('$ISSUE_BODY_PATH', rendered);
+          "
+          gh issue create \
+            --title "Drop shipped: ${{ steps.cycle_date.outputs.date }} — ${{ steps.inspect.outputs.theme }}" \
+            --body-file "$ISSUE_BODY_PATH"
+
+      - name: Open "Cycle failed" issue
+        if: failure() || (steps.inspect.outputs.success == 'false') || (steps.race_check.outputs.main_moved == 'true')
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          ISSUE_BODY_PATH=$(mktemp)
+          REASON="cycle failure"
+          if [ "${{ steps.race_check.outputs.main_moved }}" = "true" ]; then
+            REASON="raced with human commit (main moved during cycle)"
+          elif [ "${{ steps.inspect.outputs.success }}" = "false" ]; then
+            REASON="orchestrator did not produce an archive directory"
+          fi
+          node -e "
+            const fs = require('fs');
+            const { FAILURE_ISSUE_TEMPLATE, renderTemplate } = require('./scripts/cycle/run-cycle.js');
+            const rendered = renderTemplate(FAILURE_ISSUE_TEMPLATE, {
+              cycle_date: '${{ steps.cycle_date.outputs.date }}',
+              failure_reason: '$REASON',
+              retries_used: 'unknown',
+              max_retries: '3',
+              workflow_run_url: '${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}',
+              last_attempt_summary: 'See the workflow logs linked above for the orchestrator\\'s structured stdout JSON.',
+            });
+            fs.writeFileSync('$ISSUE_BODY_PATH', rendered);
+          "
+          gh issue create \
+            --title "Cycle failed: ${{ steps.cycle_date.outputs.date }}" \
+            --body-file "$ISSUE_BODY_PATH" \
+            --label "cycle-failure"
+          # Best-effort: delete the cycle branch so it doesn't pile up
+          git push origin --delete "cycle/${{ steps.cycle_date.outputs.date }}" 2>/dev/null || true

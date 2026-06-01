@@ -1,0 +1,64 @@
+name: U0 Runtime Validation Spike
+
+# Manually-dispatched spike that validates whether claude-code-action can host the
+# weekly-cycle architecture (Agent tool, /last30days skill or WebSearch fallback,
+# Write, Bash for smoke tests, schedule trigger, token observability).
+#
+# Run via:
+#   - GitHub UI: Actions tab → "U0 Runtime Validation Spike" → Run workflow
+#   - Or:        gh workflow run spike.yml
+#
+# Outputs a JSON capability report as a job artifact.
+
+on:
+  workflow_dispatch:
+    inputs:
+      verbose:
+        description: "Verbose output"
+        required: false
+        default: "false"
+        type: choice
+        options: ["true", "false"]
+
+jobs:
+  spike:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run claude-code-action capability spike
+        # Pinned to v1 (SHA 537ffff2eff706bd7e3e1c3daf2d4b39067a9f85 at time of
+        # writing) per DC14. Dependabot's github-actions ecosystem will alert
+        # when the upstream tag moves; reviewers should re-verify before
+        # bumping.
+        uses: anthropics/claude-code-action@537ffff2eff706bd7e3e1c3daf2d4b39067a9f85 # v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          timeout_minutes: "10"
+          # Pass the spike prompt as the action's instruction. Claude Code reads
+          # this file and follows its sequenced capability tests, writing the
+          # result report to spike-report.json at the repo root.
+          prompt_file: scripts/cycle/spike-prompt.md
+
+      - name: Upload spike report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: spike-report
+          path: |
+            spike-report.json
+            spike-report.md
+          if-no-files-found: warn
+          retention-days: 30
