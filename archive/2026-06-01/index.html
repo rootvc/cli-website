@@ -1,0 +1,2740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Cabinet of Computational Curiosities &mdash; Permanent Collection of Root Ventures</title>
+  <meta name="description" content="A catalog of the permanent collection at the Cabinet of Computational Curiosities, proprietary museum of Root Ventures. Sixty-three specimens of frontier engineering, presented for the consideration of the technically literate visitor.">
+  <link rel="canonical" href="https://root.vc/">
+  <style>
+:root {
+  --parchment: #f1e4c7;
+  --parchment-deep: #e6d3a8;
+  --ink: #2b1d10;
+  --ink-soft: #4a3520;
+  --brass: #8a6a1c;
+  --brass-light: #b58a2a;
+  --rust: #84321b;
+  --rule: #6b4f25;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--parchment);
+  color: var(--ink);
+  font-family: "Iowan Old Style", "Cormorant Garamond", "Hoefler Text", "Baskerville", Georgia, serif;
+  font-size: 17px;
+  line-height: 1.5;
+}
+body {
+  background-image:
+    radial-gradient(ellipse at 20% 10%, rgba(132,50,27,0.06), transparent 60%),
+    radial-gradient(ellipse at 80% 90%, rgba(132,50,27,0.06), transparent 55%),
+    repeating-linear-gradient(0deg, transparent 0 38px, rgba(43,29,16,0.02) 38px 39px);
+  min-height: 100vh;
+}
+.museum {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px 28px 80px;
+}
+a { color: var(--rust); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover { color: var(--brass); }
+
+/* ============ NAMEPLATE ============ */
+.nameplate {
+  position: relative;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  padding: 36px 32px 28px;
+  background: linear-gradient(180deg, #f6ecd3, #ead7ad);
+  text-align: center;
+  box-shadow: 0 0 0 6px var(--parchment), 0 0 0 7px var(--brass), inset 0 0 60px rgba(132,106,28,0.08);
+}
+.nameplate::before, .nameplate::after {
+  content: "";
+  position: absolute;
+  left: 12px; right: 12px;
+  height: 4px;
+  border-top: 1px solid var(--brass);
+  border-bottom: 1px solid var(--brass);
+}
+.nameplate::before { top: 8px; }
+.nameplate::after { bottom: 8px; }
+.brass-stud {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #d9b04a, var(--brass));
+  box-shadow: 0 1px 2px rgba(0,0,0,0.4);
+}
+.brass-stud.tl { top: 14px; left: 14px; }
+.brass-stud.tr { top: 14px; right: 14px; }
+.brass-stud.bl { bottom: 14px; left: 14px; }
+.brass-stud.br { bottom: 14px; right: 14px; }
+.preamble {
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.72rem;
+  color: var(--brass);
+  margin: 0 0 12px;
+}
+.museum-name {
+  font-family: "Trajan Pro", "Cinzel", "Caslon", "Times New Roman", serif;
+  font-weight: 700;
+  font-size: clamp(2rem, 6vw, 3.8rem);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1.05;
+  color: var(--ink);
+}
+.museum-name .ampersand {
+  font-style: italic;
+  font-family: "Caslon", "Garamond", serif;
+  font-weight: 400;
+  color: var(--rust);
+}
+.museum-sub {
+  margin: 14px 0 4px;
+  font-style: italic;
+  font-size: 1.05rem;
+  color: var(--ink-soft);
+}
+.proprietor {
+  margin: 14px 0 0;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+}
+.proprietor strong { font-variant: small-caps; letter-spacing: 0.08em; }
+.gallery-address {
+  margin: 8px 0 0;
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  font-style: italic;
+}
+.founded {
+  display: inline-block;
+  margin-top: 14px;
+  padding: 4px 14px;
+  border: 1px solid var(--brass);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--brass);
+}
+
+/* ============ DECREES / CHARTER ============ */
+.charter {
+  margin: 56px 0 48px;
+  padding: 30px 38px;
+  border-top: 3px double var(--rule);
+  border-bottom: 3px double var(--rule);
+  position: relative;
+}
+.charter::before {
+  content: "§";
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--parchment);
+  padding: 0 14px;
+  font-size: 1.8rem;
+  color: var(--brass);
+  font-style: italic;
+}
+.charter-title {
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.85rem;
+  color: var(--brass);
+  margin: 0 0 18px;
+}
+.charter-body {
+  font-size: 1.18rem;
+  line-height: 1.7;
+  text-align: center;
+  margin: 0 0 14px;
+  font-style: italic;
+}
+.charter-body .firm-name {
+  font-style: normal;
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+}
+.charter-tagline {
+  text-align: center;
+  margin: 12px 0 0;
+  font-family: "Caslon", serif;
+  font-size: 1.4rem;
+  letter-spacing: 0.04em;
+  color: var(--rust);
+}
+.charter-thesis {
+  text-align: center;
+  margin: 20px auto 0;
+  max-width: 720px;
+  font-size: 0.98rem;
+  color: var(--ink-soft);
+}
+.charter-econ {
+  margin: 28px auto 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 16px;
+  max-width: 720px;
+  font-size: 0.82rem;
+}
+.charter-econ > div {
+  text-align: center;
+  border: 1px solid var(--brass);
+  padding: 10px 8px;
+  background: rgba(255,255,255,0.25);
+}
+.charter-econ .label {
+  display: block;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--brass);
+  font-size: 0.7rem;
+  margin-bottom: 4px;
+}
+.charter-econ .value {
+  font-size: 1rem;
+  font-weight: 700;
+  font-variant: small-caps;
+  letter-spacing: 0.05em;
+}
+
+/* ============ SECTION HEADINGS ============ */
+.gallery {
+  margin: 64px 0 32px;
+}
+.gallery-header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.gallery-numeral {
+  display: inline-block;
+  font-family: "Caslon", serif;
+  font-style: italic;
+  color: var(--brass);
+  font-size: 1.2rem;
+  letter-spacing: 0.2em;
+  margin-bottom: 6px;
+}
+.gallery-title {
+  font-family: "Trajan Pro", "Cinzel", serif;
+  font-size: clamp(1.5rem, 3.6vw, 2.4rem);
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  margin: 0;
+  font-weight: 700;
+}
+.gallery-subtitle {
+  margin: 10px 0 0;
+  font-style: italic;
+  color: var(--ink-soft);
+  font-size: 0.95rem;
+}
+.ornament {
+  display: block;
+  margin: 14px auto 0;
+  text-align: center;
+  color: var(--brass);
+  font-size: 1.2rem;
+  letter-spacing: 1em;
+}
+
+/* ============ CURATORS ============ */
+.curators {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+.curator {
+  display: grid;
+  grid-template-columns: 96px 1fr;
+  gap: 18px;
+  padding: 20px;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.32);
+  position: relative;
+}
+.curator::after {
+  content: "";
+  position: absolute;
+  inset: 4px;
+  border: 1px solid rgba(132,106,28,0.35);
+  pointer-events: none;
+}
+.curator-portrait {
+  position: relative;
+}
+.silhouette {
+  width: 100%;
+  height: auto;
+  display: block;
+  filter: sepia(0.25);
+}
+.curator-name {
+  margin: 0 0 4px;
+  font-size: 1.18rem;
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+}
+.curator-title {
+  margin: 0 0 10px;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.curator-title .role { font-weight: 700; }
+.curator-bio {
+  margin: 0 0 8px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+.curator-links { margin: 6px 0 0; font-size: 0.82rem; }
+
+/* ============ SPECIMENS ============ */
+.collection-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 0 0 18px;
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  border-top: 1px solid var(--rule);
+  border-bottom: 1px solid var(--rule);
+  padding: 8px 4px;
+}
+.collection-toolbar strong { font-variant: small-caps; letter-spacing: 0.1em; color: var(--ink); }
+.specimens {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.specimen {
+  background: linear-gradient(180deg, #fbf2dc 0%, #ede0bb 100%);
+  border: 1px solid var(--rule);
+  padding: 14px 16px 16px;
+  position: relative;
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.4);
+}
+.specimen-tag {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px dotted var(--rule);
+  padding-bottom: 6px;
+  margin-bottom: 10px;
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.acc-num {
+  font-family: "Courier New", Courier, monospace;
+  color: var(--rust);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.case-label {
+  color: var(--brass);
+  font-style: italic;
+}
+.specimen-body {
+  display: grid;
+  grid-template-columns: 64px 1fr;
+  gap: 12px;
+}
+.plate {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  color: var(--ink-soft);
+}
+.plate-svg { width: 60px; height: 60px; }
+.binomial {
+  margin: 0 0 2px;
+  font-size: 1.02rem;
+  font-weight: 400;
+  color: var(--ink);
+}
+.binomial em { font-style: italic; }
+.common-name {
+  margin: 0 0 8px;
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.common-name a { font-style: normal; }
+.field-notes {
+  margin: 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+}
+.field-notes dt {
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.66rem;
+  color: var(--brass);
+  margin-right: 4px;
+  font-weight: 700;
+}
+.field-notes dd { margin: 0 0 6px; display: inline; }
+.field-notes dd::after { content: ""; display: block; }
+
+/* ============ VACANCIES ============ */
+.vacancies {
+  margin: 64px 0;
+  padding: 30px 36px;
+  border: 2px solid var(--rule);
+  background: rgba(255,255,255,0.3);
+  position: relative;
+}
+.vacancies::before {
+  content: "POSITIONS UNFILLED";
+  position: absolute;
+  top: -14px;
+  left: 24px;
+  background: var(--parchment);
+  padding: 0 10px;
+  font-size: 0.72rem;
+  letter-spacing: 0.22em;
+  color: var(--brass);
+  font-weight: 700;
+}
+.vacancy-title {
+  font-family: "Trajan Pro", serif;
+  margin: 0 0 8px;
+  font-size: 1.4rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.vacancy-body {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.vacancy-body ul { padding-left: 22px; }
+.vacancy-body li { margin: 4px 0; }
+
+/* ============ ARCHIVE WING (history) ============ */
+.archive-wing {
+  margin: 56px 0 0;
+  padding: 36px 32px;
+  border: 3px double var(--rule);
+  background:
+    repeating-linear-gradient(135deg, rgba(132,106,28,0.04) 0 12px, transparent 12px 24px),
+    var(--parchment-deep);
+  text-align: center;
+  position: relative;
+}
+.archive-wing::after {
+  content: "↦";
+  position: absolute;
+  top: -16px;
+  right: 26px;
+  background: var(--parchment);
+  padding: 0 8px;
+  color: var(--brass);
+  font-size: 1.4rem;
+}
+.wing-eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.32em;
+  font-size: 0.72rem;
+  color: var(--brass);
+  margin: 0 0 8px;
+}
+.wing-title {
+  font-family: "Trajan Pro", serif;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+.wing-body {
+  max-width: 640px;
+  margin: 0 auto 18px;
+  font-style: italic;
+  color: var(--ink-soft);
+}
+.wing-doorway {
+  display: inline-block;
+  margin: 8px auto 0;
+  padding: 14px 28px;
+  border: 2px solid var(--ink);
+  background: var(--parchment);
+  color: var(--ink);
+  text-decoration: none;
+  font-variant: small-caps;
+  letter-spacing: 0.18em;
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: 4px 4px 0 var(--brass);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.wing-doorway:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--brass);
+  color: var(--ink);
+}
+.wing-doorway::before { content: "↤  "; color: var(--brass); }
+.wing-doorway::after { content: "  ↦"; color: var(--brass); }
+.previous-exhibits {
+  margin: 26px auto 0;
+  max-width: 720px;
+  font-size: 0.88rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+  text-align: left;
+}
+.exhibit-card {
+  border: 1px solid var(--rule);
+  padding: 10px 14px;
+  background: rgba(255,255,255,0.35);
+}
+.exhibit-card .exhibit-no {
+  font-family: "Courier New", monospace;
+  font-size: 0.7rem;
+  color: var(--brass);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+.exhibit-card .exhibit-name {
+  display: block;
+  margin: 4px 0 2px;
+  font-variant: small-caps;
+  letter-spacing: 0.08em;
+  font-weight: 700;
+}
+.exhibit-card .exhibit-date {
+  font-style: italic;
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+}
+
+/* ============ INQUIRIES / FOOTER ============ */
+.inquiries {
+  margin: 64px 0 12px;
+  padding: 32px 30px;
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 30px;
+  background: rgba(255,255,255,0.35);
+}
+.inquiries h3 {
+  margin: 0 0 8px;
+  font-family: "Trajan Pro", serif;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--brass);
+}
+.inquiries p { margin: 4px 0; font-size: 0.92rem; }
+.inquiries a.mailto {
+  display: inline-block;
+  margin-top: 6px;
+  font-family: "Courier New", monospace;
+  font-size: 0.98rem;
+  letter-spacing: 0.02em;
+  border-bottom: 1px dashed var(--rust);
+  color: var(--rust);
+  text-decoration: none;
+}
+.inquiries a.mailto:hover { color: var(--brass); border-bottom-color: var(--brass); }
+.social-list { margin: 4px 0 0; padding: 0; list-style: none; font-size: 0.85rem; }
+.social-list li { padding: 1px 0; }
+
+/* ============ COLOPHON ============ */
+.colophon {
+  margin: 40px 0 0;
+  font-size: 0.74rem;
+  text-align: center;
+  color: var(--ink-soft);
+  font-style: italic;
+  line-height: 1.6;
+}
+.colophon .firm-mark {
+  display: inline-block;
+  margin-bottom: 6px;
+  font-variant: small-caps;
+  letter-spacing: 0.12em;
+  color: var(--brass);
+  font-style: normal;
+}
+
+/* ============ FOLDED PROGRAM (details element used as fold-out) ============ */
+.foldout {
+  margin: 30px 0;
+  border: 1px solid var(--rule);
+  background: rgba(255,255,255,0.25);
+}
+.foldout > summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 14px 20px;
+  font-variant: small-caps;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: var(--ink);
+  border-bottom: 1px dotted var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.foldout > summary::-webkit-details-marker { display: none; }
+.foldout > summary::after {
+  content: "↧ unfold";
+  font-size: 0.72rem;
+  letter-spacing: 0.18em;
+  color: var(--brass);
+  font-variant: normal;
+  font-style: italic;
+}
+.foldout[open] > summary::after { content: "↥ re-fold"; }
+.foldout-body { padding: 18px 22px; font-size: 0.92rem; line-height: 1.6; }
+.foldout-body p:first-child { margin-top: 0; }
+
+/* ============ STAMP / SEAL ============ */
+.seal {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 96px; height: 96px;
+  border: 2px solid var(--rust);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--rust);
+  background: rgba(241, 228, 199, 0.78);
+  transform: rotate(-7deg);
+  opacity: 0.78;
+  pointer-events: none;
+  font-weight: 700;
+  line-height: 1.25;
+}
+.seal::before {
+  content: "";
+  position: absolute;
+  inset: 5px;
+  border: 1px dashed var(--rust);
+  border-radius: 50%;
+}
+@media (max-width: 640px) {
+  .seal { display: none; }
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 720px) {
+  .museum { padding: 24px 14px 60px; }
+  .nameplate { padding: 28px 18px 20px; }
+  .charter { padding: 22px 18px; }
+  .charter-body { font-size: 1.02rem; }
+  .specimen-body { grid-template-columns: 54px 1fr; }
+  .curator { grid-template-columns: 72px 1fr; gap: 12px; padding: 14px; }
+  .inquiries { padding: 22px 18px; gap: 20px; }
+}
+
+/* ============ PRINT (the catalog as printed pamphlet) ============ */
+@media print {
+  body { background: #fff; }
+  .seal { display: none; }
+  .archive-wing { page-break-before: always; }
+}
+</style>
+</head>
+<body>
+  <main class="museum" role="main">
+
+    <!-- ============ NAMEPLATE ============ -->
+    <section class="nameplate" aria-label="Museum nameplate">
+      <span class="brass-stud tl"></span><span class="brass-stud tr"></span>
+      <span class="brass-stud bl"></span><span class="brass-stud br"></span>
+      <p class="preamble">Catalog of the Permanent Collection &nbsp;&middot;&nbsp; June MMXXVI</p>
+      <h1 class="museum-name">The Cabinet of<br><span class="ampersand">Computational</span><br>Curiosities</h1>
+      <p class="museum-sub">A specimen catalog of frontier engineering, prepared for the technically literate visitor.</p>
+      <p class="proprietor">Proprietary museum of <strong>Root Ventures</strong> &middot; Seeding bold engineers since A.D. <span class="founded-year">2015</span>.</p>
+      <p class="gallery-address">Galleries at 2670 Harrison Street, San Francisco, California 94110.</p>
+      <span class="founded">Est. 2015 &nbsp;&middot;&nbsp; Fund III &middot; $190M</span>
+    </section>
+
+    <!-- ============ CHARTER ============ -->
+    <section class="charter" aria-labelledby="charter-heading">
+      <h2 id="charter-heading" class="charter-title">From the Founding Charter</h2>
+      <p class="charter-body">
+        <span class="firm-name">Root Ventures</span> is constituted to support the
+        earliest stages of those engineers who, demonstrating uncommon technical
+        nerve, accept the risk inherent to attempting things not yet known to work.
+      </p>
+      <p class="charter-tagline">&laquo;&nbsp;Seeding bold engineers.&nbsp;&raquo;</p>
+      <p class="charter-thesis">
+        Stated more plainly: a San Francisco&ndash;based deep tech seed fund. As engineers
+        ourselves, we specialise in leading initial funding for founders tackling new
+        technical opportunities. Sector concentrations include deep tech, hard tech,
+        robotics, manufacturing, automation, AI/ML, and devtools.
+      </p>
+      <div class="charter-econ" aria-label="Operating economics">
+        <div><span class="label">Fund Size</span><span class="value">$190M</span></div>
+        <div><span class="label">Stage</span><span class="value">Seed</span></div>
+        <div><span class="label">Initial Check</span><span class="value">$3M&ndash;$5M</span></div>
+        <div><span class="label">Reserves</span><span class="value">2/3</span></div>
+        <div><span class="label">Cadence</span><span class="value">A selective few per year</span></div>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY ONE: CURATORS ============ -->
+    <section class="gallery" id="curators" aria-labelledby="gallery-i">
+      <header class="gallery-header">
+        <div class="gallery-numeral">— Gallery I —</div>
+        <h2 id="gallery-i" class="gallery-title">Curators &amp; Department Heads</h2>
+        <p class="gallery-subtitle">The seven officers responsible for the acquisition, conservation, and interpretation of the collection.</p>
+        <div class="ornament" aria-hidden="true">✦ ✦ ✦</div>
+      </header>
+      <div class="curators">
+        
+        <article class="curator" id="curator-avidan">
+          <div class="curator-portrait" aria-hidden="true">
+            <svg viewBox="0 0 80 100" class="silhouette" focusable="false">
+              <rect x="0" y="0" width="80" height="100" fill="#f3ead3"/>
+              <ellipse cx="40" cy="38" rx="14" ry="17" fill="#2b2014"/>
+              <path d="M16 100 Q16 70 40 65 Q64 70 64 100 Z" fill="#2b2014"/>
+              <rect x="2" y="2" width="76" height="96" fill="none" stroke="#7b5a1e" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="curator-meta">
+            <h3 class="curator-name">Avidan Ross</h3>
+            <p class="curator-title"><span class="role">Director &amp; Founding Curator</span> &middot; <span class="dept">Office of the Director</span></p>
+            <p class="curator-bio">Founding Partner of Root Ventures. Previously designed industrial robotics for Food Network kitchens, served as CTO of CIM Group focused on industrial investing, and was an embedded application developer at Excite@Home. BA in Computer Science, Columbia University.</p>
+            <p class="curator-links"><a href="https://www.linkedin.com/in/avidanross/" rel="noopener" target="_blank">Curator's correspondence file</a></p>
+          </div>
+        </article>
+        <article class="curator" id="curator-kane">
+          <div class="curator-portrait" aria-hidden="true">
+            <svg viewBox="0 0 80 100" class="silhouette" focusable="false">
+              <rect x="0" y="0" width="80" height="100" fill="#f3ead3"/>
+              <ellipse cx="40" cy="38" rx="14" ry="17" fill="#2b2014"/>
+              <path d="M16 100 Q16 70 40 65 Q64 70 64 100 Z" fill="#2b2014"/>
+              <rect x="2" y="2" width="76" height="96" fill="none" stroke="#7b5a1e" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="curator-meta">
+            <h3 class="curator-name">Kane Hsieh</h3>
+            <p class="curator-title"><span class="role">Curator of Mechanical Artifacts</span> &middot; <span class="dept">Hall of Mechanical Order</span></p>
+            <p class="curator-bio">Founder and Head of Product at Brilliant Bicycle Co. before joining Root. Previously an early-stage investor at RRE Ventures, software engineer at Romotive, and Project Manager at Microsoft. AB in Computer Science, Harvard.</p>
+            <p class="curator-links"><a href="https://www.linkedin.com/in/kanehsieh/" rel="noopener" target="_blank">Curator's correspondence file</a></p>
+          </div>
+        </article>
+        <article class="curator" id="curator-chrissy">
+          <div class="curator-portrait" aria-hidden="true">
+            <svg viewBox="0 0 80 100" class="silhouette" focusable="false">
+              <rect x="0" y="0" width="80" height="100" fill="#f3ead3"/>
+              <ellipse cx="40" cy="38" rx="14" ry="17" fill="#2b2014"/>
+              <path d="M16 100 Q16 70 40 65 Q64 70 64 100 Z" fill="#2b2014"/>
+              <rect x="2" y="2" width="76" height="96" fill="none" stroke="#7b5a1e" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="curator-meta">
+            <h3 class="curator-name">Chrissy Meyer</h3>
+            <p class="curator-title"><span class="role">Keeper of Electrical Specimens</span> &middot; <span class="dept">Hall of Electromechanical Sciences</span></p>
+            <p class="curator-bio">Spent the past decade developing and shipping hardware as an engineering manager at Apple and Square. Founding team member at Pearl Automation. MS in Electrical Engineering, Stanford; BSEE, Rose-Hulman.</p>
+            <p class="curator-links"><a href="https://www.linkedin.com/in/chrissymeyer/" rel="noopener" target="_blank">Curator's correspondence file</a></p>
+          </div>
+        </article>
+        <article class="curator" id="curator-lee">
+          <div class="curator-portrait" aria-hidden="true">
+            <svg viewBox="0 0 80 100" class="silhouette" focusable="false">
+              <rect x="0" y="0" width="80" height="100" fill="#f3ead3"/>
+              <ellipse cx="40" cy="38" rx="14" ry="17" fill="#2b2014"/>
+              <path d="M16 100 Q16 70 40 65 Q64 70 64 100 Z" fill="#2b2014"/>
+              <rect x="2" y="2" width="76" height="96" fill="none" stroke="#7b5a1e" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="curator-meta">
+            <h3 class="curator-name">Lee Edwards</h3>
+            <p class="curator-title"><span class="role">Curator of Devtools &amp; Software Specimens</span> &middot; <span class="dept">Hall of Software Engineering</span></p>
+            <p class="curator-bio">Most recently CTO at Teespring. Previously a mechanical engineer at iRobot, software engineer at Pivotal Labs, Lead Engineer at SideTour (acquired by Groupon), and engineering manager for GrouponLive. Olin College, Systems Engineering.</p>
+            <p class="curator-links"><a href="https://www.linkedin.com/in/leeredwards/" rel="noopener" target="_blank">Curator's correspondence file</a></p>
+          </div>
+        </article>
+        <article class="curator" id="curator-zodi">
+          <div class="curator-portrait" aria-hidden="true">
+            <svg viewBox="0 0 80 100" class="silhouette" focusable="false">
+              <rect x="0" y="0" width="80" height="100" fill="#f3ead3"/>
+              <ellipse cx="40" cy="38" rx="14" ry="17" fill="#2b2014"/>
+              <path d="M16 100 Q16 70 40 65 Q64 70 64 100 Z" fill="#2b2014"/>
+              <rect x="2" y="2" width="76" height="96" fill="none" stroke="#7b5a1e" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="curator-meta">
+            <h3 class="curator-name">Zodi Chalat</h3>
+            <p class="curator-title"><span class="role">Associate Curator, Intelligence Studies</span> &middot; <span class="dept">Hall of Machine Intelligence</span></p>
+            <p class="curator-bio">Began his career as an engineer on ML infrastructure at Netflix before moving into venture. Studied CS and comparative literature at Yale.</p>
+            <p class="curator-links"><a href="https://linkedin.com/in/zodi" rel="noopener" target="_blank">Curator's correspondence file</a></p>
+          </div>
+        </article>
+        <article class="curator" id="curator-ben">
+          <div class="curator-portrait" aria-hidden="true">
+            <svg viewBox="0 0 80 100" class="silhouette" focusable="false">
+              <rect x="0" y="0" width="80" height="100" fill="#f3ead3"/>
+              <ellipse cx="40" cy="38" rx="14" ry="17" fill="#2b2014"/>
+              <path d="M16 100 Q16 70 40 65 Q64 70 64 100 Z" fill="#2b2014"/>
+              <rect x="2" y="2" width="76" height="96" fill="none" stroke="#7b5a1e" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="curator-meta">
+            <h3 class="curator-name">Ben Lovell</h3>
+            <p class="curator-title"><span class="role">Head of Operations &amp; Registrar</span> &middot; <span class="dept">Registrar's Office</span></p>
+            <p class="curator-bio">Worked at a16z, Menlo Ventures, and FT Partners to build operational automation and data pipelines. Co-founded an adtech startup for rideshare companies. BA, Stanford University.</p>
+            <p class="curator-links"><a href="https://www.linkedin.com/in/lovellb/" rel="noopener" target="_blank">Curator's correspondence file</a></p>
+          </div>
+        </article>
+        <article class="curator" id="curator-laelah">
+          <div class="curator-portrait" aria-hidden="true">
+            <svg viewBox="0 0 80 100" class="silhouette" focusable="false">
+              <rect x="0" y="0" width="80" height="100" fill="#f3ead3"/>
+              <ellipse cx="40" cy="38" rx="14" ry="17" fill="#2b2014"/>
+              <path d="M16 100 Q16 70 40 65 Q64 70 64 100 Z" fill="#2b2014"/>
+              <rect x="2" y="2" width="76" height="96" fill="none" stroke="#7b5a1e" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div class="curator-meta">
+            <h3 class="curator-name">Laelah Reino</h3>
+            <p class="curator-title"><span class="role">Operations Manager &amp; Conservator</span> &middot; <span class="dept">Conservation Studio</span></p>
+            <p class="curator-bio">Over 15 years in marketing for films, consumer products, and subscription-based services. BA in Business Administration with a Marketing concentration, Drexel University.</p>
+            <p class="curator-links"><a href="https://www.linkedin.com/in/laelah-reino-78b6a51/" rel="noopener" target="_blank">Curator's correspondence file</a></p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ GALLERY TWO: SPECIMENS ============ -->
+    <section class="gallery" id="permanent-collection" aria-labelledby="gallery-ii">
+      <header class="gallery-header">
+        <div class="gallery-numeral">— Gallery II —</div>
+        <h2 id="gallery-ii" class="gallery-title">Permanent Collection</h2>
+        <p class="gallery-subtitle">Sixty-three specimens, accessioned between the founding of the museum and the present.<br>Each is labeled with its binomial, common name, and provenance.</p>
+        <div class="ornament" aria-hidden="true">✦ ✦ ✦</div>
+      </header>
+      <div class="collection-toolbar">
+        <span><strong>Cases</strong> 01&ndash;09</span>
+        <span><strong>Specimens accessioned</strong>: 63</span>
+        <span><strong>On view</strong>: All</span>
+      </div>
+      <div class="specimens">
+
+        <article class="specimen" id="specimen-esper">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.001</span>
+            <span class="case-label">Case 01, Drawer 01</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-esper" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(23)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-esper)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Es</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Esper devicensis</em></h3>
+              <p class="common-name">Common name: <a href="https://esper.io" rel="noopener" target="_blank">Esper</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Enterprise device fleets</dd>
+                <dt>Field notes</dt><dd>Devops for devices. Builds and manages enterprise hardware at fleet scale.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-meroxa">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.002</span>
+            <span class="case-label">Case 01, Drawer 02</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-meroxa" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(46)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-meroxa)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Me</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Meroxa pipelinea</em></h3>
+              <p class="common-name">Common name: <a href="https://meroxa.com" rel="noopener" target="_blank">Meroxa</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Data engineering substrates</dd>
+                <dt>Field notes</dt><dd>A platform for engineers to build mature, scalable data infrastructure with a single command.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-particle">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.003</span>
+            <span class="case-label">Case 01, Drawer 03</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-particle" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(69)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-particle)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Pa</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Particula iotensis</em></h3>
+              <p class="common-name">Common name: <a href="https://particle.io" rel="noopener" target="_blank">Particle</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Connected devices</dd>
+                <dt>Field notes</dt><dd>The largest professional IoT development platform.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-daily">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.004</span>
+            <span class="case-label">Case 01, Drawer 04</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-daily" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(92)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-daily)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Da</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Diurna videoensis</em></h3>
+              <p class="common-name">Common name: <a href="https://daily.co" rel="noopener" target="_blank">Daily</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Real-time video stacks</dd>
+                <dt>Field notes</dt><dd>Makes it easier for developers to add video to websites and apps.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-hash">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.005</span>
+            <span class="case-label">Case 01, Drawer 05</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-hash" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(115)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-hash)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">HA</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Hashus graphica</em></h3>
+              <p class="common-name">Common name: <a href="https://hash.ai" rel="noopener" target="_blank">HASH</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Typed entity graphs</dd>
+                <dt>Field notes</dt><dd>An open-source, self-building database that grows and maintains a typed graph of entities on your behalf.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-superconductive">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.006</span>
+            <span class="case-label">Case 01, Drawer 06</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-superconductive" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(138)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-superconductive)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Su</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Superconductiva veritas</em></h3>
+              <p class="common-name">Common name: <a href="https://superconductive.ai" rel="noopener" target="_blank">Superconductive</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Data integrity layers</dd>
+                <dt>Field notes</dt><dd>A SaaS platform for verifying and enforcing data integrity at every stage of the data lifecycle.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-okteto">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.007</span>
+            <span class="case-label">Case 01, Drawer 07</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-okteto" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(161)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-okteto)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ok</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Oktetonia ephemera</em></h3>
+              <p class="common-name">Common name: <a href="https://okteto.com" rel="noopener" target="_blank">Okteto</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Ephemeral environments</dd>
+                <dt>Field notes</dt><dd>The best ephemeral environment for developers.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-privacy_dynamics">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.008</span>
+            <span class="case-label">Case 02, Drawer 01</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-privacy_dynamics" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(4)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-privacy_dynamics)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Pr</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Privatica dynamica</em></h3>
+              <p class="common-name">Common name: <a href="https://privacydynamics.io" rel="noopener" target="_blank">Privacy Dynamics</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Customer data layers</dd>
+                <dt>Field notes</dt><dd>Ensures customer data privacy without slowing down your team.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-nautilus">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.009</span>
+            <span class="case-label">Case 02, Drawer 02</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-nautilus" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(27)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-nautilus)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Na</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Nautilus maritima</em></h3>
+              <p class="common-name">Common name: <a href="https://nautiluslabs.com" rel="noopener" target="_blank">Nautilus Labs</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Ocean-going fleets</dd>
+                <dt>Field notes</dt><dd>Allows maritime fleets to optimize shipping routes and energy costs in real time.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-ntopology">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.010</span>
+            <span class="case-label">Case 02, Drawer 03</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-ntopology" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(50)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-ntopology)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">nT</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Topologica mechanica</em></h3>
+              <p class="common-name">Common name: <a href="https://ntopology.com" rel="noopener" target="_blank">nTopology</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Mechanical CAD studios</dd>
+                <dt>Field notes</dt><dd>The future of mechanical engineering software.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-tortuga">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.011</span>
+            <span class="case-label">Case 02, Drawer 04</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-tortuga" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(73)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-tortuga)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">To</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Tortuga horticola</em></h3>
+              <p class="common-name">Common name: <a href="https://tortugaagtech.com" rel="noopener" target="_blank">Tortuga AgTech</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>High-value greenhouses</dd>
+                <dt>Field notes</dt><dd>Automates agriculture for high-value produce.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-instrumental">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.012</span>
+            <span class="case-label">Case 02, Drawer 05</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-instrumental" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(96)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-instrumental)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">In</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Instrumenta manufactura</em></h3>
+              <p class="common-name">Common name: <a href="https://instrumental.com" rel="noopener" target="_blank">Instrumental</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Mass production lines</dd>
+                <dt>Field notes</dt><dd>Generates real-time insights for mass manufacturing.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-stellar">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.013</span>
+            <span class="case-label">Case 02, Drawer 06</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-stellar" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(119)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-stellar)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">St</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Stellara pizzaiola</em></h3>
+              <p class="common-name">Common name: <a href="https://eatstellarpizza.com" rel="noopener" target="_blank">Stellar Pizza</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Mobile food production</dd>
+                <dt>Field notes</dt><dd>Building the future of automated food production.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-versatile">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.014</span>
+            <span class="case-label">Case 02, Drawer 07</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-versatile" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(142)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-versatile)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ve</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Versatilus constructa</em></h3>
+              <p class="common-name">Common name: <a href="https://versatile.ai" rel="noopener" target="_blank">Versatile</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Construction job sites</dd>
+                <dt>Field notes</dt><dd>Onsite construction data provider for accelerating schedules.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-dusty">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.015</span>
+            <span class="case-label">Case 03, Drawer 01</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-dusty" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(165)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-dusty)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Du</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Dustia chalkbotica</em></h3>
+              <p class="common-name">Common name: <a href="https://dustyrobotics.com" rel="noopener" target="_blank">Dusty Robotics</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Job-site concrete slabs</dd>
+                <dt>Field notes</dt><dd>Automates layout in complex construction projects.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-thruwave">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.016</span>
+            <span class="case-label">Case 03, Drawer 02</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-thruwave" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(8)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-thruwave)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Th</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Thruwava logistica</em></h3>
+              <p class="common-name">Common name: <a href="https://thruwave.com" rel="noopener" target="_blank">ThruWave</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>High-volume conveyors</dd>
+                <dt>Field notes</dt><dd>Increases the efficiency and transparency of high-volume logistics operations.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-seismic">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.017</span>
+            <span class="case-label">Case 03, Drawer 03</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-seismic" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(31)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-seismic)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Se</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Seismica musculara</em></h3>
+              <p class="common-name">Common name: <a href="https://myseismic.com" rel="noopener" target="_blank">Seismic</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Worker-augmentation labs</dd>
+                <dt>Field notes</dt><dd>Augments strength and safety for workers through soft robotics.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-seam">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.018</span>
+            <span class="case-label">Case 03, Drawer 04</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-seam" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(54)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-seam)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Se</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Seama edificium</em></h3>
+              <p class="common-name">Common name: <a href="https://getseam.com" rel="noopener" target="_blank">Seam</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Smart-building APIs</dd>
+                <dt>Field notes</dt><dd>An API for managing building systems.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-chargelab">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.019</span>
+            <span class="case-label">Case 03, Drawer 05</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-chargelab" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(77)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-chargelab)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ch</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Chargelaba electrica</em></h3>
+              <p class="common-name">Common name: <a href="https://chargelab.co" rel="noopener" target="_blank">ChargeLab</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>EV charging networks</dd>
+                <dt>Field notes</dt><dd>Builds API- and software-defined EV charging networks.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-wildtype">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.020</span>
+            <span class="case-label">Case 03, Drawer 06</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-wildtype" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(100)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-wildtype)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Wi</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Wildtypa salmonia</em></h3>
+              <p class="common-name">Common name: <a href="https://wildtypefoods.com" rel="noopener" target="_blank">Wildtype Foods</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Cultivated-meat bioreactors</dd>
+                <dt>Field notes</dt><dd>Creates organic, clean, high-quality, animal-free meat.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-nordsense">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.021</span>
+            <span class="case-label">Case 03, Drawer 07</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-nordsense" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(123)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-nordsense)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">No</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Nordensa sanitaria</em></h3>
+              <p class="common-name">Common name: <a href="https://nordsense.com" rel="noopener" target="_blank">Nordsense</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Municipal waste fleets</dd>
+                <dt>Field notes</dt><dd>Optimizes pickup routes for waste management fleets.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-trucklabs">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.022</span>
+            <span class="case-label">Case 04, Drawer 01</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-trucklabs" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(146)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-trucklabs)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Tr</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Trucklaba aerodynamica</em></h3>
+              <p class="common-name">Common name: <a href="https://trucklabs.com" rel="noopener" target="_blank">TruckLabs</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Long-haul corridors</dd>
+                <dt>Field notes</dt><dd>Reduces fuel costs and increases profit margins for long-haul trucking fleets.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-sensable">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.023</span>
+            <span class="case-label">Case 04, Drawer 02</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-sensable" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(169)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-sensable)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Se</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Sensabilis industria</em></h3>
+              <p class="common-name">Common name: <a href="https://getsensable.com" rel="noopener" target="_blank">Sensable</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Industrial floors</dd>
+                <dt>Field notes</dt><dd>Generates real-time industrial engineering insights.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-crux">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.024</span>
+            <span class="case-label">Case 04, Drawer 03</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-crux" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(12)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-crux)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Cr</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Cruxa infrastructura</em></h3>
+              <p class="common-name">Common name: <a href="https://cruxocm.com" rel="noopener" target="_blank">Crux</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Energy backbones</dd>
+                <dt>Field notes</dt><dd>Automates critical energy infrastructure.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-iasql">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.025</span>
+            <span class="case-label">Case 04, Drawer 04</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-iasql" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(35)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-iasql)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ia</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>IaSQLa declarativa</em></h3>
+              <p class="common-name">Common name: <a href="https://iasql.com" rel="noopener" target="_blank">IaSQL</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Infrastructure databases</dd>
+                <dt>Field notes</dt><dd>Next-generation infrastructure management. Manage your infra in a database instead of stateless config files.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-mashgin">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.026</span>
+            <span class="case-label">Case 04, Drawer 05</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-mashgin" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(58)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-mashgin)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ma</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Mashginia automatica</em></h3>
+              <p class="common-name">Common name: <a href="https://mashgin.com" rel="noopener" target="_blank">Mashgin</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Self-checkout counters</dd>
+                <dt>Field notes</dt><dd>Automates self-checkout.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-creator">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.027</span>
+            <span class="case-label">Case 04, Drawer 06</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-creator" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(81)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-creator)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Cr</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Creatoria hamburgerensis</em></h3>
+              <p class="common-name">Common name: <a href="https://creator.rest" rel="noopener" target="_blank">Creator</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Autonomous kitchens</dd>
+                <dt>Field notes</dt><dd>Builds fully autonomous hamburger robots.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-apolloshield">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.028</span>
+            <span class="case-label">Case 04, Drawer 07</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-apolloshield" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(104)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-apolloshield)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ap</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Apollonia airspatia</em></h3>
+              <p class="common-name">Common name: <a href="https://apolloshield.com" rel="noopener" target="_blank">ApolloShield</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Protected airspace</dd>
+                <dt>Field notes</dt><dd>Safeguards airspace from autonomous and remote-piloted aircraft.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-skycatch">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.029</span>
+            <span class="case-label">Case 05, Drawer 01</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-skycatch" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(127)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-skycatch)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Sk</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Skycatcha topographica</em></h3>
+              <p class="common-name">Common name: <a href="https://skycatch.com" rel="noopener" target="_blank">Skycatch</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Mining and infrastructure sites</dd>
+                <dt>Field notes</dt><dd>High-resolution 3D mapping and modeling of high-value infrastructure.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-shaper">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.030</span>
+            <span class="case-label">Case 05, Drawer 02</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-shaper" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(150)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-shaper)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Sh</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Shaperia originatica</em></h3>
+              <p class="common-name">Common name: <a href="https://shapertools.com" rel="noopener" target="_blank">Shaper</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Maker workshops</dd>
+                <dt>Field notes</dt><dd>Makes the Origin, a handheld, auto-correcting CNC.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-cape">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.031</span>
+            <span class="case-label">Case 05, Drawer 03</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-cape" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(173)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-cape)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ca</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Capa networkensis</em></h3>
+              <p class="common-name">Common name: <a href="https://capenetworks.com" rel="noopener" target="_blank">Cape</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Enterprise networks</dd>
+                <dt>Field notes</dt><dd>Allows IT professionals to monitor, test, and repair enterprise networks remotely.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-righthook">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.032</span>
+            <span class="case-label">Case 05, Drawer 04</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-righthook" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(16)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-righthook)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ri</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Righthooka simulata</em></h3>
+              <p class="common-name">Common name: <a href="https://righthook.io" rel="noopener" target="_blank">Righthook</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>AV simulation rigs</dd>
+                <dt>Field notes</dt><dd>Reduces the time and cost required to develop autonomous vehicles.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-sixwheel">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.033</span>
+            <span class="case-label">Case 05, Drawer 05</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-sixwheel" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(39)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-sixwheel)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Si</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Sixwhelia trahens</em></h3>
+              <p class="common-name">Common name: <a href="https://sixwheel.com" rel="noopener" target="_blank">SixWheel</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Long-haul tractors</dd>
+                <dt>Field notes</dt><dd>Brings autonomy and electrification to long-haul trucking operations.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-radical">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.034</span>
+            <span class="case-label">Case 05, Drawer 06</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-radical" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(62)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-radical)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ra</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Radicalis siliconia</em></h3>
+              <p class="common-name">Common name: <a href="https://radicalsemiconductor.com" rel="noopener" target="_blank">Radical</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>IC security perimeters</dd>
+                <dt>Field notes</dt><dd>Provides hardware security down to the individual IC.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-zed">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.035</span>
+            <span class="case-label">Case 05, Drawer 07</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-zed" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(85)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-zed)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ze</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Zeda editrix</em></h3>
+              <p class="common-name">Common name: <a href="https://zed.dev" rel="noopener" target="_blank">Zed</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Developer desktops</dd>
+                <dt>Field notes</dt><dd>A fully-native desktop code editor focused on high performance, clean design, and real-time collaboration.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-kayhan">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.036</span>
+            <span class="case-label">Case 06, Drawer 01</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-kayhan" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(108)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-kayhan)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ka</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Kayhana orbitalis</em></h3>
+              <p class="common-name">Common name: <a href="https://kayhan.space" rel="noopener" target="_blank">Kayhan</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Low earth orbit</dd>
+                <dt>Field notes</dt><dd>A spaceflight operations platform that lets satellite operators focus on their core mission.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-allspice">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.037</span>
+            <span class="case-label">Case 06, Drawer 02</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-allspice" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(131)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-allspice)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Al</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Allspica collaborativa</em></h3>
+              <p class="common-name">Common name: <a href="https://allspice.io" rel="noopener" target="_blank">AllSpice</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Hardware engineering teams</dd>
+                <dt>Field notes</dt><dd>Collaboration and testing platform for hardware teams.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-quilter">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.038</span>
+            <span class="case-label">Case 06, Drawer 03</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-quilter" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(154)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-quilter)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Qu</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Quiltera electronica</em></h3>
+              <p class="common-name">Common name: <a href="https://quilter.ai" rel="noopener" target="_blank">Quilter</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>PCB design files</dd>
+                <dt>Field notes</dt><dd>Automated design tools for electrical engineers.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-adept">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.039</span>
+            <span class="case-label">Case 06, Drawer 04</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-adept" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(177)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-adept)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ad</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Adepta generalis</em></h3>
+              <p class="common-name">Common name: <a href="https://adept.ai" rel="noopener" target="_blank">Adept</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Agentic workflows</dd>
+                <dt>Field notes</dt><dd>Useful general intelligence.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-aperture">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.040</span>
+            <span class="case-label">Case 06, Drawer 05</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-aperture" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(20)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-aperture)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ap</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Apertura mediathecae</em></h3>
+              <p class="common-name">Common name: <a href="https://aperturedata.io" rel="noopener" target="_blank">Aperture Data</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Image and video corpora</dd>
+                <dt>Field notes</dt><dd>Manages images and videos with a database purpose-built for data science and machine learning.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-supertokens">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.041</span>
+            <span class="case-label">Case 06, Drawer 06</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-supertokens" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(43)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-supertokens)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Su</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Supertokena identitatis</em></h3>
+              <p class="common-name">Common name: <a href="https://supertokens.io" rel="noopener" target="_blank">SuperTokens</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Auth flows</dd>
+                <dt>Field notes</dt><dd>The best open-source solution for user authentication.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-fudge">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.042</span>
+            <span class="case-label">Case 06, Drawer 07</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-fudge" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(66)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-fudge)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Fu</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Fudgea acceleratus</em></h3>
+              <p class="common-name">Common name: <a href="https://fudge.ai" rel="noopener" target="_blank">Fudge</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Website front-ends</dd>
+                <dt>Field notes</dt><dd>The best way to speed up your website to improve conversion rates and increase revenue.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-kodra">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.043</span>
+            <span class="case-label">Case 07, Drawer 01</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-kodra" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(89)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-kodra)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ko</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Kodra dataseta</em></h3>
+              <p class="common-name">Common name: <a href="https://kodra.ai" rel="noopener" target="_blank">Kodra</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>ML pipelines</dd>
+                <dt>Field notes</dt><dd>Fast dataset curation for machine learning.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-topologic">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.044</span>
+            <span class="case-label">Case 07, Drawer 02</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-topologic" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(112)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-topologic)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">To</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Topologica textilensis</em></h3>
+              <p class="common-name">Common name: <a href="https://topologic.io" rel="noopener" target="_blank">Topologic</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Textile factories</dd>
+                <dt>Field notes</dt><dd>Design and automation software for textile manufacturing.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-ruby">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.045</span>
+            <span class="case-label">Case 07, Drawer 03</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-ruby" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(135)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-ruby)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ru</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Rubya biopsica</em></h3>
+              <p class="common-name">Common name: <a href="https://ruby-robotics.com" rel="noopener" target="_blank">Ruby Robotics</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Pathology labs</dd>
+                <dt>Field notes</dt><dd>Robotics and AI to autonomously prepare, image, and assess tissue during biopsy procedures.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-instance">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.046</span>
+            <span class="case-label">Case 07, Drawer 04</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-instance" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(158)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-instance)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">In</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Instantia synthetica</em></h3>
+              <p class="common-name">Common name: <a href="https://instance.bio" rel="noopener" target="_blank">Instance</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>DNA synthesis benches</dd>
+                <dt>Field notes</dt><dd>The fastest way to synthesize DNA.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-cady">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.047</span>
+            <span class="case-label">Case 07, Drawer 05</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-cady" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(1)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-cady)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">CA</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Cadya schematica</em></h3>
+              <p class="common-name">Common name: <a href="https://cadysolutions.com" rel="noopener" target="_blank">CADY Solutions</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Electrical engineering CAD</dd>
+                <dt>Field notes</dt><dd>Automates the electrical schematic analysis process.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-sublayer">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.048</span>
+            <span class="case-label">Case 07, Drawer 06</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-sublayer" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(24)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-sublayer)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Su</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Sublayera codificans</em></h3>
+              <p class="common-name">Common name: <a href="https://sublayer.com" rel="noopener" target="_blank">Sublayer</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>IDE-adjacent workflows</dd>
+                <dt>Field notes</dt><dd>AI-assisted coding that works the way you do.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-nullify">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.049</span>
+            <span class="case-label">Case 07, Drawer 07</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-nullify" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(47)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-nullify)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Nu</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Nullifia securitatis</em></h3>
+              <p class="common-name">Common name: <a href="https://nullify.ai" rel="noopener" target="_blank">Nullify</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Product security review</dd>
+                <dt>Field notes</dt><dd>Performs product security tasks alongside your developers.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-trieve">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.050</span>
+            <span class="case-label">Case 08, Drawer 01</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-trieve" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(70)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-trieve)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Tr</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Trievia indexica</em></h3>
+              <p class="common-name">Common name: <a href="https://trieve.ai" rel="noopener" target="_blank">Trieve</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Application search layers</dd>
+                <dt>Field notes</dt><dd>Infrastructure for building AI search into your applications.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-breakpoint">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.051</span>
+            <span class="case-label">Case 08, Drawer 02</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-breakpoint" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(93)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-breakpoint)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Br</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Breakpointa visiva</em></h3>
+              <p class="common-name">Common name: <a href="https://setbreakpoint.com" rel="noopener" target="_blank">Breakpoint AI</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Computer vision pipelines</dd>
+                <dt>Field notes</dt><dd>Uses AI to detect failures in computer vision models and re-trains them to prevent future issues.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-determinate">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.052</span>
+            <span class="case-label">Case 08, Drawer 03</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-determinate" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(116)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-determinate)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">De</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Determinata nixensis</em></h3>
+              <p class="common-name">Common name: <a href="https://determinate.systems" rel="noopener" target="_blank">Determinate Systems</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Reproducible build farms</dd>
+                <dt>Field notes</dt><dd>Enterprise-grade solutions for Nix package management.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-genalpha">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.053</span>
+            <span class="case-label">Case 08, Drawer 04</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-genalpha" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(139)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-genalpha)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Ge</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Genalpha transistorensis</em></h3>
+              <p class="common-name">Common name: <a href="https://www.generation-alpha-transistor.com" rel="noopener" target="_blank">Gen Alpha</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Analog chip design suites</dd>
+                <dt>Field notes</dt><dd>AI copilots for analog and mixed-signal chip design to streamline workflows.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-hunch">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.054</span>
+            <span class="case-label">Case 08, Drawer 05</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-hunch" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(162)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-hunch)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Hu</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Huncha exploratoria</em></h3>
+              <p class="common-name">Common name: <a href="https://hunchdata.com" rel="noopener" target="_blank">Hunch</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Non-technical analyst desks</dd>
+                <dt>Field notes</dt><dd>Collaborative data exploration and visualization tools for non-technical users.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-illoca">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.055</span>
+            <span class="case-label">Case 08, Drawer 06</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-illoca" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(5)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-illoca)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Il</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Illoca architectonica</em></h3>
+              <p class="common-name">Common name: <a href="https://illoca.com" rel="noopener" target="_blank">Illoca</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Commercial AEC workflows</dd>
+                <dt>Field notes</dt><dd>Accelerates commercial architecture workflows with generative AI for AEC software.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-integrated">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.056</span>
+            <span class="case-label">Case 08, Drawer 07</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-integrated" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(28)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-integrated)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">In</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Integrata optogenetica</em></h3>
+              <p class="common-name">Common name: <a href="https://integratebio.co" rel="noopener" target="_blank">Integrated Biosciences</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Drug discovery wet labs</dd>
+                <dt>Field notes</dt><dd>Uses optogenetics and ML to discover drugs for neurodegenerative and age-related diseases.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-latent">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.057</span>
+            <span class="case-label">Case 09, Drawer 01</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-latent" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(51)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-latent)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">La</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Latentia animatoria</em></h3>
+              <p class="common-name">Common name: <a href="https://latent-technology.com" rel="noopener" target="_blank">Latent Technology</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Game and animation studios</dd>
+                <dt>Field notes</dt><dd>Helps animators and game developers create life-like 3D assets with AI-powered tools.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-patterns">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.058</span>
+            <span class="case-label">Case 09, Drawer 02</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-patterns" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(74)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-patterns)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Pa</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Patterna applicata</em></h3>
+              <p class="common-name">Common name: <a href="https://patterns.app" rel="noopener" target="_blank">Patterns</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>AI application stacks</dd>
+                <dt>Field notes</dt><dd>Tools and infrastructure for developing modern AI applications efficiently.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-subtrace">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.059</span>
+            <span class="case-label">Case 09, Drawer 03</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-subtrace" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(97)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-subtrace)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Su</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Subtracea observatorea</em></h3>
+              <p class="common-name">Common name: <a href="https://subtrace.dev" rel="noopener" target="_blank">Subtrace</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Production backends</dd>
+                <dt>Field notes</dt><dd>Automatically tracks all HTTP requests coming in and going out of your production backend.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-digichem">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.060</span>
+            <span class="case-label">Case 09, Drawer 04</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-digichem" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(120)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-digichem)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Di</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Digichema molecularis</em></h3>
+              <p class="common-name">Common name: <a href="https://www.digichem.com/" rel="noopener" target="_blank">Digichem</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Custom molecule fabs</dd>
+                <dt>Field notes</dt><dd>Prototypes and manufactures custom molecules online.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-loopwork">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.061</span>
+            <span class="case-label">Case 09, Drawer 05</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-loopwork" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(143)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-loopwork)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Lo</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Loopwerka agentica</em></h3>
+              <p class="common-name">Common name: <a href="https://loopwork.com/" rel="noopener" target="_blank">Loopwork</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Agent runtimes</dd>
+                <dt>Field notes</dt><dd>Building the next generation of agents.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-feather">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.062</span>
+            <span class="case-label">Case 09, Drawer 06</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-feather" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(166)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-feather)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Fe</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Feathera elementaria</em></h3>
+              <p class="common-name">Common name: <a href="https://feather.solutions/" rel="noopener" target="_blank">Feather</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Browser-based FEA</dd>
+                <dt>Field notes</dt><dd>FEA that runs in the browser.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+        <article class="specimen" id="specimen-vibe_robotics">
+          <header class="specimen-tag">
+            <span class="acc-num">ACC.063</span>
+            <span class="case-label">Case 09, Drawer 07</span>
+          </header>
+          <div class="specimen-body">
+            <div class="plate">
+              <svg viewBox="0 0 60 60" class="plate-svg" aria-hidden="true" focusable="false">
+                <defs>
+                  <pattern id="hatch-vibe_robotics" patternUnits="userSpaceOnUse" width="3" height="3" patternTransform="rotate(9)">
+                    <line x1="0" y1="0" x2="0" y2="3" stroke="currentColor" stroke-width="0.4"/>
+                  </pattern>
+                </defs>
+                <circle cx="30" cy="30" r="22" fill="url(#hatch-vibe_robotics)" opacity="0.45"/>
+                <circle cx="30" cy="30" r="22" fill="none" stroke="currentColor" stroke-width="0.7"/>
+                <text x="30" y="34" text-anchor="middle" font-family="Caslon, Garamond, serif" font-size="11" font-style="italic" fill="currentColor">Vi</text>
+              </svg>
+            </div>
+            <div class="specimen-meta">
+              <h3 class="binomial"><em>Vibea programatica</em></h3>
+              <p class="common-name">Common name: <a href="https://vbr.sh/" rel="noopener" target="_blank">Vibe Robotics</a></p>
+              <dl class="field-notes">
+                <dt>Habitat</dt><dd>Robotics programming interfaces</dd>
+                <dt>Field notes</dt><dd>Builds novel programming interfaces for robotics. Founded by Kai Backman and Luke Church.</dd>
+              </dl>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ FOLDOUT: COLLECTING METHODS ============ -->
+    <details class="foldout" id="foldout-methods">
+      <summary>Acquisitions methodology &amp; conservator's notes</summary>
+      <div class="foldout-body">
+        <p>The museum maintains a strict acquisitions policy: a candidate specimen must demonstrate genuine engineering risk &mdash; that is, the founders must be attempting something whose feasibility is not yet established. The Curators conduct technical inspection in the founders' workspace where possible; in the case of remote or hazardous habitats (low earth orbit, the open ocean, energy infrastructure perimeters) the conservators rely on field reports and direct correspondence.</p>
+        <p>Specimens are accessioned at the earliest reproducible sighting and are followed thereafter at intervals not less than quarterly. Reserves are held against subsequent observed growth; the museum's reserves ratio is two thirds of fund capital, allowing meaningful re-acquisition of viable specimens through later instars. The cadence of new acquisitions is deliberately slow &mdash; a selective few per year &mdash; in order to ensure each specimen receives appropriate curatorial attention.</p>
+        <p>Visitors who wish to nominate a specimen for consideration are directed to the Registrar's Office (see Inquiries, below).</p>
+      </div>
+    </details>
+
+    <!-- ============ VACANCIES ============ -->
+    <section class="vacancies" id="vacancies" aria-labelledby="vacancy-heading">
+      <h2 id="vacancy-heading" class="vacancy-title">Vacancy: Venture Capital Associate</h2>
+      <div class="vacancy-body">
+        <p>The museum seeks one technical Associate to join the curatorial staff in San Francisco. The position involves sourcing of candidate specimens, technical diligence, and direct support of accessioned companies.</p>
+        <p>Suitable applicants will possess:</p>
+        <ul>
+          <li>A strong technical background (CS degree, engineering experience, or equivalent).</li>
+          <li>Genuine curiosity about emerging technologies and startups.</li>
+          <li>Excellent communication &mdash; the ability to explain complex technical matter simply.</li>
+          <li>Hustle and resourcefulness. You figure things out.</li>
+          <li>A passion for working alongside technical founders.</li>
+        </ul>
+        <p>Additional consideration is given to those who have built side projects, contributed to open source, or operated within prior startups. Inquiries may be addressed to the Registrar's Office; see below.</p>
+      </div>
+    </section>
+
+    <!-- ============ ARCHIVE WING (history entrance) ============ -->
+    <section class="archive-wing" id="archive-wing" aria-labelledby="wing-heading">
+      <p class="wing-eyebrow">Through the East Door &nbsp;&middot;&nbsp; The Archive Wing</p>
+      <h2 id="wing-heading" class="wing-title">Earlier Exhibitions</h2>
+      <p class="wing-body">
+        The present catalog is a snapshot of the Cabinet as of June 2026. Previous
+        exhibitions remain accessible in the museum's Archive Wing &mdash; the entire
+        rotating program is preserved in perpetuity, each former exhibition reachable
+        exactly as it was first installed.
+      </p>
+      <a class="wing-doorway" href="/archive/" aria-label="Enter the Archive Wing to view earlier exhibitions">Enter the Archive Wing</a>
+
+      <div class="previous-exhibits">
+        <article class="exhibit-card">
+          <span class="exhibit-no">Exhibit No. 01</span>
+          <span class="exhibit-name"><a href="/archive/_legacy/01-cli-terminal/">The CLI Terminal</a></span>
+          <span class="exhibit-date">First installed Feb 2021</span>
+        </article>
+        <article class="exhibit-card">
+          <span class="exhibit-no">Exhibit No. 02</span>
+          <span class="exhibit-name"><a href="/archive/_legacy/02-geocities/">The GeoCities Salon</a></span>
+          <span class="exhibit-date">First installed Oct 2021</span>
+        </article>
+      </div>
+    </section>
+
+    <!-- ============ INQUIRIES / FOOTER ============ -->
+    <section class="inquiries" id="inquiries" aria-labelledby="inquiries-heading">
+      <div>
+        <h3 id="inquiries-heading">Registrar's Office</h3>
+        <p>All correspondence&mdash;press, founder inquiries, donations of new specimens&mdash;is received and routed by the Registrar.</p>
+        <a class="mailto" href="mailto:hello@root.vc">hello@root.vc</a>
+      </div>
+      <div>
+        <h3>Annual Members' Meeting</h3>
+        <p>Limited partners and friends of the museum convene once a year. Travel arrangements and program at:</p>
+        <p><a href="https://annualmeeting.root.vc">annualmeeting.root.vc</a></p>
+      </div>
+      <div>
+        <h3>Curatorial Vacancies</h3>
+        <p>Applications for staff positions are routed via the careers desk:</p>
+        <p><a href="https://root.vc/#jobs">root.vc/#jobs</a></p>
+      </div>
+      <div>
+        <h3>Periodicals &amp; Field Reports</h3>
+        <ul class="social-list">
+          <li><a href="https://twitter.com/rootvc">twitter.com/rootvc</a></li>
+          <li><a href="https://twitter.com/machinepix">twitter.com/machinepix</a></li>
+          <li><a href="https://instagram.com/machinepix">instagram.com/machinepix</a></li>
+          <li><a href="https://github.com/rootvc">github.com/rootvc</a></li>
+          <li><a href="https://root.vc">root.vc</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ COLOPHON ============ -->
+    <p class="colophon">
+      <span class="firm-mark">Root Ventures</span><br>
+      Catalog set in Trajan, Caslon, and Cormorant Garamond. Printed at the press of the Cabinet, San Francisco. All specimens remain the property of their respective founders; the museum holds no claim beyond the privilege of observation. The collection grows.<br>
+      &copy; MMXV&ndash;MMXXVI Root Ventures &mdash; <em>Seeding bold engineers.</em>
+    </p>
+
+    <aside class="seal" aria-hidden="true">Root<br>Cabinet<br>Est. 2015</aside>
+  </main>
+
+<!--
+  =====================================================================
+  CONSERVATOR'S APPENDIX (visible only to those who view-source)
+  =====================================================================
+  Full team roster, in case any placard has fallen from its hook:
+    - Avidan Ross (Director & Founding Curator)
+    - Kane Hsieh (Curator of Mechanical Artifacts)
+    - Chrissy Meyer (Keeper of Electrical Specimens)
+    - Lee Edwards (Curator of Devtools & Software Specimens)
+    - Zodi Chalat (Associate Curator, Intelligence Studies)
+    - Ben Lovell (Head of Operations & Registrar)
+    - Laelah Reino (Operations Manager & Conservator)
+
+  Full collection register (63 specimens):
+    01 Esper / 02 Meroxa / 03 Particle / 04 Daily / 05 HASH /
+    06 Superconductive / 07 Okteto / 08 Privacy Dynamics /
+    09 Nautilus Labs / 10 nTopology / 11 Tortuga AgTech /
+    12 Instrumental / 13 Stellar Pizza / 14 Versatile /
+    15 Dusty Robotics / 16 ThruWave / 17 Seismic / 18 Seam /
+    19 ChargeLab / 20 Wildtype Foods / 21 Nordsense /
+    22 TruckLabs / 23 Sensable / 24 Crux / 25 IaSQL /
+    26 Mashgin / 27 Creator / 28 ApolloShield / 29 Skycatch /
+    30 Shaper / 31 Cape / 32 Righthook / 33 SixWheel /
+    34 Radical / 35 Zed / 36 Kayhan / 37 AllSpice /
+    38 Quilter / 39 Adept / 40 Aperture Data / 41 SuperTokens /
+    42 Fudge / 43 Kodra / 44 Topologic / 45 Ruby Robotics /
+    46 Instance / 47 CADY Solutions / 48 Sublayer / 49 Nullify /
+    50 Trieve / 51 Breakpoint AI / 52 Determinate Systems /
+    53 Gen Alpha / 54 Hunch / 55 Illoca / 56 Integrated Biosciences /
+    57 Latent Technology / 58 Patterns / 59 Subtrace /
+    60 Digichem / 61 Loopwork / 62 Feather / 63 Vibe Robotics
+
+  Mission: Investing at the earliest stages of technical founders
+           taking engineering risk.
+  Contact: hello@root.vc
+  Site:    https://root.vc
+  =====================================================================
+-->
+
+</body>
+</html>

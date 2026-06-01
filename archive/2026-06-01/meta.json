@@ -1,0 +1,24 @@
+{
+  "theme_name": "cabinet-of-computational-curiosities",
+  "editorial_note": "A Victorian natural history museum's specimen catalog. The conceit fuses with the facts rather than painting on top of them: every one of the 63 portfolio companies is accessioned as a specimen with a Latin binomial, habitat, and field-note description; the seven team members are the museum's curators with department titles; the firm's mission, tagline, thesis, and operating economics are the Founding Charter; the open Associate role is a Vacancy in the Department; the history entrance is the Archive Wing reached through the East Door. Contact lives in the Registrar's Office as a real mailto:hello@root.vc. All 63 portfolio companies are surfaced as fully-formed specimen cards in the primary DOM (well above the 90% threshold); a view-source conservator's appendix at the end reiterates the team and collection for the curious.",
+  "where_facts_live": {
+    "firm_name": ".museum-name (display title 'The Cabinet of Computational Curiosities') and .proprietor ('Proprietary museum of Root Ventures'); also the .firm-mark in the colophon and the view-source appendix.",
+    "mission": "The Founding Charter section (#charter-heading + .charter-body) renders the firm.mission verbatim; the tagline appears as the .charter-tagline ('Seeding bold engineers'); the thesis appears as .charter-thesis.",
+    "portfolio": "Sixty-three .specimen articles in Gallery II (#permanent-collection .specimens), each with binomial, common-name link, habitat, and field-note. View-source appendix at the bottom lists all 63 again for completeness.",
+    "team": "Seven .curator articles in Gallery I (#curators) with name, title, department, and bio, plus a redundant view-source conservator's appendix.",
+    "contact": "Anchor with class .mailto in #inquiries (Registrar's Office card) pointing to mailto:hello@root.vc; backed by careers and annual-meeting links in adjacent cards."
+  },
+  "history_view_concept": "The Archive Wing — reached 'through the East Door' — sits as a full bordered section of the catalog with a large boxed doorway button labeled 'Enter the Archive Wing' that points to /archive/. Two exhibit cards beneath it preview earlier installations (the CLI terminal and the GeoCities salon) so the entrance reads as a curated way back into the museum's program rather than a generic archive link.",
+  "theme_keys": [
+    "museum",
+    "victorian",
+    "natural-history",
+    "specimen-catalog",
+    "cabinet-of-curiosities",
+    "placard",
+    "curator",
+    "brass-and-parchment"
+  ],
+  "topical": false,
+  "csp_nonce": "lmKlA2ae4y5p-m7yG6Xn2g=="
+}
