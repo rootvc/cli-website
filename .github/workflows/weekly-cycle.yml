@@ -197,7 +197,10 @@ jobs:
             --head "cycle/${{ steps.cycle_date.outputs.date }}" \
             --title "drop: ${{ steps.cycle_date.outputs.date }} — ${{ steps.inspect.outputs.theme }}" \
             --body-file "$PR_BODY_PATH"
-          gh pr merge "cycle/${{ steps.cycle_date.outputs.date }}" --auto --squash
+          # Direct merge instead of --auto; --auto requires required-checks
+          # branch protection on main, which we don't have. The cycle's
+          # Editor + smoke tests already gated everything pre-PR.
+          gh pr merge "cycle/${{ steps.cycle_date.outputs.date }}" --squash --delete-branch
 
       - name: Open post-merge "Drop shipped" issue
         if: success() && steps.inspect.outputs.success == 'true' && steps.race_check.outputs.main_moved == 'false'
