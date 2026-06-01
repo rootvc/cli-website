@@ -7,8 +7,7 @@
     "@xterm/addon-web-links": "^0.11.0",
     "@xterm/xterm": "^5.5.0",
     "aalib.js": "^2.0.0",
-    "ai": "^3.0.18",
-    "netlify-cli": "^6.14.7"
+    "ai": "^3.0.18"
   },
   "license": "MIT",
   "repository": {
@@ -17,13 +16,16 @@
   },
   "scripts": {
     "build": "node scripts/build-assets.js",
-    "start": "netlify dev",
+    "start": "vercel dev",
+    "smoke": "ARTIFACT_PATH=${ARTIFACT_PATH:-} vitest run tests/cycle/",
     "test": "vitest run",
     "test:watch": "vitest"
   },
   "devDependencies": {
+    "ajv": "^8.17.1",
     "jsdom": "^29.0.2",
     "terser": "^5.46.1",
+    "vercel": "^39.4.0",
     "vitest": "^4.1.4"
   }
 }
