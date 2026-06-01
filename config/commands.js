@@ -510,6 +510,10 @@ const commands = {
     term.stylePrint("San Francisco, CA 94110");
   },
 
+  game: function () {
+    term.openURL("./game.html", false);
+  },
+
   history: function () {
     term.history.forEach((element, index) => {
       term.stylePrint(`${1000 + index}  ${element}`);
@@ -816,7 +820,7 @@ const commands = {
         term.stylePrint("\r\nSubmitting application...");
 
         try {
-          const response = await fetch("/.netlify/functions/submit-application", {
+          const response = await fetch("/api/submit-application", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({

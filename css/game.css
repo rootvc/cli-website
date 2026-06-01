@@ -1,0 +1,426 @@
+@import url(https://fonts.googleapis.com/css?family=Abel|Source+Code+Pro&display=swap);
+
+:root {
+  --ink: #191919;
+  --paper: #f7f0dd;
+  --panel: #fff9e8;
+  --acid: #c5ff00;
+  --hot: #ff3b7f;
+  --blue: #1c6bff;
+  --line: #191919;
+  --muted: #665f51;
+  --good: #118a44;
+  --bad: #c51f31;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  background:
+    linear-gradient(90deg, rgba(28, 107, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(rgba(255, 59, 127, 0.07) 1px, transparent 1px),
+    var(--paper);
+  background-size: 18px 18px;
+  font-family: Abel, sans-serif;
+  overflow-x: hidden;
+}
+
+button {
+  color: inherit;
+  font: inherit;
+}
+
+.game-shell {
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
+  min-height: 100svh;
+  padding: 12px;
+  gap: 10px;
+}
+
+.game-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.brand-mark {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.brand-mark img {
+  width: 34px;
+  height: 34px;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+.brand-copy {
+  display: grid;
+  line-height: 1;
+}
+
+.brand-title {
+  font-family: "Source Code Pro", monospace;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.brand-mode {
+  color: var(--muted);
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.top-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.icon-button,
+.lane-button,
+.primary-button {
+  border: 2px solid var(--line);
+  background: var(--panel);
+  box-shadow: 3px 3px 0 var(--line);
+  cursor: pointer;
+}
+
+.icon-button {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  font-family: "Source Code Pro", monospace;
+  font-weight: 700;
+}
+
+.icon-button:focus-visible,
+.lane-button:focus-visible,
+.primary-button:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 3px;
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  font-family: "Source Code Pro", monospace;
+}
+
+.scorebox {
+  border: 2px solid var(--line);
+  background: var(--panel);
+  padding: 7px 8px;
+  box-shadow: 3px 3px 0 var(--line);
+}
+
+.scorebox span {
+  display: block;
+  color: var(--muted);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.scorebox strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 17px;
+  line-height: 1.1;
+}
+
+.game-board {
+  display: grid;
+  align-items: center;
+  justify-items: center;
+  min-height: 0;
+  padding: 2px 0;
+}
+
+.packet-stack {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(100%, 440px);
+  min-height: 370px;
+}
+
+.packet-card {
+  position: relative;
+  width: min(100%, 390px);
+  min-height: 318px;
+  border: 3px solid var(--line);
+  background: var(--panel);
+  box-shadow: 7px 7px 0 var(--line);
+  padding: 16px;
+  touch-action: pan-y;
+  user-select: none;
+  transition:
+    transform 180ms ease,
+    opacity 180ms ease;
+}
+
+.packet-card::before {
+  content: "";
+  position: absolute;
+  inset: -12px 18px auto auto;
+  width: 92px;
+  height: 24px;
+  border: 2px solid var(--line);
+  background-image: url("../images/geo/rainbow.gif");
+  background-size: cover;
+  transform: rotate(3deg);
+}
+
+.packet-card.is-correct {
+  border-color: var(--good);
+}
+
+.packet-card.is-wrong {
+  border-color: var(--bad);
+}
+
+.packet-type {
+  display: inline-flex;
+  align-items: center;
+  min-height: 26px;
+  padding: 3px 8px;
+  border: 2px solid var(--line);
+  background: var(--acid);
+  font-family: "Source Code Pro", monospace;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.packet-title {
+  margin: 18px 0 8px;
+  font-family: "Source Code Pro", monospace;
+  font-size: clamp(22px, 8vw, 35px);
+  line-height: 1.04;
+  overflow-wrap: anywhere;
+}
+
+.packet-clue {
+  margin: 0;
+  color: var(--ink);
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.packet-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.packet-chip {
+  border: 2px dotted var(--line);
+  padding: 4px 7px;
+  background: #fff;
+  font-family: "Source Code Pro", monospace;
+  font-size: 11px;
+}
+
+.packet-media {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.packet-media img {
+  max-width: 78px;
+  max-height: 58px;
+  object-fit: contain;
+  image-rendering: auto;
+}
+
+.terminal-line {
+  flex: 1;
+  min-width: 0;
+  border: 2px solid var(--line);
+  background: #202020;
+  color: #f3f3f3;
+  padding: 9px;
+  font-family: "Source Code Pro", monospace;
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.feedback {
+  min-height: 28px;
+  color: var(--muted);
+  font-family: "Source Code Pro", monospace;
+  font-size: 12px;
+  text-align: center;
+}
+
+.feedback[data-state="correct"] {
+  color: var(--good);
+}
+
+.feedback[data-state="wrong"] {
+  color: var(--bad);
+}
+
+.lane-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.lane-button {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  min-height: 70px;
+  padding: 8px 5px;
+  background: var(--panel);
+}
+
+.lane-button[data-lane="cli"] {
+  background: #dcfff3;
+}
+
+.lane-button[data-lane="portfolio"] {
+  background: #fff3bd;
+}
+
+.lane-button[data-lane="team"] {
+  background: #e6efff;
+}
+
+.lane-button[data-lane="geo"] {
+  background: #ffe2ef;
+}
+
+.lane-icon {
+  font-family: "Source Code Pro", monospace;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.lane-label {
+  margin-top: 3px;
+  font-family: "Source Code Pro", monospace;
+  font-size: clamp(10px, 2.6vw, 12px);
+  text-transform: uppercase;
+}
+
+.start-screen,
+.end-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  background:
+    linear-gradient(rgba(247, 240, 221, 0.88), rgba(247, 240, 221, 0.88)),
+    url("../images/geo/stars.gif");
+}
+
+.start-panel,
+.end-panel {
+  width: calc(100vw - 36px);
+  max-width: 430px;
+  border: 3px solid var(--line);
+  background: var(--panel);
+  box-shadow: 8px 8px 0 var(--line);
+  padding: 18px;
+  text-align: center;
+}
+
+.start-panel h1,
+.end-panel h2 {
+  margin: 10px 0;
+  font-family: "Source Code Pro", monospace;
+  font-size: clamp(30px, 11vw, 48px);
+  line-height: 0.95;
+  overflow-wrap: anywhere;
+}
+
+.start-panel p,
+.end-panel p {
+  margin: 10px auto 16px;
+  max-width: 320px;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1.2;
+}
+
+.primary-button {
+  min-height: 46px;
+  padding: 8px 18px;
+  background: var(--acid);
+  font-family: "Source Code Pro", monospace;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.start-gifs {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+
+.start-gifs img {
+  max-height: 48px;
+  object-fit: contain;
+}
+
+.is-hidden {
+  display: none;
+}
+
+@media (min-width: 700px) {
+  .game-shell {
+    width: min(100%, 760px);
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .packet-stack {
+    min-height: 450px;
+  }
+
+  .packet-card {
+    min-height: 350px;
+  }
+
+  .lane-button {
+    min-height: 86px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    scroll-behavior: auto !important;
+    transition-duration: 1ms !important;
+  }
+}

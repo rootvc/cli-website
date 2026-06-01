@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <link rel="shortcut icon" href="/favicon.png" />
+    <title>Root Router</title>
+    <meta
+      name="description"
+      content="A mobile web game built from Root Ventures terminal commands, portfolio data, team bios, and the GeoCities welcome page."
+    />
+    <meta property="og:title" content="Root Router" />
+    <meta property="og:site_name" content="Root Ventures" />
+    <meta property="og:image" content="images/geo/share.png" />
+    <link rel="stylesheet" href="css/game.css" />
+    <script defer src="config/help.js"></script>
+    <script defer src="config/portfolio.js"></script>
+    <script defer src="config/team.js"></script>
+    <script defer src="config/commands.js"></script>
+    <script defer src="js/game.js"></script>
+  </head>
+  <body>
+    <main class="game-shell" data-root-router>
+      <header class="game-topbar" aria-label="Game controls">
+        <div class="brand-mark">
+          <img src="images/logo.png" alt="Root Ventures" />
+          <div class="brand-copy">
+            <span class="brand-title">Root Router</span>
+            <span class="brand-mode">packet sort</span>
+          </div>
+        </div>
+        <div class="top-actions">
+          <button class="icon-button" type="button" data-back aria-label="Back to terminal">..</button>
+        </div>
+      </header>
+
+      <section class="scoreboard" aria-label="Score">
+        <div class="scorebox">
+          <span>Score</span>
+          <strong data-score>0</strong>
+        </div>
+        <div class="scorebox">
+          <span>Left</span>
+          <strong data-left>0</strong>
+        </div>
+        <div class="scorebox">
+          <span>Streak</span>
+          <strong data-streak>0</strong>
+        </div>
+      </section>
+
+      <section class="game-board" aria-live="polite">
+        <div class="packet-stack">
+          <article class="packet-card" data-card>
+            <span class="packet-type" data-packet-type>Packet</span>
+            <h1 class="packet-title" data-packet-title>Root Router</h1>
+            <p class="packet-clue" data-packet-clue></p>
+            <div class="packet-meta" data-packet-chips></div>
+            <div class="packet-media">
+              <div class="terminal-line" data-packet-terminal></div>
+              <img src="images/geo/notepad.gif" alt="" data-packet-image />
+            </div>
+          </article>
+        </div>
+        <div class="feedback" data-feedback>Route the packet.</div>
+      </section>
+
+      <nav class="lane-grid" aria-label="Packet destinations">
+        <button class="lane-button" type="button" data-lane="cli">
+          <span class="lane-icon">$_</span>
+          <span class="lane-label">CLI</span>
+        </button>
+        <button class="lane-button" type="button" data-lane="portfolio">
+          <span class="lane-icon">VC</span>
+          <span class="lane-label">Portfolio</span>
+        </button>
+        <button class="lane-button" type="button" data-lane="team">
+          <span class="lane-icon">ID</span>
+          <span class="lane-label">Team</span>
+        </button>
+        <button class="lane-button" type="button" data-lane="geo">
+          <span class="lane-icon">HTM</span>
+          <span class="lane-label">Geo</span>
+        </button>
+      </nav>
+
+      <section class="start-screen" data-start-screen>
+        <div class="start-panel">
+          <div class="start-gifs" aria-hidden="true">
+            <img src="images/geo/construction.gif" alt="" />
+            <img src="images/geo/banana.gif" alt="" />
+            <img src="images/geo/new.gif" alt="" />
+          </div>
+          <h1>Root Router</h1>
+          <p>Sort real Root packets from the terminal, portfolio, team bios, and welcome.htm.</p>
+          <button class="primary-button" type="button" data-start>Start</button>
+        </div>
+      </section>
+
+      <section class="end-screen is-hidden" data-end-screen>
+        <div class="end-panel">
+          <img src="images/geo/flames.gif" alt="" />
+          <h2>Delivered</h2>
+          <p>Score <strong data-end-score>0</strong>. Best <strong data-end-best>0</strong>.</p>
+          <button class="primary-button" type="button" data-start>Again</button>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
