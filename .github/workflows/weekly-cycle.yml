@@ -152,7 +152,10 @@ jobs:
 
       - name: Commit and push cycle branch
         if: steps.inspect.outputs.success == 'true' && steps.race_check.outputs.main_moved == 'false'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/rootvc/cli-website.git"
           git add archive/${{ steps.cycle_date.outputs.date }} index.html cli/ 2>/dev/null || true
           git add archive/${{ steps.cycle_date.outputs.date }}
           if git diff --cached --quiet; then
@@ -228,6 +231,7 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/rootvc/cli-website.git"
           ISSUE_BODY_PATH=$(mktemp)
           REASON="cycle failure"
           if [ "${{ steps.race_check.outputs.main_moved }}" = "true" ]; then
