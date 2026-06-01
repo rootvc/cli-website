@@ -40,17 +40,16 @@ jobs:
 
       - name: Run claude-code-action capability spike
         # Pinned to v1 (SHA 537ffff2eff706bd7e3e1c3daf2d4b39067a9f85 at time of
-        # writing) per DC14. Dependabot's github-actions ecosystem will alert
-        # when the upstream tag moves; reviewers should re-verify before
-        # bumping.
+        # writing) per DC14.
         uses: anthropics/claude-code-action@537ffff2eff706bd7e3e1c3daf2d4b39067a9f85 # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          timeout_minutes: "10"
-          # Pass the spike prompt as the action's instruction. Claude Code reads
-          # this file and follows its sequenced capability tests, writing the
-          # result report to spike-report.json at the repo root.
-          prompt_file: scripts/cycle/spike-prompt.md
+          claude_args: --max-turns 30 --allowedTools Agent,Read,Write,Bash,WebSearch,WebFetch,Skill
+          prompt: |
+            Run the U0 capability validation spike. Read
+            scripts/cycle/spike-prompt.md in full and follow it exactly. Write
+            spike-report.json and spike-report.md to the repo root. Do not
+            modify any other files.
 
       - name: Upload spike report
         if: always()

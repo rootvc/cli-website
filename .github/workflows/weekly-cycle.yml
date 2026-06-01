@@ -42,6 +42,7 @@ jobs:
       contents: write
       pull-requests: write
       issues: write
+      id-token: write
 
     steps:
       - name: Checkout repository at main HEAD
@@ -81,13 +82,39 @@ jobs:
         # DC14: pinned to v1 SHA 537ffff2eff706bd7e3e1c3daf2d4b39067a9f85.
         # Dependabot's github-actions ecosystem will alert when the upstream
         # tag moves; reviewers should re-verify before bumping.
+        env:
+          CYCLE_DATE: ${{ steps.cycle_date.outputs.date }}
+          MAX_RETRIES: ${{ github.event.inputs.max_retries || '3' }}
         uses: anthropics/claude-code-action@537ffff2eff706bd7e3e1c3daf2d4b39067a9f85 # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           # DC9: turn cap; the orchestrator's loop also enforces --max-retries.
+          # Job-level timeout-minutes (45) provides the wall-clock backstop.
           claude_args: --max-turns 60 --allowedTools Agent,Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Skill,Bash
-          timeout_minutes: "40"
-          prompt_file: scripts/cycle/prompts/cycle.md
+          prompt: |
+            You are executing the weekly Root Ventures AI reinvention cycle for
+            ${{ steps.cycle_date.outputs.date }}.
+
+            Read scripts/cycle/prompts/cycle.md in full and follow it as your
+            primary instruction. It walks through every phase of the cycle:
+            reading configs, fetching the topical brief (or skipping), spawning
+            Author and Editor subagents via the Agent tool, running the
+            revision loop, running smoke tests, freezing the archive entry.
+
+            When you invoke the orchestrator, use:
+              node scripts/cycle/run-cycle.js --artifact-date ${{ steps.cycle_date.outputs.date }} --max-retries ${{ github.event.inputs.max_retries || '3' }}
+
+            On success, stage the new archive/${{ steps.cycle_date.outputs.date }}/
+            directory plus any updated root files. Do NOT commit or push — the
+            workflow's subsequent steps handle git operations.
+
+            Read scripts/cycle/prompts/author-role.md and
+            scripts/cycle/prompts/editor-role.md when you spawn each subagent.
+            The press kit goes into archive/${{ steps.cycle_date.outputs.date }}/
+            (meta.json + social.json + rating.json + engagement.json + the
+            site files).
+
+            Begin.
 
       - name: Inspect cycle artifacts
         id: inspect
@@ -223,7 +250,6 @@ jobs:
           "
           gh issue create \
             --title "Cycle failed: ${{ steps.cycle_date.outputs.date }}" \
-            --body-file "$ISSUE_BODY_PATH" \
-            --label "cycle-failure"
+            --body-file "$ISSUE_BODY_PATH"
           # Best-effort: delete the cycle branch so it doesn't pile up
           git push origin --delete "cycle/${{ steps.cycle_date.outputs.date }}" 2>/dev/null || true
