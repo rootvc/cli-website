@@ -163,6 +163,19 @@ v1 has no dedicated rollback workflow — use \`git revert\` if a bad drop slipp
 - If the orchestrator itself is buggy, fix it before rerunning.
 `;
 
+// Lightweight template renderer used by both this orchestrator and the
+// weekly-cycle.yml workflow. Substitutes `${key}` placeholders with values from
+// the passed object; unknown keys render as `(none)` so a missing field never
+// silently leaks the placeholder syntax into a user-visible issue/PR body.
+function renderTemplate(template, vars = {}) {
+  return template.replace(/\$\{([a-zA-Z_][a-zA-Z0-9_]*)\}/g, (_, key) => {
+    const v = vars[key];
+    if (v === null || v === undefined || v === "") return "(none)";
+    if (Array.isArray(v)) return v.join("\n");
+    return String(v);
+  });
+}
+
 // ============================================================================
 // CLI parsing
 // ============================================================================
@@ -871,6 +884,7 @@ module.exports = {
   PR_BODY_TEMPLATE,
   SUCCESS_ISSUE_TEMPLATE,
   FAILURE_ISSUE_TEMPLATE,
+  renderTemplate,
   THEME_DIVERSITY_N,
   TOPICAL_CLUSTERING_N,
   RATING_CONTEXT_N,
