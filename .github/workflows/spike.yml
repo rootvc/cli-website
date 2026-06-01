@@ -39,10 +39,11 @@ jobs:
           node-version: "20"
 
       - name: Run claude-code-action capability spike
-        # Note: pin to a specific SHA per DC14 when promoting beyond the spike.
-        # The spike intentionally rides @v1 to validate the version we plan to
-        # commit to in U6 (weekly-cycle.yml).
-        uses: anthropics/claude-code-action@v1
+        # Pinned to v1 (SHA 537ffff2eff706bd7e3e1c3daf2d4b39067a9f85 at time of
+        # writing) per DC14. Dependabot's github-actions ecosystem will alert
+        # when the upstream tag moves; reviewers should re-verify before
+        # bumping.
+        uses: anthropics/claude-code-action@537ffff2eff706bd7e3e1c3daf2d4b39067a9f85 # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           timeout_minutes: "10"

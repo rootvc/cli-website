@@ -78,10 +78,10 @@ jobs:
           git checkout -b "cycle/${{ steps.cycle_date.outputs.date }}"
 
       - name: Run claude-code-action cycle
-        # DC14: pin to a commit SHA before turning on the cron in production.
-        # The hash below is the v1 tag at time of writing (placeholder; verify
-        # the current v1 SHA before deploying).
-        uses: anthropics/claude-code-action@v1
+        # DC14: pinned to v1 SHA 537ffff2eff706bd7e3e1c3daf2d4b39067a9f85.
+        # Dependabot's github-actions ecosystem will alert when the upstream
+        # tag moves; reviewers should re-verify before bumping.
+        uses: anthropics/claude-code-action@537ffff2eff706bd7e3e1c3daf2d4b39067a9f85 # v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           # DC9: turn cap; the orchestrator's loop also enforces --max-retries.
