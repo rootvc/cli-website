@@ -40,8 +40,10 @@ describe.skipIf(!ARTIFACT_PATH || IS_LEGACY)("anchor facts", () => {
   it(
     "renders at least 90% of portfolio companies by name or url",
     () => {
-      const portfolio = require(path.join(REPO_ROOT, "config/portfolio.js")) ||
-        loadConfigGlobal("portfolio", "config/portfolio.js");
+      // config/portfolio.js doesn't have module.exports (existing CLI pattern
+      // — assigns to a top-level const that becomes a window global). Use the
+      // vm-based loader to read the value.
+      const portfolio = loadConfigGlobal("portfolio", "config/portfolio.js");
       env = loadArtifactDom(ARTIFACT_PATH);
       const haystack = collectSearchableText(env.document);
 
