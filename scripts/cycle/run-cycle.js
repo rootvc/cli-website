@@ -273,11 +273,23 @@ function readAllConfigs() {
 // Topical brief stub (U5 fills in the real fetcher)
 // ============================================================================
 
-// Currently returns "no seed this week" so the Author proceeds without a
-// topical riff. U5 will replace this with a real /last30days invocation
-// (and a WebSearch fallback). Until then, every cycle is non-topical.
-async function fetchTopicalBrief() {
-  return { topical: false, brief: null, hook: null };
+// Delegates to scripts/cycle/topical-fetcher.js — that module owns the schema,
+// the injection-pattern sanitizer, and the fail-soft contract. At cycle runtime,
+// Claude Code's Agent tool replaces the `invokeFetcher` callback below with the
+// real subagent invocation (using the prompt at scripts/cycle/prompts/topical-
+// fetcher.md). For local dry-runs and tests, no invokeFetcher is provided and
+// the fetcher gracefully returns an empty brief.
+const topicalFetcher = require("./topical-fetcher.js");
+
+async function fetchTopicalBrief(overrides = {}) {
+  const brief = await topicalFetcher.fetchTopicalBrief({
+    invokeFetcher: overrides.invokeFetcher,
+    logger: overrides.logger || ((msg) => console.error(`[cycle] ${msg}`)),
+  });
+  // run-cycle.js expects { topical, brief, hook } at minimum; the topical-fetcher
+  // module returns a richer object — pass it through directly so Author sees
+  // source_summary and all_sensitivity_tiers too.
+  return brief;
 }
 
 // ============================================================================
