@@ -90,7 +90,7 @@ jobs:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
           # DC9: turn cap; the orchestrator's loop also enforces --max-retries.
           # Job-level timeout-minutes (45) provides the wall-clock backstop.
-          claude_args: --max-turns 60 --allowedTools Agent,Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Skill,Bash
+          claude_args: --max-turns 150 --allowedTools Agent,Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Skill,Bash
           prompt: |
             You are executing the weekly Root Ventures AI reinvention cycle for
             ${{ steps.cycle_date.outputs.date }}.
