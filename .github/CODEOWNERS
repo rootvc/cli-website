@@ -1,0 +1,15 @@
+# CODEOWNERS — gates brand-safety configs per DC17.
+#
+# PRs touching the listed files require approval from one of the listed owners
+# before merging. The weekly AI cycle reads these files as its primary brand
+# and content controls; an unreviewed edit would change what the next autonomous
+# drop ships. Auto-merge does NOT apply to PRs blocked on CODEOWNERS review.
+#
+# Update the team handle below to your GitHub org once configured (e.g.,
+# @rootvc/partners). The placeholder @rootvc-team should be replaced with the
+# actual team handle during U10's Vercel/GitHub setup pass.
+
+config/brand-brief.md      @rootvc-team
+config/no-fly-list.md      @rootvc-team
+config/topical-rubric.md   @rootvc-team
+config/firm.js             @rootvc-team

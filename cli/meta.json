@@ -1,0 +1,15 @@
+{
+  "legacy": true,
+  "theme_name": "CLI terminal",
+  "date_approximate": "2022",
+  "editorial_note": "The original Root Ventures CLI terminal. Visitors type Unix commands (whois, tldr, ls, ps) to learn about the firm. Preserved here at a stable URL as the weekly AI reinvention takes over the root.",
+  "where_facts_live": {
+    "firm_name": "ASCII art header rendered by the `whois root` command; document <title>",
+    "mission": "`whois root` command output",
+    "portfolio": "`tldr` command output (and the per-company subcommands)",
+    "team": "`whois <partner>` command output (avidan, kane, chrissy, lee, ben, zodi, laelah)",
+    "contact": "`pine` (alias `email`) command opens a mailto:hello@root.vc"
+  },
+  "theme_keys": ["cli", "terminal", "retro-unix", "interactive"],
+  "topical": false
+}
