@@ -1,0 +1,17 @@
+{
+  "legacy": true,
+  "sort_order": 1,
+  "theme_name": "CLI terminal",
+  "date_first_shipped": "2021-02-09",
+  "editorial_note": "The original Root Ventures website. A web-based CLI terminal where visitors type Unix-style commands (whois, tldr, ls, ps, finger, groups) to learn about the firm and its portfolio. Built around xterm.js. This was Root's site for years and is what most engineers first encountered when they heard about the firm.",
+  "where_facts_live": {
+    "firm_name": "Document <title> and the ASCII art header rendered by `whois root`",
+    "mission": "`whois root` command output",
+    "portfolio": "`tldr` command output (and the per-company subcommands like `meroxa`, `esper`, etc.)",
+    "team": "`whois <partner>` command output (avidan, kane, chrissy, lee, ben, zodi, laelah)",
+    "contact": "`pine` (alias `email`) command — opens a mailto:hello@root.vc"
+  },
+  "history_view_concept": "The CLI is the canonical anchor point. Every subsequent reinvention is in some sense a riff on or response to this. Future history rooms should treat this as the 'origin' entry.",
+  "theme_keys": ["cli", "terminal", "retro-unix", "interactive", "xterm"],
+  "topical": false
+}

@@ -1,0 +1,17 @@
+{
+  "legacy": true,
+  "sort_order": 2,
+  "theme_name": "GeoCities skin",
+  "date_first_shipped": "2021-10-28",
+  "editorial_note": "Root's first manual reinvention. A 1990s GeoCities-era homepage built on the divshot/geo-bootstrap theme — marquee tags, rainbow text, banana GIF dividers, M.C. Hammer crossing animations, Under Construction signs, hit counter. Demonstrated that the firm was willing to ship something genuinely silly while still being legibly Root.",
+  "where_facts_live": {
+    "firm_name": "Rainbow-letter <h1>Root Ventures</h1> at the top of the page",
+    "mission": "<blink>Seeding bold engineers</blink>",
+    "portfolio": "GeoCities-styled portfolio table populated at runtime from config/portfolio.js by buildGeoPage() in js/geo.js",
+    "team": "Team table populated at runtime from config/team.js, also by buildGeoPage()",
+    "contact": "Linked from the 'Built by Root Ventures Team' footer back to the GitHub repo; visitors return to root.vc/ for current contact details"
+  },
+  "history_view_concept": "The first proof that Root would actually ship a wildly different aesthetic. Future history rooms can treat the GeoCities entry as the prototype for 'we are willing to make the homepage weird.'",
+  "theme_keys": ["geocities", "retro-web", "marquee", "1990s", "bootstrap-theme"],
+  "topical": false
+}
