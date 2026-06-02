@@ -145,6 +145,15 @@ jobs:
           # (prev/next links for use by drop-internal history nav).
           node scripts/cycle/rebuild-archive-index.js
 
+      - name: Inject site nav into every page
+        if: steps.inspect.outputs.success == 'true'
+        run: |
+          # Injects (or refreshes) the sticky top nav strip in every drop's
+          # index.html — including the legacy entries, the dated drops, and
+          # the catalog. Each page gets prev/next pointers from chain.json so
+          # visitors always see "this is reinvented weekly; here's last week."
+          node scripts/cycle/inject-site-nav.js
+
       - name: Promote artifact files to repo root
         if: steps.inspect.outputs.success == 'true'
         run: |
@@ -187,6 +196,9 @@ jobs:
           # Archive catalog files (index.html + chain.json) regenerated
           # by the Rebuild step above.
           git add archive/index.html archive/chain.json 2>/dev/null || true
+          # Legacy archive entries (cli + geocities) re-injected with fresh
+          # next-pointer links by inject-site-nav.js. Capture those too.
+          git add archive/_legacy 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 1
