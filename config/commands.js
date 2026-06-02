@@ -532,7 +532,7 @@ const commands = {
     const editions = [
       { slug: "01-cli-terminal", date: "2021-02-09", name: "CLI terminal",          url: "/archive/_legacy/01-cli-terminal/", note: "the original" },
       { slug: "02-geocities",    date: "2021-10-28", name: "GeoCities skin",        url: "/archive/_legacy/02-geocities/",    note: "first manual reinvention" },
-      { slug: "2026-06-01",      date: "2026-06-01", name: "ikea-assembly-manual",  url: "/archive/2026-06-01/",              note: "first autonomous drop" },
+      { slug: "2026-06-01",      date: "2026-06-01", name: "ikea-assembly-manual",  url: "/archive/2026-06-01/",              note: "first autonomous incarnation" },
     ];
 
     term.stylePrint("Root Ventures web archive — every incarnation of root.vc.\r\n");
