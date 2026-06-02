@@ -514,6 +514,50 @@ const commands = {
     term.openURL("./game.html", false);
   },
 
+  // Lists every reinvention of root.vc — legacy CLI/GeoCities entries and
+  // each weekly drop the autonomous cycle has shipped. URLs are clickable
+  // via the web-links xterm addon (cmd/ctrl + click). The "current" marker
+  // tracks which page the visitor is currently viewing (when this command
+  // is invoked from one of the archived snapshots).
+  archive: function () {
+    // Per-snapshot label used to mark "you are here" when viewing an
+    // archived legacy entry. Override per-snapshot if needed.
+    const HERE_SLUG =
+      (typeof window !== "undefined" && window.__ROOTVC_HERE_SLUG__) ||
+      null;
+
+    // Static chronology. Updated by the cycle when a new drop ships
+    // (rebuild-archive-index.js also writes /archive/chain.json with
+    // the canonical chain; this static list is a CLI-friendly mirror).
+    const editions = [
+      { slug: "01-cli-terminal", date: "2021-02-09", name: "CLI terminal",          url: "/archive/_legacy/01-cli-terminal/", note: "the original" },
+      { slug: "02-geocities",    date: "2021-10-28", name: "GeoCities skin",        url: "/archive/_legacy/02-geocities/",    note: "first manual reinvention" },
+      { slug: "2026-06-01",      date: "2026-06-01", name: "ikea-assembly-manual",  url: "/archive/2026-06-01/",              note: "first autonomous drop" },
+    ];
+
+    term.stylePrint("Root Ventures web archive — every reinvention of root.vc.\r\n");
+    term.stylePrint("New drops auto-generated every Monday. Past drops never recycled.\r\n");
+
+    const widest = Math.max(...editions.map((e) => e.name.length));
+    editions.forEach((e) => {
+      const isHere = HERE_SLUG && HERE_SLUG === e.slug;
+      const marker = isHere ? "*" : " ";
+      const namePad = e.name + " ".repeat(Math.max(0, widest - e.name.length));
+      term.stylePrint(
+        `${marker} ${colorText(e.date, "prompt")}  ${colorText(namePad, "command")}  ${e.note}`
+      );
+      term.stylePrint(`     ${colorText("https://www.root.vc" + e.url, "hyperlink")}`);
+    });
+
+    term.stylePrint("");
+    term.stylePrint(
+      `Full catalogue: ${colorText("https://www.root.vc/archive/", "hyperlink")}`
+    );
+    if (HERE_SLUG) {
+      term.stylePrint("* = you are here.");
+    }
+  },
+
   history: function () {
     term.history.forEach((element, index) => {
       term.stylePrint(`${1000 + index}  ${element}`);

@@ -54,31 +54,11 @@
     <script defer src="./js/app.bundle.js"></script>
   </head>
   <body>
-
-<!-- MOTD-style top nav: in-world history navigation -->
-<style>
-  .motd-bar{background:#000;color:#33ff66;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:12px;line-height:1.5;border-bottom:1px solid #33ff66;padding:8px 14px;display:flex;flex-wrap:wrap;gap:0 16px;align-items:baseline;justify-content:space-between;}
-  .motd-bar pre{margin:0;font:inherit;color:inherit;white-space:pre;}
-  .motd-bar__head{opacity:.8;}
-  .motd-bar__head strong{color:#aaffaa;}
-  .motd-bar__nav{display:flex;gap:14px;flex-wrap:wrap;}
-  .motd-bar__nav a,.motd-bar__nav span{color:#33ff66;text-decoration:none;border-bottom:1px dotted #33ff66;}
-  .motd-bar__nav a:hover{color:#aaffaa;border-bottom-color:#aaffaa;}
-  .motd-bar__nav .here{color:#33ff66;opacity:.55;border-bottom-style:solid;cursor:default;}
-  .motd-bar__nav .disabled{color:#33ff66;opacity:.35;border-bottom-color:transparent;cursor:default;}
-  @media(max-width:600px){.motd-bar{font-size:11px;}}
-</style>
-<div class="motd-bar" role="navigation" aria-label="Root timeshare session catalog">
-  <pre class="motd-bar__head">$ <strong>root@vc</strong>:~# <em>weekly timeshare</em> &mdash; all sessions logged at /archive/</pre>
-  <div class="motd-bar__nav">
-    <span class="disabled">[ prev: ∅ ]</span>
-    <span class="here">[ here: cli-terminal · 2021-02-09 ]</span>
-    <a href="/archive/_legacy/02-geocities/">[ next: geocities &rarr; ]</a>
-    <a href="/archive/">[ ls /archive/ ]</a>
-    <a href="/">[ ~/ home ]</a>
-  </div>
-</div>
-
+    <!-- In-world nav lives inside the CLI itself: type `help` to see commands.
+         The `archive` command (★ in the help list) opens the catalog of every
+         past + present reinvention. This per-page hint tells the archive
+         command which entry to mark as "you are here". -->
+    <script>window.__ROOTVC_HERE_SLUG__ = "01-cli-terminal";</script>
 <h1 style="display: none">Root Ventures | Seeding bold engineers</h1>
     <h2 style="display: none">
       Seed stage venture capital firm investing in deep tech. San Francisco, CA
