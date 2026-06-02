@@ -1,0 +1,26 @@
+{
+  "theme_name": "ham-radio-operating-log",
+  "editorial_note": "Today's incarnation is the daily operating sheet for K6RVC, the Root Ventures amateur-radio station. The conceit fuses cleanly: portfolio companies are the 63 stations worked this session (with realistic frequencies, modes, and RST signal reports keyed to their domain — FT8 for the digital-native devtools, CW for the old-school infra plays, 6m and 2m for the literal space and airspace companies), the team is the desk roster of licensed operators with keys to the shack, the mission lives in the masthead as 'PURPOSE OF SESSION,' and hello@root.vc is the calling frequency. The history nav is the Logbook Index pinned to the top in phosphor green, with PREV SHEET pointing to 2026-06-01 (titled ikea-assembly-manual) and FULL BOUND LOGBOOK pointing to /archive/. All 63 portfolio companies are logged (100% coverage, no omissions). All 7 team members appear by name on the desk roster. Visible vocabulary uses 'sheet,' 'session,' 'QSO,' and 'log entry' — never 'drop' or 'issue.'",
+  "where_facts_live": {
+    "firm_name": "Header .call-block (Root Ventures as the abbr expansion on K6RVC), masthead STATION cell, colophon, and the closing CW signature",
+    "mission": "Masthead PURPOSE OF SESSION cell (full mission text) and tagline 'Seeding bold engineers' in the propagation STATION TYPE block",
+    "portfolio": "QSO LOG section — every one of the 63 companies as a logged contact with frequency, mode, RST report, and a one-line note",
+    "team": "DESK ROSTER section — ordered list of all 7 operators with title and bio",
+    "contact": "Masthead SKED/TRAFFIC cell (mailto:hello@root.vc), Propagation CALLING FREQUENCY block (mailto:hello@root.vc), and the SKED REQUEST vacancy section"
+  },
+  "history_view_concept": "The Logbook Index is the sticky phosphor-green strip at the very top of the sheet, styled to look like a CRT readout from a transceiver's memory recall. Three buttons: PREV SHEET (links to /archive/2026-06-01/, tooltip names the previous theme), THIS SHEET (current day, highlighted), and FULL BOUND LOGBOOK (links to /archive/, dashed border to suggest it opens the binder). The framing is 'each daily sheet stays in the binder forever,' which matches how amateur operators actually keep paper logs.",
+  "theme_keys": [
+    "ham-radio",
+    "amateur-radio",
+    "qso-log",
+    "callsign",
+    "logbook",
+    "phosphor",
+    "green-on-black",
+    "operating-sheet",
+    "cw-ssb-ft8",
+    "shortwave"
+  ],
+  "topical": false,
+  "csp_nonce": "7ExxCcmBWSNy9FCK1KD7qA=="
+}
