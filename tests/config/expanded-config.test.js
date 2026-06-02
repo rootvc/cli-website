@@ -84,8 +84,8 @@ describe("topical-rubric.md", () => {
   });
 });
 
-describe("weekly-hook.txt", () => {
-  const filePath = path.join(REPO_ROOT, "config/weekly-hook.txt");
+describe("daily-hook.txt", () => {
+  const filePath = path.join(REPO_ROOT, "config/daily-hook.txt");
 
   it("exists (may be empty)", () => {
     expect(fs.existsSync(filePath)).toBe(true);

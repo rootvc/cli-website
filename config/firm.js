@@ -1,6 +1,6 @@
 // firm.js — Canonical firm metadata. Read by the existing CLI runtime AND by the
-// weekly AI reinvention cycle (Author + Editor). When the cycle generates each
-// weekly artifact, every value here must be surfaced in the rendered DOM somewhere
+// daily AI reinvention cycle (Author + Editor). When the cycle generates each
+// daily artifact, every value here must be surfaced in the rendered DOM somewhere
 // (smoke tests enforce; see DC6 in the plan).
 //
 // To edit:  this file is plain JS, edit values directly and commit.
@@ -45,7 +45,7 @@ const firm = {
   },
 
   // Contact paths — anchor fact: at least one must be a clickable mailto/equivalent
-  // in every weekly artifact (R3 + DC6).
+  // in every daily artifact (R3 + DC6).
   contact: {
     primary: "hello@root.vc",
     annualMeeting: "https://annualmeeting.root.vc",
@@ -54,7 +54,7 @@ const firm = {
 
   // The cycle uses this when assembling Author input. Editable text the team can
   // drop a one-liner into between cycles to nudge the next drop.
-  weeklyHookFilePath: "config/weekly-hook.txt",
+  dailyHookFilePath: "config/daily-hook.txt",
 };
 
 // Make available globally for the existing CLI runtime (matches config/team.js,

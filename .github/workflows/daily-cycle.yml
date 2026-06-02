@@ -1,7 +1,9 @@
-name: Weekly AI Reinvention Cycle
+name: Daily AI Reinvention Cycle
 
-# Sunday-evening cron that drives the autonomous Author + Editor cycle
-# documented in docs/plans/2026-06-01-001-feat-weekly-ai-reinvention-plan.md.
+# Nightly cron that drives the autonomous Author + Editor cycle for the
+# daily incarnation of root.vc. Originally weekly per
+# docs/plans/2026-06-01-001-feat-weekly-ai-reinvention-plan.md; switched to
+# daily after the first autonomous incarnation shipped.
 #
 # DC14: claude-code-action is pinned to @v1. Before enabling the cron in
 # production, replace @v1 with a specific commit SHA so a supply-chain update
@@ -15,9 +17,9 @@ name: Weekly AI Reinvention Cycle
 
 on:
   schedule:
-    # Monday 01:00 UTC = Sunday 17:00 PST / Sunday 18:00 PDT. Adjust the hour
-    # if you want strict year-round consistency.
-    - cron: "0 1 * * 1"
+    # Daily at 01:00 UTC = 17:00 PST / 18:00 PDT (early evening Pacific).
+    # Adjust the hour if you want strict year-round consistency.
+    - cron: "0 1 * * *"
   workflow_dispatch:
     inputs:
       max_retries:
@@ -30,7 +32,7 @@ on:
         default: ""
 
 concurrency:
-  group: weekly-cycle
+  group: daily-cycle
   cancel-in-progress: false
 
 jobs:
@@ -92,7 +94,7 @@ jobs:
           # Job-level timeout-minutes (45) provides the wall-clock backstop.
           claude_args: --max-turns 150 --allowedTools Agent,Read,Write,Edit,Glob,Grep,WebSearch,WebFetch,Skill,Bash
           prompt: |
-            You are executing the weekly Root Ventures AI reinvention cycle for
+            You are executing the daily Root Ventures AI reinvention cycle for
             ${{ steps.cycle_date.outputs.date }}.
 
             Read scripts/cycle/prompts/cycle.md in full and follow it as your
@@ -150,8 +152,8 @@ jobs:
         run: |
           ART="archive/${{ steps.cycle_date.outputs.date }}"
           # Copy every non-JSON file/dir from the new archive entry up to
-          # repo root. This replaces the previous week's drop with the new
-          # one as the canonical / experience served by Vercel. JSON
+          # repo root. This replaces the previous day's incarnation with
+          # the new one as the canonical / experience served by Vercel. JSON
           # metadata (meta/social/rating/engagement) stays only in archive/.
           find "$ART" -mindepth 1 -maxdepth 1 \( -not -name "*.json" \) \
             -exec cp -r {} ./ \;
@@ -191,7 +193,7 @@ jobs:
             echo "No changes to commit."
             exit 1
           fi
-          git commit -m "drop: ${{ steps.cycle_date.outputs.date }} — ${{ steps.inspect.outputs.theme }}"
+          git commit -m "incarnation: ${{ steps.cycle_date.outputs.date }} — ${{ steps.inspect.outputs.theme }}"
           git push origin "cycle/${{ steps.cycle_date.outputs.date }}"
 
       - name: Open auto-merge PR
@@ -224,7 +226,7 @@ jobs:
           gh pr create \
             --base main \
             --head "cycle/${{ steps.cycle_date.outputs.date }}" \
-            --title "drop: ${{ steps.cycle_date.outputs.date }} — ${{ steps.inspect.outputs.theme }}" \
+            --title "incarnation: ${{ steps.cycle_date.outputs.date }} — ${{ steps.inspect.outputs.theme }}" \
             --body-file "$PR_BODY_PATH"
           # Direct merge instead of --auto; --auto requires required-checks
           # branch protection on main, which we don't have. The cycle's
@@ -245,7 +247,7 @@ jobs:
             const rendered = renderTemplate(SUCCESS_ISSUE_TEMPLATE, {
               cycle_date: '${{ steps.cycle_date.outputs.date }}',
               theme_name: meta.theme_name,
-              topical_hook_or_none: meta.topical && meta.topical_hook ? meta.topical_hook : '(no topical seed this week)',
+              topical_hook_or_none: meta.topical && meta.topical_hook ? meta.topical_hook : '(no topical seed today)',
               editorial_note: meta.editorial_note,
               live_url: 'https://root.vc/archive/${{ steps.cycle_date.outputs.date }}/',
               tweet_draft: social.tweet_draft,
@@ -255,7 +257,7 @@ jobs:
             fs.writeFileSync('$ISSUE_BODY_PATH', rendered);
           "
           gh issue create \
-            --title "Drop shipped: ${{ steps.cycle_date.outputs.date }} — ${{ steps.inspect.outputs.theme }}" \
+            --title "Incarnation shipped: ${{ steps.cycle_date.outputs.date }} — ${{ steps.inspect.outputs.theme }}" \
             --body-file "$ISSUE_BODY_PATH"
 
       - name: Open "Cycle failed" issue

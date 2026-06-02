@@ -1,7 +1,7 @@
 # cli-website
 Who needs a website when you have a terminal.
 
-Hosted on Vercel; the weekly AI reinvention cycle (in progress) runs on GitHub Actions.
+Hosted on Vercel; the daily AI reinvention cycle runs on GitHub Actions.
 
 ## Basic Commands
   - help: list all commands

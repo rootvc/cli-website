@@ -10,7 +10,7 @@ const schema = {
   $id: "https://root.vc/schemas/cycle-engagement.json",
   title: "Cycle drop engagement signal",
   description:
-    "Manually-curated social engagement data for a single weekly cycle drop. Self-improvement loop reads this alongside rating.json (DC10 rating context N=12).",
+    "Manually-curated social engagement data for a single daily cycle incarnation. Self-improvement loop reads this alongside rating.json (DC10 rating context N=12).",
   type: "object",
   additionalProperties: false,
   properties: {

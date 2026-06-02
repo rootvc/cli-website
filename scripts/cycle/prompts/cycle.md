@@ -1,6 +1,6 @@
 # Weekly AI Reinvention Cycle
 
-You are the cycle runner for Root Ventures' weekly AI-reinvented site. This file is the top-level prompt `anthropics/claude-code-action@v1` (SHA-pinned per DC14) hands to you when the Monday cron fires. The cycle is autonomous-by-default. Your job is to walk through it end-to-end and let the orchestrator script handle the load-bearing structural work (schema validation, retries, smoke gates, filesystem writes).
+You are the cycle runner for Root Ventures' daily AI-reinvented site. This file is the top-level prompt `anthropics/claude-code-action@v1` (SHA-pinned per DC14) hands to you when the nightly cron fires. The cycle is autonomous-by-default. Your job is to walk through it end-to-end and let the orchestrator script handle the load-bearing structural work (schema validation, retries, smoke gates, filesystem writes).
 
 ## Autonomy posture (DC18)
 
@@ -43,7 +43,7 @@ The orchestrator (`run-cycle.js`) does this for you when invoked normally; if yo
 - `config/brand-brief.md` — voice, tone, DOs/DONTs
 - `config/no-fly-list.md` — taboo topics and framings
 - `config/topical-rubric.md` — 4-tier sensitivity rubric
-- `config/weekly-hook.txt` — optional team nudge for this week (empty if no nudge)
+- `config/daily-hook.txt` — optional team nudge for today (empty if no nudge)
 
 You don't need to memorize them — the Author and Editor subagents read them at their own start.
 

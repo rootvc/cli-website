@@ -1,6 +1,6 @@
 # U0 Capability Validation Spike
 
-You are validating whether this `claude-code-action` runtime can support the weekly AI reinvention cycle architecture described in `docs/plans/2026-06-01-001-feat-weekly-ai-reinvention-plan.md`. The cycle depends on a handful of specific capabilities being available inside the action's session. This spike tests each one and writes a structured report.
+You are validating whether this `claude-code-action` runtime can support the daily AI reinvention cycle architecture described in `docs/plans/2026-06-01-001-feat-weekly-ai-reinvention-plan.md` (note: original plan was weekly; cadence was later changed to daily — the architecture is identical). The cycle depends on a handful of specific capabilities being available inside the action's session. This spike tests each one and writes a structured report.
 
 **Cost target: ≤ $2 worth of tokens.** Don't elaborate, don't research. Run the checks, record results, exit.
 

@@ -109,7 +109,7 @@ function fakeConfigs() {
     brandBrief: "stub",
     noFlyList: "stub",
     topicalRubric: "stub",
-    weeklyHook: null,
+    dailyHook: null,
   };
 }
 

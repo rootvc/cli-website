@@ -1,6 +1,6 @@
 const help = {
   "%help%": "list all commands (you're looking at it)",
-  "%archive%": "★ every incarnation of root.vc — past, present, next monday",
+  "%archive%": "★ every incarnation of root.vc — past, present, tomorrow",
   "%whois%": "list all partners",
   "%whois% [partner]": "learn about a partner",
   "%whois% root": "learn about us",

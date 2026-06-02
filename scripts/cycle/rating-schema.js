@@ -11,7 +11,7 @@ const schema = {
   $id: "https://root.vc/schemas/cycle-rating.json",
   title: "Cycle drop rating",
   description:
-    "Array of team member ratings for a single weekly cycle drop. Append-only; multiple entries from the same rater are allowed (the latest reflects current opinion).",
+    "Array of team member ratings for a single daily cycle incarnation. Append-only; multiple entries from the same rater are allowed (the latest reflects current opinion).",
   type: "array",
   items: {
     type: "object",

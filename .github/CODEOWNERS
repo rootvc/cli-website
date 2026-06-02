@@ -1,7 +1,7 @@
 # CODEOWNERS — gates brand-safety configs per DC17.
 #
 # PRs touching the listed files require approval from one of the listed owners
-# before merging. The weekly AI cycle reads these files as its primary brand
+# before merging. The daily AI cycle reads these files as its primary brand
 # and content controls; an unreviewed edit would change what the next autonomous
 # drop ships. Auto-merge does NOT apply to PRs blocked on CODEOWNERS review.
 #

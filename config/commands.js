@@ -515,7 +515,7 @@ const commands = {
   },
 
   // Lists every reinvention of root.vc — legacy CLI/GeoCities entries and
-  // each weekly drop the autonomous cycle has shipped. URLs are clickable
+  // each daily incarnation the autonomous cycle has shipped. URLs are clickable
   // via the web-links xterm addon (cmd/ctrl + click). The "current" marker
   // tracks which page the visitor is currently viewing (when this command
   // is invoked from one of the archived snapshots).
@@ -536,7 +536,7 @@ const commands = {
     ];
 
     term.stylePrint("Root Ventures web archive — every incarnation of root.vc.\r\n");
-    term.stylePrint("Reinvented every Monday by an autonomous agent. Past incarnations never recycled.\r\n");
+    term.stylePrint("Reinvented every day by an autonomous agent. Past incarnations never recycled.\r\n");
 
     const widest = Math.max(...editions.map((e) => e.name.length));
     editions.forEach((e) => {

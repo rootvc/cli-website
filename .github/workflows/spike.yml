@@ -1,7 +1,7 @@
 name: U0 Runtime Validation Spike
 
 # Manually-dispatched spike that validates whether claude-code-action can host the
-# weekly-cycle architecture (Agent tool, /last30days skill or WebSearch fallback,
+# daily-cycle architecture (Agent tool, /last30days skill or WebSearch fallback,
 # Write, Bash for smoke tests, schedule trigger, token observability).
 #
 # Run via:
