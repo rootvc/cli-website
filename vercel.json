@@ -6,7 +6,7 @@
   "trailingSlash": true,
   "headers": [
     {
-      "source": "/archive/(.*)",
+      "source": "/archive/:date(\\d{4}-\\d{2}-\\d{2})/(.*)",
       "headers": [
         {
           "key": "Content-Security-Policy",
