@@ -1,0 +1,49 @@
+[
+  {
+    "slug": "01-cli-terminal",
+    "url": "/archive/_legacy/01-cli-terminal/",
+    "date": "2021-02-09",
+    "legacy": true,
+    "theme_name": "CLI terminal",
+    "prev": null,
+    "next": {
+      "slug": "02-geocities",
+      "url": "/archive/_legacy/02-geocities/",
+      "theme_name": "GeoCities skin",
+      "date": "2021-10-28"
+    }
+  },
+  {
+    "slug": "02-geocities",
+    "url": "/archive/_legacy/02-geocities/",
+    "date": "2021-10-28",
+    "legacy": true,
+    "theme_name": "GeoCities skin",
+    "prev": {
+      "slug": "01-cli-terminal",
+      "url": "/archive/_legacy/01-cli-terminal/",
+      "theme_name": "CLI terminal",
+      "date": "2021-02-09"
+    },
+    "next": {
+      "slug": "2026-06-01",
+      "url": "/archive/2026-06-01/",
+      "theme_name": "ikea-assembly-manual",
+      "date": "2026-06-01"
+    }
+  },
+  {
+    "slug": "2026-06-01",
+    "url": "/archive/2026-06-01/",
+    "date": "2026-06-01",
+    "legacy": false,
+    "theme_name": "ikea-assembly-manual",
+    "prev": {
+      "slug": "02-geocities",
+      "url": "/archive/_legacy/02-geocities/",
+      "theme_name": "GeoCities skin",
+      "date": "2021-10-28"
+    },
+    "next": null
+  }
+]

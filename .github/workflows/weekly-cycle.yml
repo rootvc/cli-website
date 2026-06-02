@@ -137,6 +137,14 @@ jobs:
           ARTIFACT_PATH: ${{ steps.inspect.outputs.artifact_path }}
         run: npx vitest run tests/cycle/
 
+      - name: Rebuild archive catalog index
+        if: steps.inspect.outputs.success == 'true'
+        run: |
+          # Scans archive/ for every entry (legacy + dated), regenerates
+          # archive/index.html (the human-facing catalog) and archive/chain.json
+          # (prev/next links for use by drop-internal history nav).
+          node scripts/cycle/rebuild-archive-index.js
+
       - name: Promote artifact files to repo root
         if: steps.inspect.outputs.success == 'true'
         run: |
@@ -176,6 +184,9 @@ jobs:
             git add "$f" 2>/dev/null || true
           done
           git add "$ART"
+          # Archive catalog files (index.html + chain.json) regenerated
+          # by the Rebuild step above.
+          git add archive/index.html archive/chain.json 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 1
