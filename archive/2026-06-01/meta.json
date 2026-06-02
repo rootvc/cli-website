@@ -1,0 +1,24 @@
+{
+  "theme_name": "ikea-assembly-manual",
+  "editorial_note": "The drop reads as a flat-pack assembly instruction manual for ROOT-2015 (the model year, est. 2015): cover, before-you-begin spec page, tools-required page (the team, each rendered as a labeled tool), three parts-inventory sheets (all 63 portfolio companies as part numbers with brand-anchor line drawings), an assembly procedure tying mission and check size into steps, a warranty card with the contact mailto and the open Associate role, and a final 'other models in this catalogue' sheet. The voice is deadpan-IKEA: short captions, Swedish-style section labels in the corner marks, no marketing prose. All 63 portfolio companies are included; the team is rendered as tools T-01 through T-07 by name; firm.name, tagline ('Seeding bold engineers'), mission, and thesis all appear in the static DOM. No omissions.",
+  "where_facts_live": {
+    "firm_name": ".wordmark on the cover sheet (Sheet 1) and in the warranty footer rule",
+    "mission": ".copy .mission on Sheet 2 ('Before you begin'), with thesis directly below",
+    "portfolio": "Three .parts-list sections on Sheets 4, 5, 6 (P-001 through P-063), each a real anchor to the company URL",
+    "team": "Seven .tool entries on Sheet 3 (T-01 through T-07), each with name, title, and bio",
+    "contact": "mailto:hello@root.vc inside .meta-list on Sheet 8 and again on the application line; address printed in footer rule on Sheet 9"
+  },
+  "history_view_concept": "Sheet 9, 'Other models in this catalogue,' is a two-tab binder: one tab labeled 'Open the binder → previous manuals' and one labeled 'Last week's model.' Both are large, hover-active anchors pointing to /archive/. The tab markup mirrors the binder tabs you'd flip on a catalogue spine — in-world for a printed instruction series, not a footer link.",
+  "theme_keys": [
+    "ikea",
+    "assembly-manual",
+    "flat-pack",
+    "instruction-manual",
+    "line-drawings",
+    "deadpan",
+    "print-aesthetic",
+    "scandi"
+  ],
+  "topical": false,
+  "csp_nonce": "QVc6-Bo2LVBZtnhI87l_sg=="
+}
