@@ -195,6 +195,21 @@ You will be passed these in your input. Use them — do not invent generic `/arc
 
 These three values are non-negotiable. The smoke test only enforces that `/archive/...` appears somewhere visible; the Editor will reject drops whose history view doesn't actually use both `archive_catalog_url` AND `previous_drop_url` correctly. Generic `/archive/` everywhere = rejection.
 
+### Naming rule for past artifacts (load-bearing)
+
+Internally, each weekly artifact is an **incarnation**. Externally — anywhere a visitor will see — translate to the current theme's parlance. **Never** use "drop" or "issue" in user-facing copy. Translate per conceit:
+
+- IKEA / manual conceit → "editions" / "models" / "manuals"
+- GeoCities / web-ring conceit → "sites" / "homepages"
+- Faux Wayback / archive conceit → "captures" / "snapshots"
+- Faux airline conceit → "flights"
+- Faux Bloomberg conceit → "tickers" / "tape entries"
+- JRPG / dungeon conceit → "rooms" / "saves" / "chapters"
+- Faux Wikipedia conceit → "revisions"
+- Pick whatever the theme would actually use
+
+Apply this rule to: the meta.editorial_note, the social.tweet_draft / linkedin_draft, all in-artifact copy, history-nav labels, and anything else visible. The Editor will reject incarnations whose visible copy uses "drop" or "issue."
+
 ### Placement rule for the history nav (load-bearing)
 
 **Your history nav goes at the top of the page, native to your theme, visible and clearly marked from page load. Always.**

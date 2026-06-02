@@ -535,8 +535,8 @@ const commands = {
       { slug: "2026-06-01",      date: "2026-06-01", name: "ikea-assembly-manual",  url: "/archive/2026-06-01/",              note: "first autonomous drop" },
     ];
 
-    term.stylePrint("Root Ventures web archive — every reinvention of root.vc.\r\n");
-    term.stylePrint("New drops auto-generated every Monday. Past drops never recycled.\r\n");
+    term.stylePrint("Root Ventures web archive — every incarnation of root.vc.\r\n");
+    term.stylePrint("Reinvented every Monday by an autonomous agent. Past incarnations never recycled.\r\n");
 
     const widest = Math.max(...editions.map((e) => e.name.length));
     editions.forEach((e) => {
