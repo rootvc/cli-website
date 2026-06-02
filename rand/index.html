@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Root Ventures Web Archive · spinning the dial</title>
+<meta name="robots" content="noindex">
+<link rel="shortcut icon" href="/favicon.png">
+<style>
+  html, body { margin:0; padding:0; height:100%; }
+  body {
+    background:#1c365e; color:#fff;
+    font: 14px/1.5 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    display:flex; align-items:center; justify-content:center;
+    padding:24px;
+  }
+  .card {
+    max-width: 520px; width:100%;
+    border: 2px solid #ffd24d; padding: 22px 26px;
+    background: rgba(0,0,0,0.18);
+  }
+  .mark {
+    display:flex; align-items:center; gap:12px;
+    font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    font-size: 12px; color:#ffd24d;
+    margin-bottom: 18px;
+  }
+  .glyph {
+    display:inline-flex; align-items:center; justify-content:center;
+    width: 28px; height: 28px; border:2px solid #ffd24d; border-radius:50%;
+    color:#ffd24d; font-weight:700;
+  }
+  h1 { font-size: 16px; margin: 0 0 6px; letter-spacing:.04em; }
+  p { margin: 0 0 8px; opacity: .9; }
+  .url { color:#ffd24d; word-break:break-all; }
+  .fallback { margin-top: 14px; opacity:.7; font-size: 12px; }
+  .fallback a { color:#ffd24d; }
+  .blink { animation: blink 1.05s steps(2, end) infinite; }
+  @keyframes blink { to { opacity: 0; } }
+</style>
+</head>
+<body>
+<main class="card" role="status" aria-live="polite">
+  <div class="mark"><span class="glyph">R</span><span>Root Ventures · Web Archive</span></div>
+  <h1>Spinning the dial<span class="blink">_</span></h1>
+  <p>Picking a random capture of <span class="url">https://www.root.vc/</span> from the archive&hellip;</p>
+  <p class="fallback">
+    Stuck? Browse the <a href="/archive/">full bound archive</a>
+    or <a href="/">return to the terminal</a>.
+  </p>
+</main>
+<script>
+  (function () {
+    var FALLBACK = "/archive/";
+    function go(url) { window.location.replace(url); }
+    fetch("/archive/chain.json", { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : Promise.reject(r.status); })
+      .then(function (chain) {
+        // Roll among AI-generated incarnations only (legacy CLI / GeoCities are excluded).
+        var pool = chain.filter(function (e) { return !e.legacy; });
+        if (!pool.length) return go(FALLBACK);
+        // Avoid landing on the same one twice in a row when possible.
+        var last = null;
+        try { last = sessionStorage.getItem("rv:rand:last"); } catch (_) {}
+        var pick = pool[Math.floor(Math.random() * pool.length)];
+        if (pool.length > 1 && pick.url === last) {
+          pick = pool[(pool.indexOf(pick) + 1) % pool.length];
+        }
+        try { sessionStorage.setItem("rv:rand:last", pick.url); } catch (_) {}
+        go(pick.url);
+      })
+      .catch(function () { go(FALLBACK); });
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,316 @@
+/* K6RVC operating sheet — engineer-friendly mono on log-paper green */
+
+:root {
+  --paper: #eef2e6;
+  --ink: #16261a;
+  --ink-soft: #3a4a3e;
+  --rule: #98a890;
+  --rule-soft: #c2cdb8;
+  --accent: #7a1414;
+  --phos: #0a3a18;
+  --phos-bg: #082014;
+  --phos-fg: #5fe27a;
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, "Courier New", monospace;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+body {
+  background-image:
+    repeating-linear-gradient(0deg, transparent 0 22px, rgba(20,40,30,0.06) 22px 23px),
+    repeating-linear-gradient(90deg, transparent 0 110px, rgba(140,30,30,0.04) 110px 111px);
+  padding: 0 0 60px;
+}
+
+/* HEADER — phosphor strip with the logbook index */
+.logbook-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: var(--phos-bg);
+  color: var(--phos-fg);
+  border-bottom: 2px solid #0a4520;
+  padding: 10px 18px 6px;
+  text-shadow: 0 0 4px rgba(95, 226, 122, 0.45);
+}
+
+.header-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1.4fr 1.5fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.call-block .call {
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: 4px;
+}
+.call-block .call-sub { font-size: 11px; opacity: 0.85; letter-spacing: 1px; }
+.call-block abbr { text-decoration: none; border-bottom: 1px dotted currentColor; }
+
+.session-block .label,
+.logbook-index .label {
+  font-size: 10px;
+  letter-spacing: 2px;
+  opacity: 0.65;
+  margin-top: 2px;
+}
+.session-block .value { font-size: 12px; margin-bottom: 2px; }
+
+.logbook-index ul {
+  list-style: none;
+  margin: 4px 0 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 10px;
+}
+.logbook-index li { display: inline-flex; }
+.logbook-index a {
+  color: var(--phos-fg);
+  text-decoration: none;
+  padding: 3px 8px;
+  border: 1px solid rgba(95, 226, 122, 0.4);
+  border-radius: 2px;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+.logbook-index a:hover,
+.logbook-index a:focus {
+  background: rgba(95, 226, 122, 0.15);
+  outline: none;
+}
+.logbook-index .this-sheet {
+  background: rgba(95, 226, 122, 0.18);
+  border-color: var(--phos-fg);
+  font-weight: 700;
+}
+.logbook-index .prev-sheet::before { content: ""; }
+.logbook-index .all-sheets { border-style: dashed; }
+
+.band-conditions {
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  opacity: 0.75;
+  border-top: 1px dashed rgba(95, 226, 122, 0.25);
+  padding-top: 6px;
+}
+.band-conditions span::before { content: "\25C6  "; opacity: 0.5; }
+
+/* MAIN */
+main {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 24px 22px 0;
+}
+
+h1, h2 {
+  font-family: var(--mono);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ink);
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 4px;
+  margin: 28px 0 14px;
+}
+h1 { font-size: 18px; }
+h2 { font-size: 14px; }
+h1 .date { color: var(--accent); }
+
+.sheet { margin-top: 14px; }
+
+.masthead {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0;
+  border: 1.5px solid var(--ink);
+  background: rgba(255,255,255,0.55);
+}
+.mast-cell {
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--rule);
+  border-right: 1px solid var(--rule);
+}
+.mast-cell:nth-child(2n) { border-right: none; }
+.mast-cell:last-child { border-bottom: none; grid-column: 1 / -1; }
+.mast-cell:nth-last-child(2) { border-bottom: 1px solid var(--rule); }
+
+.mast-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--ink-soft);
+  margin-bottom: 3px;
+}
+.mast-value { font-size: 12px; }
+.mast-value a { color: var(--accent); }
+
+.note {
+  font-size: 11px;
+  color: var(--ink-soft);
+  margin: 10px 2px 0;
+  font-style: italic;
+}
+
+/* QSO LOG */
+.qso-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255,255,255,0.55);
+  border: 1.5px solid var(--ink);
+  font-size: 11.5px;
+}
+.qso-table th,
+.qso-table td {
+  padding: 4px 8px;
+  text-align: left;
+  border-bottom: 1px solid var(--rule-soft);
+  border-right: 1px solid var(--rule-soft);
+  vertical-align: top;
+}
+.qso-table th {
+  background: #d8dfcd;
+  font-size: 9.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border-bottom: 1.5px solid var(--ink);
+  position: sticky;
+  top: 92px;
+  z-index: 5;
+}
+.qso-table tbody tr:nth-child(odd) { background: rgba(120, 150, 110, 0.06); }
+.qso-table tbody tr:hover { background: rgba(255, 220, 120, 0.35); }
+.c-time { white-space: nowrap; color: var(--ink-soft); width: 56px; }
+.c-freq { white-space: nowrap; width: 64px; }
+.c-mode { width: 48px; text-transform: uppercase; }
+.c-call { white-space: nowrap; font-weight: 700; }
+.c-call a { color: var(--accent); text-decoration: none; border-bottom: 1px dotted var(--accent); }
+.c-call a:hover { background: #ffe7a3; }
+.c-rst { font-family: var(--mono); width: 50px; color: var(--phos); font-weight: 700; }
+.c-notes { color: var(--ink-soft); }
+
+.log-foot {
+  font-size: 10.5px;
+  color: var(--ink-soft);
+  margin: 8px 2px 0;
+}
+
+/* ROSTER */
+.roster-intro {
+  font-size: 11.5px;
+  color: var(--ink-soft);
+  margin: 0 2px 12px;
+}
+.roster-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 12px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: opnum;
+}
+.roster-list > li {
+  border: 1px solid var(--ink);
+  background: #f6f8ef;
+  padding: 12px 14px;
+  position: relative;
+  counter-increment: opnum;
+}
+.roster-list > li::before {
+  content: "OP " counter(opnum, decimal-leading-zero);
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--accent);
+}
+.op-name {
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1px;
+}
+.op-title {
+  font-size: 10.5px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 2px 0 8px;
+}
+.op-bio { font-size: 11.5px; }
+
+/* PROPAGATION */
+.prop-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+.prop-grid > div {
+  border-left: 3px solid var(--ink);
+  padding: 4px 12px;
+}
+.prop-grid .small {
+  font-size: 10.5px;
+  color: var(--ink-soft);
+  margin-top: 4px;
+}
+.prop-grid a { color: var(--accent); }
+
+/* SKED */
+.sked-card {
+  border: 1.5px dashed var(--accent);
+  padding: 14px 16px;
+  background: rgba(122, 20, 20, 0.04);
+}
+.sked-card a { color: var(--accent); }
+
+/* COLOPHON */
+.colophon {
+  margin-top: 36px;
+  border-top: 2px solid var(--ink);
+  padding-top: 12px;
+  font-size: 11.5px;
+}
+.colophon a { color: var(--accent); }
+.sig {
+  margin: 12px 0 0;
+  font-size: 11px;
+  color: var(--ink-soft);
+  white-space: pre-wrap;
+  letter-spacing: 1px;
+}
+
+/* TICKER ANIMATION — band conditions blink the open band */
+@keyframes pulse-open {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; text-shadow: 0 0 8px rgba(95, 226, 122, 0.7); }
+}
+.band-conditions span:nth-child(5) {
+  color: #c9ffd0;
+  animation: pulse-open 2.2s ease-in-out infinite;
+}
+
+/* Responsive — collapse the header grid on narrow screens */
+@media (max-width: 760px) {
+  .header-grid { grid-template-columns: 1fr; gap: 10px; }
+  .qso-table th { top: 0; position: static; }
+  .masthead { grid-template-columns: 1fr; }
+  .mast-cell { border-right: none; }
+  .qso-table { font-size: 10.5px; }
+}

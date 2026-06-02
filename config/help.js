@@ -14,5 +14,6 @@ const help = {
   "%jobs%": "check out our job openings",
   "%test%": "do not use",
   "%upgrade%": "upgrade to the latest version of Root Ventures",
+  "%rand%": "warp to a random AI-generated capture of root.vc",
   "%other%": "try your fav commands (e.g. %ls%, %groups%, %su%)",
 };

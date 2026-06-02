@@ -510,6 +510,10 @@ const commands = {
     term.stylePrint("San Francisco, CA 94110");
   },
 
+  game: function () {
+    term.openURL("./game.html", false);
+  },
+
   history: function () {
     term.history.forEach((element, index) => {
       term.stylePrint(`${1000 + index}  ${element}`);
@@ -538,13 +542,6 @@ const commands = {
   // Opens the GeoCities-style welcome page (welcome.htm).
   exit: function () {
     term.command("open welcome.htm");
-  },
-
-  // Sends the visitor to a random AI-generated capture of root.vc from
-  // the web archive at /archive/. /rand/ does the picking and the redirect.
-  rand: function () {
-    term.stylePrint("Loading a random capture from the web archive...");
-    term.openURL("/rand/", false);
   },
 
   // Reinitializes the terminal, clearing history and resetting the prompt.
@@ -823,7 +820,7 @@ const commands = {
         term.stylePrint("\r\nSubmitting application...");
 
         try {
-          const response = await fetch("/.netlify/functions/submit-application", {
+          const response = await fetch("/api/submit-application", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
