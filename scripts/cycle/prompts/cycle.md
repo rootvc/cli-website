@@ -59,10 +59,28 @@ The orchestrator calls `scripts/cycle/performance-log.js` to load the last 12 dr
 
 ### 5. Author/Editor revision loop
 
-Spawn the Author subagent (`scripts/cycle/prompts/author-role.md`) with:
+Before spawning the Author, **compute the history-link inputs** the Author needs to build a correct in-world history view:
+
+```bash
+# Regenerate archive/index.html + archive/chain.json from current
+# archive/ contents (legacy + dated entries). This is also done after
+# the cycle, but doing it now ensures chain.json reflects the latest
+# state for the Author to read.
+node scripts/cycle/rebuild-archive-index.js
+```
+
+Then read `archive/chain.json`. It's an oldest-first array. The chronologically-latest existing entry is the LAST element. That entry's `url`, `theme_name`, and `date` are the **previous_drop** that this week's Author should link "last week's model" / "previous issue" / equivalent in-world device to. For the first autonomous drop, this is `/archive/_legacy/02-geocities/` ("GeoCities skin"). For drops thereafter, it's the immediately-prior dated drop.
+
+The Author also needs the constant `archive_catalog_url: "/archive/"` for the "open the binder" / "browse the full catalog" device.
+
+Spawn the Author subagent (`scripts/cycle/prompts/author-role.md`) with these inputs:
 - All configs (above)
 - Performance log
 - Topical brief (may say "no seed this week")
+- **`archive_catalog_url`** — `/archive/` (always; the catalog index page lives there)
+- **`previous_drop_url`** — from chain.json, the last entry's `url`
+- **`previous_drop_theme_name`** — from chain.json, the last entry's `theme_name`
+- **`previous_drop_date`** — from chain.json, the last entry's `date`
 - Retry counter (starts at 0; you accumulate Editor critiques here on retries)
 
 The Author returns a JSON object matching the schema in `scripts/cycle/output-schema.js`.
@@ -119,6 +137,7 @@ The GitHub Actions workflow parses this last line to populate the PR description
 
 - Every fact in `config/firm.js`, `config/portfolio.js`, `config/team.js` MUST appear in the rendered DOM somewhere. Smoke tests enforce 90% coverage on portfolio + 100% on firm/team/contact; the Editor enforces the rest.
 - The artifact MUST expose a discoverable in-world link to `/archive/...`. Smoke tests check visibility.
+- The artifact MUST link to BOTH `archive_catalog_url` AND `previous_drop_url` (the values you computed and passed to the Author). Generic `/archive/` links everywhere are not acceptable — the Editor rejects drops that don't distinguish "browse all" from "see last week" with the actual URLs.
 - Generated JS MUST NOT call `fetch`/`XMLHttpRequest`/`WebSocket`/`navigator.sendBeacon`, MUST NOT create script tags dynamically, MUST NOT include a `<meta http-equiv="Content-Security-Policy">` override. Source-scan enforces.
 - The artifact's `<script>` tags MUST carry `nonce="{{CSP_NONCE}}"` (the freeze step replaces with a real nonce).
 - The artifact MUST be under 5MB total. Smoke tests enforce.

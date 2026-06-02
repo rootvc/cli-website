@@ -185,6 +185,16 @@ Every drop carries a "look at past drops" affordance. It MUST NOT be a generic "
 
 The smoke test (DC7) checks that at least one anchor element pointing to `/archive/...` is visible (not `display:none`, `visibility:hidden`, or `opacity:0`) and has non-empty text or aria-label. The Editor checks that the entrance reads as in-world, not bolted-on. `history_view_concept` in your output is where you explain it.
 
+### Required URLs for the history view
+
+You will be passed these in your input. Use them — do not invent generic `/archive/` links:
+
+- `archive_catalog_url` — always `/archive/`. This is the chronological catalog of every past drop (legacy + dated). Whatever in-world device you build for "the binder of past manuals" / "the index of every issue" / "the back catalog" should link here. **Always include at least one link to this URL** in your history view — it's the entry point to browsing all drops.
+- `previous_drop_url` — the URL of the chronologically-immediately-previous drop. If your in-world history view has a "last week's version" / "previous issue" / "previous installment" device, it links here. For the very first autonomous drop, this points to the most recent legacy entry. Always check the value you were passed and use that exact URL, not a guess.
+- `previous_drop_theme_name` — the theme name of the previous drop. Use this in tooltip / aria-label / caption text so visitors know what they're navigating into ("Last week: GeoCities skin" reads better than "Last week's drop").
+
+These three values are non-negotiable. The smoke test only enforces that `/archive/...` appears somewhere visible; the Editor will reject drops whose history view doesn't actually use both `archive_catalog_url` AND `previous_drop_url` correctly. Generic `/archive/` everywhere = rejection.
+
 ## Examples of strong drafts (from the brand brief)
 
 These themes would land:
