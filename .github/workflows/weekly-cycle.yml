@@ -137,6 +137,19 @@ jobs:
           ARTIFACT_PATH: ${{ steps.inspect.outputs.artifact_path }}
         run: npx vitest run tests/cycle/
 
+      - name: Promote artifact files to repo root
+        if: steps.inspect.outputs.success == 'true'
+        run: |
+          ART="archive/${{ steps.cycle_date.outputs.date }}"
+          # Copy every non-JSON file/dir from the new archive entry up to
+          # repo root. This replaces the previous week's drop with the new
+          # one as the canonical / experience served by Vercel. JSON
+          # metadata (meta/social/rating/engagement) stays only in archive/.
+          find "$ART" -mindepth 1 -maxdepth 1 \( -not -name "*.json" \) \
+            -exec cp -r {} ./ \;
+          echo "Promoted artifact files:"
+          find "$ART" -mindepth 1 -maxdepth 1 \( -not -name "*.json" \) -printf '  %P\n'
+
       - name: Check main moved during cycle (race detection)
         id: race_check
         if: steps.inspect.outputs.success == 'true'
@@ -156,8 +169,13 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/rootvc/cli-website.git"
-          git add archive/${{ steps.cycle_date.outputs.date }} index.html cli/ 2>/dev/null || true
-          git add archive/${{ steps.cycle_date.outputs.date }}
+          # Promoted root files (index.html + any non-JSON files copied up
+          # from archive/$DATE/) + the archive entry itself.
+          ART="archive/${{ steps.cycle_date.outputs.date }}"
+          for f in $(find "$ART" -mindepth 1 -maxdepth 1 \( -not -name "*.json" \) -printf '%P\n'); do
+            git add "$f" 2>/dev/null || true
+          done
+          git add "$ART"
           if git diff --cached --quiet; then
             echo "No changes to commit."
             exit 1
