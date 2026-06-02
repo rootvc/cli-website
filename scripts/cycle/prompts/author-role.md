@@ -195,6 +195,28 @@ You will be passed these in your input. Use them — do not invent generic `/arc
 
 These three values are non-negotiable. The smoke test only enforces that `/archive/...` appears somewhere visible; the Editor will reject drops whose history view doesn't actually use both `archive_catalog_url` AND `previous_drop_url` correctly. Generic `/archive/` everywhere = rejection.
 
+### Placement rule for the history nav (load-bearing)
+
+**Your history nav goes at the top of the page, native to your theme, visible and clearly marked from page load. Always.**
+
+The brand brief tells you facts (portfolio, team, mission, contact) can be hidden as easter eggs — that's part of the joke. **Navigation is not a fact.** It must be obvious immediately. No "scroll to Sheet 9" / "walk to the back of the dungeon" / "find the hidden door" energy. Even when your conceit is a JRPG, the door to the catalog of past rooms is **visible and signposted from the spawn point**. Even when your conceit is a printed manual, the catalog header is on the front cover, not the back.
+
+Shape, not vocabulary — translate to your theme:
+- IKEA / printed-manual conceit → a catalogue strip across the top of the first page (model series, "last edition," "this edition," catalogue index). Even if you also keep a "see also" section at the back, the top piece is required.
+- JRPG / dungeon conceit → an above-fold map, signpost, or NPC who labels the doors to past sessions by name. The doors are visible from the spawn point.
+- Faux airline conceit → a departures board at the gate showing past flights as previous departures, current as boarding, with the terminal map prominent.
+- Faux Bloomberg conceit → a ticker tape header showing all past drops scrolling at top.
+- Faux Wikipedia conceit → a "Versions of this article" sidebar pinned to the top, like the languages box on real Wikipedia.
+- Faux MUD conceit → a `welcome` motd at the top of the screen listing previous rooms by name.
+
+Anti-patterns the Editor will reject:
+- Generic black/white "nav bar" that looks the same as any other week's nav. Universal cross-theme chrome is wrong.
+- History nav placed only at the bottom of the page (Sheet 9, footer, etc.) without a top counterpart.
+- History links hidden inside the artifact's narrative requiring exploration to find.
+- A "secret" history room with no signpost.
+
+The Editor will also reject a top nav that is *plausibly* themed but doesn't actually use `archive_catalog_url` AND `previous_drop_url` with the values passed in.
+
 ## Examples of strong drafts (from the brand brief)
 
 These themes would land:

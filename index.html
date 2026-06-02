@@ -7,41 +7,52 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- rv-site-nav:start -->
-<style>.rv-site-nav,.rv-site-nav *,.rv-site-nav *:before,.rv-site-nav *:after{box-sizing:border-box;}
-.rv-site-nav{position:sticky;top:0;left:0;right:0;z-index:2147483647;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 16px;background:#0a0a0a;color:#e5e5e5;border-bottom:1px solid #2a2a2a;padding:8px 16px;font:12px/1.4 ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;letter-spacing:.02em;-webkit-font-smoothing:antialiased;}
-.rv-site-nav a{color:inherit;text-decoration:none;}
-.rv-site-nav__brand{display:flex;gap:10px;align-items:baseline;flex-wrap:wrap;}
-.rv-site-nav__brand strong{font-weight:700;letter-spacing:.04em;}
-.rv-site-nav__brand span{opacity:.55;}
-.rv-site-nav__links{display:flex;gap:14px;align-items:center;flex-wrap:wrap;}
-.rv-site-nav__link{opacity:.9;padding:2px 0;}
-.rv-site-nav__link:hover{opacity:1;text-decoration:underline;}
-.rv-site-nav__link--catalog{font-weight:600;letter-spacing:.06em;text-transform:uppercase;font-size:11px;}
-.rv-site-nav__link--here{opacity:.45;cursor:default;border:1px dashed #444;padding:1px 6px;border-radius:3px;}
-.rv-site-nav__link--disabled{opacity:.35;cursor:default;}
-@media(max-width:600px){.rv-site-nav{padding:6px 10px;font-size:11px;}.rv-site-nav__brand span{display:none;}}
-@media print{.rv-site-nav{display:none;}}</style>
-<header class="rv-site-nav" role="navigation" aria-label="Root Ventures site nav">
-  <a class="rv-site-nav__brand" href="/">
-    <strong>root.vc</strong>
-    <span>a venture firm reinvented every monday</span>
-  </a>
-  <div class="rv-site-nav__links">
-    <a class="rv-site-nav__link" href="/archive/_legacy/02-geocities/" title="GeoCities skin (2021-10-28)">← prev: GeoCities skin</a>
-        <a class="rv-site-nav__link rv-site-nav__link--catalog" href="/archive/">all drops</a>
-        <span class="rv-site-nav__link rv-site-nav__link--disabled">next: monday →</span>
-  </div>
-</header>
-<!-- rv-site-nav:end -->
-
-
 <!--
   ROOT-2015 / Flat-pack assembly instructions
   Some Assembly Required.
   Manufactured in San Francisco since 2015.
   Service: hello@root.vc
 -->
+
+<!-- catalogue strip: in-world history nav at the top of the manual -->
+<style>
+  .catalogue-strip{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:stretch;background:#fff8e7;color:#111;border-bottom:3px double #111;padding:10px 18px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:11px;letter-spacing:.04em;text-transform:uppercase;}
+  .catalogue-strip__title{display:flex;flex-direction:column;gap:2px;border-right:1px solid rgba(0,0,0,.4);padding-right:14px;}
+  .catalogue-strip__brand{font-weight:700;letter-spacing:.08em;}
+  .catalogue-strip__brand .reg{font-size:8px;vertical-align:super;}
+  .catalogue-strip__sub{opacity:.7;font-size:10px;text-transform:none;letter-spacing:.02em;font-style:italic;}
+  .catalogue-strip__editions{display:flex;align-items:stretch;gap:0;justify-content:flex-end;flex-wrap:wrap;}
+  .catalogue-strip__ed{display:flex;flex-direction:column;justify-content:center;text-decoration:none;color:inherit;padding:2px 12px;border-left:1px dashed rgba(0,0,0,.35);}
+  .catalogue-strip__ed:hover{background:#fdedb0;}
+  .catalogue-strip__no{font-size:9px;opacity:.65;letter-spacing:.1em;}
+  .catalogue-strip__name{font-weight:600;font-size:11px;letter-spacing:.06em;}
+  .catalogue-strip__ed--current{background:#111;color:#fff8e7;cursor:default;}
+  .catalogue-strip__ed--current:hover{background:#111;}
+  .catalogue-strip__index{background:#fff;}
+  .catalogue-strip__index:hover{background:#fffbe1;}
+  @media(max-width:720px){.catalogue-strip{grid-template-columns:1fr;}.catalogue-strip__title{border-right:none;border-bottom:1px solid rgba(0,0,0,.3);padding-right:0;padding-bottom:6px;}.catalogue-strip__editions{justify-content:flex-start;}}
+  @media print{.catalogue-strip{display:none;}}
+</style>
+<header class="catalogue-strip" aria-label="Bygg-en-Fond catalogue navigation">
+  <div class="catalogue-strip__title">
+    <span class="catalogue-strip__brand">Bygg-en-Fond<span class="reg">®</span> catalogue</span>
+    <span class="catalogue-strip__sub">model series · printed weekly · all editions filed</span>
+  </div>
+  <nav class="catalogue-strip__editions">
+    <a class="catalogue-strip__ed" href="/archive/_legacy/02-geocities/">
+      <span class="catalogue-strip__no">⊳ ed. 2021</span>
+      <span class="catalogue-strip__name">GeoCities</span>
+    </a>
+    <span class="catalogue-strip__ed catalogue-strip__ed--current" aria-current="page">
+      <span class="catalogue-strip__no">★ ed. 2026-06-01</span>
+      <span class="catalogue-strip__name">ROOT-2015</span>
+    </span>
+    <a class="catalogue-strip__ed catalogue-strip__index" href="/archive/">
+      <span class="catalogue-strip__no">⊞ index</span>
+      <span class="catalogue-strip__name">all manuals →</span>
+    </a>
+  </nav>
+</header>
 
 <header class="sheet cover" id="page-cover">
   <div class="corner-mark tl">SHEET 1 / 9</div>

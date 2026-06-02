@@ -138,6 +138,7 @@ The GitHub Actions workflow parses this last line to populate the PR description
 - Every fact in `config/firm.js`, `config/portfolio.js`, `config/team.js` MUST appear in the rendered DOM somewhere. Smoke tests enforce 90% coverage on portfolio + 100% on firm/team/contact; the Editor enforces the rest.
 - The artifact MUST expose a discoverable in-world link to `/archive/...`. Smoke tests check visibility.
 - The artifact MUST link to BOTH `archive_catalog_url` AND `previous_drop_url` (the values you computed and passed to the Author). Generic `/archive/` links everywhere are not acceptable — the Editor rejects drops that don't distinguish "browse all" from "see last week" with the actual URLs.
+- The history nav MUST be at the TOP of the page, native to the week's theme, visible and signposted from page load. No "scroll to find it" / "secret door" / universal-strip approach. The Editor rejects drops that bury history nav at the bottom or use a generic cross-theme strip. See author-role.md's "Placement rule for the history nav" section — it applies to every cycle, every week, no exceptions. (Facts can stay as easter eggs; navigation cannot.)
 - Generated JS MUST NOT call `fetch`/`XMLHttpRequest`/`WebSocket`/`navigator.sendBeacon`, MUST NOT create script tags dynamically, MUST NOT include a `<meta http-equiv="Content-Security-Policy">` override. Source-scan enforces.
 - The artifact's `<script>` tags MUST carry `nonce="{{CSP_NONCE}}"` (the freeze step replaces with a real nonce).
 - The artifact MUST be under 5MB total. Smoke tests enforce.
