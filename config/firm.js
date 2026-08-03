@@ -52,3 +52,10 @@ const firm = {
     "automation",
   ],
 };
+
+// Dual-mode. This file stays a classic browser script — it is concatenated into
+// js/app.bundle.js and loaded by a raw <script src> tag in welcome.htm — while
+// also being requireable by scripts/build-pages.js. `module` is undefined in a
+// browser, so the line is inert there. Do not switch this to `export`: that
+// would make the file a module and break both of the browser paths above.
+if (typeof module !== "undefined") module.exports = { firm };

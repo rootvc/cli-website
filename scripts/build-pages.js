@@ -10,17 +10,18 @@
 //
 // config/*.js is the ONLY source of truth. Nothing here is hand-maintained:
 // editing a description regenerates its page, both indexes, the sitemap, the
-// llms files, and the <noscript> block in index.html. This runs as part of
-// `npm run build`, so a Netlify deploy always publishes current data.
+// llms files, and the <noscript> block in index.html.
 //
-// Run `node scripts/build-pages.js --check` to verify the committed output
-// matches what the current config would produce (used by CI).
+// Everything is written into dist/, which is the Netlify publish directory and
+// is gitignored. Generated files are never committed, so there is nothing that
+// can fall out of sync with config/*.js and nothing to check for drift — the
+// mirror is rebuilt from scratch on every deploy.
 
 const fs = require("fs");
 const path = require("path");
-const vm = require("vm");
 
 const rootDir = path.resolve(__dirname, "..");
+const outDir = path.join(rootDir, "dist");
 
 const ORIGIN = "https://root.vc";
 const OG_IMAGE = `${ORIGIN}/images/og-image.png`;
@@ -34,43 +35,33 @@ const JSONLD_END = "<!-- END generated-jsonld -->";
 
 // ── Loading config/*.js ───────────────────────────────────────────────────────
 
+// Reads a source file from the repo. Sources are inputs to the build; they are
+// never written back to.
 function readText(relativePath) {
   return fs.readFileSync(path.join(rootDir, relativePath), "utf8");
 }
 
+// Writes a generated file into dist/. Everything this script emits goes here.
 function writeText(relativePath, content) {
-  const absolutePath = path.join(rootDir, relativePath);
+  const absolutePath = path.join(outDir, relativePath);
   fs.mkdirSync(path.dirname(absolutePath), { recursive: true });
   fs.writeFileSync(absolutePath, content);
 }
 
-// The config files are classic browser scripts declaring bare globals — they
-// have no exports, and adding some would break both the terser bundle in
-// build-assets.js and the raw <script> tags in welcome.htm. So evaluate them
-// the same way a browser would, in a vm context.
-//
-// Gotcha: a top-level `const` does NOT become a property of the context object
-// (ctx.portfolio is undefined). It lands in the context's global lexical
-// environment, which persists across runInContext calls — hence the trailing
-// expression script to pull the values out.
+// The pure-data config files carry a guarded `module.exports` footer so they
+// work unchanged as classic browser scripts and as CommonJS modules here. See
+// the note at the bottom of config/firm.js.
 //
 // Only pure-data files are loaded. config/commands.js and config/fs.js touch
 // `term` and `document`, and loading them here would let a future terminal-only
 // change break `npm run build`.
 function loadConfig() {
-  const context = vm.createContext({});
-  const sources = [
-    "config/firm.js",
-    "config/portfolio.js",
-    "config/team.js",
-    "config/jobs.js",
-  ];
-
-  for (const file of sources) {
-    vm.runInContext(readText(file), context, { filename: file });
-  }
-
-  return vm.runInContext("({ firm, portfolio, team, jobs })", context);
+  return {
+    firm: require("../config/firm.js").firm,
+    portfolio: require("../config/portfolio.js").portfolio,
+    team: require("../config/team.js").team,
+    jobs: require("../config/jobs.js").jobs,
+  };
 }
 
 // ── Escaping ──────────────────────────────────────────────────────────────────
@@ -957,8 +948,8 @@ function buildPages(config = loadConfig()) {
   });
 
   // Sitemap covers the terminal, the GeoCities page, and every generated page.
-  // No <lastmod>: it would change on every build and make the --check drift
-  // guard fail permanently.
+  // No <lastmod>: every deploy rebuilds every file, so a build timestamp would
+  // claim all 70-odd pages changed each time and teach crawlers to ignore it.
   const urls = [
     `${ORIGIN}/`,
     `${ORIGIN}/welcome.htm`,
@@ -986,54 +977,15 @@ function writePages() {
   return files;
 }
 
-// Regenerate in memory and compare against disk. Pure — no console output, no
-// process.exit — so tests can call it directly and assert on the result. The
-// CLI-facing checkPages() below is the thin wrapper that reports and exits.
-function findDrift(files = buildPages()) {
-  const drifted = [];
-
-  for (const file of files) {
-    const absolutePath = path.join(rootDir, file.path);
-    const onDisk = fs.existsSync(absolutePath)
-      ? fs.readFileSync(absolutePath, "utf8")
-      : null;
-    if (onDisk !== file.content) {
-      drifted.push(onDisk === null ? `${file.path} (missing)` : file.path);
-    }
-  }
-
-  return { files, drifted };
-}
-
-// Used by CI so a config edit that was pushed without a rebuild fails loudly
-// instead of shipping stale HTML. Exits the process on drift — call
-// findDrift() directly in tests instead of this.
-function checkPages() {
-  const { files, drifted } = findDrift();
-
-  if (drifted.length) {
-    console.error(
-      `${drifted.length} generated file(s) are out of sync with config/*.js:`
-    );
-    drifted.forEach((file) => console.error(`  ${file}`));
-    console.error("\nRun `npm run build` and commit the result.");
-    process.exit(1);
-  }
-
-  console.log(`static mirror: ${files.length} files in sync with config/*.js`);
-  return files;
-}
-
 module.exports = {
   AI_CRAWLERS,
   ORIGIN,
   buildPages,
-  checkPages,
   esc,
-  findDrift,
   injectBetween,
   loadConfig,
   metaDescription,
+  outDir,
   renderCompany,
   renderIndexHtml,
   renderNoscriptIndex,
@@ -1042,9 +994,5 @@ module.exports = {
 };
 
 if (require.main === module) {
-  if (process.argv.includes("--check")) {
-    checkPages();
-  } else {
-    writePages();
-  }
+  writePages();
 }

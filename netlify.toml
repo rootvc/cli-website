@@ -1,5 +1,10 @@
 [build]
-  publish = "."
+  # Produces dist/ from scratch: vendor assets, the app bundle, and the static
+  # mirror generated from config/*.js. Publishing the build output rather than
+  # the repo means the mirror is regenerated on every deploy, no generated file
+  # is ever committed, and scripts/, tests/, and config metadata stay unserved.
+  command = "npm run build"
+  publish = "dist"
 
 [functions]
   directory = "netlify/functions"
