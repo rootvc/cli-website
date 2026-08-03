@@ -14,6 +14,8 @@ Who needs a website when you have a terminal.
   - instagram: instagram account
   - git: this repo
   - github: all repos
+  - locate: physical address
+  - www: plain-text version of this site
   - test: do not use
   - other: try your favorite linux commands
 
@@ -89,6 +91,36 @@ That build now:
  - copies and minifies the xterm vendor assets
  - bundles the app boot/runtime code into `js/app.bundle.js`
  - emits a minified lazy-load asset for the RickRoll animation
+ - generates the static mirror (see below)
+
+## The static mirror
+The terminal renders its content only when someone types a command, so search
+engines and LLM crawlers see an empty page. `scripts/build-pages.js` renders the
+same `config/*.js` data as plain HTML at real URLs:
+
+```
+/about/  /jobs/  /portfolio/  /portfolio/<slug>/  /team/  /team/<slug>/
+robots.txt  sitemap.xml  llms.txt  llms-full.txt
+```
+
+**`config/*.js` is the only source of truth — never edit the generated files.**
+Changing a portfolio description regenerates that company's page, both indexes,
+the sitemap, the llms files, and the `<noscript>` block in `index.html`. The
+regions between the `<!-- BEGIN generated-* -->` sentinels in `index.html` are
+rewritten on every build.
+
+Three things keep it in sync:
+ - `npm run build` generates it, so every Netlify deploy publishes current data
+ - the output is committed, so it survives a failed build and is reviewable in PRs
+ - `npm run build:pages:check` fails CI if the committed copy has drifted
+
+Use `npm run build:pages` to regenerate just the mirror while iterating —
+`netlify dev` does not watch `config/*.js`.
+
+Firm-level facts (blurb, thesis, fund size, office address, email) live in
+`config/firm.js` so the terminal and the static pages cannot disagree. It has no
+dependencies and must load before `config/commands.js` in both
+`scripts/build-assets.js` and `welcome.htm`.
 
 ## Performance Notes
 The terminal now initializes on `DOMContentLoaded` instead of waiting for `window.onload`, and optional work such as ASCII art preloading happens after the terminal is already usable.

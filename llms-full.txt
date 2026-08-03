@@ -1,0 +1,552 @@
+# Root Ventures
+
+Root Ventures is a San Francisco-based deep tech seed fund. As engineers ourselves, we specialize in leading initial funding for founders tackling new technical opportunities. Our initial investments typically range from $3-5M. With a selective few new deals a year and 2/3 of our funds in reserve, we are committed to being a long-term partner.
+
+Mission: Seeding bold engineers
+Thesis: Investing at the earliest stages of technical founders taking engineering risk.
+Fund size: $190M
+Typical check size: up to $5M
+Stage: Seed, usually leading the initial round
+Focus areas: deep tech, robotics, hardware, manufacturing, developer tools, machine learning, semiconductors, automation
+Office: 2670 Harrison St, San Francisco, CA 94110
+Email: hello@root.vc
+Website: https://root.vc/
+Also at: https://twitter.com/rootvc, https://github.com/rootvc, https://instagram.com/machinepix/
+
+## Team
+
+### Avidan Ross — Managing Partner
+
+Avidan is the Founding Partner of Root Ventures. Previously, he designed industrial robotics for Food Network's kitchens and was CTO of CIM Group, where he focused on industrial investing, and worked as an embedded application developer at Excite@Home. Avidan has a BA in Computer Science from Columbia University.
+
+Email: avidan@root.vc
+LinkedIn: https://www.linkedin.com/in/avidanross/
+Page: https://root.vc/team/avidan/
+
+### Kane Hsieh — Partner
+
+Before joining Root Ventures, Kane was founder and Head of Product at Brilliant Bicycle Co. He has also worked as an early-stage investor at RRE Ventures, a software engineer at Romotive, and a Project Manager at Microsoft. Kane has an AB in Computer Science from Harvard.
+
+Email: kane@root.vc
+LinkedIn: https://www.linkedin.com/in/kanehsieh/
+Page: https://root.vc/team/kane/
+
+### Chrissy Meyer — Partner
+
+Chrissy has spent the past decade developing and shipping hardware as an engineering manager at Apple and Square. She was a founding team member at Pearl Automation, a vehicle technology startup. Chrissy has an MS in Electrical Engineering from Stanford and a BSEE from Rose-Hulman.
+
+Email: chrissy@root.vc
+LinkedIn: https://www.linkedin.com/in/chrissymeyer/
+Page: https://root.vc/team/chrissy/
+
+### Lee Edwards — Partner
+
+Lee was most recently CTO at Teespring. Previously, Lee was a mechanical engineer at iRobot, a software engineer at Pivotal Labs, Lead Engineer at SideTour (acquired by Groupon in 2013), and engineering manager for GrouponLive. He graduated from Olin College of Engineering with a degree in Systems Engineering.
+
+Email: lee@root.vc
+LinkedIn: https://www.linkedin.com/in/leeredwards/
+Page: https://root.vc/team/lee/
+
+### Zodi Chalat — Associate
+
+Zodi began his career as an engineer working on ML infrastructure at Netflix before moving into venture investing. He previously studied CS and comparative literature at Yale.
+
+Email: zodi@root.vc
+LinkedIn: https://linkedin.com/in/zodi
+Page: https://root.vc/team/zodi/
+
+### Ben Lovell — Head of Operations
+
+Ben worked at a16z, Menlo Ventures, and FT Partners to build operational automation and data pipelines. He also cofounded an adtech startup for rideshare companies. Ben graduated with a BA from Stanford University.
+
+Email: ben@root.vc
+LinkedIn: https://www.linkedin.com/in/lovellb/
+Page: https://root.vc/team/ben/
+
+### Laelah Reino — Operations Manager
+
+Laelah has spent over 15 years in marketing for films, consumer products, and subscription-based services. Laelah Reino has a BA in Business Administration with a Marketing concentration from Drexel University.
+
+Email: laelah@root.vc
+LinkedIn: https://www.linkedin.com/in/laelah-reino-78b6a51/
+Page: https://root.vc/team/laelah/
+
+## Portfolio (63 companies)
+
+### Esper
+
+Esper is devops for devices, allowing teams to seamlessly build and manage enterprise hardware.
+
+Website: https://esper.io
+Demo: https://esper.io/signup
+Page: https://root.vc/portfolio/esper/
+
+### Meroxa
+
+Meroxa is a platform for software engineers to build mature, scalable data engineering infrastructure with a single command.
+
+Website: https://meroxa.com
+Demo: https://meroxa.com/#data-warehouse
+Investment memo: https://github.com/rootvc/investment-memos/blob/main/meroxa.md
+Page: https://root.vc/portfolio/meroxa/
+
+### Particle
+
+Particle is the largest professional IoT development platform.
+
+Website: https://particle.io
+Demo: https://docs.particle.io/
+Page: https://root.vc/portfolio/particle/
+
+### Daily
+
+Daily makes it easier for developers to add video to websites and apps.
+
+Website: https://daily.co
+Demo: https://docs.daily.co/docs/introduction-1
+Page: https://root.vc/portfolio/daily/
+
+### HASH
+
+HASH is an open-source, self-building database that grows and maintains a typed graph of entities on your behalf.
+
+Website: https://hash.ai
+Demo: https://app.hash.ai/
+Page: https://root.vc/portfolio/hash/
+
+### Superconductive
+
+Superconductive is a SaaS platform for verifying and enforcing data integrity at every stage of the lifecycle of data in an organization.
+
+Website: https://superconductive.ai
+Demo: https://docs.greatexpectations.io/en/latest/guides/tutorials/quick_start.html#tutorials-quick-start
+Page: https://root.vc/portfolio/superconductive/
+
+### Okteto
+
+Okteto is the best emphemeral environment for developers.
+
+Website: https://okteto.com
+Demo: https://okteto.com/docs/getting-started/index.html
+Page: https://root.vc/portfolio/okteto/
+
+### Privacy Dynamics
+
+Privacy Dynamics ensures your customers' data privacy without slowing down your team.
+
+Website: https://privacydynamics.io
+Demo: https://privacydynamics.io/demo/contact
+Page: https://root.vc/portfolio/privacy_dynamics/
+
+### Nautilus Labs
+
+Nautilus Labs allows maritime fleets to optimize shipping routes and energy costs in real time.
+
+Website: https://nautiluslabs.com
+Page: https://root.vc/portfolio/nautilus/
+
+### nTopology
+
+nTopology is the future of mechanical engineering software.
+
+Website: https://ntopology.com
+Page: https://root.vc/portfolio/ntopology/
+
+### Tortuga AgTech
+
+Tortuga automates agriculture for high value produce.
+
+Website: https://tortugaagtech.com
+Page: https://root.vc/portfolio/tortuga/
+
+### Instrumental
+
+Instrumental generates real time insights for mass manufacturing.
+
+Website: https://instrumental.com
+Page: https://root.vc/portfolio/instrumental/
+
+### Stellar Pizza
+
+Stellar Pizza is building the future of automated food production.
+
+Website: https://eatstellarpizza.com
+Page: https://root.vc/portfolio/stellar/
+
+### Versatile
+
+Versatile is an onsite construction data provider for accelerating schedules.
+
+Website: https://versatile.ai
+Page: https://root.vc/portfolio/versatile/
+
+### Dusty Robotics
+
+Dusty Robotics automates layout in complex construction projects.
+
+Website: https://dustyrobotics.com
+Page: https://root.vc/portfolio/dusty/
+
+### ThruWave
+
+Thruwave increases the efficiency and transparency of high volume logistics operations.
+
+Website: https://thruwave.com
+Page: https://root.vc/portfolio/thruwave/
+
+### Seismic
+
+Seismic augments strength and safety for workers through soft robotics.
+
+Website: https://myseismic.com
+Page: https://root.vc/portfolio/seismic/
+
+### Seam
+
+Seam provides an API for managing building systems.
+
+Website: https://getseam.com
+Page: https://root.vc/portfolio/seam/
+
+### ChargeLab
+
+ChargeLab builds API- and software-defined EV charging networks.
+
+Website: https://chargelab.co
+Page: https://root.vc/portfolio/chargelab/
+
+### Wildtype Foods
+
+Wildtype creates organic, clean, high-quality, animal-free meat.
+
+Website: https://wildtypefoods.com
+Page: https://root.vc/portfolio/wildtype/
+
+### Nordsense
+
+Nordsense optimizes pickup routes for waste management fleets.
+
+Website: https://nordsense.com
+Page: https://root.vc/portfolio/nordsense/
+
+### TruckLabs
+
+Trucklabs reduces fuel costs and increases profit margins for long haul trucking fleets.
+
+Website: https://trucklabs.com
+Page: https://root.vc/portfolio/trucklabs/
+
+### Sensable
+
+Sensable generates real-time industrial engineering insights.
+
+Website: https://getsensable.com
+Page: https://root.vc/portfolio/sensable/
+
+### Crux
+
+Crux automates critical energy infrastructure.
+
+Website: https://cruxocm.com
+Page: https://root.vc/portfolio/crux/
+
+### IaSQL
+
+IaSQL is the next evolution of infrastructure management, allowing you to manage your infra in a database instead of stateless config files.
+
+Website: https://iasql.com
+Page: https://root.vc/portfolio/iasql/
+
+### Mashgin
+
+Mashgin automates self-checkout.
+
+Website: https://mashgin.com
+Page: https://root.vc/portfolio/mashgin/
+
+### Creator
+
+Creator builds fully autonomous hamburger robots.
+
+Website: https://creator.rest
+Page: https://root.vc/portfolio/creator/
+
+### ApolloShield
+
+ApolloShield safeguards airspace from autonomous and remote piloted aircraft.
+
+Website: https://apolloshield.com
+Page: https://root.vc/portfolio/apolloshield/
+
+### Skycatch
+
+Skycatch provides high resolution 3D mapping and modeling of high-value infrastructure.
+
+Website: https://skycatch.com
+Page: https://root.vc/portfolio/skycatch/
+
+### Shaper
+
+Shaper Tools makes the Origin, a handheld, auto-correcting CNC.
+
+Website: https://shapertools.com
+Page: https://root.vc/portfolio/shaper/
+
+### Cape
+
+Cape Networks allows IT professionals to monitor, text, and repair enterprise networks remotely.
+
+Website: https://capenetworks.com
+Page: https://root.vc/portfolio/cape/
+
+### Righthook
+
+Righthook reduces the time and cost required to develop autonomous vehicles.
+
+Website: https://righthook.io
+Page: https://root.vc/portfolio/righthook/
+
+### SixWheel
+
+SixWheel brings autonomy and electrification to long haul trucking operations.
+
+Website: https://sixwheel.com
+Page: https://root.vc/portfolio/sixwheel/
+
+### Radical
+
+Radical Semiconductor provides hardware security down to the individual IC.
+
+Website: https://radicalsemiconductor.com
+Page: https://root.vc/portfolio/radical/
+
+### Zed
+
+Zed is a fully-native desktop code editor focused on high performance, clean design, and real-time collaboration.
+
+Website: https://zed.dev
+Page: https://root.vc/portfolio/zed/
+
+### Kayhan
+
+Kayhan’s spaceflight operations platform allows satellite operators to focus on their core mission.
+
+Website: https://kayhan.space
+Page: https://root.vc/portfolio/kayhan/
+
+### AllSpice
+
+Collaboration and testing platform for hardware teams.
+
+Website: https://allspice.io
+Page: https://root.vc/portfolio/allspice/
+
+### Quilter
+
+Automated design tools for electrical engineers.
+
+Website: https://quilter.ai
+Page: https://root.vc/portfolio/quilter/
+
+### Adept
+
+Useful general intelligence.
+
+Website: https://adept.ai
+Page: https://root.vc/portfolio/adept/
+
+### Aperture Data
+
+Aperture manage images and videos with a database purpose-built for data science and machine learning.
+
+Website: https://aperturedata.io
+Page: https://root.vc/portfolio/aperture/
+
+### SuperTokens
+
+SuperTokens is the best Open Source solution for user authentication.
+
+Website: https://supertokens.io
+Page: https://root.vc/portfolio/supertokens/
+
+### Fudge
+
+Fudge is the best way to speed up your website to improve conversion rates and increase revenue.
+
+Website: https://fudge.ai
+Page: https://root.vc/portfolio/fudge/
+
+### Kodra
+
+Fast dataset curation for machine learning.
+
+Website: https://kodra.ai
+Page: https://root.vc/portfolio/kodra/
+
+### Topologic
+
+Design and automation software for textile manufacturing.
+
+Website: https://topologic.io
+Page: https://root.vc/portfolio/topologic/
+
+### Ruby Robotics
+
+Robotics and AI to autonomously prepare, image, and assess tissue during biopsy procedures.
+
+Website: https://ruby-robotics.com
+Page: https://root.vc/portfolio/ruby/
+
+### Instance
+
+Instance is the fastest way to synthesize DNA.
+
+Website: https://instance.bio
+Page: https://root.vc/portfolio/instance/
+
+### CADY Solutions
+
+CADY automates the electrical schematic analysis process.
+
+Website: https://cadysolutions.com
+Page: https://root.vc/portfolio/cady/
+
+### Sublayer
+
+Sublayer is AI-assisted coding that works the way you do.
+
+Website: https://sublayer.com
+Page: https://root.vc/portfolio/sublayer/
+
+### Nullify
+
+Nullify performs product security tasks alongside your developers.
+
+Website: https://nullify.ai
+Page: https://root.vc/portfolio/nullify/
+
+### Trieve
+
+Trieve provides infrastructure for building AI search into your applications.
+
+Website: https://trieve.ai
+Page: https://root.vc/portfolio/trieve/
+
+### Breakpoint AI
+
+Breakpoint uses AI to detect failures in computer vision models and re-trains them to prevent future issues.
+
+Website: https://setbreakpoint.com
+Page: https://root.vc/portfolio/breakpoint/
+
+### Determinate Systems
+
+Determinate provides enterprise-grade solutions for Nix package management.
+
+Website: https://determinate.systems
+Page: https://root.vc/portfolio/determinate/
+
+### Gen Alpha
+
+Gen Alpha builds AI copilots for analog and mixed-signal chip design to streamline workflows.
+
+Website: https://www.generation-alpha-transistor.com
+Page: https://root.vc/portfolio/genalpha/
+
+### Hunch
+
+Hunch provides collaborative data exploration and visualization tools for non-technical users.
+
+Website: https://hunchdata.com
+Page: https://root.vc/portfolio/hunch/
+
+### Illoca
+
+Illoca accelerates commercial architecture workflows with generative AI for AEC software.
+
+Website: https://illoca.com
+Page: https://root.vc/portfolio/illoca/
+
+### Integrated Biosciences
+
+Integrated uses optogenetics and ML to discover drugs for neurodegenerative and age-related diseases.
+
+Website: https://integratebio.co
+Page: https://root.vc/portfolio/integrated/
+
+### Latent Technology
+
+Latent helps animators and game developers create life-like 3D assets with AI-powered tools.
+
+Website: https://latent-technology.com
+Page: https://root.vc/portfolio/latent/
+
+### Patterns
+
+Patterns provides tools and infrastructure for developing modern AI applications efficiently.
+
+Website: https://patterns.app
+Page: https://root.vc/portfolio/patterns/
+
+### Subtrace
+
+Subtrace automatically tracks all HTTP requests coming in and going out of your production backend.
+
+Website: https://subtrace.dev
+Page: https://root.vc/portfolio/subtrace/
+
+### Digichem
+
+Digichem prototypes and manufactures custom molecules online.
+
+Website: https://www.digichem.com/
+Page: https://root.vc/portfolio/digichem/
+
+### Loopwork
+
+Loopwork is building the next generation of agents.
+
+Website: https://loopwork.com/
+Page: https://root.vc/portfolio/loopwork/
+
+### Feather
+
+Feather provides FEA that runs in the browser.
+
+Website: https://feather.solutions/
+Page: https://root.vc/portfolio/feather/
+
+### Vibe Robotics
+
+Vibe Robotics, founded by Kai Backman and Luke Church, builds novel programming interfaces for robotics.
+
+Website: https://vbr.sh/
+Page: https://root.vc/portfolio/vibe_robotics/
+
+## Open roles
+
+### Venture Capital Associate
+
+
+Root Ventures is looking for a technical associate to join our team in San Francisco.
+
+We're a deep tech seed fund that invests in bold engineers building the future.
+As an associate, you'll work directly with partners to source deals, conduct
+technical diligence, and support portfolio companies.
+
+What we're looking for:
+• Strong technical background (CS degree, engineering experience, or equivalent)
+• Genuine curiosity about emerging technologies and startups
+• Excellent communication skills - you can explain complex tech simply
+• Hustle and resourcefulness - you figure things out
+• Passion for working with technical founders
+
+Bonus points:
+• You've built side projects or contributed to open source
+• You're active in technical communities
+• You have startup experience
+
+This is a rare opportunity to learn venture capital from experienced operators
+and work with some of the most innovative technical founders in the world.
+
+Apply: hello@root.vc

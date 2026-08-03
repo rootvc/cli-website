@@ -1,0 +1,71 @@
+# root.vc — https://root.vc
+# AI crawlers are welcome here. The plain-text mirror of the terminal
+# lives at /portfolio/, /team/, /about/, /jobs/, and in /llms.txt.
+
+User-agent: *
+Allow: /
+Disallow: /scripts/
+Disallow: /tests/
+Disallow: /netlify/
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+User-agent: CCBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: meta-externalagent
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+User-agent: MistralAI-User
+Allow: /
+
+User-agent: Diffbot
+Allow: /
+
+User-agent: Timpibot
+Allow: /
+
+User-agent: YouBot
+Allow: /
+
+Sitemap: https://root.vc/sitemap.xml

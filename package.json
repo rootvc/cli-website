@@ -17,6 +17,8 @@
   },
   "scripts": {
     "build": "node scripts/build-assets.js",
+    "build:pages": "node scripts/build-pages.js",
+    "build:pages:check": "node scripts/build-pages.js --check",
     "start": "netlify dev",
     "test": "vitest run",
     "test:watch": "vitest"

@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const { minify } = require("terser");
+const { writePages } = require("./build-pages");
 
 const rootDir = path.resolve(__dirname, "..");
 
@@ -27,11 +28,15 @@ const vendorScripts = [
   },
 ];
 
+// Order matters: these are concatenated into one classic script, so anything
+// referenced at the top level of a later file must be defined by an earlier
+// one. config/commands.js reads `firm`, `team`, and `portfolio` at top level.
 const appBundleSources = [
   "js/terminal.js",
   "js/terminal-ext.js",
   "js/ascii-art.js",
   "config/help.js",
+  "config/firm.js",
   "config/portfolio.js",
   "config/team.js",
   "config/commands.js",
@@ -124,9 +129,18 @@ async function main() {
 
   await buildAppBundle();
   await buildRickRollBundle();
+
+  // The crawlable static mirror. Part of `npm run build` so every Netlify
+  // deploy regenerates it from current config/*.js and can never go stale.
+  writePages();
 }
 
-main().catch((error) => {
-  console.error(error);
-  process.exit(1);
-});
+module.exports = { appBundleSources, main, vendorScripts };
+
+// Guarded so tests can import the bundle order without triggering a build.
+if (require.main === module) {
+  main().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
