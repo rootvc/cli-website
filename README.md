@@ -98,6 +98,26 @@ In local repeated Chromium benchmarks against the previous `HEAD`, median startu
  - homepage first command rendered: `2076.5ms` -> `223.5ms`
  - `#whois-lee` deep link rendered: `1159.9ms` -> `151.9ms`
 
+## Hosting
+root.vc is served by **Netlify** — `server: Netlify` on the live response, the
+apex `A` record points at Netlify's load balancer, and `www` 301s to the apex.
+
+The repo is also connected to a **Vercel** project. That project is used by the
+`ai-incarnations` branch (the parked AI-reinvention experiment, #110), which
+carries its own `vercel.json` and builds there successfully. `main` has no
+Vercel deployment, so Vercel had nothing to build on this line: every attempt
+failed and posted a red check on PRs that had nothing to do with Vercel.
+
+`vercel.json` here sets [`git.deploymentEnabled: false`][1], which turns off
+automatic Vercel deployments for branches carrying this file.
+
+Do not "fix" this by making it match the `ai-incarnations` copy — that branch
+deliberately omits the key so it keeps deploying. If it is ever merged down,
+expect a conflict on `vercel.json` and resolve it toward whichever host is
+actually serving the domain at that point.
+
+[1]: https://vercel.com/docs/project-configuration/git-configuration#git.deploymentenabled
+
 Live at: [https://root.vc](https://root.vc).
 
 Special thanks to [Jerry Neumann](https://www.linkedin.com/in/jerryneumann/) at [Neu Venture Capital](https://neuvc.com/) for the inspiration for this website concept.
