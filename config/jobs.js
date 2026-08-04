@@ -24,3 +24,6 @@ const jobs = {
     "and work with some of the most innovative technical founders in the world.",
   ],
 };
+
+// Dual-mode; see the note in config/firm.js. Inert in a browser.
+if (typeof module !== "undefined") module.exports = { jobs };

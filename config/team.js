@@ -56,3 +56,6 @@ const team = {
     groups: "wheel admin operations miracleworkers gamers",
   },
 };
+
+// Dual-mode; see the note in config/firm.js. Inert in a browser.
+if (typeof module !== "undefined") module.exports = { team };

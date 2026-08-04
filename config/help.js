@@ -11,6 +11,7 @@ const help = {
   "%git%": "this repo",
   "%github%": "all repos",
   "%locate%": "physical address",
+  "%www%": "plain-text version of this site",
   "%jobs%": "check out our job openings",
   "%test%": "do not use",
   "%upgrade%": "upgrade to the latest version of Root Ventures",
