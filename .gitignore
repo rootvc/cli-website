@@ -1,7 +1,7 @@
-# for build
-css/xterm.css
-js/xterm*.js*
-js/aalib.js*
+# Everything `npm run build` produces — vendor assets, the app bundle, and the
+# static mirror — lands here. It is the Netlify publish directory and is never
+# committed, so generated files cannot drift from config/*.js.
+dist/
 
 images/*Zone.Identifier
 

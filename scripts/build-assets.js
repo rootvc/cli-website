@@ -4,6 +4,7 @@ const { minify } = require("terser");
 const { writePages } = require("./build-pages");
 
 const rootDir = path.resolve(__dirname, "..");
+const outDir = path.join(rootDir, "dist");
 
 const vendorScripts = [
   {
@@ -45,6 +46,25 @@ const appBundleSources = [
   "js/bootstrap.js",
 ];
 
+// Copied into dist/ verbatim. config/*.js is here because welcome.htm loads it
+// with raw <script src> tags rather than through the bundle, and js/geo.js and
+// js/comcastify.js are fetched on demand by the terminal instead of bundled.
+const staticAssets = [
+  "favicon.png",
+  "welcome.htm",
+  "css/bootstrap.css",
+  "css/pages.css",
+  "css/styles.css",
+  "images",
+  "videos",
+  "config/commands.js",
+  "config/firm.js",
+  "config/portfolio.js",
+  "config/team.js",
+  "js/comcastify.js",
+  "js/geo.js",
+];
+
 async function minifyJavaScript(source, options = {}) {
   const result = await minify(source, {
     compress: {
@@ -66,9 +86,28 @@ function readText(relativePath) {
 }
 
 function writeText(relativePath, content) {
-  const absolutePath = path.join(rootDir, relativePath);
+  const absolutePath = path.join(outDir, relativePath);
   fs.mkdirSync(path.dirname(absolutePath), { recursive: true });
   fs.writeFileSync(absolutePath, content);
+}
+
+// Static files that ship as-is. Anything not listed here (scripts/, tests/,
+// package.json, netlify.toml, the unbundled js/ sources) stays out of the
+// publish directory and off the public site.
+function copyStaticAssets() {
+  for (const asset of staticAssets) {
+    fs.cpSync(path.join(rootDir, asset), path.join(outDir, asset), {
+      recursive: true,
+    });
+  }
+  console.log(`static assets: ${staticAssets.length} paths copied`);
+}
+
+// dist/ is rebuilt from scratch every time, so a file that stops being
+// generated cannot linger and keep getting deployed.
+function resetOutDir() {
+  fs.rmSync(outDir, { recursive: true, force: true });
+  fs.mkdirSync(outDir, { recursive: true });
 }
 
 async function copyVendorScript(asset) {
@@ -113,7 +152,7 @@ function copyXtermCss() {
     rootDir,
     "node_modules/@xterm/xterm/css/xterm.css"
   );
-  const cssTarget = path.join(rootDir, "css/xterm.css");
+  const cssTarget = path.join(outDir, "css/xterm.css");
 
   fs.mkdirSync(path.dirname(cssTarget), { recursive: true });
   fs.copyFileSync(cssSource, cssTarget);
@@ -121,6 +160,8 @@ function copyXtermCss() {
 }
 
 async function main() {
+  resetOutDir();
+  copyStaticAssets();
   copyXtermCss();
 
   for (const asset of vendorScripts) {
@@ -130,12 +171,12 @@ async function main() {
   await buildAppBundle();
   await buildRickRollBundle();
 
-  // The crawlable static mirror. Part of `npm run build` so every Netlify
-  // deploy regenerates it from current config/*.js and can never go stale.
+  // The crawlable static mirror, plus dist/index.html. Part of `npm run build`
+  // so every Netlify deploy regenerates it from the current config/*.js.
   writePages();
 }
 
-module.exports = { appBundleSources, main, vendorScripts };
+module.exports = { appBundleSources, main, staticAssets, vendorScripts };
 
 // Guarded so tests can import the bundle order without triggering a build.
 if (require.main === module) {

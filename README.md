@@ -85,13 +85,23 @@ Future project: get the Hello Worlds working for every portfolio company with a 
  - zed
 
 ## Build Notes
-Run `npm run build` before serving the site locally or deploying.
+`npm run build` produces `dist/`, which is what Netlify publishes. It is wiped
+and rebuilt from scratch each time, and it is gitignored — no build output is
+ever committed.
 
-That build now:
+That build:
+ - copies the static assets (`images/`, `videos/`, `css/`, `welcome.htm`, and the
+   `config/*.js` files `welcome.htm` loads directly)
  - copies and minifies the xterm vendor assets
- - bundles the app boot/runtime code into `js/app.bundle.js`
+ - bundles the app boot/runtime code into `dist/js/app.bundle.js`
  - emits a minified lazy-load asset for the RickRoll animation
- - generates the static mirror (see below)
+ - generates the static mirror and `dist/index.html` (see below)
+
+Anything not on the copy list in `scripts/build-assets.js` stays out of `dist/`,
+so `scripts/`, `tests/`, `package.json`, and the unbundled `js/` sources are not
+served.
+
+`npm start` builds and then runs `netlify dev` against `dist/`.
 
 ## The static mirror
 The terminal renders its content only when someone types a command, so search
@@ -103,16 +113,20 @@ same `config/*.js` data as plain HTML at real URLs:
 robots.txt  sitemap.xml  llms.txt  llms-full.txt
 ```
 
-**`config/*.js` is the only source of truth — never edit the generated files.**
-Changing a portfolio description regenerates that company's page, both indexes,
-the sitemap, the llms files, and the `<noscript>` block in `index.html`. The
-regions between the `<!-- BEGIN generated-* -->` sentinels in `index.html` are
-rewritten on every build.
+**`config/*.js` is the only source of truth.** Changing a portfolio description
+regenerates that company's page, both indexes, the sitemap, the llms files, and
+the `<noscript>` block in `index.html`.
 
-Three things keep it in sync:
- - `npm run build` generates it, so every Netlify deploy publishes current data
- - the output is committed, so it survives a failed build and is reviewable in PRs
- - `npm run build:pages:check` fails CI if the committed copy has drifted
+There is nothing to keep in sync. The mirror is never committed — it exists only
+in `dist/`, and every deploy runs `npm run build` and regenerates it from the
+current `config/*.js`. No cron, no CI drift check, no "rebuild and commit" step:
+a config edit reaches the static pages the moment it is deployed, because that
+is the only way the pages come into existence.
+
+`index.html` in the repo root is a **template**. The regions between its
+`<!-- BEGIN generated-* -->` sentinels are empty; the build injects the JSON-LD
+and `<noscript>` blocks when it writes `dist/index.html`. Do not paste generated
+content back into the template.
 
 Use `npm run build:pages` to regenerate just the mirror while iterating —
 `netlify dev` does not watch `config/*.js`.
@@ -122,6 +136,12 @@ Firm-level facts (blurb, thesis, fund size, office address, email) live in
 dependencies and must load before `config/commands.js` in both
 `scripts/build-assets.js` and `welcome.htm`.
 
+`config/firm.js`, `portfolio.js`, `team.js`, and `jobs.js` end with a guarded
+`module.exports` so they work unchanged as classic browser scripts *and* as
+CommonJS modules for `scripts/build-pages.js`. Keep the `typeof module` guard —
+an unguarded `module` reference is a ReferenceError in the browser — and do not
+convert them to ESM, which would break the bundle and `welcome.htm`.
+
 ## Performance Notes
 The terminal now initializes on `DOMContentLoaded` instead of waiting for `window.onload`, and optional work such as ASCII art preloading happens after the terminal is already usable.
 
@@ -129,6 +149,27 @@ In local repeated Chromium benchmarks against the previous `HEAD`, median startu
  - homepage prompt visible: `1941.7ms` -> `70.1ms`
  - homepage first command rendered: `2076.5ms` -> `223.5ms`
  - `#whois-lee` deep link rendered: `1159.9ms` -> `151.9ms`
+
+## Hosting
+root.vc is served by **Netlify**, which publishes `dist/` — `server: Netlify` on
+the live response, the apex `A` record points at Netlify's load balancer, and
+`www` 301s to the apex.
+
+The repo is also connected to a **Vercel** project. That project belongs to the
+`ai-incarnations` branch (the parked AI-reinvention experiment, #110), which
+carries its own `vercel.json` and builds there successfully. `main` has no
+Vercel deployment, so Vercel had nothing to build on this line: every attempt
+failed and posted a red check on PRs that had nothing to do with Vercel.
+
+`vercel.json` here sets [`git.deploymentEnabled: false`][1], which turns off
+automatic Vercel deployments for branches carrying this file.
+
+Do not "fix" this by making it match the `ai-incarnations` copy — that branch
+deliberately omits the key so it keeps deploying. If it is ever merged down,
+expect a conflict on `vercel.json` and resolve it toward whichever host is
+actually serving the domain at that point.
+
+[1]: https://vercel.com/docs/project-configuration/git-configuration#git.deploymentenabled
 
 Live at: [https://root.vc](https://root.vc).
 

@@ -11,7 +11,6 @@ const {
   ORIGIN,
   buildPages,
   esc,
-  findDrift,
   loadConfig,
   metaDescription,
   renderCompany,
@@ -50,6 +49,8 @@ afterEach(() => {
 });
 
 describe("loadConfig", () => {
+  // Exercises the require() path into config/*.js — if a guarded exports footer
+  // ever went missing, every field below would be undefined.
   it("returns the pure-data globals from config/*.js", () => {
     expect(Object.keys(config.portfolio).length).toBeGreaterThan(0);
     expect(Object.keys(config.team).length).toBeGreaterThan(0);
@@ -62,17 +63,46 @@ describe("loadConfig", () => {
 
 describe("config/*.js stay classic browser scripts", () => {
   // They are concatenated into one non-module script by build-assets.js and
-  // loaded via raw <script src> tags in welcome.htm. Adding ESM or CJS exports
-  // breaks the build or throws at runtime in the browser — build-pages.js reads
-  // them in a vm sandbox precisely so they never have to change.
+  // loaded via raw <script src> tags in welcome.htm. ESM syntax would make them
+  // modules and break both paths. The pure-data files also carry a guarded
+  // `module.exports` footer so build-pages.js can require() them; that is only
+  // safe while it stays behind the `typeof module` check, since an unguarded
+  // reference to `module` is a ReferenceError in a browser.
   const configFiles = fs
     .readdirSync(path.join(REPO_ROOT, "config"))
     .filter((name) => name.endsWith(".js"));
 
-  it.each(configFiles)("%s has no module syntax", (name) => {
+  it.each(configFiles)("%s has no ESM syntax", (name) => {
     const source = fs.readFileSync(path.join(REPO_ROOT, "config", name), "utf8");
     expect(source).not.toMatch(/^\s*(export|import)\s/m);
-    expect(source).not.toMatch(/\bmodule\.exports\b/);
+  });
+
+  it.each(configFiles)("%s guards any module.exports", (name) => {
+    const source = fs.readFileSync(path.join(REPO_ROOT, "config", name), "utf8");
+    for (const line of source.split("\n")) {
+      if (!/\bmodule\.exports\b/.test(line)) continue;
+      expect(line).toMatch(/if \(typeof module !== "undefined"\)/);
+    }
+  });
+
+  it("still populates the terminal's globals when loaded in a browser", () => {
+    // The other half of dual-mode: `module` genuinely is undefined here, so the
+    // guard is load-bearing rather than decorative, and the data still lands as
+    // the bare globals config/commands.js reads at the top level.
+    env = createBrowserEnv();
+    env.loadScripts([
+      "config/firm.js",
+      "config/portfolio.js",
+      "config/team.js",
+      "config/jobs.js",
+    ]);
+
+    const values = env.exportValues(["firm", "portfolio", "team", "jobs", "module"]);
+    expect(values.module).toBeUndefined();
+    expect(values.firm.blurb).toBeTruthy();
+    for (const name of ["portfolio", "team", "jobs"]) {
+      expect(Object.keys(values[name]).length).toBeGreaterThan(0);
+    }
   });
 });
 
@@ -313,41 +343,44 @@ describe("JSON-LD", () => {
   });
 });
 
-describe("findDrift (the --check drift guard)", () => {
-  // This is the function CI relies on to fail a build when config/*.js was
-  // edited without regenerating the committed output. It must actually be
-  // able to say "in sync" and "out of sync" correctly, or a non-deterministic
-  // buildPages() (object-key order, a stray timestamp) would pass CI silently
-  // forever. findDrift is pure — no console output, no process.exit — so it
-  // is exercised directly here rather than through the CLI.
-  it("reports no drift when generated content matches what is on disk", () => {
-    // Use the actual current build output for a real emitted file: it was
-    // written by `npm run build` in this checkout, so it must match.
-    const [target] = files.filter((f) => f.path === "about/index.html");
-    const { drifted } = findDrift([target]);
-    expect(drifted).toEqual([]);
+describe("generated output stays out of the repo", () => {
+  // The mirror is a build artifact, not a source file: it is written to dist/
+  // and gitignored. That is what makes drift impossible, so it is worth
+  // asserting rather than leaving to convention — a generated file committed
+  // back to the repo root would silently reintroduce the stale-copy problem.
+  it("emits nothing into the repo root", () => {
+    const escaped = files.filter((file) =>
+      fs.existsSync(path.join(REPO_ROOT, file.path))
+    );
+    // index.html is the one input the generator also emits: it reads the
+    // committed template and writes the injected copy to dist/index.html.
+    expect(escaped.map((file) => file.path)).toEqual(["index.html"]);
   });
 
-  it("flags a file whose disk content no longer matches the generator", () => {
-    const [target] = files.filter((f) => f.path === "about/index.html");
-    const mutated = { ...target, content: `${target.content}\n<!-- stale -->` };
-    const { drifted } = findDrift([mutated]);
-    expect(drifted).toEqual(["about/index.html"]);
-  });
+  it.each(["generated-jsonld", "generated-index"])(
+    "leaves the committed index.html template's %s region empty",
+    (name) => {
+      const template = fs.readFileSync(
+        path.join(REPO_ROOT, "index.html"),
+        "utf8"
+      );
+      const begin = template.indexOf(`<!-- BEGIN ${name} -->`);
+      const end = template.indexOf(`<!-- END ${name} -->`);
+      expect(begin).toBeGreaterThan(-1);
+      expect(end).toBeGreaterThan(begin);
 
-  it("flags a generated file that does not exist on disk yet", () => {
-    const { drifted } = findDrift([
-      { path: "portfolio/does-not-exist/index.html", content: "<html></html>" },
-    ]);
-    expect(drifted).toEqual(["portfolio/does-not-exist/index.html (missing)"]);
-  });
+      const between = template.slice(
+        begin + `<!-- BEGIN ${name} -->`.length,
+        end
+      );
+      expect(between.trim()).toBe("");
+    }
+  );
 
-  it("the full current build reports zero drift", () => {
-    // End-to-end sanity check: regenerating everything in memory right now
-    // must match what is committed, mirroring what `npm run build:pages:check`
-    // asserts in CI.
-    const { drifted } = findDrift();
-    expect(drifted).toEqual([]);
+  it("regenerates identical output from an unchanged config", () => {
+    // buildPages() must be deterministic — object-key order, no timestamps —
+    // or every deploy would republish all 70-odd pages as changed.
+    expect(buildPages(loadConfig())).toEqual(files);
   });
 });
 

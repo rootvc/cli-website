@@ -435,3 +435,6 @@ const portfolio = {
       "Vibe Robotics, founded by Kai Backman and Luke Church, builds novel programming interfaces for robotics.",
   }
 };
+
+// Dual-mode; see the note in config/firm.js. Inert in a browser.
+if (typeof module !== "undefined") module.exports = { portfolio };
