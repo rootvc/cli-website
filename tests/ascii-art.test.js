@@ -84,4 +84,37 @@ describe("ascii-art", () => {
     expect(isASCIIArtLoaded("esper")).toBe(true);
     expect(env.window.scheduleIdleTask).toHaveBeenCalled();
   });
+
+  it("settles instead of hanging when the image fails to load", async () => {
+    const { ensureASCIIArt, isASCIIArtLoaded } = loadAsciiArt({
+      aalib: {
+        charset: { SIMPLE_CHARSET: [".", "M"] },
+        aa: () => (x) => x,
+        filter: { inverse: () => (x) => x },
+        render: { html: () => (x) => x },
+        read: {
+          image: {
+            // A 404 makes aalib's ImageReader call observer.error().
+            fromURL: () => ({
+              map() {
+                return this;
+              },
+              subscribe(onNext, onError) {
+                onError(new Error("404"));
+              },
+            }),
+          },
+        },
+      },
+    });
+
+    const hung = Symbol("hung");
+    const outcome = await Promise.race([
+      ensureASCIIArt("esper").then(() => "settled"),
+      new Promise((r) => setTimeout(() => r(hung), 100)),
+    ]);
+
+    expect(outcome).toBe("settled");
+    expect(isASCIIArtLoaded("esper")).toBe(false);
+  });
 });

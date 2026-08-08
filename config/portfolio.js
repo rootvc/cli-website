@@ -433,6 +433,13 @@ const portfolio = {
     url: "https://vbr.sh/",
     description:
       "Vibe Robotics, founded by Kai Backman and Luke Church, builds novel programming interfaces for robotics.",
+  },
+
+  deepweave: {
+    name: "DeepWeave",
+    url: "https://deepweave.ai/",
+    description:
+      "DeepWeave helps semiconductor teams generate better PPA solutions to deliver more highly performant chips.",
   }
 };
 

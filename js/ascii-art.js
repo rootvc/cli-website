@@ -172,13 +172,24 @@ function _loadArt(id, ratio, scale, ext, inverse, callback) {
           el: div,
           charset: NICE_CHARSET,
         })
-      ).subscribe(() => {
-        div.dataset.loaded = "true";
-        if (callback) {
-          callback();
+      ).subscribe(
+        () => {
+          div.dataset.loaded = "true";
+          if (callback) {
+            callback();
+          }
+          resolve();
+        },
+        // A missing or undecodable image errors the observable. Resolve anyway
+        // so the command that is awaiting this simply renders without art —
+        // without an error handler the promise never settles, and
+        // executeCommandLine awaits it with term.busy set, hanging the prompt.
+        (error) => {
+          console.warn(`Failed to load ASCII art for ${id}`, error);
+          div.dataset.loaded = "false";
+          resolve();
         }
-        resolve();
-      });
+      );
     } else {
       div.innerText = `[ Photo: ${document.location.href}images/${id}.${ext} ]`;
       div.dataset.loaded = "true";
