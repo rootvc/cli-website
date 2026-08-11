@@ -788,102 +788,110 @@ const commands = {
   // collectInput() resolves to: a string on submit, "" if skipped (optional
   // fields), or null on Ctrl+C. Null means the user cancelled.
   apply: function (args) {
-    if (args == 1 || (args.length > 0 && args[0] == 1)) {
-      term.locked = true;
+    const jobId = Array.isArray(args) ? args[0] : args;
 
-      (async () => {
-        // Shared cancellation handler — restores the terminal to a usable state.
-        const cancel = () => {
-          term.stylePrint("\r\nApplication cancelled.");
-          term.prompt();
-          term.clearCurrentLine(true);
-          term.locked = false;
-        };
-
-        term.stylePrint(
-          "Great! Let's get your application started. (Press Ctrl+C to cancel at any time)\r\n"
-        );
-
-        const name = await term.collectInput("What's your name?");
-        if (!name) { cancel(); return; }
-
-        const email = await term.collectInput("Email address");
-        if (!email) { cancel(); return; }
-
-        const linkedin = await term.collectInput("LinkedIn profile URL", true);
-        if (linkedin === null) { cancel(); return; }
-
-        const github = await term.collectInput("GitHub username", true);
-        if (github === null) { cancel(); return; }
-
-        const notes = await term.collectInput(
-          "Why Root? What makes you a great fit?",
-          true
-        );
-        if (notes === null) { cancel(); return; }
-
-        term.stylePrint("\r\nSubmitting application...");
-
-        try {
-          const response = await fetch("/.netlify/functions/submit-application", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name,
-              email,
-              linkedin: linkedin || undefined,
-              github: github || undefined,
-              notes: notes || undefined,
-              position: "Venture Capital Associate",
-            }),
-          });
-
-          const result = await response.json();
-
-          if (response.ok) {
-            term.stylePrint(
-              `\r\n${colorText("✓", "prompt")} Application submitted successfully!`
-            );
-            term.stylePrint(
-              "\r\nThanks for applying! We'll review your application and get back to you soon."
-            );
-            term.stylePrint(
-              `\r\nIn the meantime, check out our portfolio with ${colorText(
-                "tldr",
-                "command"
-              )} or learn more about the team with ${colorText(
-                "whois",
-                "command"
-              )}.`
-            );
-          } else {
-            throw new Error(result.error || "Submission failed");
-          }
-        } catch (error) {
-          term.stylePrint(
-            `\r\n${colorText("✗", "user")} Error submitting application: ${error.message}`
-          );
-          term.stylePrint(
-            `\r\nPlease try again or email us directly at ${firm.email}`
-          );
-        }
-
-        term.prompt();
-        term.clearCurrentLine(true);
-        term.locked = false;
-      })();
-
-      // Return 1 synchronously so terminal.js skips its automatic prompt render.
-      return 1;
-    } else if (!args || args == "" || args.length === 0) {
+    if (!jobId) {
       term.stylePrint(
         "Please provide a job id. Use %jobs% to list all current jobs."
       );
-    } else {
-      term.stylePrint(
-        `Job id ${args[0]} not found. Use %jobs% to list all current jobs.`
-      );
+      return;
     }
+
+    if (!Object.prototype.hasOwnProperty.call(jobs, jobId)) {
+      term.stylePrint(
+        `Job id ${jobId} not found. Use %jobs% to list all current jobs.`
+      );
+      return;
+    }
+
+    const job = jobs[jobId];
+
+    term.locked = true;
+
+    (async () => {
+      // Shared cancellation handler — restores the terminal to a usable state.
+      const cancel = () => {
+        term.stylePrint("\r\nApplication cancelled.");
+        term.prompt();
+        term.clearCurrentLine(true);
+        term.locked = false;
+      };
+
+      term.stylePrint(
+        "Great! Let's get your application started. (Press Ctrl+C to cancel at any time)\r\n"
+      );
+
+      const name = await term.collectInput("What's your name?");
+      if (!name) { cancel(); return; }
+
+      const email = await term.collectInput("Email address");
+      if (!email) { cancel(); return; }
+
+      const linkedin = await term.collectInput("LinkedIn profile URL", true);
+      if (linkedin === null) { cancel(); return; }
+
+      const github = await term.collectInput("GitHub username", true);
+      if (github === null) { cancel(); return; }
+
+      const notes = await term.collectInput(
+        "Why Root? What makes you a great fit?",
+        true
+      );
+      if (notes === null) { cancel(); return; }
+
+      term.stylePrint("\r\nSubmitting application...");
+
+      try {
+        const response = await fetch("/.netlify/functions/submit-application", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name,
+            email,
+            linkedin: linkedin || undefined,
+            github: github || undefined,
+            notes: notes || undefined,
+            position: job[0],
+          }),
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+          term.stylePrint(
+            `\r\n${colorText("✓", "prompt")} Application submitted successfully!`
+          );
+          term.stylePrint(
+            "\r\nThanks for applying! We'll review your application and get back to you soon."
+          );
+          term.stylePrint(
+            `\r\nIn the meantime, check out our portfolio with ${colorText(
+              "tldr",
+              "command"
+            )} or learn more about the team with ${colorText(
+              "whois",
+              "command"
+            )}.`
+          );
+        } else {
+          throw new Error(result.error || "Submission failed");
+        }
+      } catch (error) {
+        term.stylePrint(
+          `\r\n${colorText("✗", "user")} Error submitting application: ${error.message}`
+        );
+        term.stylePrint(
+          `\r\nPlease try again or email us directly at ${firm.email}`
+        );
+      }
+
+      term.prompt();
+      term.clearCurrentLine(true);
+      term.locked = false;
+    })();
+
+    // Return 1 synchronously so terminal.js skips its automatic prompt render.
+    return 1;
   },
 };
 
