@@ -161,6 +161,13 @@ function renderPrompt(command) {
   );
 }
 
+// Every mirror page is emitted noindex. root.vc should be the only result
+// Google shows: the terminal is the front door, and sitelinks to /about/ and
+// /team/ give the trick away. noindex is a search-INDEXING directive, not a
+// fetch permission — crawlers may still read the page, so GPTBot, ClaudeBot and
+// PerplexityBot keep getting the full content. That is the whole reason this is
+// not a robots.txt Disallow, which would hide the mirror from them too.
+// "follow" keeps link equity flowing back to the homepage.
 function layout({ title, description, pathname, command, body, graph }) {
   const canonical = absUrl(pathname);
   const jsonLd = jsonLdScript({ "@context": "https://schema.org", "@graph": graph });
@@ -172,6 +179,7 @@ function layout({ title, description, pathname, command, body, graph }) {
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>${esc(title)}</title>
     <meta name="description" content="${esc(description)}" />
+    <meta name="robots" content="noindex, follow" />
     <link rel="canonical" href="${esc(canonical)}" />
     <link rel="shortcut icon" href="/favicon.png" />
     <meta property="og:site_name" content="Root Ventures" />
@@ -956,14 +964,14 @@ function buildPages(config = loadConfig()) {
     files.push(renderPerson(config, slug));
   });
 
-  // Sitemap covers the terminal, the GeoCities page, and every generated page.
+  // The sitemap lists ONLY the homepage. Every mirror page is noindex, and
+  // listing a noindex URL in a sitemap asks Google to index something the page
+  // itself forbids — the contradiction is what produced sitelinks to /about/,
+  // /team/, and the rest. Crawlers still reach the mirror through the
+  // <noscript> links on the homepage and through llms.txt.
   // No <lastmod>: it would change on every build and make the --check drift
   // guard fail permanently.
-  const urls = [
-    `${ORIGIN}/`,
-    `${ORIGIN}/welcome.htm`,
-    ...files.map((file) => absUrl(`/${file.path.replace(/index\.html$/, "")}`)),
-  ];
+  const urls = [`${ORIGIN}/`];
 
   files.push({ path: "sitemap.xml", content: renderSitemap(urls) });
   files.push({ path: "robots.txt", content: renderRobots() });

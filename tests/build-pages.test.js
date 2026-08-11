@@ -351,6 +351,55 @@ describe("findDrift (the --check drift guard)", () => {
   });
 });
 
+describe("search invisibility", () => {
+  // root.vc is meant to be the only result Google shows — the terminal is the
+  // front door and sitelinks to /about/, /team/ give away the trick. But the
+  // mirror still has to be readable by AI crawlers, so this is done with
+  // `noindex` (a search-indexing directive crawlers may still read past) and
+  // NOT with a robots.txt Disallow (which would hide it from them too).
+
+  it.each(mirrorPages.map((file) => file.path))("%s is noindex", (filePath) => {
+    const page = mirrorPages.find((file) => file.path === filePath);
+    const robots = parse(page.content).querySelector('meta[name="robots"]');
+    expect(robots).not.toBeNull();
+    expect(robots.content).toMatch(/\bnoindex\b/);
+    // `follow` keeps link equity flowing back to the homepage.
+    expect(robots.content).toMatch(/\bfollow\b/);
+  });
+
+  it("leaves the terminal homepage indexable", () => {
+    // The whole point is that root.vc itself still ranks.
+    const robots = parse(fileNamed("index.html")).querySelector(
+      'meta[name="robots"]'
+    );
+    expect(robots?.content ?? "").not.toMatch(/\bnoindex\b/);
+  });
+
+  it("keeps welcome.htm out of search results too", () => {
+    const source = fs.readFileSync(path.join(REPO_ROOT, "welcome.htm"), "utf8");
+    expect(source).toMatch(/<meta name="robots" content="[^"]*noindex/);
+  });
+
+  it("does not use robots.txt to hide the mirror from AI crawlers", () => {
+    // A Disallow here would block GPTBot/ClaudeBot/PerplexityBot from ever
+    // fetching the content, defeating the reason the mirror exists.
+    const robots = fileNamed("robots.txt");
+    for (const dir of ["/portfolio/", "/team/", "/about/", "/jobs/"]) {
+      expect(robots).not.toContain(`Disallow: ${dir}`);
+    }
+    expect(robots).not.toContain("Disallow: /llms");
+  });
+
+  it("still exposes the full mirror to LLM crawlers", () => {
+    // llms.txt and the homepage <noscript> remain the discovery paths.
+    const llms = fileNamed("llms.txt");
+    for (const [slug, company] of Object.entries(config.portfolio)) {
+      expect(llms).toContain(`${ORIGIN}/portfolio/${slug}/`);
+      expect(llms).toContain(company.description);
+    }
+  });
+});
+
 describe("sitemap.xml", () => {
   const sitemap = fileNamed("sitemap.xml");
   const locs = [...sitemap.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
@@ -361,16 +410,17 @@ describe("sitemap.xml", () => {
     );
   });
 
-  it("lists every generated page exactly once", () => {
-    const expected = mirrorPages.map((file) => `${ORIGIN}${pathnameFor(file.path)}`);
-    for (const url of expected) {
-      expect(locs).toContain(url);
-    }
-    expect(new Set(locs).size).toBe(locs.length);
+  it("lists the homepage and nothing else", () => {
+    // root.vc should be the only Google result. Listing a noindex page in the
+    // sitemap asks Google to index something the page forbids, and that
+    // contradiction is what generates sitelinks to /about/, /team/, etc.
+    expect(locs).toEqual([`${ORIGIN}/`]);
   });
 
-  it("includes the terminal homepage", () => {
-    expect(locs).toContain(`${ORIGIN}/`);
+  it("excludes every mirror page", () => {
+    for (const file of mirrorPages) {
+      expect(locs).not.toContain(`${ORIGIN}${pathnameFor(file.path)}`);
+    }
   });
 
   it("only lists apex https URLs", () => {

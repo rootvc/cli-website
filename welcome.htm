@@ -9,6 +9,10 @@
         <title>Root Ventures — Our Home Page on the World Wide Web</title>
         <!-- Self-referencing. This previously pointed at the homepage, which
              told search engines to drop this page entirely. -->
+        <!-- Kept out of search results so root.vc is the only result Google
+             shows. Still fully readable by crawlers and by anyone who finds it
+             via `exit` in the terminal. -->
+        <meta name="robots" content="noindex, follow" />
         <link rel="canonical" href="https://root.vc/welcome.htm" />
         <meta
             name="description"
