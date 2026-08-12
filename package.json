@@ -26,5 +26,8 @@
     "jsdom": "^29.0.2",
     "terser": "^5.46.1",
     "vitest": "^4.1.4"
+  },
+  "overrides": {
+    "@babel/traverse": "7.23.2"
   }
 }
