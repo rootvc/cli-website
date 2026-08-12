@@ -191,7 +191,11 @@ function _loadArt(id, ratio, scale, ext, inverse, callback) {
         }
       );
     } else {
-      div.innerText = `[ Photo: ${document.location.href}images/${id}.${ext} ]`;
+      // Resolve against the document rather than concatenating onto href, which
+      // glues the path onto any fragment already there: arriving via a deep
+      // link like /#whois-avidan produced ".../#whois-avidanimages/avidan.png".
+      const photo = new URL(`images/${id}.${ext}`, document.baseURI);
+      div.innerText = `[ Photo: ${photo.href} ]`;
       div.dataset.loaded = "true";
       if (callback) {
         callback();
