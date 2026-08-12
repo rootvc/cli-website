@@ -788,7 +788,11 @@ const commands = {
   // collectInput() resolves to: a string on submit, "" if skipped (optional
   // fields), or null on Ctrl+C. Null means the user cancelled.
   apply: function (args) {
-    if (args == 1 || (args.length > 0 && args[0] == 1)) {
+    const jobId = args && (Array.isArray(args) ? args[0] : args);
+    const hasJob = Object.prototype.hasOwnProperty.call(jobs, jobId);
+    const job = hasJob ? jobs[jobId] : null;
+
+    if (hasJob) {
       term.locked = true;
 
       (async () => {
@@ -834,7 +838,7 @@ const commands = {
               linkedin: linkedin || undefined,
               github: github || undefined,
               notes: notes || undefined,
-              position: "Venture Capital Associate",
+              position: job[0],
             }),
           });
 
