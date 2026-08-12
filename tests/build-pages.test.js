@@ -643,17 +643,34 @@ describe("index.html", () => {
     expect(h1.className).toBe("visually-hidden");
   });
 
-  it("lists every company and person in the noscript block", () => {
-    const noscript = html.slice(
+  it("lists every company and person in the crawlable index block", () => {
+    const block = html.slice(
       html.indexOf("BEGIN generated-index"),
       html.indexOf("END generated-index")
     );
     for (const slug of Object.keys(config.portfolio)) {
-      expect(noscript).toContain(`href="/portfolio/${slug}/"`);
+      expect(block).toContain(`href="/portfolio/${slug}/"`);
     }
     for (const slug of Object.keys(config.team)) {
-      expect(noscript).toContain(`href="/team/${slug}/"`);
+      expect(block).toContain(`href="/team/${slug}/"`);
     }
+  });
+
+  it("keeps the crawlable index reachable to text extractors", () => {
+    // Not <noscript>: extraction pipelines strip it as non-content, and
+    // Googlebot indexes the rendered DOM, which drops it once JS runs. Not
+    // display:none either, which search engines discount. Offscreen clipping
+    // survives both while staying invisible to sighted visitors.
+    const block = html.slice(
+      html.indexOf("BEGIN generated-index"),
+      html.indexOf("END generated-index")
+    );
+    expect(block).not.toContain("<noscript");
+    expect(block).not.toMatch(/display:\s*none/);
+
+    const textVersion = doc.querySelector("#text-version");
+    expect(textVersion).not.toBeNull();
+    expect(textVersion.className).toBe("visually-hidden");
   });
 
   it("keeps the terminal markup untouched", () => {

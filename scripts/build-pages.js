@@ -10,7 +10,7 @@
 //
 // config/*.js is the ONLY source of truth. Nothing here is hand-maintained:
 // editing a description regenerates its page, both indexes, the sitemap, the
-// llms files, and the <noscript> block in index.html.
+// llms files, and the crawlable index block in index.html.
 //
 // Everything is written into dist/, which is the Netlify publish directory and
 // is gitignored. Generated files are never committed, so there is nothing that
@@ -28,8 +28,8 @@ const OG_IMAGE = `${ORIGIN}/images/og-image.png`;
 
 // Sentinel comment pairs in index.html; everything between each pair is
 // regenerated from config/*.js on every build.
-const NOSCRIPT_BEGIN = "<!-- BEGIN generated-index -->";
-const NOSCRIPT_END = "<!-- END generated-index -->";
+const INDEX_BEGIN = "<!-- BEGIN generated-index -->";
+const INDEX_END = "<!-- END generated-index -->";
 const JSONLD_BEGIN = "<!-- BEGIN generated-jsonld -->";
 const JSONLD_END = "<!-- END generated-jsonld -->";
 
@@ -848,46 +848,51 @@ function renderLlmsFull({ firm, portfolio, team, jobs }) {
   return lines.join("\n");
 }
 
-// ── index.html <noscript> injection ───────────────────────────────────────────
+// ── index.html crawlable index injection ─────────────────────────────────────
 
 // Most LLM crawlers do not execute JavaScript, so on the homepage they see an
-// empty <div id="terminal">. This block gives them the whole map. JS-enabled
-// visitors never render it, so the terminal is visually untouched.
-function renderNoscriptIndex({ firm, portfolio, team }) {
+// empty <div id="terminal">. This block gives them the whole map.
+//
+// It is a visually-hidden div rather than <noscript>, which is what it used to
+// be. Two reasons. Extraction pipelines routinely strip <noscript> as
+// non-content, which would leave the homepage looking empty to exactly the
+// crawlers this exists for. And Googlebot indexes the rendered DOM, which omits
+// <noscript> entirely once JS runs. A clipped div is present in both the raw
+// HTML and the rendered DOM, and unlike display:none it is not discounted.
+// Sighted visitors never see it, so the terminal is visually untouched.
+function renderTextIndex({ firm, portfolio, team }) {
   const companies = Object.keys(portfolio)
     .map(
       (slug) =>
-        `            <li><a href="/portfolio/${esc(slug)}/">${esc(portfolio[slug].name)}</a> — ${esc(portfolio[slug].description)}</li>`
+        `          <li><a href="/portfolio/${esc(slug)}/">${esc(portfolio[slug].name)}</a> — ${esc(portfolio[slug].description)}</li>`
     )
     .join("\n");
   const people = Object.keys(team)
     .map(
       (slug) =>
-        `            <li><a href="/team/${esc(slug)}/">${esc(team[slug].name)}</a> — ${esc(team[slug].title)}</li>`
+        `          <li><a href="/team/${esc(slug)}/">${esc(team[slug].name)}</a> — ${esc(team[slug].title)}</li>`
     )
     .join("\n");
 
-  return `${NOSCRIPT_BEGIN}
-      <noscript>
-        <div id="text-version">
-          <p>${esc(firm.blurb)}</p>
-          <p>
-            <a href="/about/">About</a> ·
-            <a href="/portfolio/">Portfolio</a> ·
-            <a href="/team/">Team</a> ·
-            <a href="/jobs/">Jobs</a>
-          </p>
-          <h2>Portfolio</h2>
-          <ul>
+  return `${INDEX_BEGIN}
+      <div id="text-version" class="visually-hidden">
+        <p>${esc(firm.blurb)}</p>
+        <p>
+          <a href="/about/">About</a> ·
+          <a href="/portfolio/">Portfolio</a> ·
+          <a href="/team/">Team</a> ·
+          <a href="/jobs/">Jobs</a>
+        </p>
+        <h2>Portfolio</h2>
+        <ul>
 ${companies}
-          </ul>
-          <h2>Team</h2>
-          <ul>
+        </ul>
+        <h2>Team</h2>
+        <ul>
 ${people}
-          </ul>
-        </div>
-      </noscript>
-      ${NOSCRIPT_END}`;
+        </ul>
+      </div>
+      ${INDEX_END}`;
 }
 
 // Every generated page points `isPartOf` at #website and `funder`/`worksFor` at
@@ -929,12 +934,7 @@ function injectBetween(html, beginMarker, endMarker, block) {
 function renderIndexHtml(config) {
   let html = readText("index.html");
   html = injectBetween(html, JSONLD_BEGIN, JSONLD_END, renderHomeJsonLd(config));
-  html = injectBetween(
-    html,
-    NOSCRIPT_BEGIN,
-    NOSCRIPT_END,
-    renderNoscriptIndex(config)
-  );
+  html = injectBetween(html, INDEX_BEGIN, INDEX_END, renderTextIndex(config));
   return html;
 }
 
@@ -996,7 +996,7 @@ module.exports = {
   outDir,
   renderCompany,
   renderIndexHtml,
-  renderNoscriptIndex,
+  renderTextIndex,
   renderPerson,
   writePages,
 };
