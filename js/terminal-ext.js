@@ -36,8 +36,19 @@ const extend = (term) => {
     `${term.user}${term.sep}${term.host} ${term.cwd} $`;
 
   // Deep link: parse the URL hash as a command to run on load.
-  // E.g. /#whois-avidan → runs `whois avidan` (hyphens become spaces).
-  term.deepLink = window.location.hash.replace("#", "").split("-").join(" ");
+  // E.g. /#whois-avidan → runs `whois avidan`.
+  //
+  // Only the FIRST hyphen separates the command from its argument. Splitting on
+  // every hyphen would turn a hyphenated slug into two arguments, so a company
+  // added to config/portfolio.js as `vibe-robotics` would break its own deep
+  // link. No slug has a hyphen today, but fragments are now the only way to
+  // address a specific company or person, so this has to hold for any slug.
+  term.deepLink = (() => {
+    const raw = window.location.hash.replace(/^#/, "");
+    const split = raw.indexOf("-");
+    if (split === -1) return raw;
+    return `${raw.slice(0, split)} ${raw.slice(split + 1)}`;
+  })();
 
   // ── Prompt ─────────────────────────────────────────────────────────────────
 
@@ -403,7 +414,10 @@ const extend = (term) => {
         addToHistory: false,
         promptAfter: false,
         showLeadingNewline: false,
-        trackAnalytics: false,
+        // Deep links are how visitors now reach a specific company or person,
+        // so these are the arrivals worth counting. Fragments never fire a
+        // pageview of their own, so without this they would be invisible.
+        trackAnalytics: true,
       }).catch((error) => {
         console.error("Deep link failed", error);
       });

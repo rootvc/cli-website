@@ -53,7 +53,6 @@ const staticAssets = [
   "favicon.png",
   "welcome.htm",
   "css/bootstrap.css",
-  "css/pages.css",
   "css/styles.css",
   "images",
   "videos",
