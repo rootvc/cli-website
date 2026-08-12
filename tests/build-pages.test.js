@@ -8,22 +8,22 @@ import buildAssetsModule from "../scripts/build-assets.js";
 
 const {
   AI_CRAWLERS,
+  COMMANDS,
   ORIGIN,
   buildPages,
+  deepLink,
   esc,
   loadConfig,
-  metaDescription,
-  renderCompany,
-  renderPerson,
+  renderIndexHtml,
 } = buildPagesModule;
 
 const config = loadConfig();
 const files = buildPages(config);
 
+// index.html is the only page now. The static mirror that used to live at
+// /portfolio/, /team/, /about/ and /jobs/ is gone; see the header of
+// scripts/build-pages.js.
 const htmlPages = files.filter((file) => file.path.endsWith(".html"));
-// index.html is the terminal; it is only partially generated, so the per-page
-// invariants below (single h1, canonical, prompt line) do not apply to it.
-const mirrorPages = htmlPages.filter((file) => file.path !== "index.html");
 
 function fileNamed(name) {
   const found = files.find((file) => file.path === name);
@@ -136,61 +136,38 @@ describe("script load order", () => {
   });
 });
 
-describe("page invariants", () => {
-  it.each(mirrorPages.map((file) => file.path))("%s is well formed", (filePath) => {
-    const page = mirrorPages.find((file) => file.path === filePath);
-    const doc = parse(page.content);
+describe("one page, no mirror", () => {
+  // The mirror existed to make the terminal readable to crawlers, and it worked
+  // — well enough that Google indexed all 70-odd pages and started showing
+  // sitelinks to About / Team / Jobs, advertising a conventional website behind
+  // the terminal. Content now lives on the homepage and is addressed by URL
+  // fragment. These assert the mirror does not creep back.
 
-    expect(doc.querySelectorAll("h1")).toHaveLength(1);
-    expect(doc.querySelector("h1").textContent.trim()).not.toBe("");
-    expect(doc.querySelector("meta[charset]")).not.toBeNull();
-    expect(doc.documentElement.getAttribute("lang")).toBe("en");
-
-    const description = doc.querySelector('meta[name="description"]');
-    expect(description).not.toBeNull();
-    expect(description.content.length).toBeGreaterThan(0);
-    expect(description.content.length).toBeLessThanOrEqual(160);
-
-    const canonical = doc.querySelector('link[rel="canonical"]');
-    expect(canonical.href).toBe(`${ORIGIN}${pathnameFor(filePath)}`);
-    expect(canonical.href.endsWith("/")).toBe(true);
-
-    // og:url and canonical must agree, or they fight each other.
-    expect(doc.querySelector('meta[property="og:url"]').content).toBe(
-      canonical.href
-    );
-    // Open Graph silently drops relative image paths.
-    expect(
-      doc.querySelector('meta[property="og:image"]').content
-    ).toMatch(/^https:\/\//);
-
-    // The font stylesheet must be preconnected, not pulled in via CSS @import
-    // — an @import can't start downloading until pages.css itself has been
-    // fetched and parsed, serializing two round trips that could be parallel.
-    const preconnects = [...doc.querySelectorAll('link[rel="preconnect"]')].map(
-      (link) => link.href
-    );
-    expect(preconnects).toContain("https://fonts.googleapis.com/");
-    expect(preconnects).toContain("https://fonts.gstatic.com/");
-    expect(
-      doc.querySelector('link[rel="stylesheet"][href*="fonts.googleapis.com"]')
-    ).not.toBeNull();
+  it("emits index.html and nothing else that is HTML", () => {
+    expect(htmlPages.map((file) => file.path)).toEqual(["index.html"]);
   });
 
-  it("titles are unique across the mirror", () => {
-    const titles = mirrorPages.map(
-      (file) => parse(file.content).querySelector("title").textContent
-    );
-    expect(new Set(titles).size).toBe(titles.length);
-  });
-
-  it("every portfolio and team entry gets a page", () => {
+  it("emits no page at any old mirror path", () => {
     for (const slug of Object.keys(config.portfolio)) {
-      expect(files.some((f) => f.path === `portfolio/${slug}/index.html`)).toBe(true);
+      expect(files.some((f) => f.path.startsWith(`portfolio/${slug}`))).toBe(false);
     }
     for (const slug of Object.keys(config.team)) {
-      expect(files.some((f) => f.path === `team/${slug}/index.html`)).toBe(true);
+      expect(files.some((f) => f.path.startsWith(`team/${slug}`))).toBe(false);
     }
+    for (const dir of ["about", "jobs", "portfolio", "team"]) {
+      expect(files.some((f) => f.path.startsWith(`${dir}/`))).toBe(false);
+    }
+  });
+
+  it("builds every deep link from the same helper the terminal parses", () => {
+    // js/terminal-ext.js splits the fragment on the FIRST hyphen, so a
+    // hyphenated slug still resolves to one argument. If that ever changes it
+    // has to change in deepLink() too, and this is the seam between them.
+    expect(deepLink("whois avidan")).toBe("/#whois-avidan");
+    expect(deepLink(COMMANDS.company("vibe-robotics"))).toBe(
+      "/#tldr-vibe-robotics"
+    );
+    expect(deepLink(COMMANDS.about)).toBe("/#whois-root");
   });
 });
 
@@ -203,31 +180,40 @@ describe("escaping", () => {
     memo: null,
   };
 
-  it("escapes hostile data in HTML and JSON-LD", () => {
-    const page = renderCompany(
-      { firm: config.firm, portfolio: { evil: hostile, other: hostile } },
-      "evil",
-      0
-    );
+  // Everything is injected into the one page now, so hostile config data has
+  // exactly one place to escape from.
+  const hostileConfig = {
+    firm: config.firm,
+    portfolio: { evil: hostile, other: hostile },
+    team: { evil: { ...hostile, title: hostile.name } },
+    jobs: {},
+  };
 
-    expect(page.content).not.toContain("<script>alert(1)</script>");
-    expect(page.content).not.toContain("<img src=x onerror");
-    expect(page.content).toContain("&amp;");
+  it("escapes hostile data in the homepage HTML and JSON-LD", () => {
+    const html = renderIndexHtml(hostileConfig);
 
-    // Exactly one real <script> — the JSON-LD block. Anything else means the
-    // payload broke out of an attribute or text node.
-    const scripts = parse(page.content).querySelectorAll("script");
+    expect(html).not.toContain("<script>alert(1)</script>");
+    expect(html).not.toContain("<img src=x onerror");
+    expect(html).toContain("&amp;");
+
+    // Each generated block is checked on its own, since the page's real
+    // <script defer src> tags sit between them. An extra script inside either
+    // means the payload broke out of an attribute or text node.
+    const between = (marker) =>
+      html.slice(html.indexOf(`BEGIN ${marker}`), html.indexOf(`END ${marker}`));
+
+    const scripts = parse(between("generated-jsonld")).querySelectorAll("script");
     expect(scripts).toHaveLength(1);
     expect(scripts[0].type).toBe("application/ld+json");
+
+    // The text block is pure markup; nothing should be executable in it.
+    expect(
+      parse(between("generated-index")).querySelectorAll("script")
+    ).toHaveLength(0);
   });
 
   it("keeps </script> from terminating the JSON-LD block", () => {
-    const page = renderCompany(
-      { firm: config.firm, portfolio: { evil: hostile, other: hostile } },
-      "evil",
-      0
-    );
-    const script = parse(page.content).querySelector(
+    const script = parse(renderIndexHtml(hostileConfig)).querySelector(
       'script[type="application/ld+json"]'
     );
     expect(script.textContent).not.toContain("</script");
@@ -239,36 +225,55 @@ describe("escaping", () => {
   });
 });
 
-describe("metaDescription", () => {
-  it("passes short text through unchanged", () => {
-    expect(metaDescription("Short and sweet.")).toBe("Short and sweet.");
+describe("_redirects", () => {
+  const redirects = fileNamed("_redirects");
+  const rules = redirects
+    .split("\n")
+    .filter((line) => line.trim() && !line.startsWith("#"))
+    .map((line) => line.trim().split(/\s+/));
+
+  it("sends every old mirror path into the terminal", () => {
+    // A 404 would let the indexed URL decay on its own and strand any inbound
+    // link. A 301 tells Google to drop it and fold its signals into the
+    // homepage, and still lands a visitor on the right content.
+    const destinations = Object.fromEntries(rules.map((r) => [r[0], r[1]]));
+    expect(destinations["/about/"]).toBe("/#whois-root");
+    expect(destinations["/jobs/"]).toBe("/#jobs");
+    expect(destinations["/portfolio/"]).toBe("/#tldr");
+    expect(destinations["/team/"]).toBe("/#whois");
+    expect(destinations["/portfolio/:slug/"]).toBe("/#tldr-:slug");
+    expect(destinations["/team/:slug/"]).toBe("/#whois-:slug");
   });
 
-  it("truncates on a word boundary within the limit", () => {
-    // Asserting the exact string, not just "no trailing space before …", so a
-    // regression to a mid-word cut can't slip through by accident.
-    const result = metaDescription("alpha beta gamma delta epsilon", 20);
-    expect(result).toBe("alpha beta gamma…");
-    expect(result.length).toBeLessThanOrEqual(20);
+  it("covers both the bare and trailing-slash form of every path", () => {
+    const froms = new Set(rules.map((r) => r[0]));
+    for (const base of [
+      "/about",
+      "/jobs",
+      "/portfolio",
+      "/team",
+      "/portfolio/:slug",
+      "/team/:slug",
+    ]) {
+      expect(froms).toContain(base);
+      expect(froms).toContain(`${base}/`);
+    }
   });
 
-  it("falls back to a mid-word cut when no reasonable word boundary exists", () => {
-    // The nearest space is beyond a quarter of the budget away (there is no
-    // space at all here), so honoring it would throw away almost everything.
-    const result = metaDescription("Supercalifragilisticexpialidocious is a fake word", 10);
-    expect(result).toBe("Supercali…");
-    expect(result.length).toBe(10);
+  it("matches the exact paths before the :slug patterns", () => {
+    // Netlify takes the first rule that matches, so a :slug pattern listed
+    // above /portfolio/ would swallow the index redirect.
+    const order = rules.map((r) => r[0]);
+    expect(order.indexOf("/portfolio/")).toBeLessThan(
+      order.indexOf("/portfolio/:slug")
+    );
+    expect(order.indexOf("/team/")).toBeLessThan(order.indexOf("/team/:slug"));
   });
 
-  it("honors a word boundary at limits well below the 160 default", () => {
-    // The 25%-of-limit threshold must scale with `limit`, not stay pinned to
-    // the hardcoded value that only made sense for limit=160.
-    const result = metaDescription("hello there friend", 12);
-    expect(result).toBe("hello…");
-  });
-
-  it("collapses whitespace", () => {
-    expect(metaDescription("a  \n  b")).toBe("a b");
+  it("uses a permanent redirect for all of them", () => {
+    for (const rule of rules) {
+      expect(rule[2]).toBe("301");
+    }
   });
 });
 
@@ -318,28 +323,51 @@ describe("JSON-LD", () => {
     expect(dangling).toEqual([]);
   });
 
+  // With one page left, everything that used to be the mainEntity of its own
+  // page is a node in the homepage graph, keyed by a fragment @id so a parser
+  // can still address each one individually.
+  const homeGraph = JSON.parse(
+    parse(fileNamed("index.html")).querySelector(
+      'script[type="application/ld+json"]'
+    ).textContent
+  )["@graph"];
+
+  it("carries a node for every company and every person", () => {
+    for (const slug of Object.keys(config.portfolio)) {
+      const node = homeGraph.find(
+        (n) => n["@id"] === `${ORIGIN}/#company-${slug}`
+      );
+      expect(node, `missing company node for ${slug}`).toBeTruthy();
+      expect(node.name).toBe(config.portfolio[slug].name);
+    }
+    for (const slug of Object.keys(config.team)) {
+      const node = homeGraph.find(
+        (n) => n["@id"] === `${ORIGIN}/#person-${slug}`
+      );
+      expect(node, `missing person node for ${slug}`).toBeTruthy();
+      expect(node.name).toBe(config.team[slug].name);
+    }
+  });
+
   it("models investment from the company, not the fund", () => {
     const slug = Object.keys(config.portfolio)[0];
-    const doc = parse(fileNamed(`portfolio/${slug}/index.html`));
-    const graph = JSON.parse(
-      doc.querySelector('script[type="application/ld+json"]').textContent
-    )["@graph"];
-    const company = graph.find((node) => node["@id"].endsWith("#company"));
+    const company = homeGraph.find(
+      (node) => node["@id"] === `${ORIGIN}/#company-${slug}`
+    );
     expect(company["@type"]).toBe("Organization");
     expect(company.funder["@id"]).toBe(`${ORIGIN}/#organization`);
   });
 
-  it("uses ProfilePage and Person for team members", () => {
+  it("keeps Person nodes attached to the firm", () => {
     const slug = Object.keys(config.team)[0];
-    const doc = parse(fileNamed(`team/${slug}/index.html`));
-    const graph = JSON.parse(
-      doc.querySelector('script[type="application/ld+json"]').textContent
-    )["@graph"];
-    expect(graph.some((node) => node["@type"] === "ProfilePage")).toBe(true);
-    const person = graph.find((node) => node["@type"] === "Person");
-    expect(person.name).toBe(config.team[slug].name);
+    const person = homeGraph.find(
+      (node) => node["@id"] === `${ORIGIN}/#person-${slug}`
+    );
+    expect(person["@type"]).toBe("Person");
     expect(person.jobTitle).toBe(config.team[slug].title);
     expect(person.worksFor["@id"]).toBe(`${ORIGIN}/#organization`);
+    // The node's url is where root.vc actually shows this person.
+    expect(person.url).toBe(`${ORIGIN}${deepLink(COMMANDS.person(slug))}`);
   });
 });
 
@@ -385,20 +413,10 @@ describe("generated output stays out of the repo", () => {
 });
 
 describe("search invisibility", () => {
-  // root.vc is meant to be the only result Google shows — the terminal is the
-  // front door, and sitelinks to /about/ and /team/ give the trick away. This
-  // is done with `noindex` (a search-indexing directive that crawlers may still
-  // read past) rather than a robots.txt Disallow, which would also hide the
-  // mirror from the AI crawlers it exists to serve.
-
-  it.each(mirrorPages.map((file) => file.path))("%s is noindex", (filePath) => {
-    const page = mirrorPages.find((file) => file.path === filePath);
-    const robots = parse(page.content).querySelector('meta[name="robots"]');
-    expect(robots).not.toBeNull();
-    expect(robots.content).toMatch(/\bnoindex\b/);
-    // `follow` keeps link equity flowing back to the homepage.
-    expect(robots.content).toMatch(/\bfollow\b/);
-  });
+  // root.vc is meant to be the only result Google shows. That is now structural
+  // rather than a directive: there is one page, so there is nothing else for
+  // Google to index and nothing to promote into sitelinks. Crawling is still
+  // wide open, because the AI crawlers this content exists for need to fetch it.
 
   it("leaves the terminal homepage indexable", () => {
     // The whole point is that root.vc itself still ranks.
@@ -413,9 +431,9 @@ describe("search invisibility", () => {
     expect(source).toMatch(/<meta name="robots" content="[^"]*noindex/);
   });
 
-  it("does not use robots.txt to hide the mirror from AI crawlers", () => {
-    // A Disallow here would stop GPTBot/ClaudeBot/PerplexityBot from ever
-    // fetching the content, defeating the reason the mirror exists.
+  it("does not use robots.txt to hide anything from AI crawlers", () => {
+    // A Disallow here would stop GPTBot/ClaudeBot/PerplexityBot from fetching
+    // the content this whole arrangement exists to serve.
     const robots = fileNamed("robots.txt");
     for (const dir of ["/portfolio/", "/team/", "/about/", "/jobs/"]) {
       expect(robots).not.toContain(`Disallow: ${dir}`);
@@ -423,11 +441,12 @@ describe("search invisibility", () => {
     expect(robots).not.toContain("Disallow: /llms");
   });
 
-  it("still exposes the full mirror to LLM crawlers", () => {
-    // llms.txt and the homepage <noscript> remain the discovery paths.
+  it("still exposes every company to LLM crawlers", () => {
+    // llms.txt and the homepage text block are the discovery paths now that
+    // there are no per-company pages to crawl.
     const llms = fileNamed("llms.txt");
     for (const [slug, company] of Object.entries(config.portfolio)) {
-      expect(llms).toContain(`${ORIGIN}/portfolio/${slug}/`);
+      expect(llms).toContain(`${ORIGIN}${deepLink(COMMANDS.company(slug))}`);
       expect(llms).toContain(company.description);
     }
   });
@@ -444,15 +463,16 @@ describe("sitemap.xml", () => {
   });
 
   it("lists the homepage and nothing else", () => {
-    // root.vc should be the only Google result. Listing a noindex page in the
-    // sitemap asks Google to index something the page itself forbids, and that
-    // contradiction is what generated sitelinks to /about/, /team/, etc.
+    // Not a policy choice any more — there is genuinely one page.
     expect(locs).toEqual([`${ORIGIN}/`]);
   });
 
-  it("excludes every mirror page", () => {
-    for (const file of mirrorPages) {
-      expect(locs).not.toContain(`${ORIGIN}${pathnameFor(file.path)}`);
+  it("never lists a fragment URL", () => {
+    // Google strips fragments before indexing, so /#tldr-chargelab and / are
+    // the same URL to it. Listing deep links would submit the homepage 70-odd
+    // times over.
+    for (const loc of locs) {
+      expect(loc).not.toContain("#");
     }
   });
 
@@ -513,12 +533,16 @@ describe("llms.txt", () => {
     expect(llms).toContain("## Team");
   });
 
-  it("links every company and person", () => {
+  it("links every company and person at its deep link", () => {
     for (const [slug, company] of Object.entries(config.portfolio)) {
-      expect(llms).toContain(`[${company.name}](${ORIGIN}/portfolio/${slug}/)`);
+      expect(llms).toContain(
+        `[${company.name}](${ORIGIN}${deepLink(COMMANDS.company(slug))})`
+      );
     }
     for (const [slug, person] of Object.entries(config.team)) {
-      expect(llms).toContain(`[${person.name}](${ORIGIN}/team/${slug}/)`);
+      expect(llms).toContain(
+        `[${person.name}](${ORIGIN}${deepLink(COMMANDS.person(slug))})`
+      );
     }
   });
 
@@ -536,27 +560,35 @@ describe("llms.txt", () => {
 });
 
 describe("internal links", () => {
-  it("every internal href resolves to something we emit or ship", () => {
-    const emitted = new Set(mirrorPages.map((file) => pathnameFor(file.path)));
-    emitted.add("/");
-    emitted.add("/welcome.htm");
+  it("every internal href is a deep link the terminal can run", () => {
+    // Nothing links to a path any more: the only internal destinations are
+    // fragments, and each has to name a command that actually exists.
+    const runnable = new Set([
+      COMMANDS.about,
+      COMMANDS.jobs,
+      COMMANDS.portfolioIndex,
+      COMMANDS.teamIndex,
+      ...Object.keys(config.portfolio).map((slug) => COMMANDS.company(slug)),
+      ...Object.keys(config.team).map((slug) => COMMANDS.person(slug)),
+    ]);
+    const expected = new Set([...runnable].map((command) => deepLink(command)));
 
     const broken = [];
     for (const page of htmlPages) {
-      const doc = parse(page.content);
-      for (const anchor of doc.querySelectorAll("a[href^='/']")) {
+      const block = page.content.slice(
+        page.content.indexOf("BEGIN generated-index"),
+        page.content.indexOf("END generated-index")
+      );
+      for (const anchor of parse(block).querySelectorAll("a[href^='/']")) {
         const href = anchor.getAttribute("href");
-        if (emitted.has(href)) continue;
-        // Static assets are served from disk rather than generated.
-        if (fs.existsSync(path.join(REPO_ROOT, href.replace(/^\//, "")))) continue;
+        if (expected.has(href)) continue;
         broken.push(`${page.path} -> ${href}`);
       }
     }
     expect(broken).toEqual([]);
   });
 
-  it("stylesheet and JSON-LD image references exist on disk", () => {
-    expect(fs.existsSync(path.join(REPO_ROOT, "css/pages.css"))).toBe(true);
+  it("JSON-LD image references exist on disk", () => {
     for (const slug of Object.keys(config.portfolio)) {
       expect(fs.existsSync(path.join(REPO_ROOT, `images/${slug}.jpg`))).toBe(true);
     }
@@ -567,16 +599,16 @@ describe("internal links", () => {
 
   it("never emits the (inactive) URL sentinel as a link", () => {
     // config/portfolio.js can carry url: "(inactive)" (see js/geo.js).
-    const withSentinel = {
+    const html = renderIndexHtml({
       firm: config.firm,
       portfolio: {
         gone: { name: "Gone", url: "(inactive)", description: "No longer with us." },
-        other: { name: "Other", url: "https://example.com", description: "Fine." },
       },
-    };
-    const page = renderCompany(withSentinel, "gone", 0);
-    expect(page.content).not.toContain("(inactive)");
-    expect(page.content).not.toContain('href=""');
+      team: config.team,
+      jobs: {},
+    });
+    expect(html).not.toContain("(inactive)");
+    expect(html).not.toContain('href=""');
   });
 
   it("never turns a non-http(s) scheme in config data into a live href", () => {
@@ -584,7 +616,7 @@ describe("internal links", () => {
     // own code, so this isn't defending against an outside attacker — it's a
     // guard against a bad value (a stray "javascript:" paste, a malformed
     // entry) turning into unsafe or broken markup instead of being dropped.
-    const hostile = {
+    const html = renderIndexHtml({
       firm: config.firm,
       portfolio: {
         evil: {
@@ -593,18 +625,17 @@ describe("internal links", () => {
           demo: "data:text/html,<script>alert(1)</script>",
           description: "Not a real company.",
         },
-        other: { name: "Other", url: "https://example.com", description: "Fine." },
       },
-    };
-    const page = renderCompany(hostile, "evil", 0);
-    expect(page.content).not.toContain("javascript:");
-    expect(page.content).not.toContain("data:text/html");
+      team: config.team,
+      jobs: {},
+    });
+    expect(html).not.toContain("javascript:");
+    expect(html).not.toContain("data:text/html");
 
     const graph = JSON.parse(
-      parse(page.content).querySelector('script[type="application/ld+json"]')
-        .textContent
+      parse(html).querySelector('script[type="application/ld+json"]').textContent
     )["@graph"];
-    const company = graph.find((node) => node["@id"].endsWith("#company"));
+    const company = graph.find((node) => node["@id"].endsWith("#company-evil"));
     expect(company.url).toBeUndefined();
   });
 });
@@ -644,15 +675,19 @@ describe("index.html", () => {
   });
 
   it("lists every company and person in the crawlable index block", () => {
+    // This block is now the only place the portfolio and team exist as HTML,
+    // so a missing entry is content that has left the web entirely.
     const block = html.slice(
       html.indexOf("BEGIN generated-index"),
       html.indexOf("END generated-index")
     );
-    for (const slug of Object.keys(config.portfolio)) {
-      expect(block).toContain(`href="/portfolio/${slug}/"`);
+    for (const [slug, company] of Object.entries(config.portfolio)) {
+      expect(block).toContain(`href="${deepLink(COMMANDS.company(slug))}"`);
+      expect(block).toContain(esc(company.description));
     }
-    for (const slug of Object.keys(config.team)) {
-      expect(block).toContain(`href="/team/${slug}/"`);
+    for (const [slug, person] of Object.entries(config.team)) {
+      expect(block).toContain(`href="${deepLink(COMMANDS.person(slug))}"`);
+      expect(block).toContain(esc(person.name));
     }
   });
 
@@ -712,10 +747,10 @@ describe("terminal still reads from config/firm.js", () => {
     );
   });
 
-  it("whois root uses the same blurb the static pages do", () => {
+  it("whois root uses the same blurb the crawlable index does", () => {
     const { whoisRoot } = loadCommands();
     expect(whoisRoot.startsWith(config.firm.blurb)).toBe(true);
-    expect(fileNamed("about/index.html")).toContain(esc(config.firm.blurb));
+    expect(fileNamed("index.html")).toContain(esc(config.firm.blurb));
   });
 
   it("pine opens the address in firm.email", () => {
@@ -724,10 +759,14 @@ describe("terminal still reads from config/firm.js", () => {
     expect(printed).toContain(`mailto:${config.firm.email}`);
   });
 
-  it("www points at the static mirror", () => {
+  it("www points at llms.txt, not at URLs that redirect back here", () => {
+    // It used to advertise /about/ and /portfolio/. Those now 301 into this
+    // same terminal, so printing them would send someone in a circle.
     const { printed, commands } = loadCommands();
     commands.www();
-    expect(printed).toContain(`${ORIGIN}/portfolio/`);
-    expect(printed).toContain(`${ORIGIN}/team/`);
+    expect(printed).toContain(`${ORIGIN}/llms.txt`);
+    for (const line of printed) {
+      expect(line).not.toMatch(/root\.vc\/(about|portfolio|team|jobs)\//);
+    }
   });
 });

@@ -119,8 +119,30 @@ describe("terminal-ext", () => {
       addToHistory: false,
       promptAfter: false,
       showLeadingNewline: false,
-      trackAnalytics: false,
+      // Deep links are the only way to address a specific company or person
+      // now, and a fragment fires no pageview of its own, so these arrivals
+      // would otherwise be invisible in analytics.
+      trackAnalytics: true,
     });
+  });
+
+  it.each([
+    ["#jobs", "jobs"],
+    ["#whois-root", "whois root"],
+    ["#tldr-chargelab", "tldr chargelab"],
+    // The one that used to break: splitting on every hyphen turned a
+    // hyphenated slug into two arguments, so the company's own deep link
+    // missed. Only the first hyphen separates command from argument.
+    ["#tldr-vibe-robotics", "tldr vibe-robotics"],
+    ["", ""],
+  ])("parses %s into the command %s", (hash, expected) => {
+    const { extend } = loadTerminalExt();
+    env.window.location.hash = hash;
+    const term = createTerm();
+
+    extend(term);
+
+    expect(term.deepLink).toBe(expected);
   });
 
   it("prints cached art immediately and falls back to loading on cache miss", () => {

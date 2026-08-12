@@ -1,21 +1,37 @@
-// build-pages.js — Generates the static, crawlable mirror of the terminal.
+// build-pages.js — Makes the terminal legible to crawlers, without a website.
 //
 // root.vc is an xterm.js terminal: everything it knows lives in config/*.js and
 // is only written to the DOM when a visitor types a command. Search engines and
-// LLM crawlers therefore see almost nothing. This script renders that same data
-// as plain HTML at real URLs so they can read it.
+// LLM crawlers therefore see almost nothing. This script closes that gap from a
+// single URL rather than by shipping a parallel website.
 //
-//   /portfolio/  /portfolio/<slug>/   /team/  /team/<slug>/  /about/  /jobs/
-//   robots.txt   sitemap.xml   llms.txt   llms-full.txt
+// There used to be a static mirror here — real HTML pages at /portfolio/,
+// /team/, /about/ and /jobs/. It worked, and that was the problem: Google
+// indexed all 70-odd of them and started showing sitelinks to About / Team /
+// Jobs under the root.vc result, which advertises a conventional site sitting
+// behind the terminal. The terminal is the product, so the mirror is gone.
+//
+// What replaces it:
+//
+//   index.html      an offscreen block naming every company and person, so a
+//                   crawler that never runs JS still reads the whole map
+//   _redirects      every old mirror URL 301s into the terminal at the command
+//                   that shows the same thing
+//   llms.txt        the same content as prose, for LLM crawlers
+//   sitemap.xml     one URL, because there is now genuinely one page
+//
+// Content is addressed by URL fragment: /#tldr-chargelab tells the terminal to
+// run `tldr chargelab` on load. Fragments never reach the server and Google
+// strips them before indexing, so this deliberately trades per-company search
+// results for having exactly one indexed URL.
 //
 // config/*.js is the ONLY source of truth. Nothing here is hand-maintained:
-// editing a description regenerates its page, both indexes, the sitemap, the
-// llms files, and the crawlable index block in index.html.
+// editing a description regenerates the homepage block, the llms files, and the
+// redirects.
 //
 // Everything is written into dist/, which is the Netlify publish directory and
 // is gitignored. Generated files are never committed, so there is nothing that
-// can fall out of sync with config/*.js and nothing to check for drift — the
-// mirror is rebuilt from scratch on every deploy.
+// can fall out of sync with config/*.js and nothing to check for drift.
 
 const fs = require("fs");
 const path = require("path");
@@ -24,7 +40,6 @@ const rootDir = path.resolve(__dirname, "..");
 const outDir = path.join(rootDir, "dist");
 
 const ORIGIN = "https://root.vc";
-const OG_IMAGE = `${ORIGIN}/images/og-image.png`;
 
 // Sentinel comment pairs in index.html; everything between each pair is
 // regenerated from config/*.js on every build.
@@ -90,20 +105,6 @@ function absUrl(pathname) {
   return `${ORIGIN}${pathname}`;
 }
 
-// Meta descriptions get truncated by search engines past ~160 characters, so
-// cut on a word boundary rather than letting them do it mid-word. The word
-// boundary is only honored if it doesn't throw away more than a quarter of the
-// budget — otherwise a description whose first word is long would fall back to
-// a mid-word cut anyway, which is still better than returning almost nothing.
-function metaDescription(text, limit = 160) {
-  const clean = String(text).replace(/\s+/g, " ").trim();
-  if (clean.length <= limit) return clean;
-  const cut = clean.slice(0, limit - 1);
-  const lastSpace = cut.lastIndexOf(" ");
-  const minBoundary = Math.floor(limit * 0.25);
-  return `${(lastSpace > minBoundary ? cut.slice(0, lastSpace) : cut).replace(/[.,;:]$/, "")}…`;
-}
-
 // Portfolio entries can carry "(inactive)" instead of a real URL (see
 // js/geo.js). Also rejects anything that isn't a plain http(s) URL — e.g. a
 // stray "javascript:" or "data:" scheme in config data — so it can never reach
@@ -119,100 +120,25 @@ function hasLink(url) {
   }
 }
 
-// ── Layout ────────────────────────────────────────────────────────────────────
+// ── Deep links ────────────────────────────────────────────────────────────────
 
-const NAV = [
-  ["/", "terminal"],
-  ["/portfolio/", "portfolio"],
-  ["/team/", "team"],
-  ["/about/", "about"],
-  ["/jobs/", "jobs"],
-];
-
-function renderNav(currentPath) {
-  // The whitespace around the separator is load-bearing: without it the whole
-  // nav is one unbreakable run and overflows narrow viewports.
-  const links = NAV.map(([href, label]) =>
-    href === currentPath
-      ? `<span aria-current="page">${esc(label)}</span>`
-      : `<a href="${esc(href)}">${esc(label)}</a>`
-  ).join(' <span class="sep" aria-hidden="true">/</span> ');
-  return `<nav aria-label="Sections">${links}</nav>`;
+// js/terminal-ext.js reads the URL fragment as a command to run on load,
+// splitting the command from its argument on the FIRST hyphen. Every link,
+// redirect and llms.txt entry below is built from this one function so the two
+// halves cannot drift — if the separator ever changes, it changes here.
+function deepLink(command) {
+  return `/#${command.replace(/\s+/g, "-")}`;
 }
 
-// A prompt line echoing the terminal command that shows the same content.
-// Decorative, so it is hidden from assistive tech.
-function renderPrompt(command) {
-  return (
-    `<p class="prompt" aria-hidden="true">` +
-    `<span class="user">guest@root</span>` +
-    `<span class="punct">:</span><span class="path">~</span>` +
-    `<span class="punct">$</span> ` +
-    `<span class="cmd">${esc(command)}</span></p>`
-  );
-}
-
-// Every mirror page is emitted noindex. root.vc should be the only result
-// Google shows: the terminal is the front door, and sitelinks to /about/ and
-// /team/ give the trick away. noindex is a search-INDEXING directive, not a
-// fetch permission — crawlers may still read the page, so GPTBot, ClaudeBot and
-// PerplexityBot keep getting the full content. That is the whole reason this is
-// not a robots.txt Disallow, which would hide the mirror from them too.
-// "follow" keeps link equity flowing back to the homepage.
-function layout({ title, description, pathname, command, body, graph }) {
-  const canonical = absUrl(pathname);
-  const jsonLd = jsonLdScript({ "@context": "https://schema.org", "@graph": graph });
-
-  return `<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>${esc(title)}</title>
-    <meta name="description" content="${esc(description)}" />
-    <meta name="robots" content="noindex, follow" />
-    <link rel="canonical" href="${esc(canonical)}" />
-    <link rel="shortcut icon" href="/favicon.png" />
-    <meta property="og:site_name" content="Root Ventures" />
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content="${esc(title)}" />
-    <meta property="og:description" content="${esc(description)}" />
-    <meta property="og:url" content="${esc(canonical)}" />
-    <meta property="og:image" content="${esc(OG_IMAGE)}" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@rootvc" />
-    <meta name="twitter:creator" content="@rootvc" />
-    <meta name="twitter:title" content="${esc(title)}" />
-    <meta name="twitter:description" content="${esc(description)}" />
-    <meta name="twitter:image" content="${esc(OG_IMAGE)}" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css?family=Source+Code+Pro:400,700&display=swap"
-    />
-    <link rel="stylesheet" href="/css/pages.css" />
-    ${jsonLd}
-  </head>
-  <body>
-    <div class="window">
-      <header>
-        ${renderNav(pathname)}
-      </header>
-      <main id="main">
-${renderPrompt(command)}
-${body}
-      </main>
-      <footer>
-        <p>This is the plain-text version of <a href="/">root.vc</a>, which is a terminal. Everything here is also available by typing <code>${esc(command)}</code> there.</p>
-      </footer>
-    </div>
-  </body>
-</html>
-`;
-}
+// The terminal command that displays each thing the old mirror had a page for.
+const COMMANDS = {
+  about: "whois root",
+  jobs: "jobs",
+  portfolioIndex: "tldr",
+  teamIndex: "whois",
+  company: (slug) => `tldr ${slug}`,
+  person: (slug) => `whois ${slug}`,
+};
 
 // ── Shared schema.org nodes ───────────────────────────────────────────────────
 
@@ -233,456 +159,43 @@ function organizationNode(firm, team) {
     sameAs: firm.social,
     knowsAbout: firm.focusAreas,
     employee: Object.keys(team).map((slug) => ({
-      "@id": `${ORIGIN}/team/${slug}/#person`,
+      "@id": `${ORIGIN}/#person-${slug}`,
     })),
   };
 }
 
-function breadcrumbNode(trail) {
+// People and companies used to be the mainEntity of their own page. With one
+// page left they become nodes in the homepage graph, keyed by fragment @ids so
+// each is still individually addressable to a parser.
+function personNode(slug, person) {
   return {
-    "@type": "BreadcrumbList",
-    itemListElement: trail.map(([name, pathname], index) => ({
-      "@type": "ListItem",
-      position: index + 1,
-      name,
-      item: absUrl(pathname),
-    })),
+    "@type": "Person",
+    "@id": `${ORIGIN}/#person-${slug}`,
+    name: person.name,
+    jobTitle: person.title,
+    description: person.description,
+    url: absUrl(deepLink(COMMANDS.person(slug))),
+    image: `${ORIGIN}/images/${slug}.png`,
+    email: `${slug}@root.vc`,
+    worksFor: { "@id": ORG_ID },
+    sameAs: hasLink(person.linkedin) ? [person.linkedin] : undefined,
   };
 }
 
-// ── Portfolio ─────────────────────────────────────────────────────────────────
-
-// Deterministic sibling picker: company i links to i+1..i+n, wrapping around.
-// Every company gets both outbound and inbound links, and — critically for the
-// --check drift guard — the choice never varies between builds.
-function siblings(slugs, index, count = 5) {
-  const picked = [];
-  for (let offset = 1; offset <= count && offset < slugs.length; offset += 1) {
-    picked.push(slugs[(index + offset) % slugs.length]);
-  }
-  return picked;
-}
-
-function renderPortfolioIndex({ firm, portfolio }) {
-  const slugs = Object.keys(portfolio);
-  const items = slugs
-    .map((slug) => {
-      const company = portfolio[slug];
-      return (
-        `        <li>\n` +
-        `          <a href="/portfolio/${esc(slug)}/"><strong>${esc(company.name)}</strong></a>\n` +
-        `          <span class="desc">${esc(company.description)}</span>\n` +
-        `        </li>`
-      );
-    })
-    .join("\n");
-
-  const body = `        <h1>Portfolio</h1>
-        <p class="lede">${esc(firm.blurb)}</p>
-        <p>${slugs.length} companies.</p>
-        <ul class="listing">
-${items}
-        </ul>`;
-
-  return {
-    path: "portfolio/index.html",
-    content: layout({
-      title: "Portfolio — Root Ventures",
-      description: metaDescription(
-        `All ${slugs.length} companies backed by Root Ventures, a San Francisco deep tech seed fund investing in robotics, hardware, manufacturing, and developer tools.`
-      ),
-      pathname: "/portfolio/",
-      command: "tldr",
-      body,
-      graph: [
-        {
-          "@type": "CollectionPage",
-          "@id": `${absUrl("/portfolio/")}#page`,
-          url: absUrl("/portfolio/"),
-          name: "Root Ventures Portfolio",
-          isPartOf: { "@id": `${ORIGIN}/#website` },
-          about: { "@id": ORG_ID },
-        },
-        {
-          "@type": "ItemList",
-          name: "Root Ventures portfolio companies",
-          numberOfItems: slugs.length,
-          itemListElement: slugs.map((slug, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            name: portfolio[slug].name,
-            url: absUrl(`/portfolio/${slug}/`),
-          })),
-        },
-        breadcrumbNode([
-          ["Root Ventures", "/"],
-          ["Portfolio", "/portfolio/"],
-        ]),
-      ],
-    }),
-  };
-}
-
-function renderCompany({ firm, portfolio }, slug, index) {
-  const slugs = Object.keys(portfolio);
-  const company = portfolio[slug];
-  const pathname = `/portfolio/${slug}/`;
-
-  const facts = [];
-  if (hasLink(company.url)) {
-    facts.push(
-      `          <dt>Website</dt>\n          <dd><a href="${esc(company.url)}" rel="noopener">${esc(company.url.replace(/^https?:\/\//, ""))}</a></dd>`
-    );
-  }
-  if (hasLink(company.demo)) {
-    facts.push(
-      `          <dt>Try it</dt>\n          <dd><a href="${esc(company.demo)}" rel="noopener">${esc(company.demo)}</a></dd>`
-    );
-  }
-  if (hasLink(company.memo)) {
-    facts.push(
-      `          <dt>Investment memo</dt>\n          <dd><a href="${esc(company.memo)}" rel="noopener">Why we invested</a></dd>`
-    );
-  }
-  const factList = facts.length
-    ? `        <dl class="facts">\n${facts.join("\n")}\n        </dl>`
-    : "";
-
-  const related = siblings(slugs, index)
-    .map(
-      (other) =>
-        `          <li><a href="/portfolio/${esc(other)}/">${esc(portfolio[other].name)}</a> <span class="desc">${esc(portfolio[other].description)}</span></li>`
-    )
-    .join("\n");
-
-  const body = `        <h1>${esc(company.name)}</h1>
-        <p class="lede">${esc(company.description)}</p>
-${factList}
-        <p>${esc(company.name)} is a ${esc(firm.name)} portfolio company. ${esc(firm.blurb)}</p>
-        <h2>More from the portfolio</h2>
-        <ul class="listing">
-${related}
-        </ul>
-        <p><a href="/portfolio/">All ${slugs.length} portfolio companies</a></p>`;
-
-  const companyNode = {
+function companyNode(slug, company) {
+  const node = {
     "@type": "Organization",
-    "@id": `${absUrl(pathname)}#company`,
+    "@id": `${ORIGIN}/#company-${slug}`,
     name: company.name,
     description: company.description,
     image: `${ORIGIN}/images/${slug}.jpg`,
     funder: { "@id": ORG_ID },
   };
-  if (hasLink(company.url)) companyNode.url = company.url;
-
-  return {
-    path: `portfolio/${slug}/index.html`,
-    content: layout({
-      title: `${company.name} — Root Ventures portfolio`,
-      description: metaDescription(
-        `${company.description} ${company.name} is a Root Ventures portfolio company.`
-      ),
-      pathname,
-      command: `tldr ${slug}`,
-      body,
-      graph: [
-        {
-          "@type": "WebPage",
-          "@id": `${absUrl(pathname)}#page`,
-          url: absUrl(pathname),
-          name: `${company.name} — Root Ventures portfolio`,
-          isPartOf: { "@id": `${ORIGIN}/#website` },
-          about: { "@id": `${absUrl(pathname)}#company` },
-        },
-        companyNode,
-        breadcrumbNode([
-          ["Root Ventures", "/"],
-          ["Portfolio", "/portfolio/"],
-          [company.name, pathname],
-        ]),
-      ],
-    }),
-  };
-}
-
-// ── Team ──────────────────────────────────────────────────────────────────────
-
-function renderTeamIndex({ firm, team }) {
-  const slugs = Object.keys(team);
-  const items = slugs
-    .map(
-      (slug) =>
-        `        <li>\n` +
-        `          <a href="/team/${esc(slug)}/"><strong>${esc(team[slug].name)}</strong></a>\n` +
-        `          <span class="role">${esc(team[slug].title)}</span>\n` +
-        `          <span class="desc">${esc(team[slug].description)}</span>\n` +
-        `        </li>`
-    )
-    .join("\n");
-
-  const body = `        <h1>Team</h1>
-        <p class="lede">${esc(firm.blurb)}</p>
-        <ul class="listing">
-${items}
-        </ul>`;
-
-  return {
-    path: "team/index.html",
-    content: layout({
-      title: "Team — Root Ventures",
-      description: metaDescription(
-        `The partners and operators behind Root Ventures, a San Francisco deep tech seed fund: ${slugs
-          .map((slug) => team[slug].name)
-          .join(", ")}.`
-      ),
-      pathname: "/team/",
-      command: "whois",
-      body,
-      graph: [
-        {
-          "@type": "CollectionPage",
-          "@id": `${absUrl("/team/")}#page`,
-          url: absUrl("/team/"),
-          name: "Root Ventures Team",
-          isPartOf: { "@id": `${ORIGIN}/#website` },
-          about: { "@id": ORG_ID },
-        },
-        {
-          "@type": "ItemList",
-          name: "Root Ventures team",
-          numberOfItems: slugs.length,
-          itemListElement: slugs.map((slug, index) => ({
-            "@type": "ListItem",
-            position: index + 1,
-            name: team[slug].name,
-            url: absUrl(`/team/${slug}/`),
-          })),
-        },
-        breadcrumbNode([
-          ["Root Ventures", "/"],
-          ["Team", "/team/"],
-        ]),
-      ],
-    }),
-  };
-}
-
-function renderPerson({ firm, team }, slug) {
-  const person = team[slug];
-  const pathname = `/team/${slug}/`;
-  const email = `${slug}@root.vc`;
-
-  const others = Object.keys(team)
-    .filter((other) => other !== slug)
-    .map(
-      (other) =>
-        `          <li><a href="/team/${esc(other)}/">${esc(team[other].name)}</a> <span class="role">${esc(team[other].title)}</span></li>`
-    )
-    .join("\n");
-
-  const linkedinFact = hasLink(person.linkedin)
-    ? `          <dt>LinkedIn</dt>\n          <dd><a href="${esc(person.linkedin)}" rel="noopener">${esc(person.name)}</a></dd>\n`
-    : "";
-
-  const body = `        <h1>${esc(person.name)}</h1>
-        <p class="role">${esc(person.title)}, ${esc(firm.name)}</p>
-        <p class="lede">${esc(person.description)}</p>
-        <dl class="facts">
-          <dt>Email</dt>
-          <dd><a href="mailto:${esc(email)}">${esc(email)}</a></dd>
-${linkedinFact}        </dl>
-        <h2>The rest of the team</h2>
-        <ul class="listing">
-${others}
-        </ul>`;
-
-  return {
-    path: `team/${slug}/index.html`,
-    content: layout({
-      title: `${person.name}, ${person.title} — Root Ventures`,
-      description: metaDescription(
-        `${person.name} is ${person.title} at Root Ventures. ${person.description}`
-      ),
-      pathname,
-      command: `whois ${slug}`,
-      body,
-      graph: [
-        {
-          "@type": "ProfilePage",
-          "@id": `${absUrl(pathname)}#page`,
-          url: absUrl(pathname),
-          name: `${person.name} — Root Ventures`,
-          isPartOf: { "@id": `${ORIGIN}/#website` },
-          mainEntity: { "@id": `${absUrl(pathname)}#person` },
-        },
-        {
-          "@type": "Person",
-          "@id": `${absUrl(pathname)}#person`,
-          name: person.name,
-          jobTitle: person.title,
-          description: person.description,
-          url: absUrl(pathname),
-          image: `${ORIGIN}/images/${slug}.png`,
-          email,
-          worksFor: { "@id": ORG_ID },
-          sameAs: hasLink(person.linkedin) ? [person.linkedin] : undefined,
-        },
-        breadcrumbNode([
-          ["Root Ventures", "/"],
-          ["Team", "/team/"],
-          [person.name, pathname],
-        ]),
-      ],
-    }),
-  };
-}
-
-// ── About ─────────────────────────────────────────────────────────────────────
-
-function renderAbout({ firm, portfolio, team }) {
-  const { streetAddress, addressLocality, addressRegion, postalCode } = firm.address;
-
-  const body = `        <h1>About Root Ventures</h1>
-        <p class="lede">${esc(firm.blurb)}</p>
-        <dl class="facts">
-          <dt>Thesis</dt>
-          <dd>${esc(firm.thesis)}</dd>
-          <dt>Mission</dt>
-          <dd>${esc(firm.tagline)}</dd>
-          <dt>Fund size</dt>
-          <dd>${esc(firm.fundSize)}</dd>
-          <dt>Typical check</dt>
-          <dd>${esc(firm.checkSize)}</dd>
-          <dt>Stage</dt>
-          <dd>Seed, usually leading the initial round</dd>
-          <dt>Focus</dt>
-          <dd>${esc(firm.focusAreas.join(", "))}</dd>
-          <dt>Office</dt>
-          <dd>${esc(streetAddress)}, ${esc(addressLocality)}, ${esc(addressRegion)} ${esc(postalCode)}</dd>
-          <dt>Email</dt>
-          <dd><a href="mailto:${esc(firm.email)}">${esc(firm.email)}</a></dd>
-        </dl>
-        <h2>Where to go next</h2>
-        <ul class="listing">
-          <li><a href="/portfolio/">Portfolio</a> <span class="desc">${Object.keys(portfolio).length} companies we have backed.</span></li>
-          <li><a href="/team/">Team</a> <span class="desc">The ${Object.keys(team).length} people behind the fund.</span></li>
-          <li><a href="/jobs/">Jobs</a> <span class="desc">Open roles at Root Ventures.</span></li>
-        </ul>`;
-
-  return {
-    path: "about/index.html",
-    content: layout({
-      title: "About — Root Ventures",
-      description: metaDescription(firm.blurb),
-      pathname: "/about/",
-      command: "whois root",
-      body,
-      graph: [
-        {
-          "@type": "AboutPage",
-          "@id": `${absUrl("/about/")}#page`,
-          url: absUrl("/about/"),
-          name: "About Root Ventures",
-          isPartOf: { "@id": `${ORIGIN}/#website` },
-          mainEntity: { "@id": ORG_ID },
-        },
-        organizationNode(firm, team),
-        breadcrumbNode([
-          ["Root Ventures", "/"],
-          ["About", "/about/"],
-        ]),
-      ],
-    }),
-  };
-}
-
-// ── Jobs ──────────────────────────────────────────────────────────────────────
-
-// jobs[id] is an array of terminal lines: [0] is the title, blank strings
-// separate paragraphs, and lines starting with "•" are bullets. Reassemble that
-// into real HTML paragraphs and lists.
-function renderJobLines(lines) {
-  const html = [];
-  let paragraph = [];
-  let bullets = [];
-
-  const flushParagraph = () => {
-    if (paragraph.length) {
-      html.push(`        <p>${esc(paragraph.join(" "))}</p>`);
-      paragraph = [];
-    }
-  };
-  const flushBullets = () => {
-    if (bullets.length) {
-      html.push(
-        `        <ul>\n${bullets.map((b) => `          <li>${esc(b)}</li>`).join("\n")}\n        </ul>`
-      );
-      bullets = [];
-    }
-  };
-
-  for (const raw of lines) {
-    const line = raw.trim();
-    if (line === "") {
-      flushParagraph();
-      flushBullets();
-    } else if (line.startsWith("•")) {
-      flushParagraph();
-      bullets.push(line.replace(/^•\s*/, ""));
-    } else {
-      flushBullets();
-      paragraph.push(line);
-    }
-  }
-  flushParagraph();
-  flushBullets();
-
-  return html.join("\n");
-}
-
-function renderJobs({ firm, jobs }) {
-  const ids = Object.keys(jobs);
-  const sections = ids
-    .map((id) => {
-      const [title, ...rest] = jobs[id];
-      return `        <h2>${esc(title)}</h2>\n${renderJobLines(rest)}`;
-    })
-    .join("\n");
-
-  const body = `        <h1>Jobs at Root Ventures</h1>
-        <p class="lede">${esc(firm.blurb)}</p>
-${sections}
-        <h2>How to apply</h2>
-        <p>Email <a href="mailto:${esc(firm.email)}">${esc(firm.email)}</a>, or run <code>apply ${esc(ids[0])}</code> in <a href="/">the terminal</a>.</p>`;
-
-  return {
-    path: "jobs/index.html",
-    content: layout({
-      title: "Jobs — Root Ventures",
-      description: metaDescription(
-        `Open roles at Root Ventures, a San Francisco deep tech seed fund: ${ids
-          .map((id) => jobs[id][0])
-          .join(", ")}.`
-      ),
-      pathname: "/jobs/",
-      command: "jobs",
-      body,
-      graph: [
-        {
-          "@type": "WebPage",
-          "@id": `${absUrl("/jobs/")}#page`,
-          url: absUrl("/jobs/"),
-          name: "Jobs at Root Ventures",
-          isPartOf: { "@id": `${ORIGIN}/#website` },
-          about: { "@id": ORG_ID },
-        },
-        breadcrumbNode([
-          ["Root Ventures", "/"],
-          ["Jobs", "/jobs/"],
-        ]),
-      ],
-    }),
-  };
+  // The company's own site is the better `url`; the deep link is where root.vc
+  // talks about them, which is what subjectOf means.
+  if (hasLink(company.url)) node.url = company.url;
+  node.subjectOf = absUrl(deepLink(COMMANDS.company(slug)));
+  return node;
 }
 
 // ── robots.txt / sitemap.xml / llms.txt ───────────────────────────────────────
@@ -713,14 +226,14 @@ const AI_CRAWLERS = [
 ];
 
 function renderRobots() {
-  // netlify.toml publishes the repo root, so build tooling is served too. Keep
-  // that out of indexes — but never /js/, /css/, or /config/: crawlers have to
-  // fetch all three to render the terminal and welcome.htm, both of which build
-  // their content from config/*.js at runtime.
+  // Nothing that carries content is disallowed — never /js/, /css/, or
+  // /config/, since crawlers have to fetch all three to render the terminal and
+  // welcome.htm, both of which build their content from config/*.js at runtime.
   const blocks = [
     "# root.vc — https://root.vc",
-    "# AI crawlers are welcome here. The plain-text mirror of the terminal",
-    "# lives at /portfolio/, /team/, /about/, /jobs/, and in /llms.txt.",
+    "# AI crawlers are welcome here. The whole site is one page: the terminal",
+    "# at / carries every company and person as text, and /llms.txt repeats it",
+    "# as prose.",
     "",
     "User-agent: *",
     "Allow: /",
@@ -749,6 +262,53 @@ ${entries}
 `;
 }
 
+// ── Redirects ─────────────────────────────────────────────────────────────────
+
+// Every URL the old static mirror occupied now redirects into the terminal at
+// the command that shows the same content.
+//
+// 301 rather than letting them 404. Google drops a redirected URL and folds its
+// signals into the destination, where a 404 just decays, and anyone following an
+// old link from elsewhere still lands on the right thing instead of an error.
+//
+// Netlify matches these top to bottom and takes the first hit, so the exact
+// paths have to precede the :slug patterns that would otherwise swallow them.
+// Both the bare and trailing-slash forms are listed rather than relying on
+// Netlify's normalization.
+function renderRedirects() {
+  const exact = [
+    ["/about", COMMANDS.about],
+    ["/jobs", COMMANDS.jobs],
+    ["/portfolio", COMMANDS.portfolioIndex],
+    ["/team", COMMANDS.teamIndex],
+  ];
+
+  const lines = [
+    "# Generated by scripts/build-pages.js — do not edit.",
+    "# The static mirror's URLs, pointed at the terminal commands that replaced",
+    "# them. See the header of build-pages.js for why the mirror is gone.",
+    "",
+  ];
+
+  for (const [pathname, command] of exact) {
+    lines.push(`${pathname}/    ${deepLink(command)}    301`);
+    lines.push(`${pathname}    ${deepLink(command)}    301`);
+  }
+
+  lines.push("");
+  // :slug is a Netlify placeholder, echoed into the destination. One rule per
+  // shape covers every company and person without enumerating them.
+  lines.push("/portfolio/:slug/    /#tldr-:slug    301");
+  lines.push("/portfolio/:slug    /#tldr-:slug    301");
+  lines.push("/team/:slug/    /#whois-:slug    301");
+  lines.push("/team/:slug    /#whois-:slug    301");
+  lines.push("");
+
+  return lines.join("\n");
+}
+
+// ── llms.txt ──────────────────────────────────────────────────────────────────
+
 function renderLlmsTxt({ firm, portfolio, team, jobs }) {
   const lines = [
     `# ${firm.name}`,
@@ -757,12 +317,12 @@ function renderLlmsTxt({ firm, portfolio, team, jobs }) {
     "",
     `${firm.name} is a seed-stage venture capital firm in ${firm.address.addressLocality}, ${firm.address.addressRegion}. Mission: ${firm.tagline}. Thesis: ${firm.thesis} Fund size ${firm.fundSize}, typical check ${firm.checkSize}. Focus areas: ${firm.focusAreas.join(", ")}.`,
     "",
-    `The website at ${ORIGIN} is an interactive terminal; this file and the pages it links are the plain-text equivalent.`,
+    `The website at ${ORIGIN} is an interactive terminal and is the only page. Each link below opens it with the matching command already run; the content is also inline in this file and in /llms-full.txt.`,
     "",
     "## About",
     "",
-    `- [About ${firm.name}](${absUrl("/about/")}): fund details, thesis, office, and contact.`,
-    `- [Jobs](${absUrl("/jobs/")}): ${
+    `- [About ${firm.name}](${absUrl(deepLink(COMMANDS.about))}): fund details, thesis, office, and contact.`,
+    `- [Jobs](${absUrl(deepLink(COMMANDS.jobs))}): ${
       Object.keys(jobs).length
         ? `open roles — ${Object.keys(jobs)
             .map((id) => jobs[id][0])
@@ -776,14 +336,14 @@ function renderLlmsTxt({ firm, portfolio, team, jobs }) {
 
   for (const slug of Object.keys(team)) {
     lines.push(
-      `- [${team[slug].name}](${absUrl(`/team/${slug}/`)}): ${team[slug].title}. ${team[slug].description}`
+      `- [${team[slug].name}](${absUrl(deepLink(COMMANDS.person(slug)))}): ${team[slug].title}. ${team[slug].description}`
     );
   }
 
   lines.push("", "## Portfolio", "");
   for (const slug of Object.keys(portfolio)) {
     lines.push(
-      `- [${portfolio[slug].name}](${absUrl(`/portfolio/${slug}/`)}): ${portfolio[slug].description}`
+      `- [${portfolio[slug].name}](${absUrl(deepLink(COMMANDS.company(slug)))}): ${portfolio[slug].description}`
     );
   }
 
@@ -819,7 +379,7 @@ function renderLlmsFull({ firm, portfolio, team, jobs }) {
     lines.push(`### ${person.name} — ${person.title}`, "", person.description, "");
     lines.push(`Email: ${slug}@root.vc`);
     if (hasLink(person.linkedin)) lines.push(`LinkedIn: ${person.linkedin}`);
-    lines.push(`Page: ${absUrl(`/team/${slug}/`)}`, "");
+    lines.push(`Terminal: ${absUrl(deepLink(COMMANDS.person(slug)))}`, "");
   }
 
   lines.push(`## Portfolio (${Object.keys(portfolio).length} companies)`, "");
@@ -829,7 +389,7 @@ function renderLlmsFull({ firm, portfolio, team, jobs }) {
     if (hasLink(company.url)) lines.push(`Website: ${company.url}`);
     if (hasLink(company.demo)) lines.push(`Demo: ${company.demo}`);
     if (hasLink(company.memo)) lines.push(`Investment memo: ${company.memo}`);
-    lines.push(`Page: ${absUrl(`/portfolio/${slug}/`)}`, "");
+    lines.push(`Terminal: ${absUrl(deepLink(COMMANDS.company(slug)))}`, "");
   }
 
   lines.push("## Open roles", "");
@@ -851,26 +411,27 @@ function renderLlmsFull({ firm, portfolio, team, jobs }) {
 // ── index.html crawlable index injection ─────────────────────────────────────
 
 // Most LLM crawlers do not execute JavaScript, so on the homepage they see an
-// empty <div id="terminal">. This block gives them the whole map.
+// empty <div id="terminal">. This block gives them the whole map, and with the
+// mirror gone it is the only place that content exists as HTML.
 //
-// It is a visually-hidden div rather than <noscript>, which is what it used to
-// be. Two reasons. Extraction pipelines routinely strip <noscript> as
-// non-content, which would leave the homepage looking empty to exactly the
-// crawlers this exists for. And Googlebot indexes the rendered DOM, which omits
-// <noscript> entirely once JS runs. A clipped div is present in both the raw
-// HTML and the rendered DOM, and unlike display:none it is not discounted.
-// Sighted visitors never see it, so the terminal is visually untouched.
+// It is a visually-hidden div rather than <noscript>. Extraction pipelines
+// routinely strip <noscript> as non-content, which would leave the homepage
+// looking empty to exactly the crawlers this exists for. And Googlebot indexes
+// the rendered DOM, which omits <noscript> entirely once JS runs. A clipped div
+// is present in both the raw HTML and the rendered DOM, and unlike display:none
+// it is not discounted. Sighted visitors never see it, so the terminal is
+// visually untouched.
 function renderTextIndex({ firm, portfolio, team }) {
   const companies = Object.keys(portfolio)
     .map(
       (slug) =>
-        `          <li><a href="/portfolio/${esc(slug)}/">${esc(portfolio[slug].name)}</a> — ${esc(portfolio[slug].description)}</li>`
+        `          <li><a href="${deepLink(COMMANDS.company(slug))}">${esc(portfolio[slug].name)}</a> — ${esc(portfolio[slug].description)}</li>`
     )
     .join("\n");
   const people = Object.keys(team)
     .map(
       (slug) =>
-        `          <li><a href="/team/${esc(slug)}/">${esc(team[slug].name)}</a> — ${esc(team[slug].title)}</li>`
+        `          <li><a href="${deepLink(COMMANDS.person(slug))}">${esc(team[slug].name)}</a> — ${esc(team[slug].title)}</li>`
     )
     .join("\n");
 
@@ -878,10 +439,10 @@ function renderTextIndex({ firm, portfolio, team }) {
       <div id="text-version" class="visually-hidden">
         <p>${esc(firm.blurb)}</p>
         <p>
-          <a href="/about/">About</a> ·
-          <a href="/portfolio/">Portfolio</a> ·
-          <a href="/team/">Team</a> ·
-          <a href="/jobs/">Jobs</a>
+          <a href="${deepLink(COMMANDS.about)}">About</a> ·
+          <a href="${deepLink(COMMANDS.portfolioIndex)}">Portfolio</a> ·
+          <a href="${deepLink(COMMANDS.teamIndex)}">Team</a> ·
+          <a href="${deepLink(COMMANDS.jobs)}">Jobs</a>
         </p>
         <h2>Portfolio</h2>
         <ul>
@@ -895,10 +456,9 @@ ${people}
       ${INDEX_END}`;
 }
 
-// Every generated page points `isPartOf` at #website and `funder`/`worksFor` at
-// #organization. Those nodes have to actually exist somewhere, and the homepage
-// is where search engines look for them.
-function renderHomeJsonLd({ firm, team }) {
+// One page means one graph. Every person and company that used to be the
+// mainEntity of its own page is a node here instead.
+function renderHomeJsonLd({ firm, portfolio, team }) {
   return `${JSONLD_BEGIN}
       ${jsonLdScript({
         "@context": "https://schema.org",
@@ -912,6 +472,10 @@ function renderHomeJsonLd({ firm, team }) {
             publisher: { "@id": ORG_ID },
           },
           organizationNode(firm, team),
+          ...Object.keys(team).map((slug) => personNode(slug, team[slug])),
+          ...Object.keys(portfolio).map((slug) =>
+            companyNode(slug, portfolio[slug])
+          ),
         ],
       })}
       ${JSONLD_END}`;
@@ -941,37 +505,17 @@ function renderIndexHtml(config) {
 // ── Orchestration ─────────────────────────────────────────────────────────────
 
 function buildPages(config = loadConfig()) {
-  const { portfolio, team } = config;
-  const files = [];
-
-  files.push(renderAbout(config));
-  files.push(renderJobs(config));
-  files.push(renderPortfolioIndex(config));
-  Object.keys(portfolio).forEach((slug, index) => {
-    files.push(renderCompany(config, slug, index));
-  });
-  files.push(renderTeamIndex(config));
-  Object.keys(team).forEach((slug) => {
-    files.push(renderPerson(config, slug));
-  });
-
-  // The sitemap lists ONLY the homepage. Every mirror page is noindex, and
-  // listing a noindex URL in a sitemap asks Google to index something the page
-  // itself forbids — that contradiction is what produced sitelinks to /about/,
-  // /team/, and the rest under the root.vc result. Crawlers still reach the
-  // mirror via the <noscript> links on the homepage and via llms.txt.
-  // No <lastmod>: every deploy rebuilds every file, so a build timestamp would
-  // claim all 70-odd pages changed each time and teach crawlers to ignore it.
-  const urls = [`${ORIGIN}/`];
-
-  files.push({ path: "sitemap.xml", content: renderSitemap(urls) });
-  files.push({ path: "robots.txt", content: renderRobots() });
-  files.push({ path: "llms.txt", content: renderLlmsTxt(config) });
-  files.push({ path: "llms-full.txt", content: renderLlmsFull(config) });
-
-  files.push({ path: "index.html", content: renderIndexHtml(config) });
-
-  return files;
+  return [
+    // One URL, so one entry. No <lastmod>: every deploy rebuilds every file, so
+    // a build timestamp would claim a change on each deploy and teach crawlers
+    // to ignore it.
+    { path: "sitemap.xml", content: renderSitemap([`${ORIGIN}/`]) },
+    { path: "robots.txt", content: renderRobots() },
+    { path: "_redirects", content: renderRedirects() },
+    { path: "llms.txt", content: renderLlmsTxt(config) },
+    { path: "llms-full.txt", content: renderLlmsFull(config) },
+    { path: "index.html", content: renderIndexHtml(config) },
+  ];
 }
 
 function writePages() {
@@ -979,25 +523,23 @@ function writePages() {
   for (const file of files) {
     writeText(file.path, file.content);
   }
-  console.log(
-    `static mirror: ${files.length} files (${files.filter((f) => f.path.endsWith("index.html")).length} pages)`
-  );
+  console.log(`crawlable surface: ${files.length} files`);
   return files;
 }
 
 module.exports = {
   AI_CRAWLERS,
+  COMMANDS,
   ORIGIN,
   buildPages,
+  deepLink,
   esc,
   injectBetween,
   loadConfig,
-  metaDescription,
   outDir,
-  renderCompany,
   renderIndexHtml,
+  renderRedirects,
   renderTextIndex,
-  renderPerson,
   writePages,
 };
 
