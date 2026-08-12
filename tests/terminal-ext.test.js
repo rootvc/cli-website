@@ -126,6 +126,25 @@ describe("terminal-ext", () => {
     });
   });
 
+  it("does not re-count a deep link when a resize replays it", () => {
+    // xterm clears its buffer on resize, so resizeListener reruns the deep link
+    // to redraw the output. That is the same visit — counting it again inflates
+    // every deep-link arrival by one per resize, and mobile browsers fire
+    // resize just from showing and hiding the address bar.
+    const { extend } = loadTerminalExt();
+    const term = createTerm();
+
+    extend(term);
+    term.deepLink = "whois lee";
+    term.executeCommandLine = vi.fn(() => Promise.resolve());
+    term.runDeepLink({ replay: true });
+
+    expect(term.executeCommandLine).toHaveBeenCalledWith(
+      "whois lee",
+      expect.objectContaining({ trackAnalytics: false })
+    );
+  });
+
   it.each([
     ["#jobs", "jobs"],
     ["#whois-root", "whois root"],

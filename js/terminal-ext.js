@@ -352,7 +352,7 @@ const extend = (term) => {
     if (typeof preloadASCIIArt === "function") {
       window.scheduleIdleTask(() => preloadASCIIArt(), 1500);
     }
-    term.runDeepLink();
+    term.runDeepLink({ replay: true });
     for (const c of term.history) {
       term.prompt("\r\n", ` ${c}\r\n`);
       term.command(c);
@@ -408,7 +408,12 @@ const extend = (term) => {
   };
 
   // Runs the deep-link command parsed from the URL hash on page load.
-  term.runDeepLink = () => {
+  //
+  // `replay` is set by the resize listener, which reruns this to redraw a
+  // buffer xterm cleared. That is the same visit, not a new arrival, so it must
+  // not be counted again — the history replay right below it calls term.command
+  // directly rather than executeCommandLine for exactly this reason.
+  term.runDeepLink = ({ replay = false } = {}) => {
     if (term.deepLink != "") {
       term.executeCommandLine(term.deepLink, {
         addToHistory: false,
@@ -417,7 +422,7 @@ const extend = (term) => {
         // Deep links are how visitors now reach a specific company or person,
         // so these are the arrivals worth counting. Fragments never fire a
         // pageview of their own, so without this they would be invisible.
-        trackAnalytics: true,
+        trackAnalytics: !replay,
       }).catch((error) => {
         console.error("Deep link failed", error);
       });
