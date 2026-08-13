@@ -440,6 +440,34 @@ const portfolio = {
     url: "https://deepweave.ai/",
     description:
       "DeepWeave helps semiconductor teams generate better PPA solutions to deliver more highly performant chips.",
+  },
+
+  loombotic: {
+    name: "Loombotic",
+    url: "https://loombotic.com/",
+    description:
+      "Loombotic automates wire harness manufacturing, with instant quotes and seven-day turnaround.",
+  },
+
+  ground_control: {
+    name: "Ground Control Dev",
+    url: "https://www.groundcontroldev.com/",
+    description:
+      "Ground Control Dev runs facilities management for factories, from site selection and design through construction and operations.",
+  },
+
+  phyagents: {
+    name: "PhyAgents",
+    url: "https://phyagents.com/",
+    description:
+      "PhyAgents is a stealth robotics company building physical AI for critical infrastructure.",
+  },
+
+  lithos: {
+    name: "Lithos Computer",
+    url: "https://fabro.sh/",
+    description:
+      "Lithos Computer, founded by Bryan Helmkamp, makes Fabro, a workflow harness that runs coding agents through deterministic graphs instead of a chat loop.",
   }
 };
 
