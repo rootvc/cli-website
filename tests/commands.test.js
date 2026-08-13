@@ -110,3 +110,93 @@ describe("apply", () => {
     }
   });
 });
+
+// Loads the full command set with a fake terminal. `cd` is the one command with
+// real branching logic — a switch over ~, .., /home, /bin and team member names
+// — and it drives term.cwd, which the prompt renders on every keystroke.
+function loadCommands({ cwd = "~", user = "guest", team = { avidan: {} } } = {}) {
+  const term = {
+    cwd,
+    user,
+    stylePrint: vi.fn(),
+    writeln: vi.fn(),
+    printArt: vi.fn(),
+    openURL: vi.fn(),
+    displayURL: vi.fn(),
+    cols: 100,
+  };
+  const context = vm.createContext({
+    term,
+    jobs: productionJobs,
+    firm: { blurb: "", email: "hello@example.com" },
+    team,
+    help: {},
+    portfolio: {},
+    colorText: (text) => text,
+    window: {},
+  });
+  vm.runInContext(commandSource, context);
+  const commands = vm.runInContext("commands", context);
+  // cd recurses through term.command for the paths that resolve via another cd.
+  term.command = (line) => {
+    const [name, ...args] = line.split(" ");
+    return commands[name](args);
+  };
+  return { commands, term };
+}
+
+describe("cd", () => {
+  // Table ported from #51 (@astonm, 2021), which never landed. The cases still
+  // describe the intended behaviour; only the harness has changed.
+  it.each([
+    ["anywhere", "/", "/"],
+    ["anywhere", "~", "~"],
+    ["anywhere", "~/", "~"],
+    ["~", "..", "home"],
+    ["~", "../", "home"],
+    ["anywhere", "../../", "/"],
+    ["anywhere", "../..", "/"],
+    ["anywhere", "../../../", "/"],
+    ["anywhere", "../../../../", "/"],
+    ["/", "home", "home"],
+    ["anywhere", "/home", "home"],
+    ["/", "bin", "bin"],
+    ["anywhere", ".", "anywhere"],
+    ["anywhere", "./", "anywhere"],
+    ["anywhere", "", "~"],
+    ["anywhere", "/bin", "bin"],
+  ])("from %s, cd %s -> %s", (cwd, arg, expected) => {
+    const { commands, term } = loadCommands({ cwd });
+    commands.cd(arg === "" ? [] : [arg]);
+    expect(term.cwd).toBe(expected);
+  });
+
+  it("refuses a team member's home directory without moving", () => {
+    const { commands, term } = loadCommands({ cwd: "home" });
+    commands.cd(["avidan"]);
+    expect(term.cwd).toBe("home");
+    expect(term.stylePrint).toHaveBeenCalledWith(
+      "You do not have permission to access this directory"
+    );
+  });
+
+  it("lets a user into their own home but not someone else's", () => {
+    const mine = loadCommands({ cwd: "home", user: "guest" });
+    mine.commands.cd(["guest"]);
+    expect(mine.term.cwd).toBe("~");
+
+    const theirs = loadCommands({ cwd: "home", user: "guest" });
+    theirs.commands.cd(["root"]);
+    expect(theirs.term.cwd).toBe("home");
+    expect(theirs.term.stylePrint).toHaveBeenCalledWith(
+      "You do not have permission to access this directory"
+    );
+  });
+
+  it("reports unknown directories without moving", () => {
+    const { commands, term } = loadCommands({ cwd: "~" });
+    commands.cd(["nope"]);
+    expect(term.cwd).toBe("~");
+    expect(term.stylePrint).toHaveBeenCalledWith("No such directory: nope");
+  });
+});
