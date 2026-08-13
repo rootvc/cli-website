@@ -14,6 +14,7 @@ Who needs a website when you have a terminal.
   - instagram: instagram account
   - git: this repo
   - github: all repos
+  - swag: rootvc store
   - locate: physical address
   - www: plain-text version of this site
   - test: do not use
@@ -95,7 +96,7 @@ That build:
  - copies and minifies the xterm vendor assets
  - bundles the app boot/runtime code into `dist/js/app.bundle.js`
  - emits a minified lazy-load asset for the RickRoll animation
- - generates the static mirror and `dist/index.html` (see below)
+ - generates the crawlable surface and `dist/index.html` (see below)
 
 Anything not on the copy list in `scripts/build-assets.js` stays out of `dist/`,
 so `scripts/`, `tests/`, `package.json`, and the unbundled `js/` sources are not
@@ -103,32 +104,48 @@ served.
 
 `npm start` builds and then runs `netlify dev` against `dist/`.
 
-## The static mirror
+## Crawlability
 The terminal renders its content only when someone types a command, so search
-engines and LLM crawlers see an empty page. `scripts/build-pages.js` renders the
-same `config/*.js` data as plain HTML at real URLs:
+engines and LLM crawlers see an empty page. `scripts/build-pages.js` closes that
+gap from a single URL:
 
 ```
-/about/  /jobs/  /portfolio/  /portfolio/<slug>/  /team/  /team/<slug>/
-robots.txt  sitemap.xml  llms.txt  llms-full.txt
+index.html     an offscreen block naming every company and person
+_redirects     the old mirror URLs, 301'd into the terminal
+llms.txt  llms-full.txt  robots.txt  sitemap.xml
 ```
+
+Content is addressed by URL fragment: `/#tldr-chargelab` tells the terminal to
+run `tldr chargelab` on load, and `js/terminal-ext.js` splits the command from
+its argument on the **first** hyphen so a hyphenated slug still resolves.
+
+There used to be a static mirror here — real HTML pages at `/about/`, `/team/`,
+`/portfolio/<slug>/` and the rest. It worked well enough to cause the problem it
+had: Google indexed all 70-odd pages and started showing sitelinks to About /
+Team / Jobs under the root.vc result, advertising a conventional website sitting
+behind the terminal. It was removed in #128 and those URLs now 301 to their
+commands. Since Google strips fragments before indexing, this deliberately
+trades per-company search results for having exactly one indexed URL.
+
+The homepage block is a `.visually-hidden` div rather than `<noscript>`:
+extraction pipelines routinely strip `<noscript>` as non-content, and Googlebot
+indexes the rendered DOM, which drops it once JS runs.
 
 **`config/*.js` is the only source of truth.** Changing a portfolio description
-regenerates that company's page, both indexes, the sitemap, the llms files, and
-the `<noscript>` block in `index.html`.
+regenerates the homepage block, the llms files, and the redirects.
 
-There is nothing to keep in sync. The mirror is never committed — it exists only
+There is nothing to keep in sync. None of it is ever committed — it exists only
 in `dist/`, and every deploy runs `npm run build` and regenerates it from the
 current `config/*.js`. No cron, no CI drift check, no "rebuild and commit" step:
-a config edit reaches the static pages the moment it is deployed, because that
-is the only way the pages come into existence.
+a config edit reaches the generated files the moment it is deployed, because
+that is the only way they come into existence.
 
 `index.html` in the repo root is a **template**. The regions between its
 `<!-- BEGIN generated-* -->` sentinels are empty; the build injects the JSON-LD
-and `<noscript>` blocks when it writes `dist/index.html`. Do not paste generated
-content back into the template.
+and crawlable-index blocks when it writes `dist/index.html`. Do not paste
+generated content back into the template.
 
-Use `npm run build:pages` to regenerate just the mirror while iterating —
+Use `npm run build:pages` to regenerate just those files while iterating —
 `netlify dev` does not watch `config/*.js`.
 
 Firm-level facts (blurb, thesis, fund size, office address, email) live in
