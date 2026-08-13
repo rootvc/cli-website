@@ -171,10 +171,6 @@ const commands = {
     term.displayURL("https://github.com/rootvc");
   },
 
-  swag: function () {
-    term.openURL("https://rootvc.creator-spring.com");
-  },
-
   twitter: function () {
     term.displayURL("https://twitter.com/rootvc");
     term.displayURL("https://twitter.com/machinepix");
