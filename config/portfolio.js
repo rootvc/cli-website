@@ -461,6 +461,13 @@ const portfolio = {
     url: "https://phyagents.com/",
     description:
       "PhyAgents is a stealth robotics company building physical AI for critical infrastructure.",
+  },
+
+  lithos: {
+    name: "Lithos Computer",
+    url: "https://fabro.sh/",
+    description:
+      "Lithos Computer, founded by Bryan Helmkamp, makes Fabro, a workflow harness that runs coding agents through deterministic graphs instead of a chat loop.",
   }
 };
 
