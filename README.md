@@ -27,8 +27,10 @@ Who needs a website when you have a terminal.
  - chmod
  - chown
  - clear
+ - cowsay
  - cp
  - curl
+ - date
  - df
  - echo
  - emacs
@@ -71,6 +73,7 @@ Who needs a website when you have a terminal.
  - uname
  - vi
  - vim
+ - wget
  - zsh
 
 Missing a favorite one? Make a PR!
