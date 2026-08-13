@@ -14,7 +14,6 @@ Who needs a website when you have a terminal.
   - instagram: instagram account
   - git: this repo
   - github: all repos
-  - swag: rootvc store
   - locate: physical address
   - www: plain-text version of this site
   - test: do not use
