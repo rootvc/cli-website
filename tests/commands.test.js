@@ -200,3 +200,29 @@ describe("cd", () => {
     expect(term.stylePrint).toHaveBeenCalledWith("No such directory: nope");
   });
 });
+
+describe("help stays in sync with commands", () => {
+  // config/help.js is what `help` prints. Nothing links the two files, so a
+  // command can be listed without existing — which is exactly what happened
+  // when a bad merge dropped `swag` from commands.js while help.js kept
+  // advertising it, leaving `help` pointing at a command that did nothing.
+  const helpContext = vm.createContext({ module: { exports: {} } });
+  vm.runInContext(
+    `${readFileSync("config/help.js", "utf8")}\nthis.helpEntries = help;`,
+    helpContext
+  );
+
+  it("advertises no command that does not exist", () => {
+    const { commands } = loadCommands();
+    const advertised = Object.keys(helpContext.helpEntries)
+      .map((entry) => entry.match(/^%([a-z_]+)%/))
+      .filter(Boolean)
+      .map((match) => match[1]);
+
+    expect(advertised.length).toBeGreaterThan(0);
+    const missing = advertised.filter(
+      (name) => typeof commands[name] !== "function"
+    );
+    expect(missing).toEqual([]);
+  });
+});

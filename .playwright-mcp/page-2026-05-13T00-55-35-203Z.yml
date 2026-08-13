@@ -1,0 +1,45 @@
+- main [ref=e2]:
+  - generic "Game controls" [ref=e3]:
+    - generic [ref=e4]:
+      - img "Root Ventures" [ref=e5]
+      - generic [ref=e6]:
+        - generic [ref=e7]: Root Router
+        - generic [ref=e8]: packet sort
+    - button "Back to terminal" [ref=e10] [cursor=pointer]: ..
+  - region "Score" [ref=e11]:
+    - generic [ref=e12]:
+      - generic [ref=e13]: Score
+      - strong [ref=e14]: "0"
+    - generic [ref=e15]:
+      - generic [ref=e16]: Left
+      - strong [ref=e17]: "5"
+    - generic [ref=e18]:
+      - generic [ref=e19]: Streak
+      - strong [ref=e20]: "0"
+  - generic [ref=e21]:
+    - article [ref=e23]:
+      - generic [ref=e24]: Geo relic
+      - heading "construction.gif" [level=1] [ref=e25]
+      - paragraph [ref=e26]: The universal signal that a site is alive, unfinished, and somehow already perfect.
+      - generic [ref=e27]:
+        - generic [ref=e28]: welcome.htm
+        - generic [ref=e29]: under construction
+      - generic [ref=e31]: open welcome.htm
+    - generic [ref=e32]: Route the packet.
+  - navigation "Packet destinations" [ref=e33]:
+    - button "$_ CLI" [ref=e34] [cursor=pointer]:
+      - generic [ref=e35]: $_
+      - generic [ref=e36]: CLI
+    - button "VC Portfolio" [ref=e37] [cursor=pointer]:
+      - generic [ref=e38]: VC
+      - generic [ref=e39]: Portfolio
+    - button "ID Team" [ref=e40] [cursor=pointer]:
+      - generic [ref=e41]: ID
+      - generic [ref=e42]: Team
+    - button "HTM Geo" [ref=e43] [cursor=pointer]:
+      - generic [ref=e44]: HTM
+      - generic [ref=e45]: Geo
+  - generic [ref=e47]:
+    - heading "Root Router" [level=1] [ref=e49]
+    - paragraph [ref=e50]: Sort real Root packets from the terminal, portfolio, team bios, and welcome.htm.
+    - button "Start" [ref=e51] [cursor=pointer]
