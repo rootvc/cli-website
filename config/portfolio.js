@@ -446,7 +446,7 @@ const portfolio = {
     name: "Loombotic",
     url: "https://loombotic.com/",
     description:
-      "Loombotic automates wire harness manufacturing, with instant quotes and seven-day turnaround.",
+      "Loombotic automates wire harness manufacturing.",
   },
 
   ground_control: {
