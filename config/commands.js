@@ -385,7 +385,8 @@ const commands = {
 
     if (_filesHere().includes(filename)) {
       let file = getFileContents(filename);
-      const matches = file.matchAll(q);
+      const literalQuery = q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const matches = file.matchAll(literalQuery);
       for (const match of matches) {
         file = file.replaceAll(match[0], colorText(match[0], "files"));
       }

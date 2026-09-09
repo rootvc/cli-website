@@ -114,7 +114,13 @@ describe("apply", () => {
 // Loads the full command set with a fake terminal. `cd` is the one command with
 // real branching logic — a switch over ~, .., /home, /bin and team member names
 // — and it drives term.cwd, which the prompt renders on every keystroke.
-function loadCommands({ cwd = "~", user = "guest", team = { avidan: {} } } = {}) {
+function loadCommands({
+  cwd = "~",
+  user = "guest",
+  team = { avidan: {} },
+  files = {},
+  colorText = (text) => text,
+} = {}) {
   const term = {
     cwd,
     user,
@@ -132,7 +138,11 @@ function loadCommands({ cwd = "~", user = "guest", team = { avidan: {} } } = {})
     team,
     help: {},
     portfolio: {},
-    colorText: (text) => text,
+    colorText,
+    _DIRS: { [cwd]: Object.keys(files) },
+    _FILES: Object.fromEntries(Object.keys(files).map((name) => [name, name])),
+    _filesHere: () => Object.keys(files),
+    getFileContents: (filename) => files[filename],
     window: {},
   });
   vm.runInContext(commandSource, context);
@@ -144,6 +154,79 @@ function loadCommands({ cwd = "~", user = "guest", team = { avidan: {} } } = {})
   };
   return { commands, term };
 }
+
+describe("grep", () => {
+  it("matches and highlights a metacharacter literally", () => {
+    const { commands, term } = loadCommands({
+      files: { "sample.txt": "before ( after (" },
+      colorText: (text, style) => `<${style}>${text}</${style}>`,
+    });
+
+    expect(() => commands.grep(["(", "sample.txt"])).not.toThrow();
+    expect(term.writeln).toHaveBeenCalledWith(
+      "before <files><files>(</files></files> after <files><files>(</files></files>"
+    );
+  });
+
+  it("does not throw for regex metacharacters", () => {
+    const { commands } = loadCommands({
+      files: { "sample.txt": "()[]$^*+?|\\" },
+    });
+
+    for (const pattern of ["(", ")", "[", "]", "$", "^", "*", "+", "?", "|", "\\"]) {
+      expect(() => commands.grep([pattern, "sample.txt"])).not.toThrow();
+    }
+  });
+
+  it("matches metacharacters literally and case-sensitively", () => {
+    const { commands, term } = loadCommands({
+      files: { "sample.txt": "A+B a+b" },
+      colorText: (text, style) => `<${style}>${text}</${style}>`,
+    });
+
+    commands.grep(["+", "sample.txt"]);
+
+    expect(term.writeln).toHaveBeenCalledWith(
+      "A<files><files>+</files></files>B a<files><files>+</files></files>b"
+    );
+  });
+
+  it("highlights only literal dots", () => {
+    const { commands, term } = loadCommands({
+      files: { "sample.txt": "one.two\n..." },
+      colorText: (text, style) => `<${style}>${text}</${style}>`,
+    });
+
+    commands.grep([".", "sample.txt"]);
+
+    expect(term.writeln).toHaveBeenCalledWith(
+      "one<files><files><files><files>.</files></files></files></files>two\n<files><files><files><files>.</files></files></files></files><files><files><files><files>.</files></files></files></files><files><files><files><files>.</files></files></files></files>"
+    );
+  });
+
+  it("preserves plain-pattern highlighting and missing-argument usage", () => {
+    const matching = loadCommands({
+      files: { "sample.txt": "foo bar foo" },
+      colorText: (text, style) => `<${style}>${text}</${style}>`,
+    });
+    matching.commands.grep(["foo", "sample.txt"]);
+    expect(matching.term.writeln).toHaveBeenCalledWith(
+      "<files><files>foo</files></files> bar <files><files>foo</files></files>"
+    );
+
+    const missing = loadCommands();
+    missing.commands.grep([]);
+    expect(missing.term.stylePrint).toHaveBeenCalledWith(
+      "usage: %grep% [pattern] [filename]"
+    );
+
+    const notFound = loadCommands();
+    notFound.commands.grep(["foo", "missing.txt"]);
+    expect(notFound.term.stylePrint).toHaveBeenCalledWith(
+      "No such file or directory: missing.txt"
+    );
+  });
+});
 
 describe("cd", () => {
   // Table ported from #51 (@astonm, 2021), which never landed. The cases still
