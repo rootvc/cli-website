@@ -145,6 +145,44 @@ describe("terminal-ext", () => {
     );
   });
 
+  it("requires exact confirmation before dispatching an eval deep link", () => {
+    const confirm = vi
+      .fn()
+      .mockReturnValueOnce(false)
+      .mockReturnValueOnce(undefined)
+      .mockReturnValueOnce(true)
+      .mockReturnValueOnce(true);
+    const { extend } = loadTerminalExt({ confirm });
+    env.window.location.hash = "#eval-alert(1)";
+    const term = createTerm();
+
+    extend(term);
+    term.executeCommandLine = vi.fn(() => Promise.resolve());
+
+    term.runDeepLink();
+    term.runDeepLink({ replay: true });
+    term.runDeepLink();
+    term.runDeepLink({ replay: true });
+
+    expect(confirm).toHaveBeenNthCalledWith(1, "eval alert(1)");
+    expect(confirm).toHaveBeenNthCalledWith(2, "eval alert(1)");
+    expect(confirm).toHaveBeenNthCalledWith(3, "eval alert(1)");
+    expect(confirm).toHaveBeenNthCalledWith(4, "eval alert(1)");
+    expect(term.executeCommandLine).toHaveBeenCalledTimes(2);
+    expect(term.executeCommandLine).toHaveBeenNthCalledWith(1, "eval alert(1)", {
+      addToHistory: false,
+      promptAfter: false,
+      showLeadingNewline: false,
+      trackAnalytics: true,
+    });
+    expect(term.executeCommandLine).toHaveBeenNthCalledWith(2, "eval alert(1)", {
+      addToHistory: false,
+      promptAfter: false,
+      showLeadingNewline: false,
+      trackAnalytics: false,
+    });
+  });
+
   it.each([
     ["#jobs", "jobs"],
     ["#whois-root", "whois root"],

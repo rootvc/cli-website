@@ -415,7 +415,13 @@ const extend = (term) => {
   // directly rather than executeCommandLine for exactly this reason.
   term.runDeepLink = ({ replay = false } = {}) => {
     if (term.deepLink != "") {
-      term.executeCommandLine(term.deepLink, {
+      const parsed = term.parseCommandLine(term.deepLink);
+
+      if (parsed.cmd === "eval" && window.confirm(parsed.line) !== true) {
+        return;
+      }
+
+      term.executeCommandLine(parsed.line, {
         addToHistory: false,
         promptAfter: false,
         showLeadingNewline: false,
