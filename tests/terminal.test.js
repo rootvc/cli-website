@@ -38,6 +38,14 @@ function createTerm(overrides = {}) {
     resizeListener: vi.fn(),
     runDeepLink: vi.fn(),
     scrollToBottom: vi.fn(),
+    _collectingInput: false,
+    _execution: null,
+    _replaying: false,
+    _requestInterrupt: vi.fn(() => {
+      if (term._execution) {
+        term._execution.abortRequested = true;
+      }
+    }),
     setCurrentLine: vi.fn((line) => {
       term.currentLine = line;
     }),
@@ -125,5 +133,41 @@ describe("runRootTerminal", () => {
     expect(term.init).not.toHaveBeenCalled();
     expect(term.prompt).not.toHaveBeenCalled();
     expect(term.onData).not.toHaveBeenCalled();
+  });
+
+  it("routes busy Ctrl+C to the active execution once and preserves idle behavior", () => {
+    const { runRootTerminal } = loadTerminalScript();
+    const term = createTerm();
+
+    runRootTerminal(term);
+    term.busy = true;
+    term._execution = { abortRequested: false };
+    term._onData("\u0003");
+    term._onData("\u0003");
+
+    expect(term._requestInterrupt).toHaveBeenCalledTimes(1);
+    expect(term.prompt).toHaveBeenCalledTimes(1);
+
+    term.busy = false;
+    term._onData("\u0003");
+
+    expect(term.prompt).toHaveBeenCalledTimes(2);
+    expect(term.clearCurrentLine).toHaveBeenCalledTimes(1);
+  });
+
+  it("does not take Ctrl+C ownership from collectInput or resize replay", () => {
+    const { runRootTerminal } = loadTerminalScript();
+    const term = createTerm();
+
+    runRootTerminal(term);
+    term.busy = true;
+    term._collectingInput = true;
+    term._onData("\u0003");
+    term._collectingInput = false;
+    term._replaying = true;
+    term._onData("\u0003");
+
+    expect(term._requestInterrupt).not.toHaveBeenCalled();
+    expect(term.prompt).toHaveBeenCalledTimes(1);
   });
 });
