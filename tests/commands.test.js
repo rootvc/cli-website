@@ -114,7 +114,13 @@ describe("apply", () => {
 // Loads the full command set with a fake terminal. `cd` is the one command with
 // real branching logic — a switch over ~, .., /home, /bin and team member names
 // — and it drives term.cwd, which the prompt renders on every keystroke.
-function loadCommands({ cwd = "~", user = "guest", team = { avidan: {} } } = {}) {
+function loadCommands({
+  cwd = "~",
+  user = "guest",
+  team = { avidan: {} },
+  filesHere = [],
+  fileContents = {},
+} = {}) {
   const term = {
     cwd,
     user,
@@ -134,6 +140,9 @@ function loadCommands({ cwd = "~", user = "guest", team = { avidan: {} } } = {})
     portfolio: {},
     colorText: (text) => text,
     window: {},
+    _DIRS: { [cwd]: filesHere },
+    _filesHere: () => filesHere,
+    getFileContents: vi.fn((filename) => fileContents[filename]),
   });
   vm.runInContext(commandSource, context);
   const commands = vm.runInContext("commands", context);
@@ -142,8 +151,34 @@ function loadCommands({ cwd = "~", user = "guest", team = { avidan: {} } } = {})
     const [name, ...args] = line.split(" ");
     return commands[name](args);
   };
-  return { commands, term };
+  return { commands, term, getFileContents: context.getFileContents };
 }
+
+describe("cat", () => {
+  it("only triggers the id_rsa easter egg when the file is present", () => {
+    const absent = loadCommands({ fileContents: { id_rsa: "Nice try!" } });
+    absent.commands.cat(["id_rsa"]);
+
+    expect(absent.term.stylePrint).toHaveBeenCalledTimes(1);
+    expect(absent.term.stylePrint).toHaveBeenCalledWith("No such file: id_rsa");
+    expect(absent.term.writeln).not.toHaveBeenCalled();
+    expect(absent.getFileContents).not.toHaveBeenCalled();
+
+    const present = loadCommands({
+      filesHere: ["id_rsa"],
+      fileContents: { id_rsa: "Nice try!" },
+    });
+    present.commands.cat(["id_rsa"]);
+
+    expect(present.getFileContents).toHaveBeenCalledWith("id_rsa");
+    expect(present.term.writeln).toHaveBeenCalledWith("Nice try!");
+    expect(present.term.stylePrint).toHaveBeenCalledTimes(40);
+    expect(present.term.stylePrint).toHaveBeenCalledWith(
+      "vsabnBRXofjub00",
+      false
+    );
+  });
+});
 
 describe("cd", () => {
   // Table ported from #51 (@astonm, 2021), which never landed. The cases still
