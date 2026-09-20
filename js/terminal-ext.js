@@ -263,6 +263,11 @@ const extend = (term) => {
     }
   };
 
+  term.isReplayOnlyHistoryLine = (line) => {
+    const { cmd } = term.parseCommandLine(line);
+    return cmd === "apply" || cmd === "upgrade";
+  };
+
   term.preloadCommandAssets = async (line) => {
     const parsed = term.parseCommandLine(line);
     const normalized = term.normalizeCommandForPreload(parsed.cmd, parsed.args);
@@ -311,7 +316,7 @@ const extend = (term) => {
           term.history.push(parsed.line);
         }
 
-        exitStatus = term.command(parsed.line);
+        exitStatus = await term.command(parsed.line);
 
         if (settings.trackAnalytics) {
           window.dataLayer = window.dataLayer || [];
@@ -347,19 +352,45 @@ const extend = (term) => {
   // reinitialize the terminal and replay the entire command history to restore
   // the visible output, then re-render the prompt at the bottom.
   term.resizeListener = () => {
-    term._initialized = false;
-    term.init(term.user, true);
-    if (typeof preloadASCIIArt === "function") {
-      window.scheduleIdleTask(() => preloadASCIIArt(), 1500);
+    if (term._resizeReplayPromise) {
+      return term._resizeReplayPromise;
     }
-    term.runDeepLink({ replay: true });
-    for (const c of term.history) {
-      term.prompt("\r\n", ` ${c}\r\n`);
-      term.command(c);
-    }
-    term.prompt();
-    term.scrollToBottom();
-    term._initialized = true;
+
+    term._resizeReplayPromise = (async () => {
+      const history = [...term.history];
+
+      term.busy = true;
+      term._initialized = false;
+
+      try {
+        term.init(term.user, true);
+        if (typeof preloadASCIIArt === "function") {
+          window.scheduleIdleTask(() => preloadASCIIArt(), 1500);
+        }
+
+        await term.runDeepLink({ replay: true });
+
+        for (const c of history) {
+          term.prompt("\r\n", ` ${c}\r\n`);
+
+          if (term.isReplayOnlyHistoryLine(c)) {
+            continue;
+          }
+
+          await term.command(c);
+        }
+
+        term.prompt();
+        term.scrollToBottom();
+      } finally {
+        term.locked = false;
+        term.busy = false;
+        term._initialized = true;
+        term._resizeReplayPromise = null;
+      }
+    })();
+
+    return term._resizeReplayPromise;
   };
 
   // Resets the terminal to its initial state. If VERSION < 4, shows an upgrade
@@ -415,8 +446,9 @@ const extend = (term) => {
   // directly rather than executeCommandLine for exactly this reason.
   term.runDeepLink = ({ replay = false } = {}) => {
     if (term.deepLink != "") {
-      term.executeCommandLine(term.deepLink, {
+      return term.executeCommandLine(term.deepLink, {
         addToHistory: false,
+        manageBusy: !replay,
         promptAfter: false,
         showLeadingNewline: false,
         // Deep links are how visitors now reach a specific company or person,
@@ -427,6 +459,8 @@ const extend = (term) => {
         console.error("Deep link failed", error);
       });
     }
+
+    return Promise.resolve();
   };
 
   // ── Interactive Input ──────────────────────────────────────────────────────
