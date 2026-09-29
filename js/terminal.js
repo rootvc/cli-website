@@ -205,12 +205,17 @@ function runRootTerminal(term) {
           term.tabOptions = [];
           term.tabBase = "";
 
-          // Optimize: just write the character instead of redrawing entire line
-          if (e.length === 1 && e.charCodeAt(0) >= 32) {
+          // xterm sends pasted text as one payload, so normalize it before insert.
+          const input = e
+            .replace(/[\r\n\t]/g, " ")
+            .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "");
+
+          if (input.length > 0) {
             const pos = term.pos();
             const restOfLine = term.currentLine.slice(pos);
-            term.currentLine = term.currentLine.slice(0, pos) + e + restOfLine;
-            term.write(e);
+            term.currentLine =
+              term.currentLine.slice(0, pos) + input + restOfLine;
+            term.write(input);
             if (restOfLine.length > 0) {
               term.write(restOfLine);
               term.write("\x1b[D".repeat(restOfLine.length));
