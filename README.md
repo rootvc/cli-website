@@ -3,89 +3,34 @@ Who needs a website when you have a terminal.
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/f3bfb854-9bc6-40a7-8d4c-2cccd3850764/deploy-status)](https://app.netlify.com/sites/rootvc-cli-website/deploys)
 
-## Basic Commands
-  - help: list all commands
-  - whois root: learn about us
-  - whois [partner]: learn about a partner
-  - tldr: list all portfolio companies
-  - tldr: [company_name]": learn about a portfolio company
-  - email: reach out to us
-  - twitter: twitter accounts
-  - instagram: instagram account
-  - git: this repo
-  - github: all repos
-  - locate: physical address
-  - www: plain-text version of this site
-  - test: do not use
-  - other: try your favorite linux commands
+## TUI experiment
 
-## Advanced Commands
- - alias
- - cat
- - cd
- - chmod
- - chown
- - clear
- - cowsay
- - cp
- - curl
- - date
- - df
- - echo
- - emacs
- - exit
- - fdisk
- - find
- - finger
- - free
- - ftp
- - grep
- - groups
- - gzip
- - head
- - history
- - kill
- - less
- - ls
- - man (alias: woman)
- - mkdir
- - more
- - mv
- - nano
- - open
- - passwd
- - pico
- - pine
- - ps
- - pwd
- - quit
- - rm
- - say
- - sftp
- - ssh
- - stop
- - su
- - sudo
- - tail
- - top
- - touch
- - uname
- - vi
- - vim
- - wget
- - zsh
+The homepage remains the CLI. Type `tui` to open the Omarchy-inspired directory
+inside the same terminal session; press `q` or choose Exit to CLI to return.
+Run `npm run build`
+then `npm start` to preview it with the Netlify application endpoint available.
+For a static preview, serve `dist/` with any HTTP server (applications require
+Netlify and `ATTIO_WEBHOOK_URL`).
 
-Missing a favorite one? Make a PR!
+- Overview, Portfolio, Team, Careers, Contact, and Appearance are menu sections.
+- Use 1–6 to switch sections, left/right to move between panes, and arrows or
+  j/k to browse entries or focus links and buttons. Enter activates the focused
+  control. In Details, arrows scroll the bio; Tab or Enter focuses its actions.
+  The active pane has a bright border and FOCUS label; the focused action has
+  a solid highlight. Home/End goes to the start/end, Page Up/Down scrolls the pane,
+  / focuses search, and Escape clears search or returns home. Tab reaches every
+  control, including form fields and dialogs; ? opens the keyboard guide.
+- Portfolio entries expose website, product, and investment memo links.
+- Careers use a form backed by the existing Netlify application endpoint.
+- Everforest, Gruvbox, Tokyo Night, and Paper palettes persist on this device.
+- Existing `#tldr-<slug>`, `#whois-<slug>`, `#fg-<id>`, and `#apply-<id>` links
+  still resolve on the CLI homepage. The same fragments work inside `tui.html`.
+- The interface fills the viewport with independently scrolling panes. Existing
+  team photos and company logos render as animated rainbow ASCII art; reduced
+  motion preferences stop the animation.
 
-## Portfolio CLIs
-Future project: get the Hello Worlds working for every portfolio company with a CLI or npm/pypi/cargo package
- - esper
- - great_expectations (alias: ge)
- - meroxa
- - okteto
- - particle
- - privacy_dynamics (alias: privacy)
- - zed
+`js/tui.js` and `css/tui.css` implement the interface; all firm, company, team,
+and job data still comes from `config/*.js`. `js/tui-launcher.js` mounts the TUI on demand while retaining the CLI session.
 
 ## Build Notes
 `npm run build` produces `dist/`, which is what Netlify publishes. It is wiped
@@ -96,7 +41,8 @@ That build:
  - copies the static assets (`images/`, `videos/`, `css/`, `welcome.htm`, and the
    `config/*.js` files `welcome.htm` loads directly)
  - copies and minifies the xterm vendor assets
- - bundles the app boot/runtime code into `dist/js/app.bundle.js`
+ - bundles the TUI and shared config into `dist/js/tui.bundle.js`
+ - retains the original runtime bundle in `dist/js/app.bundle.js`
  - emits a minified lazy-load asset for the RickRoll animation
  - generates the crawlable surface and `dist/index.html` (see below)
 
@@ -107,8 +53,8 @@ served.
 `npm start` builds and then runs `netlify dev` against `dist/`.
 
 ## Crawlability
-The terminal renders its content only when someone types a command, so search
-engines and LLM crawlers see an empty page. `scripts/build-pages.js` closes that
+The terminal renders its content with JavaScript, so crawlers
+that do not run JavaScript need a static content surface. `scripts/build-pages.js` closes that
 gap from a single URL:
 
 ```
@@ -117,9 +63,9 @@ _redirects     the old mirror URLs, 301'd into the terminal
 llms.txt  llms-full.txt  robots.txt  sitemap.xml
 ```
 
-Content is addressed by URL fragment: `/#tldr-chargelab` tells the terminal to
-run `tldr chargelab` on load, and `js/terminal-ext.js` splits the command from
-its argument on the **first** hyphen so a hyphenated slug still resolves.
+Content is addressed by URL fragment: `/#tldr-chargelab` runs the company command
+in the CLI. `/#tui` launches the TUI directly. Its own internal fragments use the
+same formats, splitting command from argument on the **first** hyphen.
 
 There used to be a static mirror here — real HTML pages at `/about/`, `/team/`,
 `/portfolio/<slug>/` and the rest. It worked well enough to cause the problem it

@@ -62,6 +62,9 @@ function SpawnRickRollPointers() {
 }
 
 const commands = {
+  tui: function () {
+    window.openRootTui();
+  },
 
   // ── Info & Discovery ────────────────────────────────────────────────────────
 

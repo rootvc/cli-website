@@ -43,6 +43,7 @@ const appBundleSources = [
   "config/commands.js",
   "config/fs.js",
   "config/jobs.js",
+  "js/tui-launcher.js",
   "js/bootstrap.js",
 ];
 
@@ -52,8 +53,10 @@ const appBundleSources = [
 const staticAssets = [
   "favicon.png",
   "welcome.htm",
+  "tui.html",
   "css/bootstrap.css",
   "css/styles.css",
+  "css/tui.css",
   "images",
   "videos",
   "config/commands.js",
@@ -168,6 +171,9 @@ async function main() {
   }
 
   await buildAppBundle();
+  const tuiSource = ["config/firm.js", "config/portfolio.js", "config/team.js", "config/jobs.js", "js/tui-art.js", "js/tui.js"]
+    .map(readText).join("\n;\n");
+  writeText("js/tui.bundle.js", await minifyJavaScript(tuiSource));
   await buildRickRollBundle();
 
   // The crawlable static mirror, plus dist/index.html. Part of `npm run build`

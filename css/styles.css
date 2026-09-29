@@ -40,3 +40,5 @@ body {
   --brand-txt-color: #fff;
   --brand-link-color: #fff;
 }
+/* The TUI command owns the viewport while the terminal session stays mounted. */
+.tui-session { position: fixed; inset: 0; width: 100%; height: 100dvh; border: 0; z-index: 20; background: #1d2326; }

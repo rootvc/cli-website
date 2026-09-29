@@ -53,6 +53,25 @@ afterEach(() => {
 });
 
 describe("terminal-ext", () => {
+  it("does not reopen the TUI when resizing replays CLI history or deep links", () => {
+    const launch = vi.fn();
+    const { extend } = loadTerminalExt({ commands: { tui: launch } });
+    const term = createTerm(); extend(term);
+    term.history = ['tui'];
+    term.deepLink = 'tui';
+    term.init = vi.fn(); term.prompt = vi.fn();
+    term.resizeListener();
+    expect(launch).not.toHaveBeenCalled();
+    expect(term.prompt).toHaveBeenCalled();
+  });
+  it("fits without resetting the retained CLI while the TUI is active", () => {
+    const { extend } = loadTerminalExt({rootTui:{active:true}});
+    const term = createTerm(); extend(term);
+    term.init = vi.fn();
+    term.resizeListener();
+    expect(env.window.fitAddon.fit).toHaveBeenCalledOnce();
+    expect(term.init).not.toHaveBeenCalled();
+  });
   it("normalizes preload-only aliases before resolving assets", async () => {
     const { extend } = loadTerminalExt({
       getASCIIArtIdForCommand: vi.fn(() => "lee"),

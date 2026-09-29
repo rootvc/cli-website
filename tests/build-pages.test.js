@@ -708,8 +708,9 @@ describe("index.html", () => {
     expect(textVersion.className).toBe("visually-hidden");
   });
 
-  it("keeps the terminal markup untouched", () => {
+  it("keeps the CLI as the homepage", () => {
     expect(doc.querySelector("#terminal")).not.toBeNull();
+    expect(doc.querySelector('script[src="js/app.bundle.js"]')).not.toBeNull();
     expect(doc.querySelector("#aa-all")).not.toBeNull();
     expect(doc.querySelector("#files-all")).not.toBeNull();
   });

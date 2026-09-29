@@ -1,4 +1,5 @@
 const help = {
+  "%tui%": "open the keyboard-driven directory (q to return)",
   "%help%": "list all commands (you're looking at it)",
   "%whois%": "list all partners",
   "%whois% [partner]": "learn about a partner",
