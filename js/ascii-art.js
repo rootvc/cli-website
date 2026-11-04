@@ -69,6 +69,11 @@ function _queueASCIIArtWork(task, timeout = 1000) {
   }
 }
 
+// Warms the art a visitor is likely to ask for first: the firm logo and the
+// team. Portfolio logos are deliberately not here — there are ~70 of them,
+// several megabytes in total, and `tldr <company>` already awaits its own
+// image via preloadCommandAssets before rendering, so preloading them only
+// cost every visitor the download and the dithering work.
 function preloadASCIIArt() {
   if (asciiArtPreloadPromise) {
     return asciiArtPreloadPromise;
@@ -77,7 +82,6 @@ function preloadASCIIArt() {
   const specs = [
     _getASCIIArtSpec("rootvc-square"),
     ...Object.keys(team).map((person) => _getASCIIArtSpec(person)),
-    ...Object.keys(portfolio).map((company) => _getASCIIArtSpec(company)),
   ].filter(Boolean);
 
   asciiArtPreloadPromise = window

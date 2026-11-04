@@ -1,0 +1,25 @@
+# Cache policy for Netlify. Without this file everything is served with
+# max-age=0, so every image, the video, and xterm.js were revalidated on every
+# visit. Paths are matched top to bottom; the most specific rule wins.
+
+# Fingerprinted copies of the homepage scripts (scripts/build-assets.js writes
+# them as static/<name>.<hash>.js and rewrites index.html to match). A changed
+# file gets a new name, so these can be cached forever.
+/static/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Logos, portraits, and the video change rarely and under the same name, so a
+# week bounds how stale a replaced logo can be.
+/images/*
+  Cache-Control: public, max-age=604800
+/videos/*
+  Cache-Control: public, max-age=604800
+
+# Unfingerprinted scripts and styles loaded by name (lazy loaders, welcome.htm,
+# tui.html). An hour keeps repeat visits cheap without pinning a stale build.
+/js/*
+  Cache-Control: public, max-age=3600
+/css/*
+  Cache-Control: public, max-age=3600
+/config/*
+  Cache-Control: public, max-age=3600

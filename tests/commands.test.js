@@ -201,6 +201,16 @@ describe("cd", () => {
   });
 });
 
+describe("eval is gone", () => {
+  // The URL fragment runs as a command on load, so `/#eval-<js>` was a
+  // reflected XSS on the origin: the command ran its argument through eval.
+  it("is not a command, so a crafted deep link gets 'Command not found'", () => {
+    const { commands } = loadCommands();
+    expect(commands.eval).toBeUndefined();
+    expect(Object.keys(commands).some((name) => /eval/i.test(name))).toBe(false);
+  });
+});
+
 describe("help stays in sync with commands", () => {
   // config/help.js is what `help` prints. Nothing links the two files, so a
   // command can be listed without existing — which is exactly what happened

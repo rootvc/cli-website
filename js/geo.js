@@ -1,6 +1,6 @@
 function buildGeoPage() {
   const whois = document.getElementById("whois");
-  whois.innerHTML = whoisRoot.split(" Try")[0];
+  whois.textContent = firm.blurb;
 
   const portfolioTable = document.getElementById("portfolio");
   const sortedPortfolioKeys = Object.keys(portfolio).sort((a, b) => 
