@@ -226,3 +226,36 @@ describe("help stays in sync with commands", () => {
     expect(missing).toEqual([]);
   });
 });
+
+// `claude` looks like the Claude Code CLI starting up, then declines to be
+// one. It never loads anything and hands the prompt straight back.
+describe("claude", () => {
+  function loadClaudeTerm() {
+    const { commands, term } = loadCommands();
+    term._initialized = true;
+    const printed = () =>
+      [...term.stylePrint.mock.calls, ...term.writeln.mock.calls]
+        .map((c) => c[0])
+        .join("\n")
+        .replace(/\x1b\[[0-9;]*m/g, "");
+    return { claude: commands.claude, term, printed };
+  }
+
+  it("draws the welcome box, delivers the tip, and exits", () => {
+    const { claude, term, printed } = loadClaudeTerm();
+    expect(claude([])).toBeUndefined(); // terminal.js renders the prompt as usual
+    expect(printed()).toContain('Welcome to Claude Code!');
+    expect(printed()).toContain("cwd: /home/guest");
+    expect(printed()).toContain('※ Tip: We\'re not paying for your Claude tokens!');
+    expect(term.locked).toBeFalsy();
+  });
+
+  it("keeps the box edges aligned", () => {
+    const { claude, printed } = loadClaudeTerm();
+    claude([]);
+    const box = printed().split("\n").filter((l) => /^[╭│╰]/.test(l));
+    expect(box.length).toBeGreaterThan(2);
+    const widths = new Set(box.map((l) => l.length));
+    expect(widths.size).toBe(1);
+  });
+});

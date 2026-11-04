@@ -14,6 +14,7 @@ const help = {
   "%locate%": "physical address",
   "%www%": "plain-text version of this site",
   "%jobs%": "check out our job openings",
+  "%claude%": "launch Claude Code",
   "%test%": "do not use",
   "%upgrade%": "upgrade to the latest version of Root Ventures",
   "%other%": "try your fav commands (e.g. %ls%, %groups%, %su%)",
