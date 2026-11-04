@@ -364,11 +364,11 @@ const commands = {
 
     if (_filesHere().includes(filename)) {
       term.writeln(getFileContents(filename));
+      if (filename == "id_rsa") {
+        SpawnRickRollPointers();
+      }
     } else {
       term.stylePrint(`No such file: ${filename}`);
-    }
-    if (filename == "id_rsa") {
-      SpawnRickRollPointers();
     }
   },
 
