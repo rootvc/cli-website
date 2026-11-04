@@ -678,15 +678,26 @@ const commands = {
     term.stylePrint("Coming soon! ;)");
   },
 
-  eval: function (args) {
-    term.stylePrint(
-      "please instead build a webstore with macros. in the meantime, the result is: " +
-        eval(args.join(" "))
-    );
-  },
-
   test: function () {
     _rickRoll();
+  },
+
+  // ── claude ──────────────────────────────────────────────────────────────────
+  // Looks like launching the Claude Code CLI, then declines to be one.
+  claude: function () {
+    const clay = (text) => `\x1b[38;5;209m${text}\x1b[0;38m`;
+    const dim = (text) => `\x1b[2m${text}\x1b[0;38m`;
+    const cwd = "/" + term.cwd.replaceAll("~", `home/${term.user}`);
+
+    _claudeBox([
+      `${clay("✻")} Welcome to Claude Code!`,
+      "",
+      "  /help for help, /status for your current setup",
+      "",
+      `  cwd: ${cwd}`,
+    ]);
+    term.writeln("");
+    term.stylePrint(`${dim("※ Tip:")} We're not paying for your Claude tokens!`);
   },
 
   // ── Upgrade ─────────────────────────────────────────────────────────────────
@@ -944,6 +955,21 @@ for (const [key, val] of Object.entries(portfolio)) {
 // README.md is hidden from guest — root can see everything.
 function _filesHere() {
   return _DIRS[term.cwd].filter((e) => e != "README.md" || term.user == "root");
+}
+
+// Draws a rounded box like the Claude Code welcome banner. Lines are padded
+// to the box width; ANSI colour codes are ignored when measuring.
+function _claudeBox(lines) {
+  const visible = (s) => s.replace(/\x1b\[[0-9;]*m/g, "").length;
+  const inner = Math.max(
+    Math.min(term.cols, 76) - 4,
+    ...lines.map((l) => visible(l) + 1)
+  );
+  term.writeln(`╭${"─".repeat(inner + 2)}╮`);
+  for (const line of lines) {
+    term.writeln(`│ ${line}${" ".repeat(Math.max(0, inner - visible(line)))} │`);
+  }
+  term.writeln(`╰${"─".repeat(inner + 2)}╯`);
 }
 
 // ── Aliases ───────────────────────────────────────────────────────────────────

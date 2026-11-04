@@ -42,7 +42,9 @@ That build:
    `config/*.js` files `welcome.htm` loads directly)
  - copies and minifies the xterm vendor assets
  - bundles the TUI and shared config into `dist/js/tui.bundle.js`
- - retains the original runtime bundle in `dist/js/app.bundle.js`
+ - builds the runtime bundle, then serves it and the three xterm scripts under
+   content-hashed names in `dist/static/` (rewriting `dist/index.html` to
+   match) so `_headers` can cache them immutably
  - emits a minified lazy-load asset for the RickRoll animation
  - generates the crawlable surface and `dist/index.html` (see below)
 

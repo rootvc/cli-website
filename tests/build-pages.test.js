@@ -107,23 +107,57 @@ describe("config/*.js stay classic browser scripts", () => {
 });
 
 describe("script load order", () => {
-  it("welcome.htm loads config/firm.js before config/commands.js", () => {
-    // commands.js reads `firm` at the top level, so the reverse order is a
-    // temporal-dead-zone crash that takes out buildGeoPage(). Read the real
-    // <script> tags rather than raw offsets, so prose in a comment that happens
-    // to name a file cannot swing the result.
+  it("welcome.htm loads only the data configs it renders, firm.js first", () => {
+    // buildGeoPage() reads firm.blurb, portfolio and team directly. It used to
+    // pull in the whole terminal command set just to derive the blurb, which
+    // was the largest script on the page. Read the real <script> tags rather
+    // than raw offsets, so prose in a comment that names a file cannot swing
+    // the result.
     const source = fs.readFileSync(path.join(REPO_ROOT, "welcome.htm"), "utf8");
     const srcs = [...source.matchAll(/<script\s+src="([^"]+)"/g)].map((m) => m[1]);
 
-    expect(srcs).toContain("config/firm.js");
-    expect(srcs.indexOf("config/firm.js")).toBeLessThan(
-      srcs.indexOf("config/commands.js")
-    );
+    expect(srcs).not.toContain("config/commands.js");
+    for (const config of ["config/firm.js", "config/portfolio.js", "config/team.js"]) {
+      expect(srcs).toContain(config);
+    }
+    expect(srcs.indexOf("config/firm.js")).toBeLessThan(srcs.indexOf("config/portfolio.js"));
   });
 
   it("welcome.htm declares a document language", () => {
     const doc = parse(fs.readFileSync(path.join(REPO_ROOT, "welcome.htm"), "utf8"));
     expect(doc.documentElement.getAttribute("lang")).toBe("en");
+  });
+
+  it("serves the homepage scripts under content-hashed names with an immutable cache rule", () => {
+    const { FINGERPRINTED, fingerprintName, rewriteScriptSources, staticAssets } =
+      buildAssetsModule;
+    const html = renderIndexHtml(config);
+    const renames = {};
+    for (const file of FINGERPRINTED) {
+      renames[file] = fingerprintName(file, `content of ${file}`);
+      expect(renames[file]).toMatch(/^static\/[a-z.-]+\.[0-9a-f]{10}\.js$/);
+    }
+    // Same content, same name; different content, different name.
+    expect(fingerprintName("js/a.js", "x")).toBe(fingerprintName("js/a.js", "x"));
+    expect(fingerprintName("js/a.js", "x")).not.toBe(fingerprintName("js/a.js", "y"));
+
+    const rewritten = rewriteScriptSources(html, renames);
+    const doc = parse(rewritten);
+    for (const [from, to] of Object.entries(renames)) {
+      expect(doc.querySelector(`script[src="${from}"]`)).toBeNull();
+      expect(doc.querySelector(`script[src="${to}"]`)).not.toBeNull();
+    }
+    expect(() => rewriteScriptSources(html, { "js/missing.js": "static/x.js" })).toThrow(/missing\.js/);
+
+    // The cache policy that makes the hashing worthwhile ships with the build.
+    expect(staticAssets).toContain("_headers");
+    const headers = fs.readFileSync(path.join(REPO_ROOT, "_headers"), "utf8");
+    expect(headers).toMatch(/^\/static\/\*\n\s+Cache-Control: public, max-age=31536000, immutable/m);
+    expect(headers).toMatch(/^\/images\/\*\n\s+Cache-Control: public, max-age=\d+/m);
+  });
+
+  it("ships README.md so `cat README.md` is served from this origin", () => {
+    expect(buildAssetsModule.staticAssets).toContain("README.md");
   });
 
   it("the app bundle lists config/firm.js before config/commands.js", () => {

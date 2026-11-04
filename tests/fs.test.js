@@ -40,7 +40,7 @@ afterEach(() => {
 });
 
 describe("virtual fs", () => {
-  it("deduplicates concurrent remote file loads", async () => {
+  it("deduplicates concurrent remote file loads and fetches from this origin", async () => {
     const { _loadFile } = loadFs();
 
     const first = _loadFile("README.md");
@@ -51,6 +51,9 @@ describe("virtual fs", () => {
     await Promise.all([first, second]);
 
     expect(env.window.fetch).toHaveBeenCalledTimes(1);
+    // Used to hit raw.githubusercontent.com, a cross-origin dependency whose
+    // `main` branch need not match the deployed build.
+    expect(env.window.fetch).toHaveBeenCalledWith("/README.md");
     expect(env.document.getElementById("README.md")).not.toBeNull();
   });
 

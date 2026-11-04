@@ -72,7 +72,10 @@ describe("ascii-art", () => {
     expect(getArt("lee")).toContain("images/lee.png");
   });
 
-  it("preloads root, team, and portfolio art in idle batches", async () => {
+  it("preloads root and team art in idle batches, and leaves portfolio art on demand", async () => {
+    // Portfolio logos are ~70 files and several megabytes; `tldr` awaits its
+    // own image before rendering, so warming them cost every visitor the whole
+    // download for nothing.
     const { preloadASCIIArt, isASCIIArtLoaded } = loadAsciiArt({
       term: { cols: 30 },
     });
@@ -81,8 +84,7 @@ describe("ascii-art", () => {
 
     expect(isASCIIArtLoaded("rootvc-square")).toBe(true);
     expect(isASCIIArtLoaded("lee")).toBe(true);
-    expect(isASCIIArtLoaded("esper")).toBe(true);
-    expect(env.window.scheduleIdleTask).toHaveBeenCalled();
+    expect(isASCIIArtLoaded("esper")).toBe(false);
   });
 
   it("settles instead of hanging when the image fails to load", async () => {

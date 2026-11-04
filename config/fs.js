@@ -6,18 +6,21 @@
 // the browser's HTML entity encoding/decoding is what necessitates the
 // replaceAll() calls in getFileContents().
 //
-// Remote files (README.md, welcome.htm) are fetched from GitHub on first load
-// and inserted into the DOM the same way. Local files are inserted directly.
+// Remote files (README.md, welcome.htm) are fetched from this origin the first
+// time a command needs them and inserted into the DOM the same way. Local
+// files are inserted directly.
 
 // Files with hardcoded content that don't need to be fetched.
 const _LOCAL_FILES = {
   "id_rsa": "Nice try!",
 };
 
-// Files fetched from GitHub at startup. The key is used as the DOM element ID.
+// Files fetched on demand. The key is used as the DOM element ID. Both are
+// served from dist/ (the build copies README.md there), so they match the
+// deployed commit and need no cross-origin request to GitHub.
 const _REMOTE_FILES = {
-  "README.md": "https://raw.githubusercontent.com/rootvc/cli-website/main/README.md",
-  "welcome.htm": "https://raw.githubusercontent.com/rootvc/cli-website/main/welcome.htm",
+  "README.md": "/README.md",
+  "welcome.htm": "/welcome.htm",
 };
 
 // Combined map of all known files (used by `find`).
@@ -53,12 +56,10 @@ for (const [key, values] of Object.entries(_DIRS)) {
   }
 }
 
-// Called at terminal init to populate the DOM with file content.
+// Called at terminal init to populate the DOM with the inline files. Remote
+// files are not fetched here: `cat`/`grep` await ensureFileLoaded first, so
+// fetching them for every visitor only paid for the rare visitor who reads them.
 function preloadFiles() {
-  for (const name of Object.keys(_REMOTE_FILES)) {
-    _loadFile(name);
-  }
-
   for (const [name, content] of Object.entries(_LOCAL_FILES)) {
     _insertFileToDOM(name, content);
   }

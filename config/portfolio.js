@@ -127,7 +127,7 @@ const portfolio = {
 
   seam: {
     name: "Seam",
-    url: "https://getseam.com",
+    url: "https://www.seam.co",
     description: "Seam provides an API for managing building systems.",
   },
 
@@ -226,11 +226,12 @@ const portfolio = {
       "Righthook reduces the time and cost required to develop autonomous vehicles.",
   },
 
-  sixwheel: {
-    name: "SixWheel",
-    url: "https://sixwheel.com",
+  // Formerly SixWheel.
+  revoy: {
+    name: "Revoy",
+    url: "https://www.revoy.com",
     description:
-      "SixWheel brings autonomy and electrification to long haul trucking operations.",
+      "Revoy electrifies long haul trucking with an autonomous EV unit that rides between tractor and trailer.",
   },
 
   radical: {
@@ -421,11 +422,12 @@ const portfolio = {
       "Loopwork is building the next generation of agents.",
   },
 
+  // Formerly Feather (feather.solutions). Slug kept so /#tldr-feather resolves.
   feather: {
-    name: "Feather",
-    url: "https://feather.solutions/",
+    name: "Finite Systems",
+    url: "https://finitesystems.com",
     description:
-      "Feather provides FEA that runs in the browser.",
+      "Finite Systems is an applied research lab building the future of engineering tools, starting with FEA that runs in the browser.",
   },
 
   vibe_robotics: {
@@ -468,6 +470,75 @@ const portfolio = {
     url: "https://fabro.sh/",
     description:
       "Lithos Computer, founded by Bryan Helmkamp, makes Fabro, a workflow harness that runs coding agents through deterministic graphs instead of a chat loop.",
+  },
+
+  lark: {
+    name: "Lark",
+    url: "https://lark.aero",
+    description: "Lark builds test tools for aerospace.",
+  },
+
+  flight_science: {
+    name: "Flight Science",
+    url: "https://flightscience.ai",
+    description:
+      "Flight Science is an AI aviation operations platform that helps airline dispatchers and pilots optimize fuel, avoid turbulence, and stay on time.",
+  },
+
+  maia: {
+    name: "MAIA Analytics",
+    url: "https://maia-analytics.com",
+    description:
+      "MAIA Analytics lets anyone query location data in plain language instead of GIS tooling.",
+  },
+
+  zep: {
+    name: "Zep",
+    url: "https://www.getzep.com",
+    description:
+      "Zep is a memory layer that gives AI agents persistent, structured memory across sessions.",
+  },
+
+  indices: {
+    name: "Indices",
+    url: "https://indices.io",
+    description:
+      "Indices turns any website into a reliable API.",
+  },
+
+  volund: {
+    name: "Volund",
+    url: "https://www.volundmfg.com",
+    description:
+      "Volund designs and manufactures small jet engines from first principles.",
+  },
+
+  lightmill: {
+    name: "Lightmill Systems",
+    url: "https://lightmill.us",
+    description:
+      "Lightmill Systems is pioneering large-format laser milling, a new way to produce precision metal parts.",
+  },
+
+  hexagon: {
+    name: "Hexagon Labs",
+    url: "https://joinhexagon.com",
+    description:
+      "Hexagon Labs builds Milo, an autonomous AI operating system that puts agents to work across enterprise tools and data.",
+  },
+
+  manzano: {
+    name: "Manzano Systems",
+    url: "https://www.manzanosystems.com",
+    description:
+      "Manzano Systems shrinks the room-sized laser systems that control quantum computers onto manufacturable photonic chips.",
+  },
+
+  westmag: {
+    name: "Western Magnetics",
+    url: "https://www.westmag.com",
+    description:
+      "Western Magnetics designs and manufactures electric motors for drones and actuators for robots, built with US and allied supply chains.",
   }
 };
 
