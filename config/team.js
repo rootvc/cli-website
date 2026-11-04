@@ -31,14 +31,6 @@ const team = {
     linkedin: "https://www.linkedin.com/in/leeredwards/",
     groups: "wheel investors engineers partners software devtools data ai+ml gamers winesnobs",
   },
-  zodi: {
-    name: "Zodi Chalat",
-    title: "Associate",
-    description:
-      "Zodi began his career as an engineer working on ML infrastructure at Netflix before moving into venture investing. He previously studied CS and comparative literature at Yale.",
-    linkedin: "https://linkedin.com/in/zodi",
-    groups: "wheel investors engineers ai+ml simulation terraforming maine",
-  },
   ben: {
     name: "Ben Lovell",
     title: "Head of Operations",
