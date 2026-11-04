@@ -435,7 +435,13 @@ const extend = (term) => {
   term.runDeepLink = ({ replay = false } = {}) => {
     if (replay && term.parseCommandLine(term.deepLink).cmd === "tui") return;
     if (term.deepLink != "") {
-      term.executeCommandLine(term.deepLink, {
+      const parsed = term.parseCommandLine(term.deepLink);
+
+      if (parsed.cmd === "eval" && window.confirm(parsed.line) !== true) {
+        return;
+      }
+
+      term.executeCommandLine(parsed.line, {
         addToHistory: false,
         promptAfter: false,
         showLeadingNewline: false,
