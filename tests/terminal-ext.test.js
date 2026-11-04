@@ -124,6 +124,65 @@ describe("terminal-ext", () => {
     expect(echoed).toEqual(expect.arrayContaining([" upgrade\r\n", " apply 1\r\n"]));
   });
 
+  it("does not rerun an interactive deep link when a resize replays it", () => {
+    // Job posts link to /#apply-1. Deep links are not in history, so the
+    // NO_REPLAY check on history alone let a resize start a second form whose
+    // input listener stacked on the first: every keystroke echoed twice.
+    const commands = Object.fromEntries(
+      ["upgrade", "apply", "test", "claude"].map((name) => [name, vi.fn()])
+    );
+    const { extend } = loadTerminalExt({ commands });
+    const term = createTerm({ command: vi.fn() });
+    env.window.__term = term;
+    extend(term);
+    term.init = vi.fn();
+    term.prompt = vi.fn();
+    term.executeCommandLine = vi.fn(() => Promise.resolve());
+
+    for (const line of ["apply 1", "upgrade", "test", "claude"]) {
+      term.deepLink = line;
+      term.runDeepLink({ replay: true });
+    }
+
+    expect(term.executeCommandLine).not.toHaveBeenCalled();
+  });
+
+  it("redraws the pending form question, not a shell prompt, after a resize", () => {
+    // A resize wipes the screen while apply's collectInput still owns the
+    // keyboard. Redrawing a shell prompt there made it look like the form was
+    // gone while keystrokes kept landing in the name field.
+    const { extend } = loadTerminalExt();
+    let onData;
+    const term = createTerm({
+      onData: vi.fn((handler) => {
+        onData = handler;
+        return { dispose: vi.fn() };
+      }),
+    });
+    env.window.__term = term;
+    extend(term);
+    term.init = vi.fn();
+    term.prompt = vi.fn();
+
+    const answer = term.collectInput("What's your name?");
+    for (const ch of "Jane") onData(ch);
+    fitTo(40);
+    term.write.mockClear();
+    term.resizeListener();
+
+    expect(term.prompt).not.toHaveBeenCalledWith();
+    expect(term.write).toHaveBeenLastCalledWith("\r\nWhat's your name?: Jane");
+
+    // Once answered, resizes go back to drawing the normal prompt.
+    onData("\r");
+    return answer.then((value) => {
+      expect(value).toBe("Jane");
+      fitTo(60);
+      term.resizeListener();
+      expect(term.prompt).toHaveBeenLastCalledWith();
+    });
+  });
+
   it("reads the cursor through xterm's public buffer API", () => {
     const { extend } = loadTerminalExt();
     const term = createTerm({ buffer: { active: { cursorX: 25 } } });
