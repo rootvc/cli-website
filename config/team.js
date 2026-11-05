@@ -3,9 +3,9 @@ const team = {
     name: "Avidan Ross",
     title: "Managing Partner",
     description:
-      "Avidan is the Founding Partner of Root Ventures. Previously, he designed industrial robotics for Food Network's kitchens and was CTO of CIM Group, where he focused on industrial investing, and worked as an embedded application developer at Excite@Home. Avidan has a BA in Computer Science from Columbia University.",
+      "Avidan is an engineer who founded Root Ventures in 2013 and has grown it to over $500M in AUM. He started out writing embedded network software at Excite@Home, later served as CTO of CIM Group, where he ran technology and led the firm's industrial internet investments, and designed industrial robotics for Food Network's kitchens. He serves on the boards of Instrumental (https://instrumental.com), Esper (https://esper.io), nTop (https://ntop.com), and Dusty Robotics (https://dustyrobotics.com). Avidan has a BS in Computer Science from Columbia University, where he focused on networking protocols.",
     linkedin: "https://www.linkedin.com/in/avidanross/",
-    groups: "wheel investors engineers managingpartner handypersons tinkers agtech foodtech foodies coffeesnobs",
+    groups: "wheel investors engineers managingpartner handypersons tinkerers agtech foodtech foodies coffeesnobs",
   },
   kane: {
     name: "Kane Hsieh",
