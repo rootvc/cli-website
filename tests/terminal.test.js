@@ -95,6 +95,83 @@ describe("runRootTerminal", () => {
     expect(term.scrollToBottom).toHaveBeenCalled();
   });
 
+  it("inserts multi-character pasted input", () => {
+    const { runRootTerminal } = loadTerminalScript();
+    const term = createTerm();
+
+    runRootTerminal(term);
+    term._onData("help");
+
+    expect(term.currentLine).toBe("help");
+    expect(term.write).toHaveBeenCalledWith("help");
+  });
+
+  it("inserts pasted input at the cursor before trailing text", () => {
+    const { runRootTerminal } = loadTerminalScript();
+    const term = createTerm({
+      currentLine: "heo",
+      pos: vi.fn(() => 2),
+    });
+
+    runRootTerminal(term);
+    term._onData("ll");
+
+    expect(term.currentLine).toBe("hello");
+    expect(term.write).toHaveBeenNthCalledWith(1, "ll");
+    expect(term.write).toHaveBeenNthCalledWith(2, "o");
+    expect(term.write).toHaveBeenNthCalledWith(3, "\x1b[D");
+  });
+
+  it("converts pasted newlines to spaces without executing the command", () => {
+    const { runRootTerminal } = loadTerminalScript();
+    const term = createTerm();
+
+    runRootTerminal(term);
+    term._onData("whois\nroot");
+
+    expect(term.currentLine).toBe("whois root");
+    expect(term.write).toHaveBeenCalledWith("whois root");
+    expect(term.executeCommandLine).not.toHaveBeenCalled();
+  });
+
+  it("ignores pasted control-only input", () => {
+    const { runRootTerminal } = loadTerminalScript();
+    const term = createTerm();
+
+    runRootTerminal(term);
+    term._onData("\u0000\u001f\u007f");
+
+    expect(term.currentLine).toBe("");
+    expect(term.write).not.toHaveBeenCalled();
+    expect(term.executeCommandLine).not.toHaveBeenCalled();
+  });
+
+  it("ignores pasted input while locked", () => {
+    const { runRootTerminal } = loadTerminalScript();
+    const term = createTerm();
+
+    runRootTerminal(term);
+    term.locked = true;
+    term._onData("help");
+
+    expect(term.currentLine).toBe("");
+    expect(term.write).not.toHaveBeenCalled();
+    expect(term.scrollToBottom).not.toHaveBeenCalled();
+  });
+
+  it("ignores pasted input while busy", () => {
+    const { runRootTerminal } = loadTerminalScript();
+    const term = createTerm();
+
+    runRootTerminal(term);
+    term.busy = true;
+    term._onData("help");
+
+    expect(term.currentLine).toBe("");
+    expect(term.write).not.toHaveBeenCalled();
+    expect(term.scrollToBottom).not.toHaveBeenCalled();
+  });
+
   it("debounces resize handling with requestAnimationFrame", () => {
     const rafCallbacks = [];
     const requestAnimationFrame = vi.fn((callback) => {
